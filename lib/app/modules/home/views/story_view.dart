@@ -77,7 +77,7 @@ class StoryView extends GetView {
                     const SizedBox(width: 10),
                     Text(
                       'Username', // Replace with dynamic username if needed
-                      style: h3.copyWith(fontWeight: FontWeight.bold),
+                      style: h3.copyWith(fontWeight: FontWeight.bold,color: AppColors.white),
                     ),
                   ],
                 ),

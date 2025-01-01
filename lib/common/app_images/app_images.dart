@@ -17,6 +17,12 @@ class AppImages {
   static const notificationFilled = "assets/icons/notification filled.png";
   static const profile = "assets/icons/profile.png";
   static const search = "assets/icons/search.png";
+  static const bookmark = "assets/icons/bookmark.png";
+  static const heart = "assets/icons/heart.png";
+  static const location = "assets/icons/location.png";
+  static const share = "assets/icons/share.png";
+  static const star = "assets/icons/star.png";
+  static const threeDot = "assets/icons/three dot.png";
 
 
   //================ Images ==================>

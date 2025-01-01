@@ -69,7 +69,7 @@ class AuthLandingView extends GetView<AuthHomeController> {
                     Get.to(()=> SignupView());
                   },
                   backgroundColor: AppColors.fillColor,
-                  isTextStyleSelected: true,
+                  textStyle: h3.copyWith(color: AppColors.black,fontWeight: FontWeight.w700,),
                 ),
                 sh8,
                 Text(
