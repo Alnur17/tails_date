@@ -12,11 +12,11 @@ class StoriesSection extends StatelessWidget {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Padding(
-        padding: const EdgeInsets.only(left: 16, right: 16),
+        padding: const EdgeInsets.only(left: 16, right: 16,top: 16),
         child: Row(
           children: [
             const Padding(
-              padding: EdgeInsets.only(right: 8.0), // Spacing for "Your Story"
+              padding: EdgeInsets.only(right: 8.0),
               child: AddStoryAvatar(),
             ),
             ...List.generate(DummyData.stories.length, (index) {

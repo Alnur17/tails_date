@@ -3,8 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:tails_date/common/size_box/custom_sizebox.dart';
 
 import '../../../../../../common/app_color/app_colors.dart';
+import '../../../../../../common/app_text_style/styles.dart';
 
 class AddStoryAvatar extends StatefulWidget {
   const AddStoryAvatar({super.key});
@@ -20,52 +22,37 @@ class _AddStoryAvatarState extends State<AddStoryAvatar> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        GestureDetector(
-          onTap: _pickMedia,
-          child: Stack(
-            children: [
-              CircleAvatar(
-                radius: Get.width * 0.094,
-                backgroundColor: AppColors.white,
-                child: CircleAvatar(
-                  radius: Get.width * 0.088,
-                  backgroundColor: AppColors.black,
-                  child: CircleAvatar(
-                    radius: Get.width * 0.08,
-                    backgroundColor: AppColors.grey,
-                    backgroundImage: _selectedMediaPath != null
-                        ? FileImage(File(_selectedMediaPath!))
-                        : null,
-                    child: _selectedMediaPath == null
-                        ? Icon(
-                            Icons.add,
-                            size: Get.width * 0.05,
-                            color: AppColors.white,
-                          )
-                        : null,
-                  ),
-                ),
-              ),
-              Positioned(
-                bottom: 0,
-                right: 0,
+        Stack(
+          children: [
+            CircleAvatar(
+              radius: Get.width * 0.09,
+              backgroundColor: AppColors.white,
+              backgroundImage: _selectedMediaPath != null
+                  ? FileImage(File(_selectedMediaPath!))
+                  : null,
+            ),
+            Positioned(
+              bottom: 0,
+              right: 0,
+              child: GestureDetector(
+                onTap: _pickMedia,
                 child: CircleAvatar(
                   radius: Get.width * 0.03,
-                  backgroundColor: AppColors.white,
+                  backgroundColor: AppColors.black,
                   child: Icon(
                     Icons.add,
                     size: Get.width * 0.045,
-                    color: AppColors.black,
+                    color: AppColors.white,
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-        SizedBox(height: Get.width * 0.02),
+        sh5,
         Text(
           'Your Story',
-          style: TextStyle(color: AppColors.white, fontSize: Get.width * 0.03),
+          style: h7.copyWith(fontWeight: FontWeight.w700),
         ),
       ],
     );

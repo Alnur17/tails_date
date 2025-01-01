@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../../../common/app_color/app_colors.dart';
+import '../../../../../../common/app_text_style/styles.dart';
 import '../../story_view.dart';
 
 class StoryAvatar extends StatelessWidget {
@@ -19,12 +20,12 @@ class StoryAvatar extends StatelessWidget {
           },
           child: CircleAvatar(
             radius: Get.width * 0.094,
-            backgroundColor: AppColors.white,
+            backgroundColor: AppColors.black,
             child: CircleAvatar(
-              radius: Get.width * 0.088,
-              backgroundColor: AppColors.black,
+              radius: Get.width * 0.09,
+              backgroundColor: AppColors.guColor,
               child: CircleAvatar(
-                radius: Get.width * 0.08,
+                radius: Get.width * 0.085,
                 backgroundImage: NetworkImage(story['imageUrl']!),
               ),
             ),
@@ -33,7 +34,7 @@ class StoryAvatar extends StatelessWidget {
         SizedBox(height: Get.width * 0.02),
         Text(
           story['name']!,
-          style: TextStyle(color: AppColors.white, fontSize: Get.width * 0.03),
+          style: h7.copyWith(fontWeight: FontWeight.w700),
         ),
       ],
     );

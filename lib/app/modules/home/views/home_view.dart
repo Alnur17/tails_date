@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:tails_date/app/modules/home/views/search_view.dart';
+import 'package:tails_date/app/modules/home/views/widgets/home_widgets/stories_section.dart';
 import 'package:tails_date/app/modules/profile/views/profile_view.dart';
 import 'package:tails_date/common/app_color/app_colors.dart';
 import 'package:tails_date/common/app_images/app_images.dart';
@@ -49,7 +50,7 @@ class HomeView extends GetView<HomeController> {
       ),
       body: Column(
         children: [
-
+          const StoriesSection(),
         ],
       ),
     );
