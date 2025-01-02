@@ -19,9 +19,9 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.guColor,
+      backgroundColor: AppColors.mainColor,
       appBar: AppBar(
-        backgroundColor: AppColors.guColor,
+        backgroundColor: AppColors.mainColor,
         title: Text(
           'TailsDate',
           style: h2.copyWith(fontWeight: FontWeight.w700),
@@ -71,7 +71,7 @@ class HomeView extends GetView<HomeController> {
               child: Row(
                 children: List.generate(
                   DummyData.categoryName.length + 1,
-                      (index) {
+                  (index) {
                     if (index < DummyData.categoryName.length) {
                       return CategoryWidget(
                         name: DummyData.categoryName[index],
@@ -87,24 +87,25 @@ class HomeView extends GetView<HomeController> {
             Column(
               children: List.generate(
                 DummyData.posts.length,
-                    (index) {
+                (index) {
                   final post = DummyData.posts[index];
                   return Padding(
-                    padding: EdgeInsets.only(bottom: index == post.length - 1 ? 50: 0),
+                    padding: EdgeInsets.only(
+                        bottom: index == DummyData.posts.length - 1 ? 30 : 0),
                     child: UserPostCard(
-                      userName: post['userName'],
-                      location: post['location'],
-                      profileImage: post['profileImage'],
-                      images: List<String>.from(post['images']),
-                      description: post['description'],
-                      likeCount: post['likeCount'],
-                      timeAgo: post['timeAgo'],
+                      userName: post['userName'] ?? '',
+                      location: post['location'] ?? '',
+                      profileImage: post['profileImage'] ?? '',
+                      images: List<String>.from(post['images'] ?? []),
+                      videos: List<String>.from(post['videos'] ?? []),
+                      description: post['description'] ?? '',
+                      likeCount: post['likeCount'] ?? 0,
+                      timeAgo: post['timeAgo'] ?? '',
                       onAddFriend: () {
                         print("Add Friend clicked for ${post['userName']}");
                       },
-                      onMoreOptions: () {
-                        print("More Options clicked for ${post['userName']}");
-                      },
+                      videoThumbnails:
+                          List<String>.from(post['videoThumbnails'] ?? []),
                     ),
                   );
                 },

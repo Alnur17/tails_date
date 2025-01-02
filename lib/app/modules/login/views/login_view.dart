@@ -11,7 +11,6 @@ import '../../../../common/app_text_style/styles.dart';
 import '../../../../common/size_box/custom_sizebox.dart';
 import '../../../../common/widgets/custom_button.dart';
 import '../../../../common/widgets/custom_textfelid.dart';
-import '../../home/views/home_view.dart';
 import '../controllers/login_controller.dart';
 
 class LoginView extends GetView<LoginController> {
@@ -47,7 +46,7 @@ class LoginView extends GetView<LoginController> {
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(40),
                       topRight: Radius.circular(40)),
-                  color: AppColors.guColor,
+                  color: AppColors.mainColor,
                 ),
                 child: SingleChildScrollView(
                   child: Column(

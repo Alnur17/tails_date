@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tails_date/app/modules/home/views/home_view.dart';
+import 'package:tails_date/app/modules/reels/views/reels_view.dart';
 import 'package:tails_date/common/app_images/app_images.dart';
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_text_style/styles.dart';
@@ -15,8 +16,8 @@ class _DashboardViewState extends State<DashboardView> {
   int _selectedIndex = 0;
 
   final List<Widget> _screens = [
-    HomeView(),
-    Container(color: Colors.red),
+    const HomeView(),
+    const ReelsView(),
     Container(color: Colors.green),
     Container(color: Colors.blue),
   ];

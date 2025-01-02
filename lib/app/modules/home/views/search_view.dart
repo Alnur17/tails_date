@@ -11,9 +11,9 @@ class SearchView extends GetView {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.guColor,
+      backgroundColor: AppColors.mainColor,
       appBar: AppBar(
-        backgroundColor: AppColors.guColor,
+        backgroundColor: AppColors.mainColor,
         automaticallyImplyLeading: false,
         toolbarHeight: 16,
       ),

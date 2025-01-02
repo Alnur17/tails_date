@@ -23,6 +23,11 @@ class AppImages {
   static const share = "assets/icons/share.png";
   static const star = "assets/icons/star.png";
   static const threeDot = "assets/icons/three dot.png";
+  static const back = "assets/icons/back.png";
+  static const pause = "assets/icons/pause.png";
+  static const play = "assets/icons/play.png";
+  static const unMute = "assets/icons/unmute.png";
+  static const mute = "assets/icons/mute.png";
 
 
   //================ Images ==================>

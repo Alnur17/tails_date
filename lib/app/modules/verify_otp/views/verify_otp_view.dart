@@ -46,7 +46,7 @@ class VerifyOtpView extends GetView<VerifyOtpController> {
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(40),
                       topRight: Radius.circular(40)),
-                  color: AppColors.guColor,
+                  color: AppColors.mainColor,
                 ),
                 child: SingleChildScrollView(
                   child: Column(
@@ -78,7 +78,7 @@ class VerifyOtpView extends GetView<VerifyOtpController> {
                           activeFillColor: AppColors.fillColor,
                           inactiveColor: AppColors.grey,
                           inactiveFillColor: AppColors.white,
-                          selectedColor: AppColors.guColor,
+                          selectedColor: AppColors.mainColor,
                           selectedFillColor: AppColors.greyLight,
                         ),
                         animationDuration: const Duration(milliseconds: 300),

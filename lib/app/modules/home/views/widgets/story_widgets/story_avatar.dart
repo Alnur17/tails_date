@@ -23,7 +23,7 @@ class StoryAvatar extends StatelessWidget {
             backgroundColor: AppColors.black,
             child: CircleAvatar(
               radius: Get.width * 0.09,
-              backgroundColor: AppColors.guColor,
+              backgroundColor: AppColors.mainColor,
               child: CircleAvatar(
                 radius: Get.width * 0.085,
                 backgroundImage: NetworkImage(story['imageUrl']!),

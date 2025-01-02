@@ -100,13 +100,12 @@ class DummyData {
       "location": "Florida, USA",
       "profileImage":
       "https://images.unsplash.com/photo-1518288774672-b94e808873ff?q=80",
-      "images": [
-        "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?q=80",
-        "https://images.unsplash.com/photo-1452570053594-1b985d6ea890?q=80",
-      ],
+      "images": [],
+      "videos": [],
+      "videoThumbnails": [], // No videos, so no thumbnails
       "timeAgo": "2 days ago",
-      "description": "Life is better with my PomPom! 🐥🐥",
-      "likeCount": 15,
+      "description": "Just enjoying the weather today! ☀️",
+      "likeCount": 5,
     },
     {
       "userName": "Bella",
@@ -116,6 +115,8 @@ class DummyData {
       "images": [
         "https://images.unsplash.com/photo-1518288774672-b94e808873ff?q=80",
       ],
+      "videos": [],
+      "videoThumbnails": [], // No videos, so no thumbnails
       "timeAgo": "3 days ago",
       "description": "Exploring the city! 🗽✨",
       "likeCount": 22,
@@ -125,10 +126,12 @@ class DummyData {
       "location": "London, UK",
       "profileImage":
       "https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?q=80",
-      "images": [
-        "https://images.unsplash.com/photo-1526597028596-f1f0f7338185?q=80",
-        "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?q=80",
-        "https://images.unsplash.com/photo-1452570053594-1b985d6ea890?q=80",
+      "images": [],
+      "videos": [
+        "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4",
+      ],
+      "videoThumbnails": [
+        "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/ElephantsDream.jpg",
       ],
       "timeAgo": "1 week ago",
       "description": "Chasing dreams in the foggy city. 🌫️✨",
@@ -143,6 +146,12 @@ class DummyData {
         "https://images.unsplash.com/photo-1518288774672-b94e808873ff?q=80",
         "https://images.unsplash.com/photo-1526597028596-f1f0f7338185?q=80",
       ],
+      "videos": [
+        "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+      ],
+      "videoThumbnails": [
+        "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/ElephantsDream.jpg",
+      ],
       "timeAgo": "5 days ago",
       "description": "Feeling grateful for the little things. 🍁💕",
       "likeCount": 30,
@@ -154,6 +163,12 @@ class DummyData {
       "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80",
       "images": [
         "https://images.unsplash.com/photo-1452570053594-1b985d6ea890?q=80",
+      ],
+      "videos": [
+        "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+      ],
+      "videoThumbnails": [
+        "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/ElephantsDream.jpg",
       ],
       "timeAgo": "4 hours ago",
       "description": "Sunset vibes with my best buddy. 🐶🌅",

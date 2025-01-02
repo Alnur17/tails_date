@@ -52,7 +52,7 @@ final titleStyle = GoogleFonts.urbanist(
 );
 
 final subTitleStyle = GoogleFonts.urbanist(
-  color: AppColors.guColor,
+  color: AppColors.mainColor,
   fontWeight: FontWeight.w500,
   fontSize: 14,
 );

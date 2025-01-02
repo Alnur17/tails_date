@@ -16,7 +16,7 @@ class StoryView extends GetView {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: AppColors.guColor,
+        backgroundColor: AppColors.mainColor,
         body: Obx(() {
           return Stack(
             children: [

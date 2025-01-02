@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tails_date/common/app_color/app_colors.dart';
 import 'package:tails_date/common/app_images/app_images.dart';
 import 'package:tails_date/common/size_box/custom_sizebox.dart';
 import 'package:tails_date/common/widgets/custom_button.dart';
 
 import '../../../../../../common/app_text_style/styles.dart';
+import '../../../../../../common/widgets/custom_popup_menu_button.dart';
 
 class UserPostCard extends StatelessWidget {
   final String userName;
   final String location;
   final String profileImage;
   final List<String> images;
+  final List<String> videos;
+  final List<String> videoThumbnails; // Added videoThumbnails
   final String timeAgo;
   final String description;
   final int likeCount;
   final VoidCallback onAddFriend;
-  final VoidCallback onMoreOptions;
 
   const UserPostCard({
     super.key,
@@ -23,11 +26,12 @@ class UserPostCard extends StatelessWidget {
     required this.location,
     required this.profileImage,
     required this.images,
+    required this.videos,
+    required this.videoThumbnails, // Accept videoThumbnails
     required this.timeAgo,
     required this.description,
     required this.likeCount,
     required this.onAddFriend,
-    required this.onMoreOptions,
   });
 
   @override
@@ -35,8 +39,9 @@ class UserPostCard extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(left: 16, right: 16, top: 16),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: Colors.black26)),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Colors.black26),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -87,14 +92,8 @@ class UserPostCard extends StatelessWidget {
                   borderRadius: 8,
                   textStyle: h6.copyWith(color: AppColors.white),
                 ),
-                const SizedBox(width: 8),
-                GestureDetector(
-                  onTap: onMoreOptions,
-                  child: Image.asset(
-                    AppImages.threeDot,
-                    scale: 4,
-                  ),
-                ),
+                sw12,
+                CustomPopupMenuButton(),
               ],
             ),
           ),
@@ -105,39 +104,119 @@ class UserPostCard extends StatelessWidget {
               style: h6,
             ),
           ),
-          // Image Section
-          if (images.length == 1)
+          // Media Section (Images and Videos)
+          if (images.isNotEmpty || videos.isNotEmpty)
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: ClipRRect(
+              child: images.length + videos.length == 1
+                  ? ClipRRect(
                 borderRadius: BorderRadius.circular(8),
-                child: Image.network(
-                  images[0],
+                child: images.isNotEmpty
+                    ? Image.network(
+                  images.first,
                   fit: BoxFit.cover,
-                  width: double.infinity,
+                  width: double.infinity, // Full width for single image
+                  height: 300,
+                )
+                    : Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Positioned(
+                      child: Image.network(
+                        videoThumbnails.first, // Use videoThumbnails
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        print("Play video: ${videos.first}");
+                      },
+                      child: Icon(
+                        Icons.play_circle_fill,
+                        size: 50,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Positioned(
+                      right: 12,
+                      top: 12,
+                      child: IconButton(
+                        onPressed: () {
+                          print('menu Taped');
+                        },
+                        icon: Icon(
+                          Icons.menu,
+                          color: AppColors.white,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            )
-          else
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: GridView.builder(
+              )
+                  : GridView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, // 2 images per row
+                gridDelegate:
+                const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2, // 2 items per row
                   crossAxisSpacing: 4,
                   mainAxisSpacing: 4,
                 ),
-                itemCount: images.length,
+                itemCount: images.length + videos.length,
                 itemBuilder: (context, index) {
-                  return ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: Image.network(
-                      images[index],
-                      fit: BoxFit.cover,
-                    ),
-                  );
+                  if (index < images.length) {
+                    // Render image
+                    return ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.network(
+                        images[index],
+                        fit: BoxFit.cover,
+                      ),
+                    );
+                  } else {
+                    // Render video thumbnail
+                    final videoIndex = index - images.length;
+                    return ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Positioned(
+                            child: Image.network(
+                              videoThumbnails[videoIndex], // Use videoThumbnails
+                              fit: BoxFit.cover,
+                              width: Get.width,
+                              height: Get.height,
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              print("Play video: ${videos[videoIndex]}");
+                            },
+                            child: Icon(
+                              Icons.play_circle_fill,
+                              size: 50,
+                              color: Colors.white,
+                            ),
+                          ),
+                          Positioned(
+                            right: 12,
+                            top: 12,
+                            child: IconButton(
+                              onPressed: () {
+                                print('menu Taped');
+                              },
+                              icon: Icon(
+                                Icons.menu,
+                                color: AppColors.white,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
                 },
               ),
             ),
@@ -166,7 +245,7 @@ class UserPostCard extends StatelessWidget {
                 ),
                 sw8,
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {} ,
                   child: Image.asset(
                     AppImages.star,
                     scale: 4,
@@ -196,3 +275,4 @@ class UserPostCard extends StatelessWidget {
     );
   }
 }
+

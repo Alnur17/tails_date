@@ -43,7 +43,7 @@ class NewPasswordView extends GetView<NewPasswordController> {
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(40),
                       topRight: Radius.circular(40)),
-                  color: AppColors.guColor,
+                  color: AppColors.mainColor,
                 ),
                 child: SingleChildScrollView(
                   child: Column(
