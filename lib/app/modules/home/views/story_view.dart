@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:tails_date/app/data/dummy_data.dart';
+import 'package:tails_date/common/app_images/app_images.dart';
 
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_text_style/styles.dart';
@@ -77,7 +78,10 @@ class StoryView extends GetView {
                     const SizedBox(width: 10),
                     Text(
                       'Username', // Replace with dynamic username if needed
-                      style: h3.copyWith(fontWeight: FontWeight.bold,color: AppColors.white),
+                      style: h3.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.white,
+                      ),
                     ),
                   ],
                 ),
@@ -85,19 +89,24 @@ class StoryView extends GetView {
               Positioned(
                 top: 30,
                 right: 16,
-                child: Row(
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.share, color: Colors.white),
-                      onPressed: () {},
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.close, color: Colors.white),
-                      onPressed: () {
-                        Get.back();
-                      },
-                    ),
-                  ],
+                child: IconButton(
+                  icon: const Icon(Icons.close, color: Colors.white),
+                  onPressed: () {
+                    Get.back();
+                  },
+                ),
+              ),
+              Positioned(
+                bottom: 30,
+                right: 16,
+                child: IconButton(
+                  style: IconButton.styleFrom(backgroundColor: Colors.black38),
+                  icon: Image.asset(
+                    AppImages.heart,
+                    scale: 4,
+                    color: AppColors.white,
+                  ),
+                  onPressed: () {},
                 ),
               ),
               // Progress indicator at the top
@@ -109,18 +118,21 @@ class StoryView extends GetView {
                   children: DummyData.storyImageUrls.map((url) {
                     int index = DummyData.storyImageUrls.indexOf(url);
                     return Expanded(
-                      child: Obx(() {
-                        return LinearProgressIndicator(
-                          value: index < controller.currentIndex.value
-                              ? 1.0
-                              : index == controller.currentIndex.value
-                                  ? controller.progress.value
-                                  : 0.0,
-                          backgroundColor: Colors.grey,
-                          valueColor:
-                              const AlwaysStoppedAnimation<Color>(Colors.white),
-                        );
-                      }),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 2.0),
+                        child: Obx(() {
+                          return LinearProgressIndicator(
+                            value: index < controller.currentIndex.value
+                                ? 1.0
+                                : index == controller.currentIndex.value
+                                    ? controller.progress.value
+                                    : 0.0,
+                            backgroundColor: Colors.grey,
+                            valueColor: const AlwaysStoppedAnimation<Color>(
+                                Colors.white),
+                          );
+                        }),
+                      ),
                     );
                   }).toList(),
                 ),

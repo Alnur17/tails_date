@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:tails_date/app/modules/chats/views/chats_view.dart';
 import 'package:tails_date/app/modules/home/views/home_view.dart';
+import 'package:tails_date/app/modules/notifications/views/notifications_view.dart';
 import 'package:tails_date/app/modules/reels/views/reels_view.dart';
 import 'package:tails_date/common/app_images/app_images.dart';
 import '../../../../common/app_color/app_colors.dart';
@@ -18,8 +20,8 @@ class _DashboardViewState extends State<DashboardView> {
   final List<Widget> _screens = [
     const HomeView(),
     const ReelsView(),
-    Container(color: Colors.green),
-    Container(color: Colors.blue),
+    const ChatsView(),
+    const NotificationsView(),
   ];
 
   void _changeTabIndex(int index) {
