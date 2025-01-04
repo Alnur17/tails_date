@@ -13,6 +13,7 @@ class AppImages {
   static const reelsFilled = "assets/icons/reels filled.png";
   static const chat = "assets/icons/chat.png";
   static const chatFilled = "assets/icons/chat filled.png";
+  static const notificationTwo = "assets/icons/notification 2.png";
   static const notification = "assets/icons/notification.png";
   static const notificationFilled = "assets/icons/notification filled.png";
   static const profile = "assets/icons/profile.png";
@@ -28,6 +29,7 @@ class AppImages {
   static const play = "assets/icons/play.png";
   static const unMute = "assets/icons/unmute.png";
   static const mute = "assets/icons/mute.png";
+  static const close = "assets/icons/close.png";
 
 
   //================ Images ==================>

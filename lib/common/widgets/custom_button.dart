@@ -9,6 +9,7 @@ class CustomButton extends StatelessWidget {
   final Color? borderColor;
   final TextStyle? textStyle;
   final double? height;
+  final double? width;
   final String? imageAssetPath;
   final double? borderRadius;
 
@@ -19,6 +20,7 @@ class CustomButton extends StatelessWidget {
     this.backgroundColor,
     this.textStyle,
     this.height = 54,
+    this.width = double.infinity,
     this.borderColor,
     this.imageAssetPath,
     this.borderRadius = 12,
@@ -30,6 +32,7 @@ class CustomButton extends StatelessWidget {
       onTap: onPressed,
       child: Container(
         height: height,
+        width: width,
         padding: const EdgeInsets.only(left: 12, right: 12),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(borderRadius!),

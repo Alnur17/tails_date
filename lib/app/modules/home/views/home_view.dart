@@ -21,6 +21,7 @@ class HomeView extends GetView<HomeController> {
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       appBar: AppBar(
+        scrolledUnderElevation: 0,
         backgroundColor: AppColors.mainColor,
         title: Text(
           'TailsDate',

@@ -1,21 +1,25 @@
 import 'package:flutter/material.dart';
+
 import '../app_color/app_colors.dart';
-import '../app_text_style/styles.dart';
+import '../app_images/app_images.dart';
+import '../size_box/custom_sizebox.dart';
 
 class CustomListTile extends StatelessWidget {
-  final String leading;
-  final String title;
-  final Widget? trailing;
-  final VoidCallback? onTap;
-  final bool useBackgroundImage;
+  final String name;
+  final String actionText;
+  final VoidCallback actionOnPressed;
+  final bool showCloseButton;
+  final VoidCallback? closeOnPressed;
+  final Widget actionStyle;
 
   const CustomListTile({
     super.key,
-    required this.leading,
-    required this.title,
-    this.trailing,
-    this.onTap,
-    this.useBackgroundImage = false,
+    required this.name,
+    required this.actionText,
+    required this.actionOnPressed,
+    this.showCloseButton = false,
+    this.closeOnPressed,
+    required this.actionStyle,
   });
 
   @override
@@ -23,23 +27,34 @@ class CustomListTile extends StatelessWidget {
     return ListTile(
       contentPadding: EdgeInsets.zero,
       leading: CircleAvatar(
-        radius: 25,
-        backgroundColor: AppColors.transparent,
-        backgroundImage: useBackgroundImage ? AssetImage(leading) : null,
-        child: useBackgroundImage
-            ? null
-            : Image.asset(
-                leading,
-                scale: 4, // Scale the image
-                fit: BoxFit.cover, // Ensure the image fits well
+        backgroundColor: Colors.blueAccent,
+        child: Text(name[0].toUpperCase()),
+      ),
+      title: Text(name),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          actionStyle,
+          if (showCloseButton) ...[
+            sw12,
+            GestureDetector(
+              onTap: closeOnPressed,
+              child: Container(
+                height: 35,
+                width: 35,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: AppColors.white,
+                ),
+                child: Image.asset(
+                  AppImages.close,
+                  scale: 4,
+                ),
               ),
+            ),
+          ],
+        ],
       ),
-      title: Text(
-        title,
-        style: h4.copyWith(fontSize: 14),
-      ),
-      trailing: trailing,
-      onTap: onTap,
     );
   }
 }

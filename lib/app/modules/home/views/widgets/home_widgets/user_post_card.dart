@@ -85,6 +85,7 @@ class UserPostCard extends StatelessWidget {
                 ),
                 const Spacer(),
                 CustomButton(
+                  width: 100,
                   text: 'Add friend',
                   onPressed: onAddFriend,
                   height: 30,
@@ -92,7 +93,6 @@ class UserPostCard extends StatelessWidget {
                   borderRadius: 8,
                   textStyle: h6.copyWith(color: AppColors.white),
                 ),
-                sw12,
                 CustomPopupMenuButton(),
               ],
             ),

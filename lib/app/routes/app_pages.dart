@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 
 import '../modules/auth_landing/bindings/auth_home_binding.dart';
 import '../modules/auth_landing/views/auth_landing_view.dart';
+import '../modules/chats/bindings/chats_binding.dart';
+import '../modules/chats/views/chats_view.dart';
 import '../modules/dashboard/bindings/dashboard_binding.dart';
 import '../modules/dashboard/views/dashboard_view.dart';
 import '../modules/forgot_password/bindings/forgot_password_binding.dart';
@@ -12,6 +14,8 @@ import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
 import '../modules/new_password/bindings/new_password_binding.dart';
 import '../modules/new_password/views/new_password_view.dart';
+import '../modules/notifications/bindings/notifications_binding.dart';
+import '../modules/notifications/views/notifications_view.dart';
 import '../modules/onboarding/bindings/onboarding_binding.dart';
 import '../modules/onboarding/views/onboarding_view.dart';
 import '../modules/profile/bindings/profile_binding.dart';
@@ -92,6 +96,16 @@ class AppPages {
       name: _Paths.REELS,
       page: () => const ReelsView(),
       binding: ReelsBinding(),
+    ),
+    GetPage(
+      name: _Paths.NOTIFICATIONS,
+      page: () => const NotificationsView(),
+      binding: NotificationsBinding(),
+    ),
+    GetPage(
+      name: _Paths.CHATS,
+      page: () => const ChatsView(),
+      binding: ChatsBinding(),
     ),
   ];
 }

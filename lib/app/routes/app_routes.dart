@@ -15,6 +15,8 @@ abstract class Routes {
   static const DASHBOARD = _Paths.DASHBOARD;
   static const PROFILE = _Paths.PROFILE;
   static const REELS = _Paths.REELS;
+  static const NOTIFICATIONS = _Paths.NOTIFICATIONS;
+  static const CHATS = _Paths.CHATS;
 }
 
 abstract class _Paths {
@@ -31,4 +33,6 @@ abstract class _Paths {
   static const DASHBOARD = '/dashboard';
   static const PROFILE = '/profile';
   static const REELS = '/reels';
+  static const NOTIFICATIONS = '/notifications';
+  static const CHATS = '/chats';
 }

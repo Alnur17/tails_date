@@ -1,3 +1,5 @@
+import 'package:tails_date/common/app_images/app_images.dart';
+
 class DummyData {
   static final List<String> storyImageUrls = [
     "https://plus.unsplash.com/premium_photo-1667030474693-6d0632f97029?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -99,7 +101,7 @@ class DummyData {
       "userName": "Gultush",
       "location": "Florida, USA",
       "profileImage":
-      "https://images.unsplash.com/photo-1518288774672-b94e808873ff?q=80",
+          "https://images.unsplash.com/photo-1518288774672-b94e808873ff?q=80",
       "images": [],
       "videos": [],
       "videoThumbnails": [], // No videos, so no thumbnails
@@ -111,7 +113,7 @@ class DummyData {
       "userName": "Bella",
       "location": "New York, USA",
       "profileImage":
-      "https://images.unsplash.com/photo-1452570053594-1b985d6ea890?q=80",
+          "https://images.unsplash.com/photo-1452570053594-1b985d6ea890?q=80",
       "images": [
         "https://images.unsplash.com/photo-1518288774672-b94e808873ff?q=80",
       ],
@@ -125,7 +127,7 @@ class DummyData {
       "userName": "Charlie",
       "location": "London, UK",
       "profileImage":
-      "https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?q=80",
+          "https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?q=80",
       "images": [],
       "videos": [
         "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4",
@@ -141,7 +143,7 @@ class DummyData {
       "userName": "Daisy",
       "location": "Toronto, Canada",
       "profileImage":
-      "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80",
+          "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80",
       "images": [
         "https://images.unsplash.com/photo-1518288774672-b94e808873ff?q=80",
         "https://images.unsplash.com/photo-1526597028596-f1f0f7338185?q=80",
@@ -160,7 +162,7 @@ class DummyData {
       "userName": "Rocky",
       "location": "Sydney, Australia",
       "profileImage":
-      "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80",
+          "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80",
       "images": [
         "https://images.unsplash.com/photo-1452570053594-1b985d6ea890?q=80",
       ],
@@ -174,5 +176,31 @@ class DummyData {
       "description": "Sunset vibes with my best buddy. 🐶🌅",
       "likeCount": 50,
     },
+  ];
+
+  static const List<Map<String, dynamic>> friendActivity = [
+    {'name': 'My_Python_King', 'image': AppImages.profileImage},
+    {'name': 'Bok_Bok', 'image': AppImages.profileImage},
+    {'name': 'Code_Master', 'image': AppImages.profileImage},
+    {'name': 'Flutter_Dev', 'image': AppImages.profileImage},
+    {'name': 'UI_Designer', 'image': AppImages.profileImage},
+    {'name': 'Dev_Guru', 'image': AppImages.profileImage},
+    {'name': 'Tech_Savvy', 'image': AppImages.profileImage},
+    {'name': 'Flutter_Ninja', 'image': AppImages.profileImage},
+    {'name': 'AI_Geek', 'image': AppImages.profileImage},
+    {'name': 'Data_Wizard', 'image': AppImages.profileImage},
+  ];
+
+  static const List<Map<String, dynamic>> postEngagement = [
+    {'name': 'Snowball', 'image': AppImages.profileImage},
+    {'name': 'Pipsqueak', 'image': AppImages.profileImage},
+    {'name': 'Code_Creator', 'image': AppImages.profileImage},
+    {'name': 'FlutterFan', 'image': AppImages.profileImage},
+    {'name': 'UI_Artist', 'image': AppImages.profileImage},
+    {'name': 'Design_Dreamer', 'image': AppImages.profileImage},
+    {'name': 'Dev_Spirit', 'image': AppImages.profileImage},
+    {'name': 'Tech_Explorer', 'image': AppImages.profileImage},
+    {'name': 'Code_Pro', 'image': AppImages.profileImage},
+    {'name': 'Cloud_Guru', 'image': AppImages.profileImage},
   ];
 }
