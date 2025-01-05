@@ -11,6 +11,7 @@ class CustomListTile extends StatelessWidget {
   final bool showCloseButton;
   final VoidCallback? closeOnPressed;
   final Widget actionStyle;
+  final String? image;
 
   const CustomListTile({
     super.key,
@@ -20,13 +21,19 @@ class CustomListTile extends StatelessWidget {
     this.showCloseButton = false,
     this.closeOnPressed,
     required this.actionStyle,
+    this.image,
   });
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       contentPadding: EdgeInsets.zero,
-      leading: CircleAvatar(
+      leading: image != null
+          ? CircleAvatar(
+        backgroundImage: NetworkImage(image!),
+        backgroundColor: Colors.transparent,
+      )
+          : CircleAvatar(
         backgroundColor: Colors.blueAccent,
         child: Text(name[0].toUpperCase()),
       ),

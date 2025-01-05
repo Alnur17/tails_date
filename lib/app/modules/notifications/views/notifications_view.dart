@@ -1,15 +1,16 @@
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tails_date/app/modules/notifications/views/friend_request_view.dart';
-import 'package:tails_date/app/modules/notifications/views/send_request_view.dart';
-import 'package:tails_date/app/modules/notifications/views/suggested_for_you_view.dart';
-import 'package:tails_date/common/widgets/custom_button.dart';
+import '../../../../common/app_images/app_images.dart';
+import 'friend_request_view.dart'; // Separate screens for each section
+import 'send_request_view.dart';
+import 'suggested_for_you_view.dart';
 
 import '../../../../common/app_color/app_colors.dart';
-import '../../../../common/app_images/app_images.dart';
 import '../../../../common/app_text_style/styles.dart';
 import '../../../../common/size_box/custom_sizebox.dart';
+import '../../../../common/widgets/custom_button.dart';
 import '../../../../common/widgets/custom_list_tile.dart';
 import '../../../../common/widgets/custom_row_header.dart';
 import '../controllers/notifications_controller.dart';
@@ -20,6 +21,15 @@ class NotificationsView extends GetView<NotificationsController> {
   @override
   Widget build(BuildContext context) {
     final notificationController = Get.put(NotificationsController());
+
+    // Dummy data for each section
+    final List<Map<String, String>> friendRequests = List.generate(
+        10, (index) => {'name': 'Friend_$index', 'image': 'https://via.placeholder.com/150'});
+    final List<Map<String, String>> sendRequests = List.generate(
+        10, (index) => {'name': 'Request_$index', 'image': 'https://via.placeholder.com/150'});
+    final List<Map<String, String>> suggestedForYou = List.generate(
+        10, (index) => {'name': 'Suggested_$index', 'image': 'https://via.placeholder.com/150'});
+
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       appBar: AppBar(
@@ -30,7 +40,7 @@ class NotificationsView extends GetView<NotificationsController> {
         automaticallyImplyLeading: false,
       ),
       body: Obx(
-        () => Column(
+            () => Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
@@ -43,10 +53,9 @@ class NotificationsView extends GetView<NotificationsController> {
                       onPressed: () {
                         notificationController.toggleTab(0);
                       },
-                      backgroundColor:
-                          notificationController.activeTab.value == 0
-                              ? AppColors.black
-                              : AppColors.transparent,
+                      backgroundColor: notificationController.activeTab.value == 0
+                          ? AppColors.black
+                          : AppColors.transparent,
                       textStyle: h3.copyWith(
                         color: notificationController.activeTab.value == 0
                             ? AppColors.white
@@ -60,10 +69,9 @@ class NotificationsView extends GetView<NotificationsController> {
                       onPressed: () {
                         notificationController.toggleTab(1);
                       },
-                      backgroundColor:
-                          notificationController.activeTab.value == 1
-                              ? Colors.black
-                              : AppColors.transparent,
+                      backgroundColor: notificationController.activeTab.value == 1
+                          ? Colors.black
+                          : AppColors.transparent,
                       textStyle: TextStyle(
                         color: notificationController.activeTab.value == 1
                             ? Colors.white
@@ -78,7 +86,7 @@ class NotificationsView extends GetView<NotificationsController> {
               child: ListView(
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 children: notificationController.activeTab.value == 0
-                    ? _friendActivityData()
+                    ? _buildFriendActivity(friendRequests, sendRequests, suggestedForYou)
                     : _postEngagementData(),
               ),
             ),
@@ -88,75 +96,94 @@ class NotificationsView extends GetView<NotificationsController> {
     );
   }
 
-  List<Widget> _friendActivityData() {
+  List<Widget> _buildFriendActivity(
+      List<Map<String, String>> friendRequests,
+      List<Map<String, String>> sendRequests,
+      List<Map<String, String>> suggestedForYou,
+      ) {
     return [
+      // Friend Requests Section
       sh12,
       CustomRowHeader(
         title: 'Friend Requests',
         subtitle: 'See all',
         onTap: () {
-          Get.to(() => FriendRequestView());
+          Get.to(() => FriendRequestView(data: friendRequests)); // Pass all data
         },
       ),
-      CustomListTile(
-        name: 'My_Python_King',
+      sh8,
+      ...friendRequests.take(5).map((item) => CustomListTile(
+        name: item['name'] ?? 'Unknown',
         actionText: 'Confirm',
         showCloseButton: true,
         actionOnPressed: () {},
         actionStyle: CustomButton(
           width: 100,
-          height: 35,
+          height: 30,
           text: 'Confirm',
           onPressed: () {},
           borderColor: AppColors.black,
           backgroundColor: AppColors.white,
-          textStyle: h3.copyWith(
-            color: AppColors.black,
-          ),
+          textStyle: h3.copyWith(color: AppColors.black),
         ),
-      ),
+        image: item['image'] ?? 'https://via.placeholder.com/150',
+      )),
+
+      // Send Requests Section
       sh12,
       CustomRowHeader(
         title: 'Send Requests',
         subtitle: 'See all',
         onTap: () {
-          Get.to(() => SendRequestView());
+          Get.to(() => SendRequestView(data: sendRequests)); // Pass all data
         },
       ),
-      CustomListTile(
-        name: 'Bok_Bok',
-        actionText: 'Cancel request',
-        actionOnPressed: () {},
-        closeOnPressed: () {},
-        actionStyle: CustomButton(
-          width: 140,
-          height: 35,
-          text: 'Cancel request',
-          onPressed: () {},
-          backgroundColor: AppColors.secondaryOrangeColor,
-          textStyle: h3.copyWith(
-            color: AppColors.white,
-          ),
-        ),
+      sh8,
+      ListView.builder(
+        shrinkWrap: true,
+        primary: false,
+        itemCount: min(sendRequests.length, 5),
+        itemBuilder: (context, index) {
+          final item = sendRequests[index];
+          return CustomListTile(
+            name: item['name']!,
+            image: item['image']!,
+            actionText: 'Cancel Request',
+            actionOnPressed: () {},
+            actionStyle: CustomButton(
+              width: 150,
+              height: 30,
+              text: 'Cancel Request',
+              onPressed: () {},
+              backgroundColor: AppColors.secondaryOrangeColor,
+              textStyle: h3.copyWith(color: AppColors.white),
+            ),
+          );
+        },
       ),
+
+      // Suggested for You Section
       sh12,
       CustomRowHeader(
-          title: 'Suggested for you',
-          subtitle: 'See all',
-          onTap: () {
-            Get.to(() => SuggestedForYouView());
-          }),
-      CustomListTile(
-        name: 'My_Python_King',
-        actionText: 'Cancel request',
+        title: 'Suggested for You',
+        subtitle: 'See all',
+        onTap: () {
+          Get.to(() => SuggestedForYouView(data: suggestedForYou)); // Pass all data
+        },
+      ),
+      sh8,
+      ...suggestedForYou.map((item) => CustomListTile(
+        name: item['name'] ?? 'Unknown',
+        actionText: 'Add Friend',
         actionOnPressed: () {},
         actionStyle: CustomButton(
           width: 140,
-          height: 35,
+          height: 30,
           text: 'Add Friend',
           onPressed: () {},
         ),
-      ),
+        image: item['image'] ?? 'https://via.placeholder.com/150',
+      )),
     ];
   }
 

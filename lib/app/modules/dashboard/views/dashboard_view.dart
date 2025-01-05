@@ -20,7 +20,7 @@ class _DashboardViewState extends State<DashboardView> {
   final List<Widget> _screens = [
     const HomeView(),
     const ReelsView(),
-    const ChatsView(),
+     ChatsView(),
     const NotificationsView(),
   ];
 

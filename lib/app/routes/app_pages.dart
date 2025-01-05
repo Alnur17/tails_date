@@ -104,7 +104,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.CHATS,
-      page: () => const ChatsView(),
+      page: () => ChatsView(),
       binding: ChatsBinding(),
     ),
   ];

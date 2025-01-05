@@ -18,6 +18,7 @@ class AppImages {
   static const notificationFilled = "assets/icons/notification filled.png";
   static const profile = "assets/icons/profile.png";
   static const search = "assets/icons/search.png";
+  static const searchTwo = "assets/icons/search 2.png";
   static const bookmark = "assets/icons/bookmark.png";
   static const heart = "assets/icons/heart.png";
   static const location = "assets/icons/location.png";
@@ -30,6 +31,8 @@ class AppImages {
   static const unMute = "assets/icons/unmute.png";
   static const mute = "assets/icons/mute.png";
   static const close = "assets/icons/close.png";
+  static const fileAttachment = 'assets/icons/file-attachment.png';
+  static const send = "assets/icons/Send.png";
 
 
   //================ Images ==================>
