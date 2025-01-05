@@ -2,6 +2,7 @@ class AppImages {
   //================ Icons ==================>
   static const splashLogo = "assets/icons/LOGO.png";
   static const arrowRight = "assets/icons/Arrow - Right.png";
+  static const arrowRightTwo = "assets/icons/arrow right 2.png";
   static const checkBox = "assets/icons/Checbox container.png";
   static const eyeClose = "assets/icons/eye close.png";
   static const lock = "assets/icons/lock.png";
@@ -33,6 +34,8 @@ class AppImages {
   static const close = "assets/icons/close.png";
   static const fileAttachment = 'assets/icons/file-attachment.png';
   static const send = "assets/icons/Send.png";
+  static const media = "assets/icons/media.png";
+  static const logout = "assets/icons/logout.png";
 
 
   //================ Images ==================>
@@ -50,6 +53,6 @@ class AppImages {
   static const verifyCodeImage = "assets/images/verify.png";
 
 
-  static const profileImage = 'https://easy-peasy.ai/cdn-cgi/image/quality=80,format=auto,width=700/https://fdczvxmwwjwpwbeeqcth.supabase.co/storage/v1/object/public/images/50dab922-5d48-4c6b-8725-7fd0755d9334/3a3f2d35-8167-4708-9ef0-bdaa980989f9.png';
+  static const profileImage = 'https://images.unsplash.com/photo-1578320339911-5e7974b2720a?q=80&w=778&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
 
 }

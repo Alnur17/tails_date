@@ -4,6 +4,7 @@ class AppColors{
 
   static const mainColor = Color(0xFFF7B814);
   static const fillColor = Color(0xFFFFF9EA);
+  static const fillColorTwo = Color(0xFFFFF1EC);
   static const secondaryOrangeColor = Color(0xFFCC5300);
 
 
@@ -24,7 +25,7 @@ class AppColors{
   static const blueDark = Color(0xff283891);
   static const lightBlue = Color(0xff40C4FF);
   static const hintColor = Color(0xff8b8989);
-  static const greenLight = Color(0xffEDF8F7);
+  static const greenLight = Color(0xffe0f3f1);
   static const whiteDark = Color(0xffBEBEBE);
   static const primary = Color(0xff4DB5AD);
   static const orange = Color(0xffff6200);

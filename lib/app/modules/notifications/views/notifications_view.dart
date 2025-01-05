@@ -11,7 +11,7 @@ import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_text_style/styles.dart';
 import '../../../../common/size_box/custom_sizebox.dart';
 import '../../../../common/widgets/custom_button.dart';
-import '../../../../common/widgets/custom_list_tile.dart';
+import '../../../../common/widgets/custom_list_tile_with_button.dart';
 import '../../../../common/widgets/custom_row_header.dart';
 import '../controllers/notifications_controller.dart';
 
@@ -112,7 +112,7 @@ class NotificationsView extends GetView<NotificationsController> {
         },
       ),
       sh8,
-      ...friendRequests.take(5).map((item) => CustomListTile(
+      ...friendRequests.take(5).map((item) => CustomListTileWithButton(
         name: item['name'] ?? 'Unknown',
         actionText: 'Confirm',
         showCloseButton: true,
@@ -145,7 +145,7 @@ class NotificationsView extends GetView<NotificationsController> {
         itemCount: min(sendRequests.length, 5),
         itemBuilder: (context, index) {
           final item = sendRequests[index];
-          return CustomListTile(
+          return CustomListTileWithButton(
             name: item['name']!,
             image: item['image']!,
             actionText: 'Cancel Request',
@@ -172,7 +172,7 @@ class NotificationsView extends GetView<NotificationsController> {
         },
       ),
       sh8,
-      ...suggestedForYou.map((item) => CustomListTile(
+      ...suggestedForYou.map((item) => CustomListTileWithButton(
         name: item['name'] ?? 'Unknown',
         actionText: 'Add Friend',
         actionOnPressed: () {},

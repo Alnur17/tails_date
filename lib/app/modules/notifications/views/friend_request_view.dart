@@ -6,7 +6,7 @@ import 'package:tails_date/common/widgets/custom_button.dart';
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_images/app_images.dart';
 import '../../../../common/app_text_style/styles.dart';
-import '../../../../common/widgets/custom_list_tile.dart';
+import '../../../../common/widgets/custom_list_tile_with_button.dart';
 
 class FriendRequestView extends GetView {
   final List<Map<String, String>> data;
@@ -36,7 +36,7 @@ class FriendRequestView extends GetView {
         itemCount: data.length,
         itemBuilder: (context, index) {
           final item = data[index];
-          return CustomListTile(
+          return CustomListTileWithButton(
             name: item['name']!,
             image: item['image']!,
             actionText: 'Confirm',

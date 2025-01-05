@@ -1,67 +1,62 @@
 import 'package:flutter/material.dart';
 
 import '../app_color/app_colors.dart';
-import '../app_images/app_images.dart';
-import '../size_box/custom_sizebox.dart';
+import '../app_text_style/styles.dart';
 
 class CustomListTile extends StatelessWidget {
-  final String name;
-  final String actionText;
-  final VoidCallback actionOnPressed;
-  final bool showCloseButton;
-  final VoidCallback? closeOnPressed;
-  final Widget actionStyle;
-  final String? image;
+  final String leadingImage;
+  final String title;
+  final TextStyle? titleStyle;
+  final String? rightText;
+  final String? trailingImage;
+  final bool? isSwitch;
+  final bool switchValue;
+  final ValueChanged<bool>? onSwitchChanged;
+  final VoidCallback? onTap;
 
   const CustomListTile({
     super.key,
-    required this.name,
-    required this.actionText,
-    required this.actionOnPressed,
-    this.showCloseButton = false,
-    this.closeOnPressed,
-    required this.actionStyle,
-    this.image,
+    required this.leadingImage,
+    required this.title,
+    this.rightText,
+    this.trailingImage,
+    this.isSwitch = false,
+    this.switchValue = false,
+    this.onSwitchChanged,
+    this.onTap,
+    this.titleStyle,
   });
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      contentPadding: EdgeInsets.zero,
-      leading: image != null
-          ? CircleAvatar(
-        backgroundImage: NetworkImage(image!),
-        backgroundColor: Colors.transparent,
-      )
-          : CircleAvatar(
-        backgroundColor: Colors.blueAccent,
-        child: Text(name[0].toUpperCase()),
-      ),
-      title: Text(name),
-      trailing: Row(
-        mainAxisSize: MainAxisSize.min,
+      leading: Image.asset(leadingImage,scale: 4,),
+      title: Row(
         children: [
-          actionStyle,
-          if (showCloseButton) ...[
-            sw12,
-            GestureDetector(
-              onTap: closeOnPressed,
-              child: Container(
-                height: 35,
-                width: 35,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: AppColors.white,
-                ),
-                child: Image.asset(
-                  AppImages.close,
-                  scale: 4,
-                ),
-              ),
-            ),
-          ],
+          Text(title, style: titleStyle),
+          const Spacer(),
+          if (rightText != null) Text(rightText!, style: h3),
         ],
       ),
+      trailing: isSwitch == true
+          ? Transform.scale(
+              scale: 0.85,
+              child: Switch(
+                value: switchValue,
+                onChanged: onSwitchChanged,
+                activeColor: AppColors.blue,
+                inactiveThumbColor: Colors.black,
+                inactiveTrackColor: Colors.white,
+              ),
+            )
+          : trailingImage != null
+              ? Image.asset(
+                  trailingImage!,
+                  //color: AppColors.black,
+                  scale: 4,
+                )
+              : null,
+      onTap: onTap,
     );
   }
 }

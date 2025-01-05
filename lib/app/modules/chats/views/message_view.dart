@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tails_date/app/modules/chats/views/message_settings_view.dart';
 
 import '../../../../../common/size_box/custom_sizebox.dart';
 import '../../../../common/app_color/app_colors.dart';
@@ -81,20 +82,25 @@ class _MessageViewState extends State<MessageView> {
         scrolledUnderElevation: 0,
         backgroundColor: AppColors.mainColor,
         titleSpacing: 0,
-        title: Row(
-          children: [
-            CircleAvatar(
-              backgroundImage: NetworkImage(widget.user['picture']['thumbnail']),
-            ),
-            SizedBox(width: 10),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('${widget.user['name']['first']} ${widget.user['name']['last']}'),
-                Text('Online', style: h5.copyWith(color: AppColors.secondaryOrangeColor)),
-              ],
-            ),
-          ],
+        title: GestureDetector(
+          onTap: (){
+            Get.to(()=> MessageSettingsView());
+          },
+          child: Row(
+            children: [
+              CircleAvatar(
+                backgroundImage: NetworkImage(widget.user['picture']['thumbnail']),
+              ),
+              SizedBox(width: 10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('${widget.user['name']['first']} ${widget.user['name']['last']}'),
+                  Text('Online', style: h5.copyWith(color: AppColors.secondaryOrangeColor)),
+                ],
+              ),
+            ],
+          ),
         ),
         leading: GestureDetector(
           onTap: () {
