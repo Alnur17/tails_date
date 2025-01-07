@@ -26,6 +26,8 @@ import '../modules/signup/bindings/signup_binding.dart';
 import '../modules/signup/views/signup_view.dart';
 import '../modules/splash/bindings/splash_binding.dart';
 import '../modules/splash/views/splash_view.dart';
+import '../modules/upload_post/bindings/upload_post_binding.dart';
+import '../modules/upload_post/views/upload_post_view.dart';
 import '../modules/verify_otp/bindings/verify_otp_binding.dart';
 import '../modules/verify_otp/views/verify_otp_view.dart';
 
@@ -106,6 +108,11 @@ class AppPages {
       name: _Paths.CHATS,
       page: () => ChatsView(),
       binding: ChatsBinding(),
+    ),
+    GetPage(
+      name: _Paths.UPLOAD_POST,
+      page: () => const UploadPostView(),
+      binding: UploadPostBinding(),
     ),
   ];
 }

@@ -46,6 +46,7 @@ class AppImages {
   static const language = "assets/icons/language.png";
   static const payment = "assets/icons/payment.png";
   static const accountDelete = "assets/icons/account delete.png";
+  static const upload = "assets/icons/upload.png";
 
 
   //================ Images ==================>

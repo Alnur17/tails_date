@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tails_date/app/modules/chats/views/chats_view.dart';
 import 'package:tails_date/app/modules/home/views/home_view.dart';
 import 'package:tails_date/app/modules/notifications/views/notifications_view.dart';
@@ -6,6 +7,8 @@ import 'package:tails_date/app/modules/reels/views/reels_view.dart';
 import 'package:tails_date/common/app_images/app_images.dart';
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_text_style/styles.dart';
+import '../../../../common/size_box/custom_sizebox.dart';
+import '../../upload_post/views/upload_post_view.dart';
 
 class DashboardView extends StatefulWidget {
   const DashboardView({super.key});
@@ -62,7 +65,7 @@ class _DashboardViewState extends State<DashboardView> {
                     isSelected: _selectedIndex == 1,
                   ),
                 ),
-                const SizedBox(width: 40.0),
+                const SizedBox(height: 60,),
                 GestureDetector(
                   onTap: () => _changeTabIndex(2),
                   child: NavBarItem(
@@ -86,7 +89,7 @@ class _DashboardViewState extends State<DashboardView> {
           ),
           Positioned(
             bottom: 35,
-            left: MediaQuery.of(context).size.width * 0.4,
+            left: MediaQuery.of(context).size.width * 0.39,
             child: Container(
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
@@ -97,7 +100,9 @@ class _DashboardViewState extends State<DashboardView> {
                 padding: const EdgeInsets.all(6.0),
                 child: FloatingActionButton(
                   backgroundColor: AppColors.white,
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.to(()=> UploadPostView());
+                  },
                   shape: const CircleBorder(),
                   child: Icon(
                     Icons.add,
@@ -137,7 +142,7 @@ class NavBarItem extends StatelessWidget {
           isSelected ? selectedIcon : unselectedIcon,
           scale: 4,
         ),
-        const SizedBox(height: 4),
+        sh5,
         Center(
           child: Text(
             label,

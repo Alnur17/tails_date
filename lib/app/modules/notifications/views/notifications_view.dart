@@ -24,11 +24,11 @@ class NotificationsView extends GetView<NotificationsController> {
 
     // Dummy data for each section
     final List<Map<String, String>> friendRequests = List.generate(
-        10, (index) => {'name': 'Friend_$index', 'image': 'https://via.placeholder.com/150'});
+        10, (index) => {'name': 'Friend_$index', 'image': 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'});
     final List<Map<String, String>> sendRequests = List.generate(
-        10, (index) => {'name': 'Request_$index', 'image': 'https://via.placeholder.com/150'});
+        10, (index) => {'name': 'Request_$index', 'image': 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'});
     final List<Map<String, String>> suggestedForYou = List.generate(
-        10, (index) => {'name': 'Suggested_$index', 'image': 'https://via.placeholder.com/150'});
+        10, (index) => {'name': 'Suggested_$index', 'image': 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'});
 
     return Scaffold(
       backgroundColor: AppColors.mainColor,

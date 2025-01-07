@@ -12,6 +12,7 @@ class CustomTextField extends StatelessWidget {
   final ValueChanged<String>? onChange;
   final double borderRadius;
   final Color? containerColor;
+  final Color? borderColor;
 
   const CustomTextField({
     super.key,
@@ -22,7 +23,7 @@ class CustomTextField extends StatelessWidget {
     this.sufIcon,
     this.preIcon,
     this.onChange,
-    this.borderRadius = 12, this.containerColor,
+    this.borderRadius = 12, this.containerColor, this.borderColor,
   });
 
   @override
@@ -31,6 +32,7 @@ class CustomTextField extends StatelessWidget {
       height: height,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(borderRadius),
+        border: Border.all(color: borderColor ?? Colors.transparent),
         color: containerColor ?? AppColors.greyLight,
       ),
       child: TextField(
@@ -42,7 +44,7 @@ class CustomTextField extends StatelessWidget {
         decoration: InputDecoration(
           hintText: hintText ?? '',
           hintStyle: hintTextStyle ?? h6.copyWith(color: AppColors.grey),
-          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           prefixIcon: preIcon,
           suffixIcon: sufIcon,
           border: InputBorder.none,

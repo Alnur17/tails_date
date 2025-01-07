@@ -35,7 +35,7 @@ class ChatsView extends StatelessWidget {
             padding: const EdgeInsets.only(left: 16, right: 16),
             child: CustomTextField(
               preIcon: Image.asset(
-                AppImages.search,
+                AppImages.searchTwo,
                 scale: 4,
               ),
               hintText: 'Search by name or location',
