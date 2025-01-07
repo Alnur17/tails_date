@@ -6,7 +6,7 @@ import '../../../../../common/app_color/app_colors.dart';
 import '../../../../../common/app_images/app_images.dart';
 import '../../../../../common/size_box/custom_sizebox.dart';
 import '../../../../common/widgets/custom_button.dart';
-import '../../../../common/widgets/custom_textfelid.dart';
+import '../../../../common/widgets/custom_textfield.dart';
 
 class ChangePasswordView extends GetView {
   const ChangePasswordView({super.key});

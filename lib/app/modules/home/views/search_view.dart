@@ -7,7 +7,7 @@ import 'package:tails_date/app/modules/home/views/widgets/home_widgets/user_post
 import 'package:tails_date/common/app_color/app_colors.dart';
 import 'package:tails_date/common/app_images/app_images.dart';
 import 'package:tails_date/common/size_box/custom_sizebox.dart';
-import 'package:tails_date/common/widgets/custom_textfelid.dart';
+import 'package:tails_date/common/widgets/custom_textfield.dart';
 
 
 class SearchView extends GetView<MySearchController> {

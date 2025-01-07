@@ -4,7 +4,7 @@ import 'package:tails_date/app/modules/chats/controllers/chats_controller.dart';
 import 'package:tails_date/app/modules/chats/views/message_view.dart';
 import 'package:tails_date/common/app_color/app_colors.dart';
 import 'package:tails_date/common/app_images/app_images.dart';
-import 'package:tails_date/common/widgets/custom_textfelid.dart';
+import 'package:tails_date/common/widgets/custom_textfield.dart';
 
 class ChatsView extends StatelessWidget {
   final ChatsController controller = Get.put(ChatsController());

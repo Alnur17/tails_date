@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tails_date/common/widgets/custom_button.dart';
 import 'package:tails_date/common/widgets/custom_checkbox_row.dart';
-import 'package:tails_date/common/widgets/custom_textfelid.dart';
+import 'package:tails_date/common/widgets/custom_textfield.dart';
 
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_images/app_images.dart';
