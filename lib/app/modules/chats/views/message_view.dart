@@ -10,6 +10,7 @@ import '../../../../common/widgets/custom_textfelid.dart';
 
 class MessageView extends StatefulWidget {
   final dynamic user;
+
   const MessageView({super.key, this.user});
 
   @override
@@ -17,7 +18,6 @@ class MessageView extends StatefulWidget {
 }
 
 class _MessageViewState extends State<MessageView> {
-
   final TextEditingController _messageController = TextEditingController();
   final List<Map<String, dynamic>> _messages = [
     {
@@ -26,8 +26,7 @@ class _MessageViewState extends State<MessageView> {
       "time": "10:10",
     },
     {
-      "message":
-          "Is that Gultush in the latest photo?",
+      "message": "Is that Gultush in the latest photo?",
       "isSender": false,
       "time": "10:10",
     },
@@ -46,11 +45,14 @@ class _MessageViewState extends State<MessageView> {
       "message": "He looks so fluffy and relaxed!",
       "isSender": false,
       "time": "10:20",
-    },{
-      "message": "😍 I wish my cat was as chill during brushing—mine acts like it’s the end of the world. 😂",
+    },
+    {
+      "message":
+          "😍 I wish my cat was as chill during brushing—mine acts like it’s the end of the world. 😂",
       "isSender": false,
       "time": "10:20",
-    },{
+    },
+    {
       "message": "LOL, 🤣🤣",
       "isSender": true,
       "time": "10:20",
@@ -83,20 +85,24 @@ class _MessageViewState extends State<MessageView> {
         backgroundColor: AppColors.mainColor,
         titleSpacing: 0,
         title: GestureDetector(
-          onTap: (){
-            Get.to(()=> MessageSettingsView());
+          onTap: () {
+            Get.to(() => MessageSettingsView());
           },
           child: Row(
             children: [
               CircleAvatar(
-                backgroundImage: NetworkImage(widget.user['picture']['thumbnail']),
+                backgroundImage:
+                    NetworkImage(widget.user['picture']['thumbnail']),
               ),
               SizedBox(width: 10),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('${widget.user['name']['first']} ${widget.user['name']['last']}'),
-                  Text('Online', style: h5.copyWith(color: AppColors.secondaryOrangeColor)),
+                  Text(
+                      '${widget.user['name']['first']} ${widget.user['name']['last']}'),
+                  Text('Online',
+                      style:
+                          h5.copyWith(color: AppColors.secondaryOrangeColor)),
                 ],
               ),
             ],
@@ -106,7 +112,10 @@ class _MessageViewState extends State<MessageView> {
           onTap: () {
             Get.back();
           },
-          child: Image.asset(AppImages.back,scale: 4,),
+          child: Image.asset(
+            AppImages.back,
+            scale: 4,
+          ),
         ),
       ),
       body: Column(
@@ -151,7 +160,7 @@ class _MessageViewState extends State<MessageView> {
           ),
         ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
+          crossAxisAlignment: isSender ? CrossAxisAlignment.end : CrossAxisAlignment.start,
           children: [
             Text(
               message,

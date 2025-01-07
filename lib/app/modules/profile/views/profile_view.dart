@@ -1,6 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:tails_date/app/modules/profile/views/edit_profile_view.dart';
+import 'package:tails_date/app/modules/profile/views/profile_setting_view.dart';
 import 'package:tails_date/common/app_color/app_colors.dart';
 import 'package:tails_date/common/size_box/custom_sizebox.dart';
 
@@ -17,11 +21,10 @@ class ProfileView extends GetView<ProfileController> {
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       appBar: AppBar(
+        scrolledUnderElevation: 0,
         backgroundColor: AppColors.mainColor,
-        elevation: 0,
-        title: Text(
-          'Profile',
-        ),
+        automaticallyImplyLeading: false,
+        title: Text('Profile'),
         centerTitle: true,
         leading: GestureDetector(
           onTap: () {
@@ -32,6 +35,20 @@ class ProfileView extends GetView<ProfileController> {
             scale: 4,
           ),
         ),
+        actions: [
+          GestureDetector(
+            onTap: () {
+              Get.to(() => ProfileSettingView());
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(right: 16),
+              child: Image.asset(
+                AppImages.settings,
+                scale: 4,
+              ),
+            ),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -42,30 +59,84 @@ class ProfileView extends GetView<ProfileController> {
               // Cover photo and profile picture
               Stack(
                 clipBehavior: Clip.none,
+                alignment: Alignment.center,
                 children: [
                   Container(
                     height: 200,
                     width: double.infinity,
                     decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: NetworkImage(AppImages.profile),
-                          fit: BoxFit.cover,
-                        ),
-                        borderRadius: BorderRadius.circular(16),
-                        color: Colors.grey),
+                      image: DecorationImage(
+                        image: NetworkImage(AppImages.groupOfDogs),
+                        fit: BoxFit.cover,
+                      ),
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                  // Positioned(
+                  //   left: 12,
+                  //   top: 12,
+                  //   child: GestureDetector(
+                  //     onTap: () {
+                  //       Get.back();
+                  //     },
+                  //     child: Container(
+                  //       height: 30,
+                  //       decoration: ShapeDecoration(shape: CircleBorder(),color: AppColors.mainColor),
+                  //       child: Image.asset(
+                  //         AppImages.back,
+                  //         scale: 4,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  // Positioned(
+                  //   right: 12,
+                  //   top: 12,
+                  //   child: GestureDetector(
+                  //     onTap: () {
+                  //       Get.to(()=> ProfileSettingView());
+                  //     },
+                  //     child: Container(
+                  //       height: 30,
+                  //       decoration: ShapeDecoration(shape: CircleBorder(),color: AppColors.mainColor),
+                  //       child: Image.asset(
+                  //         AppImages.settings,
+                  //         scale: 4,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  GestureDetector(
+                    onTap: () {},
+                    child: Container(
+                      height: 30,
+                      decoration: ShapeDecoration(
+                        shape: CircleBorder(),
+                        color: Colors.black54,
+                      ),
+                      child: Image.asset(
+                        AppImages.media,
+                        scale: 4,
+                        color: AppColors.white,
+                      ),
+                    ),
                   ),
                   Positioned(
                     bottom: -50,
                     left: MediaQuery.of(context).size.width / 2 - 66,
                     child: CircleAvatar(
                       radius: 50,
-                      backgroundImage: AssetImage('assets/profile_picture.jpg'),
+                      backgroundImage: NetworkImage(AppImages.profileImage),
                       child: Align(
-                        alignment: Alignment.bottomRight,
+                        alignment: Alignment.center,
                         child: CircleAvatar(
                           radius: 15,
                           backgroundColor: AppColors.black,
-                          child: Icon(Icons.add, color: AppColors.white),
+                          child: GestureDetector(
+                              onTap: () {
+                                log('Add image tapped');
+                              },
+                              child: Icon(Icons.add, color: AppColors.white)),
                         ),
                       ),
                     ),
@@ -78,6 +149,7 @@ class ProfileView extends GetView<ProfileController> {
                 'Piku_The_King',
                 style: h2.copyWith(fontSize: 20),
               ),
+              sh12,
               Row(
                 children: [
                   Image.asset(
@@ -91,7 +163,7 @@ class ProfileView extends GetView<ProfileController> {
                   ),
                 ],
               ),
-              SizedBox(height: 10),
+              sh16,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -105,59 +177,62 @@ class ProfileView extends GetView<ProfileController> {
                       textStyle: h3.copyWith(color: AppColors.black),
                     ),
                   ),
-                  SizedBox(width: 10),
+                  sw12,
                   Expanded(
                     child: CustomButton(
                       height: 40,
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.to(() => EditProfileView());
+                      },
                       text: 'Edit Profile',
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 20),
+              sh20,
               // Attributes
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(child: AttributeTile(label: 'Gender', value: 'Male')),
+                  Expanded(
+                      child: AttributeTile(label: 'Gender', value: 'Male')),
                   sw12,
                   Expanded(child: AttributeTile(label: 'Age', value: '1 Year')),
                   sw12,
-                  Expanded(child: AttributeTile(label: 'Category', value: 'Cat')),
+                  Expanded(
+                      child: AttributeTile(label: 'Category', value: 'Cat')),
                 ],
               ),
-              SizedBox(height: 20),
+              sh20,
               // Pet info
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Pet info',
-                    style: h2.copyWith(fontSize: 18),
-                  ),
-                  Image.asset(AppImages.lock,scale: 4,),
-                ],
+              Text(
+                'Pet info',
+                style: h2.copyWith(fontSize: 18),
               ),
+              sh16,
               Text(
                 'Hi, I’m Gultush! I’m a cheerful and energetic cat who loves to explore and play all day long. My favorite activities include chasing toys, basking in sunny spots, and snuggling up for cozy naps. I’m not just a pet—I’m a bundle of joy that brings endless happiness and love to my family! 🐾✨',
                 style: h4,
               ),
-              SizedBox(height: 20),
+              sh16,
               // Pet Owner Info
-              Text('Pet Owner',style: h3,),
+              Text(
+                'Pet Owner',
+                style: h3,
+              ),
               sh12,
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 8),
                 decoration: BoxDecoration(
-                  color: AppColors.fillColorTwo,
-                  borderRadius: BorderRadius.circular(8)
-                ),
+                    color: AppColors.fillColorTwo,
+                    borderRadius: BorderRadius.circular(8)),
                 child: ListTile(
                   contentPadding: EdgeInsets.zero,
                   leading: CircleAvatar(
                     radius: 30,
-                    backgroundImage: AssetImage('assets/owner_picture.jpg'),
+                    backgroundImage: AssetImage(
+                      AppImages.loginImage,
+                    ),
                   ),
                   title: Text(
                     'Ria Tamanna',
@@ -169,19 +244,19 @@ class ProfileView extends GetView<ProfileController> {
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              sh16,
               // Posts and Collections
               Row(
                 children: [
                   Expanded(child: InfoCard(label: '0 Posts')),
+                  sw12,
                   Expanded(child: InfoCard(label: '0 Collections')),
                 ],
               ),
-              SizedBox(height: 20),
+              sh20,
               // Footer illustration
               Image.asset(
-                'assets/footer_dogs.png',
-                height: 100,
+                AppImages.placeHolderImage,
               ),
             ],
           ),

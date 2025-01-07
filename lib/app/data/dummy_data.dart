@@ -104,7 +104,7 @@ class DummyData {
           "https://images.unsplash.com/photo-1518288774672-b94e808873ff?q=80",
       "images": [],
       "videos": [],
-      "videoThumbnails": [], // No videos, so no thumbnails
+      "videoThumbnails": [],
       "timeAgo": "2 days ago",
       "description": "Just enjoying the weather today! ☀️",
       "likeCount": 5,

@@ -4,8 +4,10 @@ class AppImages {
   static const arrowRight = "assets/icons/Arrow - Right.png";
   static const arrowRightTwo = "assets/icons/arrow right 2.png";
   static const checkBox = "assets/icons/Checbox container.png";
+  static const checkBoxFilled = "assets/icons/Checbox filled.png";
   static const eyeClose = "assets/icons/eye close.png";
   static const lock = "assets/icons/lock.png";
+  static const unLock = "assets/icons/unlock.png";
   static const message = "assets/icons/message.png";
   static const person = "assets/icons/person.png";
   static const home = "assets/icons/home.png";
@@ -36,6 +38,14 @@ class AppImages {
   static const send = "assets/icons/Send.png";
   static const media = "assets/icons/media.png";
   static const logout = "assets/icons/logout.png";
+  static const logoutTwo = "assets/icons/logout 2.png";
+  static const edit = "assets/icons/edit.png";
+  static const settings = "assets/icons/settings.png";
+  static const placeHolderImage = "assets/icons/placeholder no image.png";
+  static const adminSettings = "assets/icons/admin settings.png";
+  static const language = "assets/icons/language.png";
+  static const payment = "assets/icons/payment.png";
+  static const accountDelete = "assets/icons/account delete.png";
 
 
   //================ Images ==================>
@@ -51,8 +61,10 @@ class AppImages {
   static const newPassImage = "assets/images/new pass.png";
   static const signUpImage = "assets/images/signup.png";
   static const verifyCodeImage = "assets/images/verify.png";
+  static const groupImage = "assets/images/groupImage.png";
 
 
   static const profileImage = 'https://images.unsplash.com/photo-1578320339911-5e7974b2720a?q=80&w=778&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
+  static const groupOfDogs = 'https://plus.unsplash.com/premium_photo-1668114375111-e90b5e975df6?q=80&w=869&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
 
 }
