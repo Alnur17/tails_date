@@ -59,7 +59,6 @@ class ProfileView extends GetView<ProfileController> {
               // Cover photo and profile picture
               Stack(
                 clipBehavior: Clip.none,
-                alignment: Alignment.center,
                 children: [
                   Container(
                     height: 200,
@@ -106,44 +105,81 @@ class ProfileView extends GetView<ProfileController> {
                   //     ),
                   //   ),
                   // ),
-                  GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      height: 30,
-                      decoration: ShapeDecoration(
-                        shape: CircleBorder(),
-                        color: Colors.black54,
-                      ),
-                      child: Image.asset(
-                        AppImages.media,
-                        scale: 4,
-                        color: AppColors.white,
-                      ),
-                    ),
-                  ),
                   Positioned(
-                    bottom: -50,
-                    left: MediaQuery.of(context).size.width / 2 - 66,
-                    child: CircleAvatar(
-                      radius: 50,
-                      backgroundImage: NetworkImage(AppImages.profileImage),
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: CircleAvatar(
-                          radius: 15,
-                          backgroundColor: AppColors.black,
-                          child: GestureDetector(
-                              onTap: () {
-                                log('Add image tapped');
-                              },
-                              child: Icon(Icons.add, color: AppColors.white)),
+                    bottom: 12,
+                    right: 12,
+                    child: GestureDetector(
+                      onTap: () {},
+                      child: Container(
+                        height: 30,
+                        decoration: ShapeDecoration(
+                          shape: CircleBorder(),
+                          color: Colors.black54,
+                        ),
+                        child: Image.asset(
+                          AppImages.media,
+                          scale: 4,
+                          color: AppColors.white,
                         ),
                       ),
                     ),
                   ),
+                  // Positioned(
+                  //   bottom: -20,
+                  //   left: 12,
+                  //   child: CircleAvatar(
+                  //     radius: 55,
+                  //     backgroundImage: NetworkImage(AppImages.profileImage),
+                  //     child: Align(
+                  //       alignment: Alignment.bottomRight,
+                  //       child: CircleAvatar(
+                  //         radius: 18,
+                  //         backgroundColor: AppColors.black,
+                  //         child: GestureDetector(
+                  //             onTap: () {
+                  //               log('Add image tapped');
+                  //             },
+                  //             child: Icon(Icons.add, color: AppColors.white)),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  Positioned(
+                    bottom: -20, // Shift the avatar slightly lower
+                    //left: MediaQuery.of(context).size.width / 2 - 66,
+                    left: 12,
+                    child: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        CircleAvatar(
+                          radius: 50,
+                          backgroundImage: NetworkImage(AppImages.profileImage),
+                        ),
+                        Positioned(
+                          bottom: 15,
+                          right: -10,
+                          child: InkWell(
+                            onTap: () {
+                              log("Add icon tapped");
+                            },
+                            child: CircleAvatar(
+                              radius: 15,
+                              backgroundColor: Colors.yellow,
+                              child: Icon(
+                                Icons.add,
+                                size: 20,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
-              const SizedBox(height: 80),
+
+              const SizedBox(height: 40),
               // Profile info
               Text(
                 'Piku_The_King',

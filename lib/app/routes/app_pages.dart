@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/add_story/bindings/add_story_binding.dart';
+import '../modules/add_story/views/add_story_view.dart';
 import '../modules/auth_landing/bindings/auth_home_binding.dart';
 import '../modules/auth_landing/views/auth_landing_view.dart';
 import '../modules/chats/bindings/chats_binding.dart';
@@ -36,7 +38,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.SPLASH;
+  static const INITIAL = Routes.PROFILE;
 
   static final routes = [
     GetPage(
@@ -113,6 +115,11 @@ class AppPages {
       name: _Paths.UPLOAD_POST,
       page: () => const UploadPostView(),
       binding: UploadPostBinding(),
+    ),
+    GetPage(
+      name: _Paths.ADD_STORY,
+      page: () => const AddStoryView(),
+      binding: AddStoryBinding(),
     ),
   ];
 }

@@ -18,6 +18,7 @@ abstract class Routes {
   static const NOTIFICATIONS = _Paths.NOTIFICATIONS;
   static const CHATS = _Paths.CHATS;
   static const UPLOAD_POST = _Paths.UPLOAD_POST;
+  static const ADD_STORY = _Paths.ADD_STORY;
 }
 
 abstract class _Paths {
@@ -37,4 +38,5 @@ abstract class _Paths {
   static const NOTIFICATIONS = '/notifications';
   static const CHATS = '/chats';
   static const UPLOAD_POST = '/upload-post';
+  static const ADD_STORY = '/add-story';
 }

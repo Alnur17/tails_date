@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -103,7 +105,7 @@ class EditProfileView extends GetView {
                         child: CircleAvatar(
                           radius: 15,
                           backgroundColor: AppColors.black,
-                          child: Icon(Icons.add, color: AppColors.white),
+                          child: GestureDetector(onTap: (){log('sdsajkdkjsha');},child: Icon(Icons.add, color: AppColors.white)),
                         ),
                       ),
                     ),
