@@ -27,6 +27,8 @@ class AppImages {
   static const location = "assets/icons/location.png";
   static const share = "assets/icons/share.png";
   static const star = "assets/icons/star.png";
+  static const starCard = "assets/icons/star card.png";
+  static const starFilled = "assets/icons/star filled.png";
   static const threeDot = "assets/icons/three dot.png";
   static const back = "assets/icons/back.png";
   static const pause = "assets/icons/pause.png";

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:tails_date/app/modules/profile/views/change_password_view.dart';
+import 'package:tails_date/app/modules/profile/views/star_balance_view.dart';
+import 'package:tails_date/app/modules/profile/views/subscription_plan_view.dart';
 import 'package:tails_date/common/app_color/app_colors.dart';
 import 'package:tails_date/common/app_text_style/styles.dart';
 
@@ -77,13 +79,17 @@ class ProfileSettingView extends GetView {
                 ),
                 sh16,
                 CustomContainer(
-                  onTap: () {},
+                  onTap: () {
+                    Get.to(() => SubscriptionPlanView());
+                  },
                   text: 'Payment System',
                   imagePath: AppImages.payment,
                 ),
                 sh16,
                 CustomContainer(
-                  onTap: () {},
+                  onTap: () {
+                    Get.to(() => StarBalanceView());
+                  },
                   text: 'Star Balance',
                   imagePath: AppImages.star,
                 ),

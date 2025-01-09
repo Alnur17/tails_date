@@ -23,7 +23,6 @@ class ProfileView extends GetView<ProfileController> {
       appBar: AppBar(
         scrolledUnderElevation: 0,
         backgroundColor: AppColors.mainColor,
-        automaticallyImplyLeading: false,
         title: Text('Profile'),
         centerTitle: true,
         leading: GestureDetector(
@@ -114,7 +113,7 @@ class ProfileView extends GetView<ProfileController> {
                         height: 30,
                         decoration: ShapeDecoration(
                           shape: CircleBorder(),
-                          color: Colors.black54,
+                          color: AppColors.black,
                         ),
                         child: Image.asset(
                           AppImages.media,
@@ -145,7 +144,7 @@ class ProfileView extends GetView<ProfileController> {
                   //   ),
                   // ),
                   Positioned(
-                    bottom: -20, // Shift the avatar slightly lower
+                    bottom: -50,
                     //left: MediaQuery.of(context).size.width / 2 - 66,
                     left: 12,
                     child: Stack(
@@ -156,19 +155,18 @@ class ProfileView extends GetView<ProfileController> {
                           backgroundImage: NetworkImage(AppImages.profileImage),
                         ),
                         Positioned(
-                          bottom: 15,
-                          right: -10,
-                          child: InkWell(
+                          top: 0,
+                          right: 0,
+                          child: GestureDetector(
                             onTap: () {
                               log("Add icon tapped");
                             },
                             child: CircleAvatar(
-                              radius: 15,
-                              backgroundColor: Colors.yellow,
+                              radius: 18,
+                              backgroundColor: AppColors.black,
                               child: Icon(
                                 Icons.add,
-                                size: 20,
-                                color: Colors.black,
+                                color: AppColors.white,
                               ),
                             ),
                           ),
@@ -178,8 +176,7 @@ class ProfileView extends GetView<ProfileController> {
                   ),
                 ],
               ),
-
-              const SizedBox(height: 40),
+              sh60,
               // Profile info
               Text(
                 'Piku_The_King',
@@ -275,7 +272,7 @@ class ProfileView extends GetView<ProfileController> {
                     style: h4,
                   ),
                   subtitle: Text(
-                    'Single\nFemale',
+                    'Single, Female',
                     style: h6,
                   ),
                 ),

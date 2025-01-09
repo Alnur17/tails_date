@@ -6,6 +6,7 @@ class AppColors{
   static const fillColor = Color(0xFFFFF9EA);
   static const fillColorTwo = Color(0xFFFFF1EC);
   static const secondaryOrangeColor = Color(0xFFCC5300);
+  static const brownColor = Color(0xFF8C6D17);
 
 
   //fixed color

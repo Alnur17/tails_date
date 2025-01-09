@@ -54,42 +54,28 @@ class EditProfileView extends GetView {
                       child: Container(
                         height: 30,
                         decoration: ShapeDecoration(
-                            shape: CircleBorder(), color: AppColors.mainColor),
+                            shape: CircleBorder(), color: AppColors.black),
                         child: Image.asset(
                           AppImages.back,
                           scale: 4,
+                          color: AppColors.white,
                         ),
                       ),
                     ),
                   ),
                   Positioned(
-                    right: 12,
                     top: 12,
+                    right: 12,
                     child: GestureDetector(
                       onTap: () {},
                       child: Container(
                         height: 30,
                         decoration: ShapeDecoration(
-                            shape: CircleBorder(), color: AppColors.mainColor),
-                        child: Image.asset(
-                          AppImages.settings,
-                          scale: 4,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 12,
-                    bottom: 12,
-                    child: GestureDetector(
-                      onTap: () {},
-                      child: Container(
-                        height: 30,
-                        decoration: ShapeDecoration(
-                            shape: CircleBorder(), color: AppColors.mainColor),
+                            shape: CircleBorder(), color: Colors.black),
                         child: Image.asset(
                           AppImages.media,
                           scale: 4,
+                          color: AppColors.white,
                         ),
                       ),
                     ),
@@ -101,22 +87,27 @@ class EditProfileView extends GetView {
                       radius: 50,
                       backgroundImage: NetworkImage(AppImages.profileImage),
                       child: Align(
-                        alignment: Alignment.bottomRight,
+                        alignment: Alignment.topRight,
                         child: CircleAvatar(
                           radius: 15,
                           backgroundColor: AppColors.black,
-                          child: GestureDetector(onTap: (){log('sdsajkdkjsha');},child: Icon(Icons.add, color: AppColors.white)),
+                          child: GestureDetector(
+                            onTap: () {
+                              log('sdsajkdkjsha');
+                            },
+                            child: Icon(Icons.add, color: AppColors.white),
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 70),
+              sh60,
               // Profile info
               Center(
                 child: Text(
-                  'Edit or remove image',
+                  'Remove image',
                   style: h5,
                 ),
               ),
