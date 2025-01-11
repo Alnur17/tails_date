@@ -67,6 +67,7 @@ class AppImages {
   static const signUpImage = "assets/images/signup.png";
   static const verifyCodeImage = "assets/images/verify.png";
   static const groupImage = "assets/images/groupImage.png";
+  static const starImage = "assets/images/star image.png";
 
 
   static const profileImage = 'https://images.unsplash.com/photo-1578320339911-5e7974b2720a?q=80&w=778&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';

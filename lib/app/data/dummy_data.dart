@@ -203,4 +203,49 @@ class DummyData {
     {'name': 'Code_Pro', 'image': AppImages.profileImage},
     {'name': 'Cloud_Guru', 'image': AppImages.profileImage},
   ];
+
+  static const List<Map<String, dynamic>> friends = [
+    {
+      'name': 'Alice',
+      'image': 'https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    },
+    {
+      'name': 'Bob',
+      'image': 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    },
+    {
+      'name': 'Charlie',
+      'image': 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    },
+    {
+      'name': 'David',
+      'image': 'https://images.unsplash.com/photo-1544723795-3fb6469f5b39?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    },
+    {
+      'name': 'Emma',
+      'image': 'https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    },
+    {
+      'name': 'Frank',
+      'image': 'https://images.unsplash.com/photo-1519241047957-be31d7379a5d?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    },
+    {
+      'name': 'Grace',
+      'image': 'https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    },
+    {
+      'name': 'Henry',
+      'image': 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    },
+    {
+      'name': 'Ivy',
+      'image': 'https://plus.unsplash.com/premium_photo-1690407617542-2f210cf20d7e?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    },
+    {
+      'name': 'Jack',
+      'image': 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    },
+  ];
+
+
 }

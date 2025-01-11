@@ -52,6 +52,19 @@ class BuyStarView extends GetView {
               ),
               sh16,
               StarContainer(
+                numberOfStars: '99',
+                price: 0.99,
+                backgroundColor: AppColors.mainColor,
+              ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Your first stars are discounted for a limited time!',
+                  style: h6,
+                ),
+              ),
+              sh16,
+              StarContainer(
                 numberOfStars: '75',
                 price: 0.99,
               ),
@@ -96,11 +109,13 @@ class BuyStarView extends GetView {
 class StarContainer extends StatelessWidget {
   final String numberOfStars;
   final double price;
+  final Color? backgroundColor;
 
   const StarContainer({
     super.key,
     required this.numberOfStars,
     required this.price,
+    this.backgroundColor,
   });
 
   @override
@@ -110,6 +125,7 @@ class StarContainer extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: AppColors.secondaryOrangeColor),
+        color: backgroundColor ?? AppColors.transparent,
       ),
       child: Row(
         children: [

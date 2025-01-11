@@ -245,7 +245,9 @@ class UserPostCard extends StatelessWidget {
                 ),
                 sw8,
                 GestureDetector(
-                  onTap: () {} ,
+                  onTap: () {
+
+                  },
                   child: Image.asset(
                     AppImages.star,
                     scale: 4,
@@ -274,5 +276,74 @@ class UserPostCard extends StatelessWidget {
       ),
     );
   }
+
+  // Future showDeleteAccountDialog(BuildContext context) {
+  //   return Get.defaultDialog(
+  //     title: "Delete Your Account",
+  //     titlePadding: EdgeInsets.only(top: 16),
+  //     backgroundColor: AppColors.white,
+  //     radius: 8,
+  //     content: Column(
+  //       crossAxisAlignment: CrossAxisAlignment.center,
+  //       children: [
+  //         Padding(
+  //           padding: const EdgeInsets.only(left: 16, right: 16),
+  //           child: Text(
+  //             "Are you sure you want to delete your account?",
+  //             style: h4.copyWith(
+  //               fontSize: 18,
+  //             ),
+  //             textAlign: TextAlign.center,
+  //           ),
+  //         ),
+  //         sh20,
+  //         Row(
+  //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  //           children: [
+  //             OutlinedButton(
+  //               onPressed: () => Get.back(),
+  //               style: TextButton.styleFrom(
+  //                 backgroundColor: AppColors.white,
+  //                 side: BorderSide(color: AppColors.red),
+  //                 padding:
+  //                 const EdgeInsets.symmetric(horizontal: 45, vertical: 10),
+  //                 shape: const RoundedRectangleBorder(
+  //                   borderRadius: BorderRadius.vertical(
+  //                     top: Radius.circular(4),
+  //                     bottom: Radius.circular(4),
+  //                   ),
+  //                 ),
+  //               ),
+  //               child: Text(
+  //                 "Cancel",
+  //                 style: h2.copyWith(fontSize: 12, color: AppColors.red),
+  //               ),
+  //             ),
+  //             sw10,
+  //             OutlinedButton(
+  //               onPressed: () {},
+  //               style: OutlinedButton.styleFrom(
+  //                 backgroundColor: AppColors.red,
+  //                 padding: const EdgeInsets.symmetric(
+  //                     horizontal: 45, vertical: 10), // Box-like padding
+  //                 shape: const RoundedRectangleBorder(
+  //                   borderRadius: BorderRadius.vertical(
+  //                     top: Radius.circular(4),
+  //                     bottom: Radius.circular(4),
+  //                   ),
+  //                 ),
+  //                 side: BorderSide.none,
+  //               ),
+  //               child: Text(
+  //                 "Delete",
+  //                 style: h2.copyWith(fontSize: 12, color: AppColors.white),
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 }
 

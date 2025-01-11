@@ -3,7 +3,9 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:tails_date/app/data/dummy_data.dart';
 import 'package:tails_date/app/modules/profile/views/edit_profile_view.dart';
+import 'package:tails_date/app/modules/profile/views/friends_view.dart';
 import 'package:tails_date/app/modules/profile/views/profile_setting_view.dart';
 import 'package:tails_date/common/app_color/app_colors.dart';
 import 'package:tails_date/common/size_box/custom_sizebox.dart';
@@ -203,8 +205,10 @@ class ProfileView extends GetView<ProfileController> {
                   Expanded(
                     child: CustomButton(
                       height: 40,
-                      onPressed: () {},
-                      text: '0 Friends',
+                      onPressed: () {
+                        Get.to(()=> FriendsView(data: DummyData.friends,));
+                      },
+                      text: '${DummyData.friends.length} Friends',
                       backgroundColor: AppColors.white,
                       borderColor: AppColors.black,
                       textStyle: h3.copyWith(color: AppColors.black),
