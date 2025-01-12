@@ -19,6 +19,8 @@ abstract class Routes {
   static const CHATS = _Paths.CHATS;
   static const UPLOAD_POST = _Paths.UPLOAD_POST;
   static const ADD_STORY = _Paths.ADD_STORY;
+  static const PRIVACY_POLICY = _Paths.PRIVACY_POLICY;
+  static const TERMS_OF_SERVICES = _Paths.TERMS_OF_SERVICES;
 }
 
 abstract class _Paths {
@@ -39,4 +41,6 @@ abstract class _Paths {
   static const CHATS = '/chats';
   static const UPLOAD_POST = '/upload-post';
   static const ADD_STORY = '/add-story';
+  static const PRIVACY_POLICY = '/privacy-policy';
+  static const TERMS_OF_SERVICES = '/terms-of-services';
 }

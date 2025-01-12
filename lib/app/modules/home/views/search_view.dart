@@ -9,7 +9,6 @@ import 'package:tails_date/common/app_images/app_images.dart';
 import 'package:tails_date/common/size_box/custom_sizebox.dart';
 import 'package:tails_date/common/widgets/custom_textfield.dart';
 
-
 class SearchView extends GetView<MySearchController> {
   const SearchView({super.key});
 
@@ -54,7 +53,6 @@ class SearchView extends GetView<MySearchController> {
               ],
             ),
           ),
-          sh20,
           Expanded(child: Obx(
             () {
               final posts = searchController.filteredPosts;
@@ -65,7 +63,11 @@ class SearchView extends GetView<MySearchController> {
                   final post = posts[index];
                   return Padding(
                     padding: EdgeInsets.only(
-                        bottom: index == posts.length - 1 ? 30 : 0),
+                      bottom: index == posts.length - 1 ? 30 : 0,
+                      left: 16,
+                      right: 16,
+                      top: 16,
+                    ),
                     child: UserPostCard(
                       userName: post['userName'] ?? '',
                       location: post['location'] ?? '',

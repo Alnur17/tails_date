@@ -92,7 +92,7 @@ class HomeView extends GetView<HomeController> {
                   final post = DummyData.posts[index];
                   return Padding(
                     padding: EdgeInsets.only(
-                        bottom: index == DummyData.posts.length - 1 ? 30 : 0),
+                        bottom: index == DummyData.posts.length - 1 ? 30 : 0,right: 16,left: 16,top: 16),
                     child: UserPostCard(
                       userName: post['userName'] ?? '',
                       location: post['location'] ?? '',

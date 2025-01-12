@@ -35,12 +35,17 @@ class CategoryView extends StatelessWidget {
         ),
       ),
       body: ListView.builder(
+        //padding: EdgeInsets.all(16),
         itemCount: DummyData.posts.length,
         itemBuilder: (context, index) {
           final post = DummyData.posts[index];
           return Padding(
             padding: EdgeInsets.only(
-                bottom: index == DummyData.posts.length - 1 ? 30 : 0),
+              bottom: index == DummyData.posts.length - 1 ? 30 : 0,
+              left: 16,
+              right: 16,
+              top: 16,
+            ),
             child: UserPostCard(
               userName: post['userName'] ?? '',
               location: post['location'] ?? '',
@@ -53,8 +58,7 @@ class CategoryView extends StatelessWidget {
               onAddFriend: () {
                 print("Add Friend clicked for ${post['userName']}");
               },
-              videoThumbnails:
-                  List<String>.from(post['videoThumbnails'] ?? []),
+              videoThumbnails: List<String>.from(post['videoThumbnails'] ?? []),
             ),
           );
         },

@@ -20,6 +20,8 @@ import '../modules/notifications/bindings/notifications_binding.dart';
 import '../modules/notifications/views/notifications_view.dart';
 import '../modules/onboarding/bindings/onboarding_binding.dart';
 import '../modules/onboarding/views/onboarding_view.dart';
+import '../modules/privacy_policy/bindings/privacy_policy_binding.dart';
+import '../modules/privacy_policy/views/privacy_policy_view.dart';
 import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/views/profile_view.dart';
 import '../modules/reels/bindings/reels_binding.dart';
@@ -28,6 +30,8 @@ import '../modules/signup/bindings/signup_binding.dart';
 import '../modules/signup/views/signup_view.dart';
 import '../modules/splash/bindings/splash_binding.dart';
 import '../modules/splash/views/splash_view.dart';
+import '../modules/terms_of_services/bindings/terms_of_services_binding.dart';
+import '../modules/terms_of_services/views/terms_of_services_view.dart';
 import '../modules/upload_post/bindings/upload_post_binding.dart';
 import '../modules/upload_post/views/upload_post_view.dart';
 import '../modules/verify_otp/bindings/verify_otp_binding.dart';
@@ -120,6 +124,16 @@ class AppPages {
       name: _Paths.ADD_STORY,
       page: () => const AddStoryView(),
       binding: AddStoryBinding(),
+    ),
+    GetPage(
+      name: _Paths.PRIVACY_POLICY,
+      page: () => const PrivacyPolicyView(),
+      binding: PrivacyPolicyBinding(),
+    ),
+    GetPage(
+      name: _Paths.TERMS_OF_SERVICES,
+      page: () => const TermsOfServicesView(),
+      binding: TermsOfServicesBinding(),
     ),
   ];
 }

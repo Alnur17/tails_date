@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:tails_date/app/data/dummy_data.dart';
+import 'package:tails_date/app/modules/home/views/widgets/home_widgets/user_post_card.dart';
 import 'package:tails_date/app/modules/profile/views/edit_profile_view.dart';
 import 'package:tails_date/app/modules/profile/views/friends_view.dart';
 import 'package:tails_date/app/modules/profile/views/profile_setting_view.dart';
@@ -13,10 +14,16 @@ import 'package:tails_date/common/size_box/custom_sizebox.dart';
 import '../../../../common/app_images/app_images.dart';
 import '../../../../common/app_text_style/styles.dart';
 import '../../../../common/widgets/custom_button.dart';
-import '../controllers/profile_controller.dart';
 
-class ProfileView extends GetView<ProfileController> {
+class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
+
+  @override
+  State<ProfileView> createState() => _ProfileViewState();
+}
+
+class _ProfileViewState extends State<ProfileView> {
+  bool showPosts = true; // To toggle between posts and collections
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +32,7 @@ class ProfileView extends GetView<ProfileController> {
       appBar: AppBar(
         scrolledUnderElevation: 0,
         backgroundColor: AppColors.mainColor,
-        title: Text('Profile'),
+        title: const Text('Profile'),
         centerTitle: true,
         leading: GestureDetector(
           onTap: () {
@@ -53,7 +60,7 @@ class ProfileView extends GetView<ProfileController> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -72,40 +79,6 @@ class ProfileView extends GetView<ProfileController> {
                       borderRadius: BorderRadius.circular(16),
                     ),
                   ),
-                  // Positioned(
-                  //   left: 12,
-                  //   top: 12,
-                  //   child: GestureDetector(
-                  //     onTap: () {
-                  //       Get.back();
-                  //     },
-                  //     child: Container(
-                  //       height: 30,
-                  //       decoration: ShapeDecoration(shape: CircleBorder(),color: AppColors.mainColor),
-                  //       child: Image.asset(
-                  //         AppImages.back,
-                  //         scale: 4,
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-                  // Positioned(
-                  //   right: 12,
-                  //   top: 12,
-                  //   child: GestureDetector(
-                  //     onTap: () {
-                  //       Get.to(()=> ProfileSettingView());
-                  //     },
-                  //     child: Container(
-                  //       height: 30,
-                  //       decoration: ShapeDecoration(shape: CircleBorder(),color: AppColors.mainColor),
-                  //       child: Image.asset(
-                  //         AppImages.settings,
-                  //         scale: 4,
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
                   Positioned(
                     bottom: 12,
                     right: 12,
@@ -113,7 +86,7 @@ class ProfileView extends GetView<ProfileController> {
                       onTap: () {},
                       child: Container(
                         height: 30,
-                        decoration: ShapeDecoration(
+                        decoration: const ShapeDecoration(
                           shape: CircleBorder(),
                           color: AppColors.black,
                         ),
@@ -125,29 +98,8 @@ class ProfileView extends GetView<ProfileController> {
                       ),
                     ),
                   ),
-                  // Positioned(
-                  //   bottom: -20,
-                  //   left: 12,
-                  //   child: CircleAvatar(
-                  //     radius: 55,
-                  //     backgroundImage: NetworkImage(AppImages.profileImage),
-                  //     child: Align(
-                  //       alignment: Alignment.bottomRight,
-                  //       child: CircleAvatar(
-                  //         radius: 18,
-                  //         backgroundColor: AppColors.black,
-                  //         child: GestureDetector(
-                  //             onTap: () {
-                  //               log('Add image tapped');
-                  //             },
-                  //             child: Icon(Icons.add, color: AppColors.white)),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
                   Positioned(
                     bottom: -50,
-                    //left: MediaQuery.of(context).size.width / 2 - 66,
                     left: 12,
                     child: Stack(
                       clipBehavior: Clip.none,
@@ -163,7 +115,7 @@ class ProfileView extends GetView<ProfileController> {
                             onTap: () {
                               log("Add icon tapped");
                             },
-                            child: CircleAvatar(
+                            child: const CircleAvatar(
                               radius: 18,
                               backgroundColor: AppColors.black,
                               child: Icon(
@@ -206,7 +158,7 @@ class ProfileView extends GetView<ProfileController> {
                     child: CustomButton(
                       height: 40,
                       onPressed: () {
-                        Get.to(()=> FriendsView(data: DummyData.friends,));
+                        Get.to(() => FriendsView(data: DummyData.friends));
                       },
                       text: '${DummyData.friends.length} Friends',
                       backgroundColor: AppColors.white,
@@ -259,7 +211,7 @@ class ProfileView extends GetView<ProfileController> {
               ),
               sh12,
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 8),
                 decoration: BoxDecoration(
                     color: AppColors.fillColorTwo,
                     borderRadius: BorderRadius.circular(8)),
@@ -282,19 +234,114 @@ class ProfileView extends GetView<ProfileController> {
                 ),
               ),
               sh16,
-              // Posts and Collections
+              // Posts and Collections Toggle
               Row(
                 children: [
-                  Expanded(child: InfoCard(label: '0 Posts')),
+                  Expanded(
+                    child: CustomButton(
+                      text: 'Posts',
+                      onPressed: () {
+                        setState(() {
+                          showPosts = true;
+                        });
+                      },
+                      textStyle: h3.copyWith(
+                        color: !showPosts ? Colors.black : Colors.white,
+                      ),
+                      backgroundColor:
+                          showPosts ? AppColors.black : AppColors.transparent,
+                    ),
+                  ),
                   sw12,
-                  Expanded(child: InfoCard(label: '0 Collections')),
+                  Expanded(
+                    child: CustomButton(
+                      text: 'Collections',
+                      onPressed: () {
+                        setState(() {
+                          showPosts = false;
+                        });
+                      },
+                      textStyle: h3.copyWith(
+                        color: !showPosts ? Colors.white : Colors.black,
+                      ),
+                      backgroundColor:
+                          !showPosts ? AppColors.black : AppColors.transparent,
+                    ),
+                  ),
                 ],
               ),
               sh20,
-              // Footer illustration
-              Image.asset(
-                AppImages.placeHolderImage,
-              ),
+              // Posts or Collections
+              showPosts
+                  ? ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: DummyData.posts.length,
+                      itemBuilder: (context, index) {
+                        final post = DummyData.posts[index];
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: UserPostCard(
+                            userName: post['userName'] ?? '',
+                            location: post['location'] ?? '',
+                            profileImage: post['profileImage'] ?? '',
+                            images: List<String>.from(post['images'] ?? []),
+                            videos: List<String>.from(post['videos'] ?? []),
+                            description: post['description'] ?? '',
+                            likeCount: post['likeCount'] ?? 0,
+                            timeAgo: post['timeAgo'] ?? '',
+                            onAddFriend: () {
+                              print(
+                                  "Add Friend clicked for ${post['userName']}");
+                            },
+                            videoThumbnails: List<String>.from(
+                                post['videoThumbnails'] ?? []),
+                          ),
+                        );
+                      },
+                    )
+                  : GridView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2, // Number of columns
+                        crossAxisSpacing: 12, // Spacing between columns
+                        mainAxisSpacing: 12, // Spacing between rows
+                        childAspectRatio: 1, // Aspect ratio of the items
+                      ),
+                      itemCount: DummyData.posts.length,
+                      itemBuilder: (context, index) {
+                        final collection = DummyData.posts[index];
+                        final imageUrl = (collection['images']).isNotEmpty
+                            ? collection['images'][0]
+                            : AppImages.imageNotAvailable;
+                        return GestureDetector(
+                          onTap: () {
+                            print(
+                                "Collection tapped: ${collection['description']}");
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: AppColors.white,
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.network(
+                                imageUrl,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+              sh20,
+              // // Footer illustration
+              // Image.asset(
+              //   AppImages.placeHolderImage,
+              // ),
             ],
           ),
         ),
@@ -312,7 +359,7 @@ class AttributeTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(12),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: AppColors.secondaryOrangeColor),
@@ -324,38 +371,12 @@ class AttributeTile extends StatelessWidget {
             label,
             style: h4.copyWith(color: AppColors.secondaryOrangeColor),
           ),
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           Text(
             value,
             style: h4.copyWith(color: AppColors.black),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class InfoCard extends StatelessWidget {
-  final String label;
-
-  const InfoCard({super.key, required this.label});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      padding: EdgeInsets.all(15),
-      decoration: BoxDecoration(
-        color: Colors.black,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Text(
-        label,
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
-        ),
       ),
     );
   }
