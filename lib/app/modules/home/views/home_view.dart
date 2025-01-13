@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -58,7 +60,6 @@ class HomeView extends GetView<HomeController> {
           children: [
             // Stories Section
             const StoriesSection(),
-
             // Categories Section
             Padding(
               padding: const EdgeInsets.only(left: 16, top: 16),
@@ -92,21 +93,22 @@ class HomeView extends GetView<HomeController> {
                   final post = DummyData.posts[index];
                   return Padding(
                     padding: EdgeInsets.only(
-                        bottom: index == DummyData.posts.length - 1 ? 30 : 0,right: 16,left: 16,top: 16),
+                      bottom: index == DummyData.posts.length - 1 ? 30 : 0,
+                      right: 16,
+                      left: 16,
+                      top: 16,
+                    ),
                     child: UserPostCard(
                       userName: post['userName'] ?? '',
                       location: post['location'] ?? '',
                       profileImage: post['profileImage'] ?? '',
                       images: List<String>.from(post['images'] ?? []),
-                      videos: List<String>.from(post['videos'] ?? []),
                       description: post['description'] ?? '',
                       likeCount: post['likeCount'] ?? 0,
                       timeAgo: post['timeAgo'] ?? '',
                       onAddFriend: () {
-                        print("Add Friend clicked for ${post['userName']}");
+                        log("Add Friend clicked for ${post['userName']}");
                       },
-                      videoThumbnails:
-                          List<String>.from(post['videoThumbnails'] ?? []),
                     ),
                   );
                 },

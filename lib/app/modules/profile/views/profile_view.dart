@@ -14,6 +14,7 @@ import 'package:tails_date/common/size_box/custom_sizebox.dart';
 import '../../../../common/app_images/app_images.dart';
 import '../../../../common/app_text_style/styles.dart';
 import '../../../../common/widgets/custom_button.dart';
+import '../../../../common/widgets/custom_popup_menu_button.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
@@ -255,7 +256,7 @@ class _ProfileViewState extends State<ProfileView> {
                   sw12,
                   Expanded(
                     child: CustomButton(
-                      text: 'Collections',
+                      text: 'Reels',
                       onPressed: () {
                         setState(() {
                           showPosts = false;
@@ -286,16 +287,29 @@ class _ProfileViewState extends State<ProfileView> {
                             location: post['location'] ?? '',
                             profileImage: post['profileImage'] ?? '',
                             images: List<String>.from(post['images'] ?? []),
-                            videos: List<String>.from(post['videos'] ?? []),
                             description: post['description'] ?? '',
                             likeCount: post['likeCount'] ?? 0,
                             timeAgo: post['timeAgo'] ?? '',
-                            onAddFriend: () {
-                              print(
-                                  "Add Friend clicked for ${post['userName']}");
-                            },
-                            videoThumbnails: List<String>.from(
-                                post['videoThumbnails'] ?? []),
+                            showAddFriendButton: false,
+                            popupMenuButton: CustomPopupMenuButton(
+                              items: [
+                                PopupMenuItemData(
+                                  value: 'Edit',
+                                  label: 'Edit',
+                                  onSelected: () {
+                                    log('Edit selected');
+                                  },
+                                ),
+                                PopupMenuItemData(isDivider: true),
+                                PopupMenuItemData(
+                                  value: 'Delete',
+                                  label: 'Delete',
+                                  onSelected: () {
+                                    log('Delete selected');
+                                  },
+                                ),
+                              ],
+                            ),
                           ),
                         );
                       },
@@ -305,10 +319,10 @@ class _ProfileViewState extends State<ProfileView> {
                       physics: const NeverScrollableScrollPhysics(),
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2, // Number of columns
-                        crossAxisSpacing: 12, // Spacing between columns
-                        mainAxisSpacing: 12, // Spacing between rows
-                        childAspectRatio: 1, // Aspect ratio of the items
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 12,
+                        mainAxisSpacing: 12,
+                        childAspectRatio: 1,
                       ),
                       itemCount: DummyData.posts.length,
                       itemBuilder: (context, index) {
@@ -318,8 +332,8 @@ class _ProfileViewState extends State<ProfileView> {
                             : AppImages.imageNotAvailable;
                         return GestureDetector(
                           onTap: () {
-                            print(
-                                "Collection tapped: ${collection['description']}");
+                            log(
+                                "Reels tapped: ${collection['description']}");
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -338,10 +352,6 @@ class _ProfileViewState extends State<ProfileView> {
                       },
                     ),
               sh20,
-              // // Footer illustration
-              // Image.asset(
-              //   AppImages.placeHolderImage,
-              // ),
             ],
           ),
         ),

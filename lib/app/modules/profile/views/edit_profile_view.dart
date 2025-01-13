@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:tails_date/common/widgets/custom_button.dart';
+import 'package:tails_date/common/widgets/custom_dropdown.dart';
 import 'package:tails_date/common/widgets/custom_textfield.dart';
 
 import '../../../../common/app_color/app_colors.dart';
@@ -137,9 +138,12 @@ class EditProfileView extends GetView {
                 style: h2.copyWith(fontSize: 18),
               ),
               sh8,
-              CustomTextField(
-                containerColor: AppColors.white,
-                hintText: 'Enter your pet gender',
+              CustomDropdown(
+                items: ['Male', 'Female'],
+                hintText: 'Select your pet gender',
+                onChanged: (value) {
+                  log('Selected value: $value');
+                },
               ),
               sh16,
               Text(
@@ -157,9 +161,12 @@ class EditProfileView extends GetView {
                 style: h2.copyWith(fontSize: 18),
               ),
               sh8,
-              CustomTextField(
-                containerColor: AppColors.white,
-                hintText: 'Enter your pet category',
+              CustomDropdown(
+                items: ['Cat', 'Dog','Bird','Exotic Animal','Farm Animal',],
+                hintText: 'Select your pet category',
+                onChanged: (value) {
+                  log('Selected value: $value');
+                },
               ),
               sh16,
               Text(
@@ -215,9 +222,12 @@ class EditProfileView extends GetView {
                 style: h2.copyWith(fontSize: 18),
               ),
               sh8,
-              CustomTextField(
-                containerColor: AppColors.white,
-                hintText: 'Relationship status',
+              CustomDropdown(
+                items: ['Single', 'Married'],
+                hintText: 'Select your pet gender',
+                onChanged: (value) {
+                  log('Selected value: $value');
+                },
               ),
               sh16,
               Text(
@@ -225,9 +235,12 @@ class EditProfileView extends GetView {
                 style: h2.copyWith(fontSize: 18),
               ),
               sh8,
-              CustomTextField(
-                containerColor: AppColors.white,
-                hintText: 'Enter your gender',
+              CustomDropdown(
+                items: ['Male', 'Female'],
+                hintText: 'Select your gender',
+                onChanged: (value) {
+                  log('Selected value: $value');
+                },
               ),
               sh30,
               CustomButton(text: 'Save', onPressed: () {}),

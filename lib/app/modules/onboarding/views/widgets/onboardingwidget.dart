@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tails_date/common/app_color/app_colors.dart';
 import 'package:tails_date/common/app_text_style/styles.dart';
 
@@ -29,6 +30,8 @@ class OnboardingPage extends StatelessWidget {
           child: Image.asset(
             backgroundImage,
             scale: 4,
+            fit: BoxFit.cover,
+            width: Get.width,
           ),
         ),
         Container(

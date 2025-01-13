@@ -98,12 +98,12 @@ class AuthLandingView extends GetView<AuthHomeController> {
                         TextSpan(
                           text: 'Already Have an account? ',
                           style: h3.copyWith(
-                              color: Colors.white, fontWeight: FontWeight.w400),
+                              color: Colors.white,fontSize: 18),
                         ),
                         TextSpan(
                           //recognizer: ,
                           text: 'Log In',
-                          style: h3,
+                          style: h3.copyWith(fontSize: 18),
                         ),
                       ],
                     ),

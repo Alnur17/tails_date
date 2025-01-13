@@ -2,6 +2,7 @@ class AppImages {
   //================ Icons ==================>
   static const splashLogo = "assets/icons/LOGO.png";
   static const arrowRight = "assets/icons/Arrow - Right.png";
+  static const arrowDown = "assets/icons/arrow-down.png";
   static const arrowRightTwo = "assets/icons/arrow right 2.png";
   static const checkBox = "assets/icons/Checbox container.png";
   static const checkBoxFilled = "assets/icons/Checbox filled.png";
@@ -52,6 +53,11 @@ class AppImages {
   static const upload = "assets/icons/upload.png";
   static const camera = "assets/icons/camera.png";
   static const gallery = "assets/icons/gallery.png";
+  static const facebook = "assets/icons/facebook.png";
+  static const messenger = "assets/icons/messenger.png";
+  static const instagram = "assets/icons/instagram.png";
+  static const whatsApp = "assets/icons/whats app.png";
+  static const telegram = "assets/icons/telegram.png";
 
 
   //================ Images ==================>

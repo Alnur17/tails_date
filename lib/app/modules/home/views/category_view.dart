@@ -51,14 +51,12 @@ class CategoryView extends StatelessWidget {
               location: post['location'] ?? '',
               profileImage: post['profileImage'] ?? '',
               images: List<String>.from(post['images'] ?? []),
-              videos: List<String>.from(post['videos'] ?? []),
               description: post['description'] ?? '',
               likeCount: post['likeCount'] ?? 0,
               timeAgo: post['timeAgo'] ?? '',
               onAddFriend: () {
                 print("Add Friend clicked for ${post['userName']}");
               },
-              videoThumbnails: List<String>.from(post['videoThumbnails'] ?? []),
             ),
           );
         },

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:tails_date/app/modules/home/views/home_view.dart';
+import 'package:tails_date/app/modules/dashboard/views/dashboard_view.dart';
 import 'package:tails_date/app/modules/login/views/login_view.dart';
 import 'package:tails_date/common/app_color/app_colors.dart';
 import 'package:tails_date/common/app_images/app_images.dart';
@@ -130,7 +130,7 @@ class SignupView extends GetView<SignupController> {
                       CustomButton(
                         text: 'Sign Up',
                         onPressed: () {
-                          Get.to(()=> HomeView());
+                          Get.to(()=> DashboardView());
                         },
                       ),
                       sh16,

@@ -1,9 +1,10 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:tails_date/app/modules/profile/views/buy_star_view.dart';
-import 'package:tails_date/app/modules/profile/views/send_stars_view.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:tails_date/app/modules/home/views/report_view.dart';
 import 'package:tails_date/common/app_color/app_colors.dart';
 import 'package:tails_date/common/app_images/app_images.dart';
 import 'package:tails_date/common/size_box/custom_sizebox.dart';
@@ -11,18 +12,20 @@ import 'package:tails_date/common/widgets/custom_button.dart';
 
 import '../../../../../../common/app_text_style/styles.dart';
 import '../../../../../../common/widgets/custom_popup_menu_button.dart';
+import '../../../../profile/views/buy_star_view.dart';
+import '../../../../profile/views/send_stars_view.dart';
 
 class UserPostCard extends StatelessWidget {
   final String userName;
   final String location;
   final String profileImage;
   final List<String> images;
-  final List<String> videos;
-  final List<String> videoThumbnails; // Added videoThumbnails
   final String timeAgo;
   final String description;
   final int likeCount;
-  final VoidCallback onAddFriend;
+  final VoidCallback? onAddFriend;
+  final Widget? popupMenuButton;
+  final bool showAddFriendButton;
 
   const UserPostCard({
     super.key,
@@ -30,12 +33,12 @@ class UserPostCard extends StatelessWidget {
     required this.location,
     required this.profileImage,
     required this.images,
-    required this.videos,
-    required this.videoThumbnails, // Accept videoThumbnails
     required this.timeAgo,
     required this.description,
     required this.likeCount,
-    required this.onAddFriend,
+    this.onAddFriend,
+    this.popupMenuButton,
+    this.showAddFriendButton = true, // Default to showing the button
   });
 
   @override
@@ -52,14 +55,13 @@ class UserPostCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8),
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // Profile Image
                 CircleAvatar(
                   backgroundImage: NetworkImage(profileImage),
                   radius: 20,
                 ),
-                sw12,
-                // User Details (Name and Location)
+                const SizedBox(width: 12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -73,7 +75,7 @@ class UserPostCard extends StatelessWidget {
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      sh5,
+                      const SizedBox(height: 5),
                       Row(
                         children: [
                           Image.asset(
@@ -96,85 +98,72 @@ class UserPostCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                sw8,
+                const SizedBox(width: 8),
+                // Buttons in Row
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    CustomButton(
-                      width: 90,
-                      text: 'Add friend',
-                      onPressed: onAddFriend,
-                      height: 30,
-                      backgroundColor: AppColors.black,
-                      borderRadius: 8,
-                      textStyle: h6.copyWith(color: AppColors.white),
-                    ),
-
-                    CustomPopupMenuButton(),
+                    // Show the "Add Friend" button only if enabled
+                    if (showAddFriendButton)
+                      CustomButton(
+                        width: 90,
+                        text: 'Add friend',
+                        onPressed: onAddFriend!,
+                        height: 30,
+                        backgroundColor: AppColors.black,
+                        borderRadius: 8,
+                        textStyle: h6.copyWith(color: AppColors.white),
+                      ),
+                    const SizedBox(width: 8),
+                    popupMenuButton ??
+                        CustomPopupMenuButton(
+                          items: [
+                            PopupMenuItemData(
+                              value: 'Report Content',
+                              label: 'Report Content',
+                              onSelected: () {
+                                Get.to(
+                                  () => ReportView(),
+                                  transition: Transition.downToUp,
+                                );
+                              },
+                            ),
+                            PopupMenuItemData(isDivider: true),
+                            PopupMenuItemData(
+                              value: 'Not Interested',
+                              label: 'Not Interested',
+                              onSelected: () {
+                                log('Not Interested selected');
+                              },
+                            ),
+                          ],
+                        ),
                   ],
                 ),
               ],
-            )
-
+            ),
           ),
+          // Description
           Padding(
-            padding: const EdgeInsets.only(left: 8, right: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Text(
               description,
               style: h6,
             ),
           ),
-          // Media Section (Images and Videos)
-          if (images.isNotEmpty || videos.isNotEmpty)
+          // Media Section
+          if (images.isNotEmpty)
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: images.length + videos.length == 1
+              child: images.length == 1
                   ? ClipRRect(
                       borderRadius: BorderRadius.circular(8),
-                      child: images.isNotEmpty
-                          ? Image.network(
-                              images.first,
-                              fit: BoxFit.cover,
-                              width: double
-                                  .infinity, // Full width for single image
-                              height: 300,
-                            )
-                          : Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                Positioned(
-                                  child: Image.network(
-                                    videoThumbnails
-                                        .first, // Use videoThumbnails
-                                    fit: BoxFit.cover,
-                                    width: double.infinity,
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    print("Play video: ${videos.first}");
-                                  },
-                                  child: Icon(
-                                    Icons.play_circle_fill,
-                                    size: 50,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                Positioned(
-                                  right: 12,
-                                  top: 12,
-                                  child: IconButton(
-                                    onPressed: () {
-                                      log('sound Taped');
-                                    },
-                                    icon: Image.asset(
-                                      AppImages.mute,
-                                      scale: 4,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
+                      child: Image.network(
+                        images.first,
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                        height: 300,
+                      ),
                     )
                   : GridView.builder(
                       shrinkWrap: true,
@@ -185,65 +174,18 @@ class UserPostCard extends StatelessWidget {
                         crossAxisSpacing: 4,
                         mainAxisSpacing: 4,
                       ),
-                      itemCount: images.length + videos.length,
+                      itemCount: images.length,
                       itemBuilder: (context, index) {
-                        if (index < images.length) {
-                          // Render image
-                          return ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: Image.network(
-                              images[index],
-                              fit: BoxFit.cover,
-                            ),
-                          );
-                        } else {
-                          // Render video thumbnail
-                          final videoIndex = index - images.length;
-                          return ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                Positioned(
-                                  child: Image.network(
-                                    videoThumbnails[videoIndex],
-                                    // Use videoThumbnails
-                                    fit: BoxFit.cover,
-                                    width: Get.width,
-                                    height: Get.height,
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    print("Play video: ${videos[videoIndex]}");
-                                  },
-                                  child: Icon(
-                                    Icons.play_circle_fill,
-                                    size: 50,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                Positioned(
-                                  right: 12,
-                                  top: 12,
-                                  child: IconButton(
-                                    onPressed: () {
-                                      log('sound Taped');
-                                    },
-                                    icon: Image.asset(
-                                      AppImages.mute,
-                                      scale: 4,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        }
+                        return ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: Image.network(
+                            images[index],
+                            fit: BoxFit.cover,
+                          ),
+                        );
                       },
                     ),
             ),
-
           // Footer
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -261,12 +203,12 @@ class UserPostCard extends StatelessWidget {
                     scale: 4,
                   ),
                 ),
-                sw5,
+                const SizedBox(width: 5),
                 Text(
                   '$likeCount',
                   style: h6,
                 ),
-                sw8,
+                const SizedBox(width: 12),
                 GestureDetector(
                   onTap: () {
                     showStarBuyDialog(context);
@@ -276,15 +218,17 @@ class UserPostCard extends StatelessWidget {
                     scale: 4,
                   ),
                 ),
-                sw8,
+                const SizedBox(width: 12),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    _showShareModal(context);
+                  },
                   child: Image.asset(
                     AppImages.share,
                     scale: 4,
                   ),
                 ),
-                sw8,
+                const SizedBox(width: 12),
                 GestureDetector(
                   onTap: () {},
                   child: Image.asset(
@@ -331,7 +275,7 @@ class UserPostCard extends StatelessWidget {
                     AppImages.starImage,
                     scale: 4,
                   ),
-                  sh8,
+                  const SizedBox(height: 8),
                   CustomButton(
                     onPressed: () {
                       Get.to(() => BuyStarView());
@@ -342,9 +286,9 @@ class UserPostCard extends StatelessWidget {
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  sh8,
+                  const SizedBox(height: 8),
                   Text('OR', style: h3),
-                  sh8,
+                  const SizedBox(height: 8),
                   CustomButton(
                     onPressed: () {
                       Get.to(() => SendStarsView());
@@ -357,6 +301,128 @@ class UserPostCard extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+
+  final String shareLink = 'https://example.com/share_link';
+  void _showShareModal(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Share this link via',
+                textAlign: TextAlign.center,
+                style: h3.copyWith(fontSize: 20),
+              ),
+              sh16,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  _buildShareButton(
+                    image: AppImages.facebook,
+                    color: Colors.blue,
+                    onTap: () => Share.share(
+                      'Check out this post: $shareLink',
+                      subject: 'Post Link',
+                    ),
+                  ),
+                  _buildShareButton(
+                    image: AppImages.messenger,
+                    color: Colors.blueAccent,
+                    onTap: () => Share.share(
+                      'Check out this post: $shareLink',
+                      subject: 'Post Link',
+                    ),
+                  ),
+                  _buildShareButton(
+                    image: AppImages.instagram,
+                    color: Colors.pink,
+                    onTap: () => Share.share(
+                      'Check out this post: $shareLink',
+                      subject: 'Post Link',
+                    ),
+                  ),
+                  _buildShareButton(
+                    image: AppImages.whatsApp,
+                    color: Colors.green,
+                    onTap: () => Share.share(
+                      'Check out this post: $shareLink',
+                      subject: 'Post Link',
+                    ),
+                  ),
+                  _buildShareButton(
+                    image: AppImages.telegram,
+                    color: Colors.lightBlue,
+                    onTap: () => Share.share(
+                      'Check out this post: $shareLink',
+                      subject: 'Post Link',
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 16),
+              Text(
+                'Or Copy Link',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              SizedBox(height: 8),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(8),
+                  color: Colors.grey[200],
+                ),
+                child: Row(
+                  children: [
+                    Text(
+                      shareLink,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Spacer(),
+                    CustomButton(
+                      width: 80,
+                      height: 35,
+                      onPressed: () {
+                        Clipboard.setData(ClipboardData(text: shareLink));
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Link copied to clipboard')),
+                        );
+                      },
+                      text: 'Copy',
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildShareButton({required String image, required Color color, required VoidCallback onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: CircleAvatar(
+        backgroundColor: color.withOpacity(0.2),
+        radius: 24,
+        child: Image.asset(image,scale: 4,),
+      ),
     );
   }
 }

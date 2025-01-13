@@ -17,6 +17,7 @@ class AddStoryView extends GetView<AddStoryController> {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(AddStoryController());
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       appBar: AppBar(

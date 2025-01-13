@@ -2,11 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:tails_date/common/size_box/custom_sizebox.dart';
 
 import '../../../../../../common/app_color/app_colors.dart';
 import '../../../../../../common/app_text_style/styles.dart';
+import '../../../../add_story/views/add_story_view.dart';
 
 class AddStoryAvatar extends StatefulWidget {
   const AddStoryAvatar({super.key});
@@ -35,7 +35,10 @@ class _AddStoryAvatarState extends State<AddStoryAvatar> {
               bottom: 0,
               right: 0,
               child: GestureDetector(
-                onTap: _pickMedia,
+                onTap: () {
+                  // Navigate to AddStoryView
+                  Get.to(() => const AddStoryView());
+                },
                 child: CircleAvatar(
                   radius: Get.width * 0.03,
                   backgroundColor: AppColors.black,
@@ -58,13 +61,13 @@ class _AddStoryAvatarState extends State<AddStoryAvatar> {
     );
   }
 
-  Future<void> _pickMedia() async {
-    final ImagePicker picker = ImagePicker();
-    final XFile? media = await picker.pickImage(source: ImageSource.gallery);
-    if (media != null) {
-      setState(() {
-        _selectedMediaPath = media.path;
-      });
-    }
-  }
+  // Future<void> _pickMedia() async {
+  //   final ImagePicker picker = ImagePicker();
+  //   final XFile? media = await picker.pickImage(source: ImageSource.gallery);
+  //   if (media != null) {
+  //     setState(() {
+  //       _selectedMediaPath = media.path;
+  //     });
+  //   }
+  // }
 }

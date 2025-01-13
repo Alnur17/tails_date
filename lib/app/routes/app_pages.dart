@@ -117,7 +117,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.UPLOAD_POST,
-      page: () => const UploadPostView(),
+      page: () =>  UploadPostView(),
       binding: UploadPostBinding(),
     ),
     GetPage(

@@ -36,47 +36,49 @@ class ReportView extends GetView {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Why are you reporting this post?',
-              style: h3,
-            ),
-            sh20,
-            CustomCheckboxRow(
-              value: false,
-              text: 'Bullying, harassment or abuse',
-              onChanged: (value) {},
-            ),
-            sh16,
-            CustomCheckboxRow(
-              value: false,
-              text: 'Violent, hateful or disturbing content',
-              onChanged: (value) {},
-            ),
-            sh16,
-            CustomCheckboxRow(
-              value: false,
-              text: 'Block this user',
-              onChanged: (value) {},
-            ),
-            sh16,
-            CustomCheckboxRow(
-              value: false,
-              text: 'Others Reason',
-              onChanged: (value) {},
-            ),
-            sh30,
-            CustomTextField(
-              height: 250,
-              hintText: 'Write Something here......',
-            ),
-            sh24,
-            CustomButton(text: 'Submit', onPressed: () {
-              _showThankYouPopup(context);
-            }),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Why are you reporting this post?',
+                style: h3,
+              ),
+              sh20,
+              CustomCheckboxRow(
+                value: false,
+                text: 'Bullying, harassment or abuse',
+                onChanged: (value) {},
+              ),
+              sh16,
+              CustomCheckboxRow(
+                value: false,
+                text: 'Violent, hateful or disturbing content',
+                onChanged: (value) {},
+              ),
+              sh16,
+              CustomCheckboxRow(
+                value: false,
+                text: 'Block this user',
+                onChanged: (value) {},
+              ),
+              sh16,
+              CustomCheckboxRow(
+                value: false,
+                text: 'Others Reason',
+                onChanged: (value) {},
+              ),
+              sh30,
+              CustomTextField(
+                height: 250,
+                hintText: 'Write Something here......',
+              ),
+              sh24,
+              CustomButton(text: 'Submit', onPressed: () {
+                _showThankYouPopup(context);
+              }),
+            ],
+          ),
         ),
       ),
     );
