@@ -43,7 +43,7 @@ class CustomTextField extends StatelessWidget {
         keyboardType: TextInputType.multiline,
         decoration: InputDecoration(
           hintText: hintText ?? '',
-          hintStyle: hintTextStyle ?? h6.copyWith(color: AppColors.grey),
+          hintStyle: hintTextStyle ?? h4.copyWith(color: AppColors.grey),
           contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           prefixIcon: preIcon,
           suffixIcon: sufIcon,

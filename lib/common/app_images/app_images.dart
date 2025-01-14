@@ -19,7 +19,7 @@ class AppImages {
   static const chatFilled = "assets/icons/chat filled.png";
   static const notificationTwo = "assets/icons/notification 2.png";
   static const notification = "assets/icons/notification.png";
-  static const notificationFilled = "assets/icons/notification filled.png";
+  static const profileFilled = "assets/icons/profile filled.png";
   static const profile = "assets/icons/profile.png";
   static const search = "assets/icons/search.png";
   static const searchTwo = "assets/icons/search 2.png";

@@ -33,124 +33,126 @@ class CashOutYourStarsView extends GetView {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Turn your stars into cash. Each star equals \$0.01.',
-                style: h3),
-            sh8,
-            Container(
-              padding: const EdgeInsets.all(16.0),
-              decoration: BoxDecoration(
-                border: Border.all(color: AppColors.black),
-                borderRadius: BorderRadius.circular(16),
-                color: AppColors.white,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Turn your stars into cash. Each star equals \$0.01.',
+                  style: h3),
+              sh8,
+              Container(
+                padding: const EdgeInsets.all(16.0),
+                decoration: BoxDecoration(
+                  border: Border.all(color: AppColors.black),
+                  borderRadius: BorderRadius.circular(16),
+                  color: AppColors.white,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Your Star Balance',
+                      style:
+                          h4.copyWith(fontSize: 18, color: AppColors.brownColor),
+                    ),
+                    sh8,
+                    Row(
+                      children: [
+                        Text('🌟'),
+                        sw8,
+                        Text(
+                          '500 Stars Remaining',
+                          style: h2,
+                        ),
+                      ],
+                    ),
+                    sh8,
+                    Text(
+                      'which equals \$5.00',
+                      style: h4,
+                    ),
+                  ],
+                ),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              sh16,
+              Text('Cash Out Details', style: h2),
+              sh8,
+              Text('Enter cash out amount:', style: h4),
+              sh8,
+              CustomTextField(
+                hintText: '\$0.00',
+              ),
+              sh8,
+              Text(
+                'Guidelines',
+                style: h6,
+              ),
+              sh8,
+              Row(
                 children: [
-                  Text(
-                    'Your Star Balance',
-                    style:
-                        h4.copyWith(fontSize: 18, color: AppColors.brownColor),
+                  Container(
+                    height: 5,
+                    width: 5,
+                    decoration: ShapeDecoration(
+                      shape: CircleBorder(),
+                      color: AppColors.black,
+                    ),
                   ),
-                  sh8,
-                  Row(
-                    children: [
-                      Text('🌟'),
-                      sw8,
-                      Text(
-                        '500 Stars Remaining',
-                        style: h2,
-                      ),
-                    ],
-                  ),
-                  sh8,
+                  sw12,
                   Text(
-                    'which equals \$5.00',
-                    style: h4,
+                    'Each star is worth \$0.01.',
+                    style: h6,
+                  )
+                ],
+              ),
+              Row(
+                children: [
+                  Container(
+                    height: 5,
+                    width: 5,
+                    decoration: ShapeDecoration(
+                      shape: CircleBorder(),
+                      color: AppColors.black,
+                    ),
+                  ),
+                  sw12,
+                  Text(
+                    'CashOuts are available on the 1st of each month.',
+                    style: h6,
                   ),
                 ],
               ),
-            ),
-            sh16,
-            Text('Cash Out Details', style: h2),
-            sh8,
-            Text('Enter cash out amount:', style: h4),
-            sh8,
-            CustomTextField(
-              hintText: '\$0.00',
-            ),
-            sh8,
-            Text(
-              'Guidelines',
-              style: h6,
-            ),
-            sh8,
-            Row(
-              children: [
-                Container(
-                  height: 5,
-                  width: 5,
-                  decoration: ShapeDecoration(
-                    shape: CircleBorder(),
-                    color: AppColors.black,
+              Row(
+                children: [
+                  Container(
+                    height: 5,
+                    width: 5,
+                    decoration: ShapeDecoration(
+                      shape: CircleBorder(),
+                      color: AppColors.black,
+                    ),
                   ),
-                ),
-                sw12,
-                Text(
-                  'Each star is worth \$0.01.',
-                  style: h6,
-                )
-              ],
-            ),
-            Row(
-              children: [
-                Container(
-                  height: 5,
-                  width: 5,
-                  decoration: ShapeDecoration(
-                    shape: CircleBorder(),
-                    color: AppColors.black,
+                  sw12,
+                  Text(
+                    'The cashOut amount will be less than what you spent on points.',
+                    style: h6,
                   ),
-                ),
-                sw12,
-                Text(
-                  'CashOuts are available on the 1st of each month.',
-                  style: h6,
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Container(
-                  height: 5,
-                  width: 5,
-                  decoration: ShapeDecoration(
-                    shape: CircleBorder(),
-                    color: AppColors.black,
-                  ),
-                ),
-                sw12,
-                Text(
-                  'The cashOut amount will be less than what you spent on points.',
-                  style: h6,
-                ),
-              ],
-            ),
-            sh24,
-            CustomButton(
-              text: 'Submit CashOut Request',
-              onPressed: () {
-                showSubmitRequestDialog(context);
-              },
-            ),
-            sh24,
-            Text('Pending CashOut', style: h2),
-            sh8,
-            Text('No pending requests at the moment.', style: h4),
-            sh16,
-          ],
+                ],
+              ),
+              sh24,
+              CustomButton(
+                text: 'Submit CashOut Request',
+                onPressed: () {
+                  showSubmitRequestDialog(context);
+                },
+              ),
+              sh24,
+              Text('Pending CashOut', style: h2),
+              sh8,
+              Text('No pending requests at the moment.', style: h4),
+              sh16,
+            ],
+          ),
         ),
       ),
     );
@@ -168,7 +170,7 @@ class CashOutYourStarsView extends GetView {
           Padding(
             padding: const EdgeInsets.only(left: 16, right: 16),
             child: Text(
-              "AYou've requested to cash out \$5.00. Processing will occur on the 1st of the month.",
+              "You've requested to cash out \$5.00. Processing will occur on the 1st of the month.",
               style: h4.copyWith(
                 fontSize: 18,
               ),

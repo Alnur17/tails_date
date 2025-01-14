@@ -1,18 +1,21 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:video_player/video_player.dart';
 import 'package:image_picker/image_picker.dart';
 
 class UploadPostController extends GetxController {
   final selectedImages = <File>[].obs; // For storing selected images (posts)
   final selectedVideo = Rx<File?>(null); // For storing the selected video (reels)
+  final isVideoInitialized = false.obs; // Tracks video initialization status
+  VideoPlayerController? videoPlayerController; // For video preview
   final postContentController = TextEditingController(); // For description input
   final isCreatingReel = false.obs; // Reactive variable to toggle between posts and reels
 
   @override
   void onClose() {
-    // Dispose of the TextEditingController to avoid memory leaks
     postContentController.dispose();
+    videoPlayerController?.dispose();
     super.onClose();
   }
 
@@ -23,6 +26,9 @@ class UploadPostController extends GetxController {
     // Clear data when switching modes
     selectedImages.clear();
     selectedVideo.value = null;
+    isVideoInitialized.value = false;
+    videoPlayerController?.dispose();
+    videoPlayerController = null;
     postContentController.clear();
   }
 
@@ -50,6 +56,19 @@ class UploadPostController extends GetxController {
       );
       if (pickedVideo != null) {
         selectedVideo.value = File(pickedVideo.path);
+        isVideoInitialized.value = false;
+
+        // Dispose the previous controller
+        videoPlayerController?.dispose();
+
+        // Initialize the video player controller
+        videoPlayerController = VideoPlayerController.file(File(pickedVideo.path))
+          ..initialize().then((_) {
+            videoPlayerController!.pause(); // Pause to display the first frame
+            isVideoInitialized.value = true; // Notify that the video is ready
+          }).catchError((e) {
+            Get.snackbar('Error', 'Failed to initialize video: $e');
+          });
       } else {
         Get.snackbar('No Video Selected', 'Please select a video.');
       }
@@ -69,11 +88,10 @@ class UploadPostController extends GetxController {
 
   // Remove video (for reels)
   void removeVideo() {
-    if (selectedVideo.value != null) {
-      selectedVideo.value = null;
-    } else {
-      Get.snackbar('Error', 'No video to remove.');
-    }
+    selectedVideo.value = null;
+    isVideoInitialized.value = false;
+    videoPlayerController?.dispose();
+    videoPlayerController = null;
   }
 
   // Validate input before posting
@@ -113,6 +131,9 @@ class UploadPostController extends GetxController {
     postContentController.clear();
     selectedImages.clear();
     selectedVideo.value = null;
+    isVideoInitialized.value = false;
+    videoPlayerController?.dispose();
+    videoPlayerController = null;
     Get.snackbar('Success', 'Your post has been uploaded!');
   }
 }

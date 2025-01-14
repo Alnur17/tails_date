@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tails_date/app/modules/chats/views/chats_view.dart';
 import 'package:tails_date/app/modules/home/views/home_view.dart';
-import 'package:tails_date/app/modules/notifications/views/notifications_view.dart';
+import 'package:tails_date/app/modules/profile/views/profile_view.dart';
 import 'package:tails_date/app/modules/reels/views/reels_view.dart';
 import 'package:tails_date/common/app_images/app_images.dart';
 import '../../../../common/app_color/app_colors.dart';
@@ -23,8 +23,8 @@ class _DashboardViewState extends State<DashboardView> {
   final List<Widget> _screens = [
     const HomeView(),
     const ReelsView(),
-     ChatsView(),
-    const NotificationsView(),
+    ChatsView(),
+    const ProfileView(),
   ];
 
   void _changeTabIndex(int index) {
@@ -44,52 +44,55 @@ class _DashboardViewState extends State<DashboardView> {
             padding: EdgeInsets.zero,
             height: 80,
             color: AppColors.black,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                GestureDetector(
-                  onTap: () => _changeTabIndex(0),
-                  child: NavBarItem(
-                    selectedIcon: AppImages.homeFilled,
-                    unselectedIcon: AppImages.home,
-                    label: "Home",
-                    isSelected: _selectedIndex == 0,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  GestureDetector(
+                    onTap: () => _changeTabIndex(0),
+                    child: NavBarItem(
+                      selectedIcon: AppImages.homeFilled,
+                      unselectedIcon: AppImages.home,
+                      label: "Home",
+                      isSelected: _selectedIndex == 0,
+                    ),
                   ),
-                ),
-                GestureDetector(
-                  onTap: () => _changeTabIndex(1),
-                  child: NavBarItem(
-                    selectedIcon: AppImages.reelsFilled,
-                    unselectedIcon: AppImages.reels,
-                    label: "Reels",
-                    isSelected: _selectedIndex == 1,
+                  GestureDetector(
+                    onTap: () => _changeTabIndex(1),
+                    child: NavBarItem(
+                      selectedIcon: AppImages.reelsFilled,
+                      unselectedIcon: AppImages.reels,
+                      label: "Reels",
+                      isSelected: _selectedIndex == 1,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 60,),
-                GestureDetector(
-                  onTap: () => _changeTabIndex(2),
-                  child: NavBarItem(
-                    selectedIcon: AppImages.chatFilled,
-                    unselectedIcon: AppImages.chat,
-                    label: "Chat",
-                    isSelected: _selectedIndex == 2,
+                  SizedBox(width: Get.width * 0.10),
+                  GestureDetector(
+                    onTap: () => _changeTabIndex(2),
+                    child: NavBarItem(
+                      selectedIcon: AppImages.chatFilled,
+                      unselectedIcon: AppImages.chat,
+                      label: "Chat",
+                      isSelected: _selectedIndex == 2,
+                    ),
                   ),
-                ),
-                GestureDetector(
-                  onTap: () => _changeTabIndex(3),
-                  child: NavBarItem(
-                    selectedIcon: AppImages.notificationFilled,
-                    unselectedIcon: AppImages.notification,
-                    label: "Notification",
-                    isSelected: _selectedIndex == 3,
+                  GestureDetector(
+                    onTap: () => _changeTabIndex(3),
+                    child: NavBarItem(
+                      selectedIcon: AppImages.profileFilled,
+                      unselectedIcon: AppImages.profile,
+                      label: "Profile",
+                      isSelected: _selectedIndex == 3,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           Positioned(
             bottom: 35,
-            left: MediaQuery.of(context).size.width * 0.39,
+            left: Get.width * 0.42,
             child: Container(
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
@@ -101,7 +104,7 @@ class _DashboardViewState extends State<DashboardView> {
                 child: FloatingActionButton(
                   backgroundColor: AppColors.white,
                   onPressed: () {
-                    Get.to(()=> UploadPostView());
+                    Get.to(() => UploadPostView());
                   },
                   shape: const CircleBorder(),
                   child: Icon(

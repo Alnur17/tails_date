@@ -20,9 +20,19 @@ class EditProfileView extends GetView {
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       appBar: AppBar(
+        scrolledUnderElevation: 0,
         backgroundColor: AppColors.mainColor,
-        automaticallyImplyLeading: false,
-        toolbarHeight: 16,
+        title: const Text('Edit Profile'),
+        centerTitle: true,
+        leading: GestureDetector(
+          onTap: () {
+            Get.back();
+          },
+          child: Image.asset(
+            AppImages.back,
+            scale: 4,
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -46,26 +56,7 @@ class EditProfileView extends GetView {
                     ),
                   ),
                   Positioned(
-                    left: 12,
-                    top: 12,
-                    child: GestureDetector(
-                      onTap: () {
-                        Get.back();
-                      },
-                      child: Container(
-                        height: 30,
-                        decoration: ShapeDecoration(
-                            shape: CircleBorder(), color: AppColors.black),
-                        child: Image.asset(
-                          AppImages.back,
-                          scale: 4,
-                          color: AppColors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    top: 12,
+                    bottom: 12,
                     right: 12,
                     child: GestureDetector(
                       onTap: () {},
@@ -83,32 +74,33 @@ class EditProfileView extends GetView {
                   ),
                   Positioned(
                     bottom: -50,
-                    left: MediaQuery.of(context).size.width / 2 - 66,
+                    left: 16,
+                    //left: MediaQuery.of(context).size.width / 2 - 66,
                     child: CircleAvatar(
-                      radius: 50,
-                      backgroundImage: NetworkImage(AppImages.profileImage),
-                      child: Align(
-                        alignment: Alignment.topRight,
-                        child: CircleAvatar(
-                          radius: 15,
-                          backgroundColor: AppColors.black,
-                          child: GestureDetector(
-                            onTap: () {
-                              log('sdsajkdkjsha');
-                            },
-                            child: Icon(Icons.add, color: AppColors.white),
+                        radius: 50,
+                        backgroundImage: NetworkImage(AppImages.profileImage),
+                        child: Align(
+                          alignment: Alignment.topRight,
+                          child: CircleAvatar(
+                            radius: 15,
+                            backgroundColor: AppColors.black,
+                            child: GestureDetector(
+                              onTap: () {
+                                log('Add icon tapped');
+                              },
+                              child: Icon(Icons.add, color: AppColors.white),
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
+                        )),
                   ),
                 ],
               ),
               sh60,
               // Profile info
-              Center(
+              Padding(
+                padding: const EdgeInsets.only(left: 20),
                 child: Text(
-                  'Remove image',
+                  'Remove Image',
                   style: h5,
                 ),
               ),
@@ -162,7 +154,13 @@ class EditProfileView extends GetView {
               ),
               sh8,
               CustomDropdown(
-                items: ['Cat', 'Dog','Bird','Exotic Animal','Farm Animal',],
+                items: [
+                  'Cat',
+                  'Dog',
+                  'Bird',
+                  'Exotic Animal',
+                  'Farm Animal',
+                ],
                 hintText: 'Select your pet category',
                 onChanged: (value) {
                   log('Selected value: $value');

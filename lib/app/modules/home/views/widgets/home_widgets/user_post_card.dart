@@ -163,6 +163,7 @@ class UserPostCard extends StatelessWidget {
                         fit: BoxFit.cover,
                         width: double.infinity,
                         height: 300,
+                        scale: 4,
                       ),
                     )
                   : GridView.builder(
@@ -208,7 +209,7 @@ class UserPostCard extends StatelessWidget {
                   '$likeCount',
                   style: h6,
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: 16),
                 GestureDetector(
                   onTap: () {
                     showStarBuyDialog(context);
@@ -218,7 +219,7 @@ class UserPostCard extends StatelessWidget {
                     scale: 4,
                   ),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: 16),
                 GestureDetector(
                   onTap: () {
                     _showShareModal(context);
@@ -228,7 +229,7 @@ class UserPostCard extends StatelessWidget {
                     scale: 4,
                   ),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: 16),
                 GestureDetector(
                   onTap: () {},
                   child: Image.asset(

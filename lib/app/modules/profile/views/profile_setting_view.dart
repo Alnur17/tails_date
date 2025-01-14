@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -22,6 +21,7 @@ class ProfileSettingView extends GetView {
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       appBar: AppBar(
+        scrolledUnderElevation: 0,
         backgroundColor: AppColors.mainColor,
         title: const Text('Profile Setting'),
         centerTitle: true,
@@ -58,77 +58,113 @@ class ProfileSettingView extends GetView {
           sh16,
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              children: [
-                CustomContainer(
-                  text: 'Change Password',
-                  imagePath: AppImages.unLock,
-                  onTap: () {
-                    Get.to(() => ChangePasswordView());
-                  },
-                ),
-                sh16,
-                CustomContainer(
-                  onTap: () {
-                    Get.to(() => PrivacyPolicyView());
-                  },
-                  text: 'Privacy Policy',
-                  imagePath: AppImages.adminSettings,
-                ),
-                sh16,
-                CustomContainer(
-                  onTap: () {
-                    Get.to(() => TermsOfServicesView());
-                  },
-                  text: 'Terms of Services',
-                  imagePath: AppImages.adminSettings,
-                ),
-                sh16,
-                CustomContainer(
-                  onTap: () {
-                    Get.to(() => SubscriptionPlanView());
-                  },
-                  text: 'Payment System',
-                  imagePath: AppImages.payment,
-                ),
-                sh16,
-                CustomContainer(
-                  onTap: () {
-                    Get.to(() => StarBalanceView());
-                  },
-                  text: 'Star Balance',
-                  imagePath: AppImages.star,
-                ),
-                sh16,
-                CustomContainer(
-                  onTap: () {},
-                  text: 'App Language',
-                  imagePath: AppImages.language,
-                ),
-                sh16,
-                CustomContainer(
-                  onTap: () {
-                    showDeleteAccountDialog(context);
-                  },
-                  text: 'Delete Account',
-                  imagePath: AppImages.accountDelete,
-                ),
-                sh16,
-                CustomContainer(
-                  onTap: () {},
-                  text: 'Log out',
-                  textStyle: h3.copyWith(
-                    color: AppColors.red,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  CustomContainer(
+                    text: 'Change Password',
+                    imagePath: AppImages.unLock,
+                    onTap: () {
+                      Get.to(() => ChangePasswordView());
+                    },
                   ),
-                  imagePath: AppImages.logoutTwo,
-                ),
-              ],
+                  sh16,
+                  CustomContainer(
+                    onTap: () {
+                      Get.to(() => PrivacyPolicyView());
+                    },
+                    text: 'Privacy Policy',
+                    imagePath: AppImages.adminSettings,
+                  ),
+                  sh16,
+                  CustomContainer(
+                    onTap: () {
+                      Get.to(() => TermsOfServicesView());
+                    },
+                    text: 'Terms of Services',
+                    imagePath: AppImages.adminSettings,
+                  ),
+                  sh16,
+                  CustomContainer(
+                    onTap: () {
+                      Get.to(() => SubscriptionPlanView());
+                    },
+                    text: 'Payment System',
+                    imagePath: AppImages.payment,
+                  ),
+                  sh16,
+                  CustomContainer(
+                    onTap: () {
+                      Get.to(() => StarBalanceView());
+                    },
+                    text: 'Star Balance',
+                    imagePath: AppImages.star,
+                  ),
+                  sh16,
+                  CustomContainer(
+                    onTap: () {
+                      //Get.to(() => StarBalanceView());
+                    },
+                    text: 'Collections',
+                    imagePath: AppImages.bookmark,
+                  ),
+                  sh16,
+                  Container(
+                    padding: EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        color: AppColors.white),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('App Language', style: h3),
+                            Image.asset(AppImages.language, scale: 4),
+                          ],
+                        ),
+                        sh8,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Image.asset(AppImages.checkBoxFilled, scale: 4),
+                            sw12,
+                            Text('English', style: h4),
+                            sw16,
+                            Image.asset(AppImages.checkBox, scale: 4),
+                            sw12,
+                            Text('Spanish', style: h4),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  sh16,
+                  CustomContainer(
+                    onTap: () {
+                      showDeleteAccountDialog(context);
+                    },
+                    text: 'Delete Account',
+                    imagePath: AppImages.accountDelete,
+                  ),
+                  sh16,
+                  CustomContainer(
+                    onTap: () {},
+                    text: 'Log out',
+                    textStyle: h3.copyWith(
+                      color: AppColors.red,
+                    ),
+                    imagePath: AppImages.logoutTwo,
+                  ),
+                ],
+              ),
             ),
           ),
         ],
       ),
     );
   }
+
   Future showDeleteAccountDialog(BuildContext context) {
     return Get.defaultDialog(
       title: "Delete Your Account",
@@ -158,7 +194,7 @@ class ProfileSettingView extends GetView {
                   backgroundColor: AppColors.white,
                   side: BorderSide(color: AppColors.red),
                   padding:
-                  const EdgeInsets.symmetric(horizontal: 45, vertical: 10),
+                      const EdgeInsets.symmetric(horizontal: 45, vertical: 10),
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.vertical(
                       top: Radius.circular(4),

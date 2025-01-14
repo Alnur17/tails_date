@@ -8,7 +8,7 @@ import 'package:tails_date/app/modules/home/views/search_view.dart';
 import 'package:tails_date/app/modules/home/views/widgets/category_widgets/category_widget.dart';
 import 'package:tails_date/app/modules/home/views/widgets/home_widgets/stories_section.dart';
 import 'package:tails_date/app/modules/home/views/widgets/home_widgets/user_post_card.dart';
-import 'package:tails_date/app/modules/profile/views/profile_view.dart';
+import 'package:tails_date/app/modules/notifications/views/notifications_view.dart';
 import 'package:tails_date/common/app_color/app_colors.dart';
 import 'package:tails_date/common/app_images/app_images.dart';
 import 'package:tails_date/common/app_text_style/styles.dart';
@@ -38,16 +38,17 @@ class HomeView extends GetView<HomeController> {
             child: Image.asset(
               AppImages.search,
               scale: 4,
+
             ),
           ),
           GestureDetector(
             onTap: () {
-              Get.to(() => ProfileView());
+              Get.to(() => NotificationsView());
             },
             child: Padding(
               padding: const EdgeInsets.only(left: 24, right: 16),
               child: Image.asset(
-                AppImages.profile,
+                AppImages.notification,
                 scale: 4,
               ),
             ),

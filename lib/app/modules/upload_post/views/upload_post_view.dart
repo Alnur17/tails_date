@@ -5,13 +5,15 @@ import 'package:tails_date/common/app_images/app_images.dart';
 import 'package:tails_date/common/app_text_style/styles.dart';
 import 'package:tails_date/common/widgets/custom_button.dart';
 import 'package:tails_date/common/widgets/custom_textfield.dart';
-
+import 'package:video_player/video_player.dart';
 import '../../../../common/size_box/custom_sizebox.dart';
 import '../../../../common/widgets/custom_dropdown.dart';
 import '../controllers/upload_post_controller.dart';
 
 class UploadPostView extends StatelessWidget {
   final controller = Get.put(UploadPostController());
+
+  UploadPostView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -75,22 +77,17 @@ class UploadPostView extends StatelessWidget {
               sh16,
               Obx(() {
                 if (!controller.isCreatingReel.value) {
-                  // Post Creation UI
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Category Field
                       Text('Category', style: h3),
                       sh8,
                       CustomDropdown(
-                        items: ['Option 1', 'Option 2', 'Option 3', 'Option 4'],
+                        items: ['Option 1', 'Option 2', 'Option 3'],
                         hintText: 'Select an option',
-                        onChanged: (value) {
-                          print('Selected value: $value');
-                        },
+                        onChanged: (value) {},
                       ),
                       sh16,
-                      // Location Field
                       Text('Add Location', style: h3),
                       sh8,
                       CustomTextField(
@@ -98,7 +95,6 @@ class UploadPostView extends StatelessWidget {
                         borderColor: AppColors.black,
                       ),
                       sh16,
-                      // Image Picker
                       Container(
                         height: 300,
                         width: double.infinity,
@@ -107,67 +103,81 @@ class UploadPostView extends StatelessWidget {
                           color: AppColors.white,
                           border: Border.all(color: AppColors.black),
                         ),
-                        child: controller.selectedImages.isEmpty
-                            ? GestureDetector(
-                          onTap: controller.pickImages,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                AppImages.upload,
-                                scale: 4,
+                        child: Obx(() {
+                          if (controller.selectedImages.isEmpty) {
+                            return GestureDetector(
+                              onTap: controller.pickImages,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset(AppImages.upload, scale: 4),
+                                  sw8,
+                                  Text('Click here to select photos',
+                                      style: h4),
+                                ],
                               ),
-                              sw8,
-                              Text('Click here to select photos',
-                                  style: h4),
-                            ],
-                          ),
-                        )
-                            : GridView.builder(
-                          padding: const EdgeInsets.all(8),
-                          gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            childAspectRatio: 0.9,
-                            mainAxisSpacing: 8,
-                            crossAxisSpacing: 8,
-                          ),
-                          itemCount: controller.selectedImages.length,
-                          itemBuilder: (context, index) {
-                            return Stack(
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(12),
-                                  child: Image.file(
-                                    controller.selectedImages[index],
-                                    fit: BoxFit.cover,
-                                    width: double.infinity,
-                                    height: double.infinity,
-                                  ),
-                                ),
-                                Positioned(
-                                  top: 4,
-                                  right: 4,
-                                  child: GestureDetector(
-                                    onTap: () =>
-                                        controller.removeImage(index),
-                                    child: CircleAvatar(
-                                      radius: 15,
-                                      backgroundColor:
-                                      Colors.black.withOpacity(0.7),
-                                      child: Icon(
-                                        Icons.close,
-                                        color: Colors.white,
-                                        size: 16,
+                            );
+                          } else {
+                            return GridView.builder(
+                              padding: const EdgeInsets.all(8),
+                              gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                mainAxisSpacing: 8,
+                                crossAxisSpacing: 8,
+                              ),
+                              itemCount: controller.selectedImages.length,
+                              itemBuilder: (context, index) {
+                                return Stack(
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(12),
+                                      child: Image.file(
+                                        controller.selectedImages[index],
+                                        fit: BoxFit.cover,
+                                        width: double.infinity,
+                                        height: double.infinity,
                                       ),
                                     ),
-                                  ),
-                                ),
-                              ],
+                                    Positioned(
+                                      top: 4,
+                                      right: 4,
+                                      child: GestureDetector(
+                                        onTap: () =>
+                                            controller.removeImage(index),
+                                        child: CircleAvatar(
+                                          radius: 15,
+                                          backgroundColor: Colors.black
+                                              .withOpacity(0.7),
+                                          child: Icon(
+                                            Icons.close,
+                                            color: Colors.white,
+                                            size: 16,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
                             );
-                          },
-                        ),
+                          }
+                        }),
                       ),
+                      sh16,
+                      Obx(() {
+                        if (controller.selectedImages.isNotEmpty &&
+                            controller.selectedImages.length < 5) {
+                          return GestureDetector(
+                            onTap: controller.pickImages,
+                            child: Text(
+                              '+ Add More',
+                              style: h3.copyWith(color: AppColors.blue),
+                            ),
+                          );
+                        }
+                        return SizedBox.shrink();
+                      }),
                       sh16,
                       Text('Write a description for the post', style: h3),
                       sh8,
@@ -180,64 +190,67 @@ class UploadPostView extends StatelessWidget {
                     ],
                   );
                 } else {
-                  // Reel Creation UI
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        height: 300,
+                        height: 250,
                         width: double.infinity,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
                           color: AppColors.white,
                           border: Border.all(color: AppColors.black),
                         ),
-                        child: controller.selectedVideo.value == null
-                            ? GestureDetector(
-                          onTap: controller.pickVideo,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                AppImages.upload,
-                                scale: 4,
+                        child: Obx(() {
+                          if (controller.selectedVideo.value == null) {
+                            return GestureDetector(
+                              onTap: controller.pickVideo,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset(AppImages.upload, scale: 4),
+                                  sw8,
+                                  Text('Click here to select a video',
+                                      style: h4),
+                                ],
                               ),
-                              sw8,
-                              Text('Click here to select a video',
-                                  style: h4),
-                            ],
-                          ),
-                        )
-                            : Stack(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(12),
-                              child: Image.asset(
-                                AppImages.placeHolderImage,
-                                fit: BoxFit.cover,
-                                width: double.infinity,
-                                height: double.infinity,
-                              ),
-                            ),
-                            Positioned(
-                              top: 8,
-                              right: 8,
-                              child: GestureDetector(
-                                onTap: controller.removeVideo,
-                                child: CircleAvatar(
-                                  radius: 15,
-                                  backgroundColor:
-                                  Colors.black.withOpacity(0.7),
-                                  child: Icon(
-                                    Icons.close,
-                                    color: Colors.white,
-                                    size: 16,
+                            );
+                          } else if (controller.isVideoInitialized.value) {
+                            return Stack(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: AspectRatio(
+                                    aspectRatio: controller
+                                        .videoPlayerController!.value.aspectRatio,
+                                    child: VideoPlayer(
+                                        controller.videoPlayerController!),
                                   ),
                                 ),
-                              ),
-                            ),
-                          ],
-                        ),
+                                Positioned(
+                                  top: 8,
+                                  right: 8,
+                                  child: GestureDetector(
+                                    onTap: controller.removeVideo,
+                                    child: CircleAvatar(
+                                      radius: 15,
+                                      backgroundColor:
+                                      Colors.black.withOpacity(0.7),
+                                      child: const Icon(
+                                        Icons.close,
+                                        color: Colors.white,
+                                        size: 16,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            );
+                          } else {
+                            return const Center(
+                                child: CircularProgressIndicator());
+                          }
+                        }),
                       ),
                       sh16,
                       Text('Write a description for the reel', style: h3),

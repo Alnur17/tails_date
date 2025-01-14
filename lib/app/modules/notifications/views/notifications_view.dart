@@ -37,14 +37,22 @@ class NotificationsView extends GetView<NotificationsController> {
         scrolledUnderElevation: 0,
         title: const Text('Notifications'),
         centerTitle: true,
-        automaticallyImplyLeading: false,
+        leading: GestureDetector(
+          onTap: () {
+            Get.back();
+          },
+          child: Image.asset(
+            AppImages.back,
+            scale: 4,
+          ),
+        ),
       ),
       body: Obx(
             () => Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              padding: const EdgeInsets.only(left: 16.0,right: 16,top: 12),
               child: Row(
                 children: [
                   Expanded(

@@ -34,16 +34,16 @@ class _ProfileViewState extends State<ProfileView> {
         scrolledUnderElevation: 0,
         backgroundColor: AppColors.mainColor,
         title: const Text('Profile'),
-        centerTitle: true,
-        leading: GestureDetector(
-          onTap: () {
-            Get.back();
-          },
-          child: Image.asset(
-            AppImages.back,
-            scale: 4,
-          ),
-        ),
+        automaticallyImplyLeading: false,
+        // leading: GestureDetector(
+        //   onTap: () {
+        //     Get.back();
+        //   },
+        //   child: Image.asset(
+        //     AppImages.back,
+        //     scale: 4,
+        //   ),
+        // ),
         actions: [
           GestureDetector(
             onTap: () {
