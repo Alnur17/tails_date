@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../../../../../../common/app_color/app_colors.dart';
 import '../../../../../../common/app_text_style/styles.dart';
+import '../../../../../../common/size_box/custom_sizebox.dart';
 import '../../story_view.dart';
 
 class StoryAvatar extends StatelessWidget {
@@ -31,7 +32,7 @@ class StoryAvatar extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(height: Get.width * 0.02),
+        sh8,
         Text(
           story['name']!,
           style: h7.copyWith(fontWeight: FontWeight.w700),

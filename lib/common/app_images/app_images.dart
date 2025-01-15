@@ -58,6 +58,7 @@ class AppImages {
   static const instagram = "assets/icons/instagram.png";
   static const whatsApp = "assets/icons/whats app.png";
   static const telegram = "assets/icons/telegram.png";
+  static const addMore = "assets/icons/add more.png";
 
 
   //================ Images ==================>

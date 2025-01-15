@@ -18,24 +18,31 @@ class _ReelsViewState extends State<ReelsView> {
   final List<Map<String, dynamic>> videoUrls = [
     {
       "title": "Sample Title 1",
+      "image": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D",
       "video":
-      "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4",
+          "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4",
+      "description":
+          "Descriptions should be display here.Descriptions should be display here.Descriptions should be display here.Descriptions should be display here.Descriptions should be display here.Descriptions should be display here.Descriptions should be display here.Descriptions should be display here.",
     },
     {
       "title": "Sample Title 2",
+      "image": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D",
       "video":
-      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+          "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+      "description": "Descriptions should be display here.",
     },
     {
       "title": "Sample Title 3",
+      "image": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D",
       "video":
-      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+          "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+      "description": "Descriptions should be display here.",
     },
   ];
 
   final List<VideoPlayerController> _controllers = [];
   late bool isMuted;
-  bool showControls = true; // Visibility state of the controls
+  bool showControls = true;
   Timer? _hideControlsTimer;
 
   @override
@@ -45,9 +52,9 @@ class _ReelsViewState extends State<ReelsView> {
     for (var item in videoUrls) {
       _controllers
           .add(VideoPlayerController.networkUrl(Uri.parse(item['video']))
-        ..initialize().then((_) {
-          setState(() {});
-        }));
+            ..initialize().then((_) {
+              setState(() {});
+            }));
     }
     _startHideControlsTimer(); // Start the timer to hide controls
   }
@@ -106,21 +113,21 @@ class _ReelsViewState extends State<ReelsView> {
                 Center(
                   child: controller.value.isInitialized
                       ? GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        if (controller.value.isPlaying) {
-                          controller.pause();
-                        } else {
-                          controller.play();
-                        }
-                      });
-                      _resetHideControlsTimer(); // Show controls on interaction
-                    },
-                    child: AspectRatio(
-                      aspectRatio: controller.value.aspectRatio,
-                      child: VideoPlayer(controller),
-                    ),
-                  )
+                          onTap: () {
+                            setState(() {
+                              if (controller.value.isPlaying) {
+                                controller.pause();
+                              } else {
+                                controller.play();
+                              }
+                            });
+                            _resetHideControlsTimer(); // Show controls on interaction
+                          },
+                          child: AspectRatio(
+                            aspectRatio: controller.value.aspectRatio,
+                            child: VideoPlayer(controller),
+                          ),
+                        )
                       : const CircularProgressIndicator(),
                 ),
                 // Center play/pause button
@@ -174,36 +181,77 @@ class _ReelsViewState extends State<ReelsView> {
                     ),
                   ),
                 // Video Title and Controls
+
                 Positioned(
-                  bottom: 50,
+                  bottom: 65,
                   left: 20,
-                  child: Text(
-                    videoData['title'],
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  child: Row(
+                    children: [
+                      CircleAvatar(
+                        backgroundImage: NetworkImage(videoData['image'],),
+                      ),
+                      sw12,
+                      Text(
+                        videoData['title'],
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 Positioned(
-                  bottom: 50,
+                  bottom: 30,
+                  left: 20,
+                  right: 65,
+                  child: Text(
+                    videoData['description'],
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                Positioned(
+                  bottom: 30,
                   right: 20,
                   child: Column(
                     children: [
-                      Image.asset(AppImages.heart,
-                          scale: 4, color: Colors.white),
+                      Image.asset(
+                        AppImages.heart,
+                        scale: 4,
+                        color: Colors.white,
+                      ),
                       sh8,
                       Text(
                         '15',
-                        style: h5.copyWith(color: AppColors.white),
+                        style: h5.copyWith(
+                          color: AppColors.white,
+                        ),
                       ),
                       sh16,
-                      Image.asset(AppImages.bookmark,
-                          scale: 4, color: Colors.white),
+                      Image.asset(
+                        AppImages.bookmark,
+                        scale: 4,
+                        color: Colors.white,
+                      ),
                       sh16,
-                      Image.asset(AppImages.share,
-                          scale: 4, color: Colors.white),
+                      Image.asset(
+                        AppImages.share,
+                        scale: 4,
+                        color: Colors.white,
+                      ),
+                      sh16,
+                      Image.asset(
+                        AppImages.threeDot,
+                        scale: 4,
+                        color: Colors.white,
+                      ),
                     ],
                   ),
                 ),
@@ -215,4 +263,3 @@ class _ReelsViewState extends State<ReelsView> {
     );
   }
 }
-

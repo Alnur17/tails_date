@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -6,6 +8,7 @@ import 'package:tails_date/common/app_images/app_images.dart';
 
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_text_style/styles.dart';
+import '../../../../common/size_box/custom_sizebox.dart';
 import '../controllers/story_controller.dart';
 
 class StoryView extends GetView {
@@ -33,7 +36,6 @@ class StoryView extends GetView {
                   DummyData.storyImageUrls[controller.currentIndex.value],
                   fit: BoxFit.cover,
                   height: Get.height,
-                  width: Get.width,
                 ),
               ),
               // Semi-transparent overlay at the top for user info
@@ -41,15 +43,13 @@ class StoryView extends GetView {
                 top: 0,
                 left: 10,
                 right: 10,
-                bottom: Get.height * 0.84,
+                bottom: Get.height * 0.83,
                 child: Container(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        AppColors.black.withOpacity(0.5),
-                        // Blue with 80% opacity
+                        AppColors.black.withOpacity(0.7),
                         AppColors.black.withOpacity(0.0),
-                        // Purple with 50% opacity
                       ],
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
@@ -61,29 +61,40 @@ class StoryView extends GetView {
               Positioned(
                 top: 30,
                 left: 25,
-                child: Row(
-                  children: [
-                    SizedBox(
-                      height: 60,
-                      width: 60,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(30),
-                        child: Image.network(
-                          DummyData
-                              .storyImageUrls[controller.currentIndex.value],
-                          fit: BoxFit.cover,
+                right: 80,
+                child: GestureDetector(
+                  onTap: (){
+                    log('tap image profile');
+                  },
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        height: 60,
+                        width: 60,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(30),
+                          child: Image.network(
+                            DummyData
+                                .storyImageUrls[controller.currentIndex.value],
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(width: 10),
-                    Text(
-                      'Username', // Replace with dynamic username if needed
-                      style: h3.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.white,
+                      sw10,
+                      Expanded(
+                        child: Text(
+                          'Username', // Replace with dynamic username if needed
+                          style: h3.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.white,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
-                    ),
-                  ],
+
+                    ],
+                  ),
                 ),
               ),
               Positioned(
@@ -94,6 +105,36 @@ class StoryView extends GetView {
                   onPressed: () {
                     Get.back();
                   },
+                ),
+              ),
+
+              Positioned(
+                top: Get.height * 0.83,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        AppColors.black.withOpacity(1),
+                        AppColors.black.withOpacity(0.3),
+                      ],
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                left: 16,
+                right: 70,
+                bottom: 30,
+                child: Text(
+                  'Description should be added here. Description should be added here.Description should be added here. Description should be added here. Description should be added here. Description should be added here.',
+                  style: h5.copyWith(color: AppColors.white),
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
               Positioned(

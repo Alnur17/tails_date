@@ -38,7 +38,7 @@ class ChatsView extends StatelessWidget {
                 AppImages.searchTwo,
                 scale: 4,
               ),
-              hintText: 'Search by name or location',
+              hintText: 'Search by name',
             ),
           ),
           Expanded(
@@ -49,6 +49,7 @@ class ChatsView extends StatelessWidget {
                   final user = controller.users[index];
                   return ListTile(
                     leading: CircleAvatar(
+                      radius: 25,
                       backgroundImage: NetworkImage(user['picture']['thumbnail']),
                     ),
                     title: Text('${user['name']['first']} ${user['name']['last']}'),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:tails_date/common/app_color/app_colors.dart';
 import 'package:tails_date/common/app_images/app_images.dart';
+import 'package:tails_date/common/app_text_style/styles.dart';
 
 class CustomDropdown extends StatefulWidget {
   final List<String> items;
@@ -54,6 +56,7 @@ class _CustomDropdownState extends State<CustomDropdown> {
   void _showDropdownDialog(BuildContext context) {
     showModalBottomSheet(
       context: context,
+      backgroundColor: AppColors.black,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
@@ -64,7 +67,7 @@ class _CustomDropdownState extends State<CustomDropdown> {
           itemBuilder: (context, index) {
             final item = widget.items[index];
             return ListTile(
-              title: Text(item),
+              title: Text(item,style: h3.copyWith(color: AppColors.white),),
               onTap: () {
                 setState(() {
                   selectedValue = item; 

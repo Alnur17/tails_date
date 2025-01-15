@@ -30,14 +30,25 @@ class _AddStoryAvatarState extends State<AddStoryAvatar> {
               backgroundImage: _selectedMediaPath != null
                   ? FileImage(File(_selectedMediaPath!))
                   : null,
+              child: _selectedMediaPath == null
+                  ? Icon(
+                Icons.person,
+                size: Get.width * 0.06,
+                color: AppColors.black,
+              )
+                  : null,
             ),
             Positioned(
               bottom: 0,
               right: 0,
               child: GestureDetector(
-                onTap: () {
-                  // Navigate to AddStoryView
-                  Get.to(() => const AddStoryView());
+                onTap:  () async {
+                  final result = await Get.to(() => const AddStoryView());
+                  if (result != null) {
+                    setState(() {
+                      _selectedMediaPath = result as String;
+                    });
+                  }
                 },
                 child: CircleAvatar(
                   radius: Get.width * 0.03,
@@ -52,7 +63,7 @@ class _AddStoryAvatarState extends State<AddStoryAvatar> {
             ),
           ],
         ),
-        sh5,
+        sh8,
         Text(
           'Your Story',
           style: h7.copyWith(fontWeight: FontWeight.w700),

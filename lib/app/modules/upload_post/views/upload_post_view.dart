@@ -45,32 +45,32 @@ class UploadPostView extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Obx(() => CustomButton(
-                      text: 'Create Posts',
-                      onPressed: () => controller.toggleMode(false),
-                      textStyle: h3.copyWith(
-                        color: controller.isCreatingReel.value
-                            ? Colors.black
-                            : Colors.white,
-                      ),
-                      backgroundColor: controller.isCreatingReel.value
-                          ? AppColors.transparent
-                          : AppColors.black,
-                    )),
+                          text: 'Create Posts',
+                          onPressed: () => controller.toggleMode(false),
+                          textStyle: h3.copyWith(
+                            color: controller.isCreatingReel.value
+                                ? Colors.black
+                                : Colors.white,
+                          ),
+                          backgroundColor: controller.isCreatingReel.value
+                              ? AppColors.transparent
+                              : AppColors.black,
+                        )),
                   ),
                   sw12,
                   Expanded(
                     child: Obx(() => CustomButton(
-                      text: 'Create Reels',
-                      onPressed: () => controller.toggleMode(true),
-                      textStyle: h3.copyWith(
-                        color: controller.isCreatingReel.value
-                            ? Colors.white
-                            : Colors.black,
-                      ),
-                      backgroundColor: controller.isCreatingReel.value
-                          ? AppColors.black
-                          : AppColors.transparent,
-                    )),
+                          text: 'Create Reels',
+                          onPressed: () => controller.toggleMode(true),
+                          textStyle: h3.copyWith(
+                            color: controller.isCreatingReel.value
+                                ? Colors.white
+                                : Colors.black,
+                          ),
+                          backgroundColor: controller.isCreatingReel.value
+                              ? AppColors.black
+                              : AppColors.transparent,
+                        )),
                   ),
                 ],
               ),
@@ -83,7 +83,13 @@ class UploadPostView extends StatelessWidget {
                       Text('Category', style: h3),
                       sh8,
                       CustomDropdown(
-                        items: ['Option 1', 'Option 2', 'Option 3'],
+                        items: [
+                          'Cats',
+                          'Dogs',
+                          'Exotic Animals',
+                          'Farm Animals',
+                          'Birds'
+                        ],
                         hintText: 'Select an option',
                         onChanged: (value) {},
                       ),
@@ -121,7 +127,7 @@ class UploadPostView extends StatelessWidget {
                             return GridView.builder(
                               padding: const EdgeInsets.all(8),
                               gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,
                                 mainAxisSpacing: 8,
                                 crossAxisSpacing: 8,
@@ -147,8 +153,8 @@ class UploadPostView extends StatelessWidget {
                                             controller.removeImage(index),
                                         child: CircleAvatar(
                                           radius: 15,
-                                          backgroundColor: Colors.black
-                                              .withOpacity(0.7),
+                                          backgroundColor:
+                                              Colors.black.withOpacity(0.7),
                                           child: Icon(
                                             Icons.close,
                                             color: Colors.white,
@@ -164,21 +170,32 @@ class UploadPostView extends StatelessWidget {
                           }
                         }),
                       ),
-                      sh16,
+                      sh8,
                       Obx(() {
                         if (controller.selectedImages.isNotEmpty &&
                             controller.selectedImages.length < 5) {
                           return GestureDetector(
                             onTap: controller.pickImages,
-                            child: Text(
-                              '+ Add More',
-                              style: h3.copyWith(color: AppColors.blue),
+                            child: Center(
+                              child: Column(
+                                children: [
+                                  Image.asset(
+                                    AppImages.addMore,
+                                    scale: 4,
+                                  ),
+                                  sh5,
+                                  Text(
+                                    'Add More',
+                                    style: h5,
+                                  ),
+                                ],
+                              ),
                             ),
                           );
                         }
                         return SizedBox.shrink();
                       }),
-                      sh16,
+                      sh8,
                       Text('Write a description for the post', style: h3),
                       sh8,
                       CustomTextField(
@@ -222,7 +239,9 @@ class UploadPostView extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(12),
                                   child: AspectRatio(
                                     aspectRatio: controller
-                                        .videoPlayerController!.value.aspectRatio,
+                                        .videoPlayerController!
+                                        .value
+                                        .aspectRatio,
                                     child: VideoPlayer(
                                         controller.videoPlayerController!),
                                   ),
@@ -235,7 +254,7 @@ class UploadPostView extends StatelessWidget {
                                     child: CircleAvatar(
                                       radius: 15,
                                       backgroundColor:
-                                      Colors.black.withOpacity(0.7),
+                                          Colors.black.withOpacity(0.7),
                                       child: const Icon(
                                         Icons.close,
                                         color: Colors.white,
