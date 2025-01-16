@@ -294,18 +294,18 @@ class _ProfileViewState extends State<ProfileView> {
                             popupMenuButton: CustomPopupMenuButton(
                               items: [
                                 PopupMenuItemData(
-                                  value: 'Edit',
-                                  label: 'Edit',
+                                  value: 'Edit Post',
+                                  label: 'Edit Post',
                                   onSelected: () {
-                                    log('Edit selected');
+                                    log('Edit Post selected');
                                   },
                                 ),
                                 PopupMenuItemData(isDivider: true),
                                 PopupMenuItemData(
-                                  value: 'Delete',
-                                  label: 'Delete',
+                                  value: 'Delete Post',
+                                  label: 'Delete Post',
                                   onSelected: () {
-                                    log('Delete selected');
+                                    log('Delete Post selected');
                                   },
                                 ),
                               ],

@@ -40,7 +40,7 @@ class _CustomDropdownState extends State<CustomDropdown> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              selectedValue ?? widget.hintText, 
+              selectedValue ?? widget.hintText,
               style: TextStyle(
                 color: selectedValue == null ? Colors.grey : Colors.black,
                 fontSize: 16,
@@ -70,10 +70,10 @@ class _CustomDropdownState extends State<CustomDropdown> {
               title: Text(item,style: h3.copyWith(color: AppColors.white),),
               onTap: () {
                 setState(() {
-                  selectedValue = item; 
+                  selectedValue = item;
                 });
-                widget.onChanged(item); 
-                Navigator.pop(context); 
+                widget.onChanged(item);
+                Navigator.pop(context);
               },
             );
           },

@@ -86,9 +86,9 @@ class UploadPostView extends StatelessWidget {
                         items: [
                           'Cats',
                           'Dogs',
+                          'Birds',
                           'Exotic Animals',
                           'Farm Animals',
-                          'Birds'
                         ],
                         hintText: 'Select an option',
                         onChanged: (value) {},

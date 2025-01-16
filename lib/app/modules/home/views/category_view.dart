@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tails_date/app/modules/home/views/widgets/home_widgets/user_post_card.dart';
@@ -55,7 +57,7 @@ class CategoryView extends StatelessWidget {
               likeCount: post['likeCount'] ?? 0,
               timeAgo: post['timeAgo'] ?? '',
               onAddFriend: () {
-                print("Add Friend clicked for ${post['userName']}");
+                log("Add Friend clicked for ${post['userName']}");
               },
             ),
           );

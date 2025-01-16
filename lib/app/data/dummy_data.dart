@@ -146,7 +146,7 @@ class DummyData {
           "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80",
       "images": [
         "https://images.unsplash.com/photo-1518288774672-b94e808873ff?q=80",
-        "https://images.unsplash.com/photo-1526597028596-f1f0f7338185?q=80",
+        "https://images.unsplash.com/photo-1705560823716-1c380fd74e7e?q=80&w=2047&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       ],
       "videos": [
         "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
@@ -164,7 +164,7 @@ class DummyData {
       "profileImage":
           "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80",
       "images": [
-        "https://images.unsplash.com/photo-1452570053594-1b985d6ea890?q=80",
+        "https://plus.unsplash.com/premium_photo-1669279284400-bcdd8dbdbd55?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       ],
       "videos": [
         "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
