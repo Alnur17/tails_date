@@ -52,8 +52,8 @@ class CashOutYourStarsView extends GetView {
                   children: [
                     Text(
                       'Your Star Balance',
-                      style:
-                          h4.copyWith(fontSize: 18, color: AppColors.brownColor),
+                      style: h4.copyWith(
+                          fontSize: 18, color: AppColors.brownColor),
                     ),
                     sh8,
                     Row(
@@ -147,12 +147,34 @@ class CashOutYourStarsView extends GetView {
                 },
               ),
               sh24,
-              Text('Pending CashOut', style: h2),
+              Text('CashOut Status', style: h2),
               sh8,
-              Text('No pending requests at the moment.', style: h4),
+              Row(
+                children: [
+                  Text('Status:', style: h4),
+                  sw8,
+                  Text('No pending requests at the moment.', style: h4),
+                ],
+              ),
               sh16,
             ],
           ),
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+        child: CustomButton(
+          text: 'WithDraw',
+          onPressed: () {
+            Get.snackbar(
+              'Need Approval',
+              'You need to submit CashOut request first.',
+              snackPosition: SnackPosition.TOP,
+              duration: Duration(seconds: 5),
+              backgroundColor: Colors.red,
+              colorText: Colors.white,
+            );
+          },
         ),
       ),
     );

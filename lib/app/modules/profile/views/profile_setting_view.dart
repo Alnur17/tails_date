@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tails_date/app/modules/privacy_policy/views/privacy_policy_view.dart';
 import 'package:tails_date/app/modules/profile/views/change_password_view.dart';
+import 'package:tails_date/app/modules/profile/views/collections_view.dart';
 import 'package:tails_date/app/modules/profile/views/star_balance_view.dart';
 import 'package:tails_date/app/modules/profile/views/subscription_plan_view.dart';
 import 'package:tails_date/app/modules/terms_of_services/views/terms_of_services_view.dart';
@@ -103,7 +104,7 @@ class ProfileSettingView extends GetView {
                   sh16,
                   CustomContainer(
                     onTap: () {
-                      //Get.to(() => StarBalanceView());
+                      Get.to(() => CollectionsView());
                     },
                     text: 'Collections',
                     imagePath: AppImages.bookmark,

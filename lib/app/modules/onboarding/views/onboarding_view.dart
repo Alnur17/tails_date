@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:tails_date/app/modules/home/views/home_view.dart';
+import 'package:tails_date/app/modules/dashboard/views/dashboard_view.dart';
 import 'package:tails_date/app/modules/onboarding/views/widgets/onboardingwidget.dart';
 import 'package:tails_date/common/app_color/app_colors.dart';
 import 'package:tails_date/common/app_images/app_images.dart';
@@ -101,7 +101,7 @@ class _OnboardingViewState extends State<OnboardingView> {
             right: 16,
             child: TextButton(
               onPressed: () {
-                Get.to(() => HomeView());
+                Get.to(() => DashboardView());
               },
               child: Text(
                 "Skip",

@@ -24,11 +24,26 @@ class NotificationsView extends GetView<NotificationsController> {
 
     // Dummy data for each section
     final List<Map<String, String>> friendRequests = List.generate(
-        10, (index) => {'name': 'Friend_$index', 'image': 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'});
+        10,
+        (index) => {
+              'name': 'Friend_$index',
+              'image':
+                  'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+            });
     final List<Map<String, String>> sendRequests = List.generate(
-        10, (index) => {'name': 'Request_$index', 'image': 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'});
+        10,
+        (index) => {
+              'name': 'Request_$index',
+              'image':
+                  'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+            });
     final List<Map<String, String>> suggestedForYou = List.generate(
-        10, (index) => {'name': 'Suggested_$index', 'image': 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'});
+        10,
+        (index) => {
+              'name': 'Suggested_$index',
+              'image':
+                  'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+            });
 
     return Scaffold(
       backgroundColor: AppColors.mainColor,
@@ -48,11 +63,11 @@ class NotificationsView extends GetView<NotificationsController> {
         ),
       ),
       body: Obx(
-            () => Column(
+        () => Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 16.0,right: 16,top: 12),
+              padding: const EdgeInsets.only(left: 16.0, right: 16, top: 12),
               child: Row(
                 children: [
                   Expanded(
@@ -61,9 +76,10 @@ class NotificationsView extends GetView<NotificationsController> {
                       onPressed: () {
                         notificationController.toggleTab(0);
                       },
-                      backgroundColor: notificationController.activeTab.value == 0
-                          ? AppColors.black
-                          : AppColors.transparent,
+                      backgroundColor:
+                          notificationController.activeTab.value == 0
+                              ? AppColors.black
+                              : AppColors.transparent,
                       textStyle: h3.copyWith(
                         color: notificationController.activeTab.value == 0
                             ? AppColors.white
@@ -77,13 +93,14 @@ class NotificationsView extends GetView<NotificationsController> {
                       onPressed: () {
                         notificationController.toggleTab(1);
                       },
-                      backgroundColor: notificationController.activeTab.value == 1
-                          ? Colors.black
-                          : AppColors.transparent,
-                      textStyle: TextStyle(
+                      backgroundColor:
+                          notificationController.activeTab.value == 1
+                              ? Colors.black
+                              : AppColors.transparent,
+                      textStyle: h3.copyWith(
                         color: notificationController.activeTab.value == 1
-                            ? Colors.white
-                            : Colors.black,
+                            ? AppColors.white
+                            : AppColors.black,
                       ),
                     ),
                   ),
@@ -94,7 +111,8 @@ class NotificationsView extends GetView<NotificationsController> {
               child: ListView(
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 children: notificationController.activeTab.value == 0
-                    ? _buildFriendActivity(friendRequests, sendRequests, suggestedForYou)
+                    ? _buildFriendActivity(
+                        friendRequests, sendRequests, suggestedForYou)
                     : _postEngagementData(),
               ),
             ),
@@ -105,10 +123,10 @@ class NotificationsView extends GetView<NotificationsController> {
   }
 
   List<Widget> _buildFriendActivity(
-      List<Map<String, String>> friendRequests,
-      List<Map<String, String>> sendRequests,
-      List<Map<String, String>> suggestedForYou,
-      ) {
+    List<Map<String, String>> friendRequests,
+    List<Map<String, String>> sendRequests,
+    List<Map<String, String>> suggestedForYou,
+  ) {
     return [
       // Friend Requests Section
       sh12,
@@ -116,26 +134,29 @@ class NotificationsView extends GetView<NotificationsController> {
         title: 'Friend Requests',
         subtitle: 'See all',
         onTap: () {
-          Get.to(() => FriendRequestView(data: friendRequests)); // Pass all data
+          Get.to(
+              () => FriendRequestView(data: friendRequests)); // Pass all data
         },
       ),
       sh8,
       ...friendRequests.take(5).map((item) => CustomListTileWithButton(
-        name: item['name'] ?? 'Unknown',
-        actionText: 'Confirm',
-        showCloseButton: true,
-        actionOnPressed: () {},
-        actionStyle: CustomButton(
-          width: 100,
-          height: 30,
-          text: 'Confirm',
-          onPressed: () {},
-          borderColor: AppColors.black,
-          backgroundColor: AppColors.white,
-          textStyle: h3.copyWith(color: AppColors.black),
-        ),
-        image: item['image'] ?? 'https://via.placeholder.com/150',
-      )),
+            name: item['name'] ?? 'Unknown',
+            actionText: 'Confirm',
+            showCloseButton: true,
+            actionOnPressed: () {},
+            actionStyle: CustomButton(
+              width: 100,
+              height: 30,
+              text: 'Confirm',
+              onPressed: () {},
+              borderColor: AppColors.black,
+              backgroundColor: AppColors.white,
+              textStyle: h3.copyWith(
+                color: AppColors.black,
+              ),
+            ),
+            image: item['image'] ?? 'https://via.placeholder.com/150',
+          )),
 
       // Send Requests Section
       sh12,
@@ -176,22 +197,23 @@ class NotificationsView extends GetView<NotificationsController> {
         title: 'Suggested for You',
         subtitle: 'See all',
         onTap: () {
-          Get.to(() => SuggestedForYouView(data: suggestedForYou)); // Pass all data
+          Get.to(() =>
+              SuggestedForYouView(data: suggestedForYou)); // Pass all data
         },
       ),
       sh8,
       ...suggestedForYou.map((item) => CustomListTileWithButton(
-        name: item['name'] ?? 'Unknown',
-        actionText: 'Add Friend',
-        actionOnPressed: () {},
-        actionStyle: CustomButton(
-          width: 140,
-          height: 30,
-          text: 'Add Friend',
-          onPressed: () {},
-        ),
-        image: item['image'] ?? 'https://via.placeholder.com/150',
-      )),
+            name: item['name'] ?? 'Unknown',
+            actionText: 'Add Friend',
+            actionOnPressed: () {},
+            actionStyle: CustomButton(
+              width: 140,
+              height: 30,
+              text: 'Add Friend',
+              onPressed: () {},
+            ),
+            image: item['image'] ?? 'https://via.placeholder.com/150',
+          )),
     ];
   }
 

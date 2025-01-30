@@ -22,16 +22,17 @@ class ChatsView extends StatelessWidget {
         scrolledUnderElevation: 0,
         backgroundColor: AppColors.mainColor,
         title: const Text('Chats'),
-        centerTitle: true,
-        leading: GestureDetector(
-          onTap: () {
-            Get.back();
-          },
-          child: Image.asset(
-            AppImages.back,
-            scale: 4,
-          ),
-        ),
+        // /centerTitle: true,
+        automaticallyImplyLeading: false,
+        // leading: GestureDetector(
+        //   onTap: () {
+        //     Get.back();
+        //   },
+        //   child: Image.asset(
+        //     AppImages.back,
+        //     scale: 4,
+        //   ),
+        // ),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -51,7 +52,7 @@ class ChatsView extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Text(
               'Active Now',
-              style: h2.copyWith(fontSize: 20),
+              style: h3,
             ),
           ),
           sh12,
@@ -60,7 +61,7 @@ class ChatsView extends StatelessWidget {
             width: double.infinity,
             child: ListView.builder(
               shrinkWrap: true,
-              padding: EdgeInsets.symmetric(horizontal: 16),
+              padding: EdgeInsets.symmetric(horizontal: 12),
               scrollDirection: Axis.horizontal,
               itemCount: 10,
               itemBuilder: (context, index) => Stack(
@@ -107,7 +108,7 @@ class ChatsView extends StatelessWidget {
                       ),
                       title: Text(
                           '${user['name']['first']} ${user['name']['last']}'),
-                      titleTextStyle: h2.copyWith(fontSize: 20),
+                      titleTextStyle: h3,
                       subtitle: const Text(
                           'Hello, I really like your photo about...'),
                       trailing: const Text('12:50'),

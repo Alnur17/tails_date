@@ -21,13 +21,13 @@ class CustomRowHeader extends StatelessWidget {
       children: [
         Text(
           title,
-          style: h3,
+          style: h3.copyWith(fontWeight: FontWeight.bold),
         ),
         GestureDetector(
           onTap: onTap,
           child: Text(
             subtitle,
-            style: h5,
+            style: h5.copyWith(fontWeight: FontWeight.bold),
           ),
         ),
       ],
