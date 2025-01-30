@@ -160,16 +160,19 @@ class _MessageViewState extends State<MessageView> {
           ),
         ),
         child: Column(
-          crossAxisAlignment: isSender ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+          crossAxisAlignment:
+              isSender ? CrossAxisAlignment.end : CrossAxisAlignment.start,
           children: [
             Text(
               message,
-              style: TextStyle(fontSize: 16),
+              style: h4.copyWith(
+                  color: isSender ? AppColors.white : AppColors.black),
             ),
-            SizedBox(height: 4),
+            sh5,
             Text(
               time,
-              style: TextStyle(fontSize: 12, color: Colors.black54),
+              style: h6.copyWith(
+                  color: isSender ? AppColors.white : AppColors.black),
             ),
           ],
         ),
@@ -198,6 +201,7 @@ class _MessageViewState extends State<MessageView> {
             child: CustomTextField(
               controller: _messageController,
               hintText: "Message",
+              borderColor: AppColors.black,
               sufIcon: IconButton(
                 icon: Image.asset(
                   AppImages.send,
