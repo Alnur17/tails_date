@@ -35,6 +35,7 @@ class AppImages {
   static const back = "assets/icons/back.png";
   static const pause = "assets/icons/pause.png";
   static const play = "assets/icons/play.png";
+  static const playSmall = "assets/icons/play small.png";
   static const unMute = "assets/icons/unmute.png";
   static const mute = "assets/icons/mute.png";
   static const close = "assets/icons/close.png";

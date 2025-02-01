@@ -8,6 +8,7 @@ import 'package:tails_date/app/modules/home/views/widgets/home_widgets/user_post
 import 'package:tails_date/app/modules/profile/views/edit_profile_view.dart';
 import 'package:tails_date/app/modules/profile/views/friends_view.dart';
 import 'package:tails_date/app/modules/profile/views/profile_setting_view.dart';
+import 'package:tails_date/app/modules/reels/views/reels_view.dart';
 import 'package:tails_date/common/app_color/app_colors.dart';
 import 'package:tails_date/common/size_box/custom_sizebox.dart';
 
@@ -332,20 +333,32 @@ class _ProfileViewState extends State<ProfileView> {
                             : AppImages.imageNotAvailable;
                         return GestureDetector(
                           onTap: () {
-                            log(
-                                "Reels tapped: ${collection['description']}");
+                            Get.to(() => ReelsView());
                           },
                           child: Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
                               color: AppColors.white,
                             ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(12),
-                              child: Image.network(
-                                imageUrl,
-                                fit: BoxFit.cover,
-                              ),
+                            child: Stack(
+                              children: [
+                                Positioned.fill(
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(12),
+                                    child: Image.network(
+                                      imageUrl,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                                Positioned(
+                                    left: 0,
+                                    right: 0,
+                                    child: Image.asset(
+                                      AppImages.playSmall,
+                                      scale: 4,
+                                    ))
+                              ],
                             ),
                           ),
                         );
