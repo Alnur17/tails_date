@@ -102,7 +102,7 @@ class UploadPostView extends StatelessWidget {
                       ),
                       sh16,
                       Container(
-                        height: 300,
+                        height: 200,
                         width: double.infinity,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
@@ -211,7 +211,7 @@ class UploadPostView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        height: 250,
+                        //padding: EdgeInsets.all(16),
                         width: double.infinity,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
@@ -225,10 +225,12 @@ class UploadPostView extends StatelessWidget {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
+                                  sh20,
                                   Image.asset(AppImages.upload, scale: 4),
                                   sw8,
                                   Text('Click here to select a video',
                                       style: h4),
+                                  sh20,
                                 ],
                               ),
                             );
@@ -276,7 +278,7 @@ class UploadPostView extends StatelessWidget {
                       sh8,
                       CustomTextField(
                         controller: controller.postContentController,
-                        height: 250,
+                        height: 150,
                         borderColor: AppColors.black,
                         hintText: 'Enter reel description...',
                       ),
