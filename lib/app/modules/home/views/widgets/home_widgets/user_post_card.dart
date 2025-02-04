@@ -589,7 +589,7 @@ class UserPostCard extends StatelessWidget {
                   images.first,
                   fit: BoxFit.cover,
                    width: double.infinity,
-                  height: 400,
+                  //height: 400,
                   scale: 4,
                 ),
               )

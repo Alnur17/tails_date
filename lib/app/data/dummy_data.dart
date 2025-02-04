@@ -101,9 +101,9 @@ class DummyData {
       "userName": "Gultush",
       "location": "Florida, USA",
       "profileImage":
-          "https://images.unsplash.com/photo-1545656761-427963ae84ed?q=80&w=1927&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "https://plus.unsplash.com/premium_photo-1666777247423-134be495d7eb?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "images": [
-        'https://images.unsplash.com/photo-1545656761-427963ae84ed?q=80&w=1927&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+        "https://plus.unsplash.com/premium_photo-1666777247423-134be495d7eb?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       ],
       "timeAgo": "2 days ago",
       "description": "Just enjoying the weather today! ☀️",
@@ -140,12 +140,12 @@ class DummyData {
       "userName": "Daisy",
       "location": "Toronto, Canada",
       "profileImage":
-          "https://images.unsplash.com/photo-1518288774672-b94e808873ff?q=80",
+          "https://images.unsplash.com/photo-1552053831-71594a27632d?q=80&w=1924&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "images": [
-        "https://images.unsplash.com/photo-1518288774672-b94e808873ff?q=80",
-        "https://images.unsplash.com/photo-1518288774672-b94e808873ff?q=80",
-        "https://images.unsplash.com/photo-1518288774672-b94e808873ff?q=80",
-        "https://images.unsplash.com/photo-1518288774672-b94e808873ff?q=80",
+        "https://images.unsplash.com/photo-1552053831-71594a27632d?q=80&w=1924&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://images.unsplash.com/photo-1552053831-71594a27632d?q=80&w=1924&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://images.unsplash.com/photo-1552053831-71594a27632d?q=80&w=1924&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://images.unsplash.com/photo-1552053831-71594a27632d?q=80&w=1924&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         ],
       "timeAgo": "5 days ago",
       "description": "Feeling grateful for the little things. 🍁💕",
