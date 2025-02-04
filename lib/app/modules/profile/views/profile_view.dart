@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tails_date/app/data/dummy_data.dart';
 import 'package:tails_date/app/modules/home/views/widgets/home_widgets/user_post_card.dart';
+import 'package:tails_date/app/modules/profile/views/edit_post_view.dart';
 import 'package:tails_date/app/modules/profile/views/edit_profile_view.dart';
 import 'package:tails_date/app/modules/profile/views/friends_view.dart';
 import 'package:tails_date/app/modules/profile/views/profile_setting_view.dart';
@@ -298,7 +299,12 @@ class _ProfileViewState extends State<ProfileView> {
                                   value: 'Edit Post',
                                   label: 'Edit Post',
                                   onSelected: () {
-                                    log('Edit Post selected');
+                                    Get.to(() => EditPostView(
+                                      //selectedCategory: post['userName'] ?? '',
+                                      location: post['location'] ?? '',
+                                      images: List<String>.from(post['images'] ?? []),
+                                      description: post['description'] ?? '',
+                                    ));
                                   },
                                 ),
                                 PopupMenuItemData(isDivider: true),
