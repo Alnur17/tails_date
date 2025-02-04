@@ -230,8 +230,8 @@ class NotificationsView extends GetView<NotificationsController> {
             child: Row(
               children: [
                 Container(
-                  height: 15,
-                  width: 15,
+                  height: 12,
+                  width: 12,
                   decoration: ShapeDecoration(
                     shape: CircleBorder(),
                     color: AppColors.black,
@@ -253,8 +253,8 @@ class NotificationsView extends GetView<NotificationsController> {
                 sw12,
                 Expanded(
                   child: Text(
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                    style: h6.copyWith(fontWeight: FontWeight.w500),
+                    'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',
+                    style: h5,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
                   ),
