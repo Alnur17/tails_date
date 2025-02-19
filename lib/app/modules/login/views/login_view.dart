@@ -19,16 +19,16 @@ class LoginView extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.fillColor,
+      backgroundColor: AppColors.mainColor,
       body: SafeArea(
         child: Column(
           children: [
             SizedBox(
-              height: 270,
+              height: 330,
               width: double.infinity,
               child: Image.asset(
                 AppImages.loginImage,
-                fit: BoxFit.contain,
+                fit: BoxFit.cover,
                 scale: 4,
               ),
             ),

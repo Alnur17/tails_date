@@ -22,7 +22,7 @@ class _OnboardingViewState extends State<OnboardingView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.fillColor,
+      backgroundColor: AppColors.mainColor,
       body: Stack(
         children: [
           PageView(

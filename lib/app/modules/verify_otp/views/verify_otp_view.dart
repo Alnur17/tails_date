@@ -19,7 +19,7 @@ class VerifyOtpView extends GetView<VerifyOtpController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.fillColor,
+      backgroundColor: AppColors.mainColor,
       body: SafeArea(
         child: Column(
           children: [
@@ -28,7 +28,7 @@ class VerifyOtpView extends GetView<VerifyOtpController> {
               width: double.infinity,
               child: Image.asset(
                 AppImages.verifyCodeImage,
-                fit: BoxFit.contain,
+                fit: BoxFit.cover,
                 scale: 4,
               ),
             ),

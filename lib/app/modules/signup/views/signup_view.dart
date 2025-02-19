@@ -18,12 +18,12 @@ class SignupView extends GetView<SignupController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.fillColor,
+      backgroundColor: AppColors.mainColor,
       body: SafeArea(
         child: Column(
           children: [
             SizedBox(
-              height: 260,
+              height: 330,
               width: double.infinity,
               child: Image.asset(
                 AppImages.signUpImage,

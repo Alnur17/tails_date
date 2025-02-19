@@ -10,7 +10,7 @@ class OnboardingPage extends StatelessWidget {
   final String title;
   final String subtitle;
   final List<String> highlightedText;
-  final String backgroundImage; 
+  final String backgroundImage;
 
   const OnboardingPage({
     super.key,
@@ -18,49 +18,58 @@ class OnboardingPage extends StatelessWidget {
     required this.title,
     required this.subtitle,
     required this.highlightedText,
-    required this.backgroundImage, 
+    required this.backgroundImage,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Positioned(
-          bottom: 0,
-          child: Image.asset(
-            backgroundImage,
-            scale: 4,
-            fit: BoxFit.cover,
-            width: Get.width,
+    return SafeArea(
+      child: Stack(
+        children: [
+          Positioned.fill(
+            bottom: Get.height * 0.25,
+            child: Image.asset(
+              image,
+              fit: BoxFit.cover,
+              width: Get.width,
+            ),
           ),
-        ),
-        Container(
-          padding: EdgeInsets.all(16),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Spacer(),
-              Image.asset(image, scale: 4),
-              Spacer(),
-              RichText(
-                textAlign: TextAlign.center,
-                text: TextSpan(
-                  style: h1,
-                  children: _buildHighlightedText(),
+          Positioned(
+            bottom: 0,
+            child: Image.asset(
+              backgroundImage,
+              scale: 4,
+              fit: BoxFit.contain,
+              width: Get.width,
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.all(16),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Spacer(),
+                // Image.asset(image,fit: BoxFit.cover,width: Get.width,),
+                Spacer(),
+                RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                    style: h1,
+                    children: _buildHighlightedText(),
+                  ),
                 ),
-
-              ),
-              sh16,
-              Text(
-                subtitle,
-                textAlign: TextAlign.center,
-                style: h4,
-              ),
-              sh100,
-            ],
+                sh16,
+                Text(
+                  subtitle,
+                  textAlign: TextAlign.center,
+                  style: h4,
+                ),
+                sh100,
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

@@ -27,6 +27,9 @@ class AuthLandingView extends GetView<AuthHomeController> {
             height: Get.height,
             width: Get.width,
           ),
+          Container(
+            color: AppColors.black.withOpacity(0.3),
+          ),
           Positioned(
             top: 60,
             left: 16,
@@ -45,12 +48,17 @@ class AuthLandingView extends GetView<AuthHomeController> {
                       'Welcome to',
                       style: h1.copyWith(
                         fontSize: 40,
-                        color: AppColors.black,
+                        color: AppColors.white
+                        //backgroundColor: AppColors.white
                       ),
                     ),
                     Text(
                       'TailsDate!',
-                      style: h1.copyWith(fontSize: 40),
+                      style: h1.copyWith(
+                        fontSize: 40,
+                        color: AppColors.white,
+                        //backgroundColor: AppColors.black,
+                      ),
                     ),
                   ],
                 ),
@@ -66,10 +74,13 @@ class AuthLandingView extends GetView<AuthHomeController> {
                 CustomButton(
                   text: 'SIGN UP WITH EMAIL',
                   onPressed: () {
-                    Get.to(()=> SignupView());
+                    Get.to(() => SignupView());
                   },
                   backgroundColor: AppColors.fillColor,
-                  textStyle: h3.copyWith(color: AppColors.black,fontWeight: FontWeight.w700,),
+                  textStyle: h3.copyWith(
+                    color: AppColors.black,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
                 sh8,
                 Text(
@@ -84,26 +95,25 @@ class AuthLandingView extends GetView<AuthHomeController> {
                 CustomButton(
                   text: 'Continue As Guest',
                   onPressed: () {
-                    Get.to(()=> DashboardView());
+                    Get.to(() => DashboardView());
                   },
                 ),
                 sh12,
                 GestureDetector(
-                  onTap: (){
-                    Get.to(()=> LoginView());
+                  onTap: () {
+                    Get.to(() => LoginView());
                   },
                   child: RichText(
                     text: TextSpan(
                       children: [
                         TextSpan(
                           text: 'Already Have an account? ',
-                          style: h3.copyWith(
-                              color: Colors.white,fontSize: 18),
+                          style: h3.copyWith(color: Colors.white, fontSize: 18),
                         ),
                         TextSpan(
                           //recognizer: ,
                           text: 'Log In',
-                          style: h3.copyWith(fontSize: 18),
+                          style: h3.copyWith(fontSize: 18,color: AppColors.white,),
                         ),
                       ],
                     ),

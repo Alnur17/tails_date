@@ -63,7 +63,7 @@ class AppImages {
 
 
   //================ Images ==================>
-  static const onboardingOne = "assets/images/onboarding 1.png";
+  static const onboardingOne = "assets/images/onboarding 1.jpg";
   static const onboardingTwo = "assets/images/onboarding 2.png";
   static const onboardingBackOne = "assets/images/onboarding background 1.png";
   static const onboardingBackTwo = "assets/images/onboarding background 2.png";

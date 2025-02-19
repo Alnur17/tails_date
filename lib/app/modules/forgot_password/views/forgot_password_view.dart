@@ -16,7 +16,7 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.fillColor,
+      backgroundColor: AppColors.mainColor,
       body: SafeArea(
         child: Column(
           children: [
@@ -25,7 +25,7 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
               width: double.infinity,
               child: Image.asset(
                 AppImages.forgotImage,
-                fit: BoxFit.contain,
+                fit: BoxFit.cover,
                 scale: 4,
               ),
             ),

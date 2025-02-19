@@ -16,7 +16,7 @@ class NewPasswordView extends GetView<NewPasswordController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.fillColor,
+      backgroundColor: AppColors.mainColor,
       body: SafeArea(
         child: Column(
           children: [
@@ -25,7 +25,7 @@ class NewPasswordView extends GetView<NewPasswordController> {
               width: double.infinity,
               child: Image.asset(
                 AppImages.newPassImage,
-                fit: BoxFit.contain,
+                fit: BoxFit.cover,
                 scale: 4,
               ),
             ),
