@@ -27,22 +27,22 @@ class OnboardingPage extends StatelessWidget {
       child: Stack(
         children: [
           Positioned.fill(
-            bottom: Get.height * 0.25,
+            bottom: Get.height * 0.35,
             child: Image.asset(
               image,
               fit: BoxFit.cover,
               width: Get.width,
             ),
           ),
-          Positioned(
-            bottom: 0,
-            child: Image.asset(
-              backgroundImage,
-              scale: 4,
-              fit: BoxFit.contain,
-              width: Get.width,
-            ),
-          ),
+          // Positioned(
+          //   bottom: 0,
+          //   child: Image.asset(
+          //     backgroundImage,
+          //     scale: 4,
+          //     fit: BoxFit.contain,
+          //     width: Get.width,
+          //   ),
+          // ),
           Container(
             padding: EdgeInsets.all(16),
             child: Column(

@@ -29,7 +29,7 @@ class AppColors{
   static const blueDark = Color(0xff283891);
   static const lightBlue = Color(0xff40C4FF);
   static const hintColor = Color(0xff8b8989);
-  static const greenLight = Color(0xffe0f3f1);
+  static const greenLight = Color(0xff77f8ed);
   static const whiteDark = Color(0xffBEBEBE);
   static const primary = Color(0xff4DB5AD);
   static const orange = Color(0xffff6200);
