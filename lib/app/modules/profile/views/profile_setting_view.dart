@@ -39,10 +39,10 @@ class ProfileSettingView extends GetView {
       body: Column(
         children: [
           ListTile(
-            contentPadding: EdgeInsets.zero,
             leading: CircleAvatar(
-              radius: 50,
+              radius: 25,
               backgroundColor: AppColors.white,
+              backgroundImage: NetworkImage(AppImages.catProfileImage),
             ),
             title: Text('Piku_The_King'),
             subtitle: Row(

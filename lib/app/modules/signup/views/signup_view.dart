@@ -23,7 +23,7 @@ class SignupView extends GetView<SignupController> {
         child: Column(
           children: [
             SizedBox(
-              height: 330,
+              height: 350,
               width: double.infinity,
               child: Image.asset(
                 AppImages.signUpImage,
@@ -145,7 +145,7 @@ class SignupView extends GetView<SignupController> {
                               style: h4,
                               children: [
                                 TextSpan(
-
+        
                                   text: 'Log In',
                                   style: h3.copyWith(
                                     color: AppColors.secondaryOrangeColor,

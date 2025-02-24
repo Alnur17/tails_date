@@ -21,7 +21,7 @@ class NewPasswordView extends GetView<NewPasswordController> {
         child: Column(
           children: [
             SizedBox(
-              height: 330,
+              height: 380,
               width: double.infinity,
               child: Image.asset(
                 AppImages.newPassImage,

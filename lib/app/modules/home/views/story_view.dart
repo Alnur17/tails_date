@@ -9,6 +9,9 @@ import 'package:tails_date/common/app_images/app_images.dart';
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_text_style/styles.dart';
 import '../../../../common/size_box/custom_sizebox.dart';
+import '../../../../common/widgets/custom_button.dart';
+import '../../profile/views/buy_star_view.dart';
+import '../../profile/views/send_stars_view.dart';
 import '../controllers/story_controller.dart';
 
 class StoryView extends GetView {
@@ -63,7 +66,7 @@ class StoryView extends GetView {
                 left: 25,
                 right: 80,
                 child: GestureDetector(
-                  onTap: (){
+                  onTap: () {
                     log('tap image profile');
                   },
                   child: Row(
@@ -92,7 +95,6 @@ class StoryView extends GetView {
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-
                     ],
                   ),
                 ),
@@ -109,7 +111,7 @@ class StoryView extends GetView {
               ),
 
               Positioned(
-                top: Get.height * 0.83,
+                top: Get.height * 0.8,
                 left: 0,
                 right: 0,
                 bottom: 0,
@@ -117,8 +119,8 @@ class StoryView extends GetView {
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        AppColors.black.withOpacity(1),
-                        AppColors.black.withOpacity(0.3),
+                        AppColors.black.withOpacity(0.6),
+                        AppColors.black.withOpacity(0.1),
                       ],
                       begin: Alignment.bottomCenter,
                       end: Alignment.topCenter,
@@ -128,26 +130,42 @@ class StoryView extends GetView {
               ),
               Positioned(
                 left: 16,
-                right: 70,
+                right: 75,
                 bottom: 30,
                 child: Text(
                   'Description should be added here. Description should be added here.Description should be added here. Description should be added here. Description should be added here. Description should be added here.',
                   style: h5.copyWith(color: AppColors.white),
-                  maxLines: 3,
+                  maxLines: 4,
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
               Positioned(
-                bottom: 30,
+                bottom: 20,
                 right: 16,
-                child: IconButton(
-                  style: IconButton.styleFrom(backgroundColor: Colors.black38),
-                  icon: Image.asset(
-                    AppImages.heart,
-                    scale: 4,
-                    color: AppColors.white,
-                  ),
-                  onPressed: () {},
+                child: Column(
+                  children: [
+                    IconButton(
+                      style:
+                          IconButton.styleFrom(backgroundColor: Colors.black38),
+                      icon: Image.asset(
+                        AppImages.star,
+                        scale: 4,
+                        color: AppColors.white,
+                      ),
+                      onPressed: () => showStarBuyDialog(context),
+                    ),
+                    sh5,
+                    IconButton(
+                      style:
+                          IconButton.styleFrom(backgroundColor: Colors.black38),
+                      icon: Image.asset(
+                        AppImages.heart,
+                        scale: 4,
+                        color: AppColors.white,
+                      ),
+                      onPressed: () {},
+                    ),
+                  ],
                 ),
               ),
               // Progress indicator at the top
@@ -182,6 +200,53 @@ class StoryView extends GetView {
           );
         }),
       ),
+    );
+  }
+
+  void showStarBuyDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          child: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: AppColors.gradientColor,
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('Support what you love! 🌟',
+                      style: h3, textAlign: TextAlign.center),
+                  Image.asset(AppImages.starImage, scale: 4),
+                  const SizedBox(height: 8),
+                  CustomButton(
+                    onPressed: () => Get.to(() => BuyStarView()),
+                    text: "Buy Star 🌟",
+                    backgroundColor: AppColors.white,
+                    textStyle: h3.copyWith(fontWeight: FontWeight.w700),
+                  ),
+                  const SizedBox(height: 8),
+                  Text('OR', style: h3),
+                  const SizedBox(height: 8),
+                  CustomButton(
+                    onPressed: () => Get.to(() => SendStarsView()),
+                    text: "Send Stars 🤩",
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

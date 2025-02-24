@@ -24,7 +24,7 @@ class VerifyOtpView extends GetView<VerifyOtpController> {
         child: Column(
           children: [
             SizedBox(
-              height: 330,
+              height: 380,
               width: double.infinity,
               child: Image.asset(
                 AppImages.verifyCodeImage,
@@ -101,7 +101,7 @@ class VerifyOtpView extends GetView<VerifyOtpController> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          //Get.to(() => ForgotPasswordView());
+
                         },
                         child: Text(
                           'Resend Code',

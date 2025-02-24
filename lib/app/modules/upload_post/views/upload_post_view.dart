@@ -45,7 +45,7 @@ class UploadPostView extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Obx(() => CustomButton(
-                          text: 'Create Posts',
+                          text: 'Post Photos',
                           onPressed: () => controller.toggleMode(false),
                           textStyle: h3.copyWith(
                             color: controller.isCreatingReel.value
@@ -60,7 +60,7 @@ class UploadPostView extends StatelessWidget {
                   sw12,
                   Expanded(
                     child: Obx(() => CustomButton(
-                          text: 'Create Reels',
+                          text: 'Post Video',
                           onPressed: () => controller.toggleMode(true),
                           textStyle: h3.copyWith(
                             color: controller.isCreatingReel.value

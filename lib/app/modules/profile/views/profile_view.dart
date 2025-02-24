@@ -27,6 +27,7 @@ class ProfileView extends StatefulWidget {
 
 class _ProfileViewState extends State<ProfileView> {
   bool showPosts = true; // To toggle between posts and collections
+  bool showGallery = false;
 
   @override
   Widget build(BuildContext context) {
@@ -222,8 +223,8 @@ class _ProfileViewState extends State<ProfileView> {
                   contentPadding: EdgeInsets.zero,
                   leading: CircleAvatar(
                     radius: 30,
-                    backgroundImage: AssetImage(
-                      AppImages.loginImage,
+                    backgroundImage: NetworkImage(
+                      AppImages.profileImageTwo,
                     ),
                   ),
                   title: Text(
@@ -246,10 +247,11 @@ class _ProfileViewState extends State<ProfileView> {
                       onPressed: () {
                         setState(() {
                           showPosts = true;
+                          showGallery = false;
                         });
                       },
                       textStyle: h3.copyWith(
-                        color: !showPosts ? Colors.black : Colors.white,
+                        color: showPosts ? Colors.white : Colors.black,
                       ),
                       backgroundColor:
                           showPosts ? AppColors.black : AppColors.transparent,
@@ -262,17 +264,39 @@ class _ProfileViewState extends State<ProfileView> {
                       onPressed: () {
                         setState(() {
                           showPosts = false;
+                          showGallery = false;
                         });
                       },
                       textStyle: h3.copyWith(
-                        color: !showPosts ? Colors.white : Colors.black,
+                        color: !showPosts && !showGallery
+                            ? Colors.white
+                            : Colors.black,
+                      ),
+                      backgroundColor: !showPosts && !showGallery
+                          ? AppColors.black
+                          : AppColors.transparent,
+                    ),
+                  ),
+                  sw12,
+                  Expanded(
+                    child: CustomButton(
+                      text: 'Gallery',
+                      onPressed: () {
+                        setState(() {
+                          showPosts = false;
+                          showGallery = true;
+                        });
+                      },
+                      textStyle: h3.copyWith(
+                        color: showGallery ? Colors.white : Colors.black,
                       ),
                       backgroundColor:
-                          !showPosts ? AppColors.black : AppColors.transparent,
+                          showGallery ? AppColors.black : AppColors.transparent,
                     ),
                   ),
                 ],
               ),
+
               sh20,
               // Posts or Collections
               showPosts
@@ -300,11 +324,13 @@ class _ProfileViewState extends State<ProfileView> {
                                   label: 'Edit Post',
                                   onSelected: () {
                                     Get.to(() => EditPostView(
-                                      //selectedCategory: post['userName'] ?? '',
-                                      location: post['location'] ?? '',
-                                      images: List<String>.from(post['images'] ?? []),
-                                      description: post['description'] ?? '',
-                                    ));
+                                          //selectedCategory: post['userName'] ?? '',
+                                          location: post['location'] ?? '',
+                                          images: List<String>.from(
+                                              post['images'] ?? []),
+                                          description:
+                                              post['description'] ?? '',
+                                        ));
                                   },
                                 ),
                                 PopupMenuItemData(isDivider: true),
@@ -321,55 +347,72 @@ class _ProfileViewState extends State<ProfileView> {
                         );
                       },
                     )
-                  : GridView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 12,
-                        mainAxisSpacing: 12,
-                        childAspectRatio: 1,
-                      ),
-                      itemCount: DummyData.posts.length,
-                      itemBuilder: (context, index) {
-                        final collection = DummyData.posts[index];
-                        final imageUrl = (collection['images']).isNotEmpty
-                            ? collection['images'][0]
-                            : AppImages.imageNotAvailable;
-                        return GestureDetector(
-                          onTap: () {
-                            Get.to(() => ReelsView());
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                              color: AppColors.white,
-                            ),
-                            child: Stack(
-                              children: [
-                                Positioned.fill(
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(12),
-                                    child: Image.network(
-                                      imageUrl,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                    left: 0,
-                                    right: 0,
-                                    child: Image.asset(
-                                      AppImages.playSmall,
-                                      scale: 4,
-                                    ))
-                              ],
-                            ),
+                  : showGallery
+                      ? GridView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            crossAxisSpacing: 8,
+                            mainAxisSpacing: 8,
                           ),
-                        );
-                      },
-                    ),
+                          itemCount: DummyData.posts.length,
+                          itemBuilder: (context, index) {
+                            return Image.network(
+                                DummyData.posts[index]['images'][0],
+                                fit: BoxFit.cover);
+                          },
+                        )
+                      : GridView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 12,
+                            mainAxisSpacing: 12,
+                            childAspectRatio: 1,
+                          ),
+                          itemCount: DummyData.posts.length,
+                          itemBuilder: (context, index) {
+                            final collection = DummyData.posts[index];
+                            final imageUrl = (collection['images']).isNotEmpty
+                                ? collection['images'][0]
+                                : AppImages.imageNotAvailable;
+                            return GestureDetector(
+                              onTap: () {
+                                Get.to(() => ReelsView());
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  color: AppColors.white,
+                                ),
+                                child: Stack(
+                                  children: [
+                                    Positioned.fill(
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(12),
+                                        child: Image.network(
+                                          imageUrl,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                        left: 0,
+                                        right: 0,
+                                        child: Image.asset(
+                                          AppImages.playSmall,
+                                          scale: 4,
+                                        ))
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
               sh20,
             ],
           ),

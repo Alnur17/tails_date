@@ -18,17 +18,22 @@ class AuthLandingView extends GetView<AuthHomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.mainColor,
+      backgroundColor: AppColors.transparent,
+      appBar: AppBar(
+        backgroundColor: AppColors.transparent,
+        scrolledUnderElevation: 0,
+        toolbarHeight: 0,
+      ),
       body: Stack(
         children: [
           Image.asset(
             AppImages.authHome,
-            fit: BoxFit.cover,
-            height: Get.height,
-            width: Get.width,
+            fit: BoxFit.fill,
+             height: Get.height,
+             width: Get.width,
           ),
           Container(
-            color: AppColors.black.withOpacity(0.3),
+            color: AppColors.black.withOpacity(0.15),
           ),
           Positioned(
             top: 60,

@@ -44,6 +44,14 @@ class _OnboardingViewState extends State<OnboardingView> {
                 highlightedText: ["Make"],
                 backgroundImage: AppImages.onboardingBackTwo,
               ),
+              OnboardingPage(
+                image: AppImages.onboardingThree,
+                title: "Earn Financial \n Rewards",
+                subtitle:
+                    "Snap, share, and shine—turn every moment into a story worth sharing.",
+                highlightedText: ["Rewards"],
+                backgroundImage: AppImages.onboardingBackTwo,
+              ),
             ],
           ),
           Positioned(
@@ -53,7 +61,7 @@ class _OnboardingViewState extends State<OnboardingView> {
               children: [
                 SmoothPageIndicator(
                   controller: _pageController,
-                  count: 2,
+                  count: 3,
                   effect: WormEffect(
                     dotHeight: 8.0,
                     dotWidth: 8.0,
@@ -72,7 +80,7 @@ class _OnboardingViewState extends State<OnboardingView> {
               onTap: () {
                 if (_pageController.page != null) {
                   final nextPage = (_pageController.page! + 1).toInt();
-                  if (nextPage < 2) {
+                  if (nextPage < 3) {
                     _pageController.animateToPage(
                       nextPage,
                       duration: const Duration(milliseconds: 500),
