@@ -22,7 +22,7 @@ class UploadPostView extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppColors.mainColor,
         scrolledUnderElevation: 0,
-        title: const Text('Create Post or Reels'),
+        title: const Text('Post Photo or Video'),
         centerTitle: true,
         leading: GestureDetector(
           onTap: () {
@@ -45,7 +45,7 @@ class UploadPostView extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Obx(() => CustomButton(
-                          text: 'Post Photos',
+                          text: 'Post Photo',
                           onPressed: () => controller.toggleMode(false),
                           textStyle: h3.copyWith(
                             color: controller.isCreatingReel.value

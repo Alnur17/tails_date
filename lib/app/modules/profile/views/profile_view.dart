@@ -349,6 +349,7 @@ class _ProfileViewState extends State<ProfileView> {
                     )
                   : showGallery
                       ? GridView.builder(
+                          padding: const EdgeInsets.only(bottom: 12),
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           gridDelegate:
@@ -356,12 +357,16 @@ class _ProfileViewState extends State<ProfileView> {
                             crossAxisCount: 3,
                             crossAxisSpacing: 8,
                             mainAxisSpacing: 8,
+                            childAspectRatio: 0.8,
                           ),
-                          itemCount: DummyData.posts.length,
+                          itemCount: DummyData.petOwner.length,
                           itemBuilder: (context, index) {
-                            return Image.network(
-                                DummyData.posts[index]['images'][0],
-                                fit: BoxFit.cover);
+                            return ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.network(
+                                  DummyData.petOwner[index]['image'],
+                                  fit: BoxFit.cover),
+                            );
                           },
                         )
                       : GridView.builder(
