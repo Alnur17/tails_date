@@ -18,9 +18,9 @@ class AuthLandingView extends GetView<AuthHomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.transparent,
+      backgroundColor: AppColors.mainColorTwo,
       appBar: AppBar(
-        backgroundColor: AppColors.transparent,
+        backgroundColor: AppColors.mainColorTwo,
         scrolledUnderElevation: 0,
         toolbarHeight: 0,
       ),
@@ -29,53 +29,83 @@ class AuthLandingView extends GetView<AuthHomeController> {
           Image.asset(
             AppImages.authHome,
             fit: BoxFit.fill,
-             height: Get.height,
+             height: Get.height * 0.825,
              width: Get.width,
           ),
           Container(
             color: AppColors.black.withOpacity(0.15),
           ),
+          // Positioned(
+          //   bottom: 60,
+          //   left: 16,
+          //   right: 16,
+          //   child: Row(
+          //     children: [
+          //       Image.asset(
+          //         AppImages.splashLogo,
+          //         scale: 4,
+          //         height: 100,
+          //         width: 100,
+          //       ),
+          //       sw16,
+          //       Column(
+          //         crossAxisAlignment: CrossAxisAlignment.start,
+          //         children: [
+          //           Text(
+          //             'Welcome to',
+          //             style: h1.copyWith(
+          //               fontSize: 40,
+          //               color: AppColors.white
+          //               //backgroundColor: AppColors.white
+          //             ),
+          //           ),
+          //           Text(
+          //             'TailsDate!',
+          //             style: h1.copyWith(
+          //               fontSize: 40,
+          //               color: AppColors.white,
+          //               //backgroundColor: AppColors.black,
+          //             ),
+          //           ),
+          //         ],
+          //       ),
+          //     ],
+          //   ),
+          // ),
           Positioned(
-            top: 60,
-            left: 16,
-            right: 16,
-            child: Row(
-              children: [
-                Image.asset(
-                  AppImages.authFlower,
-                  scale: 4,
-                ),
-                sw16,
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Welcome to',
-                      style: h1.copyWith(
-                        fontSize: 40,
-                        color: AppColors.white
-                        //backgroundColor: AppColors.white
-                      ),
-                    ),
-                    Text(
-                      'TailsDate!',
-                      style: h1.copyWith(
-                        fontSize: 40,
-                        color: AppColors.white,
-                        //backgroundColor: AppColors.black,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          Positioned(
-            bottom: 75,
+            bottom: 40,
             left: 16,
             right: 16,
             child: Column(
               children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      AppImages.authLogo,
+                      scale: 4,
+                    ),
+                    sw8,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Welcome to',
+                          style: h1
+                        ),
+                        Text(
+                          'TailsDate!',
+                          style: h1.copyWith(
+                            fontSize: 30,
+                            color: AppColors.white,
+                            //backgroundColor: AppColors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                sh16,
                 CustomButton(
                   text: 'SIGN UP WITH EMAIL',
                   onPressed: () {
@@ -102,6 +132,7 @@ class AuthLandingView extends GetView<AuthHomeController> {
                   onPressed: () {
                     Get.to(() => DashboardView());
                   },
+                 //borderColor: AppColors.white,
                 ),
                 sh12,
                 GestureDetector(
@@ -118,7 +149,7 @@ class AuthLandingView extends GetView<AuthHomeController> {
                         TextSpan(
                           //recognizer: ,
                           text: 'Log In',
-                          style: h3.copyWith(fontSize: 18,fontWeight: FontWeight.bold,color: AppColors.goldenYellow,),
+                          style: h3.copyWith(fontSize: 18,fontWeight: FontWeight.bold,color: AppColors.red,),
                         ),
                       ],
                     ),

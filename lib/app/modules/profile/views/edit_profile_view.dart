@@ -222,7 +222,7 @@ class EditProfileView extends GetView {
               sh8,
               CustomDropdown(
                 items: ['Single', 'Married'],
-                hintText: 'Select your pet gender',
+                hintText: 'Select your relationship status',
                 onChanged: (value) {
                   log('Selected value: $value');
                 },

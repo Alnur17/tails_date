@@ -30,27 +30,27 @@ class _OnboardingViewState extends State<OnboardingView> {
             children: [
               OnboardingPage(
                 image: AppImages.onboardingOne,
-                title: "Create Memories with Your Best Friend",
+                title: "Create Memories Meet New Friends",
                 subtitle:
-                    "Connect with fellow pet lovers and cherish every wag, purr, and cuddle.",
-                highlightedText: ["Memories", "Your"],
-                backgroundImage: AppImages.onboardingBackOne,
+                    "Connect with fellow pet lovers in your area, chat, arrange Tailsdates.",
+                highlightedText: ["Memories", "New"],
+                //backgroundImage: AppImages.onboardingBackOne,
               ),
               OnboardingPage(
                 image: AppImages.onboardingTwo,
-                title: "Let’s Make Your Pet the Star!",
+                title: "Let’s Make Your Pet A Star!",
                 subtitle:
-                    "Snap, share, and shine—turn every moment into a story worth sharing.",
+                    "Snap, share and shine – Turn every moment, wag, purr and cuddle in to a story worth telling.",
                 highlightedText: ["Make"],
-                backgroundImage: AppImages.onboardingBackTwo,
+                //backgroundImage: AppImages.onboardingBackTwo,
               ),
               OnboardingPage(
                 image: AppImages.onboardingThree,
                 title: "Earn Financial \n Rewards",
                 subtitle:
-                    "Snap, share, and shine—turn every moment into a story worth sharing.",
-                highlightedText: ["Rewards"],
-                backgroundImage: AppImages.onboardingBackTwo,
+                    "Receive recognition and monetary benefits for your pet photography.",
+                highlightedText: ["Financial"],
+                //backgroundImage: AppImages.onboardingBackTwo,
               ),
             ],
           ),
