@@ -32,7 +32,7 @@ class _OnboardingViewState extends State<OnboardingView> {
                 image: AppImages.onboardingOne,
                 title: "Create Memories Meet New Friends",
                 subtitle:
-                    "Connect with fellow pet lovers in your area, chat, arrange Tailsdates.",
+                    "Connect with fellow pet lovers in your area, \nChat, arrange Tailsdates.",
                 highlightedText: ["Memories", "New"],
                 //backgroundImage: AppImages.onboardingBackOne,
               ),

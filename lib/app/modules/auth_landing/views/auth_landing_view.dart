@@ -73,12 +73,12 @@ class AuthLandingView extends GetView<AuthHomeController> {
           //   ),
           // ),
           Positioned(
-            bottom: 40,
+            bottom: 30,
             left: 16,
             right: 16,
             child: Column(
               children: [
-                Row(
+                Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
@@ -86,22 +86,9 @@ class AuthLandingView extends GetView<AuthHomeController> {
                       scale: 4,
                     ),
                     sw8,
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Welcome to',
-                          style: h1
-                        ),
-                        Text(
-                          'TailsDate!',
-                          style: h1.copyWith(
-                            fontSize: 30,
-                            color: AppColors.white,
-                            //backgroundColor: AppColors.black,
-                          ),
-                        ),
-                      ],
+                    Text(
+                      'Welcome to TailsDate!',
+                      style: h1
                     ),
                   ],
                 ),

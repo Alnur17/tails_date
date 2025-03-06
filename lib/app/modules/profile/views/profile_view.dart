@@ -240,10 +240,11 @@ class _ProfileViewState extends State<ProfileView> {
               sh16,
               // Posts and Collections Toggle
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Expanded(
                     child: CustomButton(
-                      text: 'Posts',
+                      text: 'Post',
                       onPressed: () {
                         setState(() {
                           showPosts = true;
@@ -260,7 +261,7 @@ class _ProfileViewState extends State<ProfileView> {
                   sw12,
                   Expanded(
                     child: CustomButton(
-                      text: 'Reels',
+                      text: 'Video',
                       onPressed: () {
                         setState(() {
                           showPosts = false;
@@ -280,7 +281,23 @@ class _ProfileViewState extends State<ProfileView> {
                   sw12,
                   Expanded(
                     child: CustomButton(
-                      text: 'Gallery',
+                      text: 'Pet \nGallery',
+                      onPressed: () {
+                        setState(() {
+                          showPosts = false;
+                          showGallery = true;
+                        });
+                      },
+                      textStyle: h3.copyWith(
+                        color: showGallery ? Colors.white : Colors.black,
+                      ),
+                      backgroundColor:
+                          showGallery ? AppColors.black : AppColors.transparent,
+                    ),
+                  ), sw12,
+                  Expanded(
+                    child: CustomButton(
+                      text: 'Owner \nGallery',
                       onPressed: () {
                         setState(() {
                           showPosts = false;
