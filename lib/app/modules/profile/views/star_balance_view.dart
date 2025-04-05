@@ -220,12 +220,13 @@ class _StarBalanceViewState extends State<StarBalanceView> {
                         style: h7,
                       ),
                       title: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
                             data['fullName'],
                             style: h6,
                           ),
-                          sw40,
+                          //sw20,
                           Text(
                             '⭐ ${data['numberOfStars']} Stars',
                             style: h6,

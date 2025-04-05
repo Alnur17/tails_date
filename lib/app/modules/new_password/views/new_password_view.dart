@@ -91,6 +91,7 @@ class NewPasswordView extends GetView<NewPasswordController> {
                           Get.to(() => LoginView());
                         },
                       ),
+                      sh16,
                     ],
                   ),
                 ),

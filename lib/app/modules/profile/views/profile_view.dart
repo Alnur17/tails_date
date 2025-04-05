@@ -26,8 +26,10 @@ class ProfileView extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileView> {
-  bool showPosts = true; // To toggle between posts and collections
-  bool showGallery = false;
+  bool showPosts = true;
+  bool showVideo = false;
+  bool showPetGallery = false;
+  bool showOwnerGallery = false;
 
   @override
   Widget build(BuildContext context) {
@@ -248,11 +250,13 @@ class _ProfileViewState extends State<ProfileView> {
                       onPressed: () {
                         setState(() {
                           showPosts = true;
-                          showGallery = false;
+                          showVideo = false;
+                          showPetGallery = false;
+                          showOwnerGallery = false;
                         });
                       },
                       textStyle: h3.copyWith(
-                        color: showPosts ? Colors.white : Colors.black,
+                        color: showPosts ? AppColors.white : AppColors.black,
                       ),
                       backgroundColor:
                           showPosts ? AppColors.black : AppColors.transparent,
@@ -265,15 +269,35 @@ class _ProfileViewState extends State<ProfileView> {
                       onPressed: () {
                         setState(() {
                           showPosts = false;
-                          showGallery = false;
+                          showVideo = true;
+                          showPetGallery = false;
+                          showOwnerGallery = false;
                         });
                       },
                       textStyle: h3.copyWith(
-                        color: !showPosts && !showGallery
-                            ? Colors.white
-                            : Colors.black,
+                        color: showVideo ? AppColors.white : AppColors.black,
                       ),
-                      backgroundColor: !showPosts && !showGallery
+                      backgroundColor:
+                          showVideo ? AppColors.black : AppColors.transparent,
+                    ),
+                  ),
+                  sw12,
+                  Expanded(
+                    child: CustomButton(
+                      text: 'Pet\nGallery',
+                      onPressed: () {
+                        setState(() {
+                          showPosts = false;
+                          showVideo = false;
+                          showPetGallery = true;
+                          showOwnerGallery = false;
+                        });
+                      },
+                      textStyle: h3.copyWith(
+                        color:
+                            showPetGallery ? AppColors.white : AppColors.black,
+                      ),
+                      backgroundColor: showPetGallery
                           ? AppColors.black
                           : AppColors.transparent,
                     ),
@@ -281,34 +305,23 @@ class _ProfileViewState extends State<ProfileView> {
                   sw12,
                   Expanded(
                     child: CustomButton(
-                      text: 'Pet \nGallery',
+                      text: 'Owner\nGallery',
                       onPressed: () {
                         setState(() {
                           showPosts = false;
-                          showGallery = true;
+                          showVideo = false;
+                          showPetGallery = false;
+                          showOwnerGallery = true;
                         });
                       },
                       textStyle: h3.copyWith(
-                        color: showGallery ? Colors.white : Colors.black,
+                        color: showOwnerGallery
+                            ? AppColors.white
+                            : AppColors.black,
                       ),
-                      backgroundColor:
-                          showGallery ? AppColors.black : AppColors.transparent,
-                    ),
-                  ), sw12,
-                  Expanded(
-                    child: CustomButton(
-                      text: 'Owner \nGallery',
-                      onPressed: () {
-                        setState(() {
-                          showPosts = false;
-                          showGallery = true;
-                        });
-                      },
-                      textStyle: h3.copyWith(
-                        color: showGallery ? Colors.white : Colors.black,
-                      ),
-                      backgroundColor:
-                          showGallery ? AppColors.black : AppColors.transparent,
+                      backgroundColor: showOwnerGallery
+                          ? AppColors.black
+                          : AppColors.transparent,
                     ),
                   ),
                 ],
@@ -316,125 +329,173 @@ class _ProfileViewState extends State<ProfileView> {
 
               sh20,
               // Posts or Collections
-              showPosts
-                  ? ListView.builder(
+              if (showPosts)
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: DummyData.posts.length,
+                  itemBuilder: (context, index) {
+                    final post = DummyData.posts[index];
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: UserPostCard(
+                        userName: post['userName'] ?? '',
+                        location: post['location'] ?? '',
+                        profileImage: post['profileImage'] ?? '',
+                        images: List<String>.from(post['images'] ?? []),
+                        description: post['description'] ?? '',
+                        likeCount: post['likeCount'] ?? 0,
+                        timeAgo: post['timeAgo'] ?? '',
+                        showAddFriendButton: false,
+                        popupMenuButton: CustomPopupMenuButton(
+                          items: [
+                            PopupMenuItemData(
+                              value: 'Edit Post',
+                              label: 'Edit Post',
+                              onSelected: () {
+                                Get.to(() => EditPostView(
+                                      location: post['location'] ?? '',
+                                      images: List<String>.from(
+                                          post['images'] ?? []),
+                                      description: post['description'] ?? '',
+                                    ));
+                              },
+                            ),
+                            PopupMenuItemData(isDivider: true),
+                            PopupMenuItemData(
+                              value: 'Delete Post',
+                              label: 'Delete Post',
+                              onSelected: () {
+                                log('Delete Post selected');
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                )
+              else if (showVideo)
+                GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 12,
+                    mainAxisSpacing: 12,
+                    childAspectRatio: 1,
+                  ),
+                  itemCount: DummyData.posts.length,
+                  itemBuilder: (context, index) {
+                    final collection = DummyData.posts[index];
+                    final imageUrl = (collection['images'] as List).isNotEmpty
+                        ? collection['images'][0]
+                        : AppImages.imageNotAvailable;
+                    return GestureDetector(
+                      onTap: () {
+                        Get.to(() => ReelsView());
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          color: AppColors.white,
+                        ),
+                        child: Stack(
+                          children: [
+                            Positioned.fill(
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: Image.network(
+                                  imageUrl,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              left: 0,
+                              right: 0,
+                              child: Image.asset(
+                                AppImages.playSmall,
+                                scale: 4,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                )
+              else if (showPetGallery)
+                Column(
+                  children: [
+                    CustomButton(
+                      text: 'Upload an Image',
+                      onPressed: () {},
+                      imageAssetPath: AppImages.uploadImage,
+                      backgroundColor: AppColors.fillColorTwo,
+                      textStyle: h3.copyWith(
+                        color: AppColors.secondaryOrangeColor,
+                      ),
+                    ),
+                    GridView.builder(
+                      padding: const EdgeInsets.only(top: 12),
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: DummyData.posts.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        crossAxisSpacing: 8,
+                        mainAxisSpacing: 8,
+                        childAspectRatio: 0.8,
+                      ),
+                      itemCount: DummyData.petOwner.length,
                       itemBuilder: (context, index) {
-                        final post = DummyData.posts[index];
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8),
-                          child: UserPostCard(
-                            userName: post['userName'] ?? '',
-                            location: post['location'] ?? '',
-                            profileImage: post['profileImage'] ?? '',
-                            images: List<String>.from(post['images'] ?? []),
-                            description: post['description'] ?? '',
-                            likeCount: post['likeCount'] ?? 0,
-                            timeAgo: post['timeAgo'] ?? '',
-                            showAddFriendButton: false,
-                            popupMenuButton: CustomPopupMenuButton(
-                              items: [
-                                PopupMenuItemData(
-                                  value: 'Edit Post',
-                                  label: 'Edit Post',
-                                  onSelected: () {
-                                    Get.to(() => EditPostView(
-                                          //selectedCategory: post['userName'] ?? '',
-                                          location: post['location'] ?? '',
-                                          images: List<String>.from(
-                                              post['images'] ?? []),
-                                          description:
-                                              post['description'] ?? '',
-                                        ));
-                                  },
-                                ),
-                                PopupMenuItemData(isDivider: true),
-                                PopupMenuItemData(
-                                  value: 'Delete Post',
-                                  label: 'Delete Post',
-                                  onSelected: () {
-                                    log('Delete Post selected');
-                                  },
-                                ),
-                              ],
-                            ),
+                        return ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Image.network(
+                            DummyData.petOwner[index]['image'],
+                            fit: BoxFit.cover,
                           ),
                         );
                       },
-                    )
-                  : showGallery
-                      ? GridView.builder(
-                          padding: const EdgeInsets.only(bottom: 12),
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
-                            crossAxisSpacing: 8,
-                            mainAxisSpacing: 8,
-                            childAspectRatio: 0.8,
+                    ),
+                  ],
+                )
+              else if (showOwnerGallery)
+                Column(
+                  children: [
+                    CustomButton(
+                      text: 'Upload an Image',
+                      onPressed: () {},
+                      imageAssetPath: AppImages.uploadImage,
+                      backgroundColor: AppColors.fillColorTwo,
+                      textStyle: h3.copyWith(
+                        color: AppColors.secondaryOrangeColor,
+                      ),
+                    ),
+                    GridView.builder(
+                      padding: const EdgeInsets.only(top: 12),
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        crossAxisSpacing: 8,
+                        mainAxisSpacing: 8,
+                        childAspectRatio: 0.8,
+                      ),
+                      itemCount: DummyData.petOwner.length,
+                      itemBuilder: (context, index) {
+                        return ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Image.network(
+                            DummyData.petOwner[index]['image'],
+                            fit: BoxFit.cover,
                           ),
-                          itemCount: DummyData.petOwner.length,
-                          itemBuilder: (context, index) {
-                            return ClipRRect(
-                              borderRadius: BorderRadius.circular(12),
-                              child: Image.network(
-                                  DummyData.petOwner[index]['image'],
-                                  fit: BoxFit.cover),
-                            );
-                          },
-                        )
-                      : GridView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 12,
-                            mainAxisSpacing: 12,
-                            childAspectRatio: 1,
-                          ),
-                          itemCount: DummyData.posts.length,
-                          itemBuilder: (context, index) {
-                            final collection = DummyData.posts[index];
-                            final imageUrl = (collection['images']).isNotEmpty
-                                ? collection['images'][0]
-                                : AppImages.imageNotAvailable;
-                            return GestureDetector(
-                              onTap: () {
-                                Get.to(() => ReelsView());
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
-                                  color: AppColors.white,
-                                ),
-                                child: Stack(
-                                  children: [
-                                    Positioned.fill(
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(12),
-                                        child: Image.network(
-                                          imageUrl,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
-                                    Positioned(
-                                        left: 0,
-                                        right: 0,
-                                        child: Image.asset(
-                                          AppImages.playSmall,
-                                          scale: 4,
-                                        ))
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                        ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
               sh20,
             ],
           ),

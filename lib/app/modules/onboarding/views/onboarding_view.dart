@@ -56,7 +56,7 @@ class _OnboardingViewState extends State<OnboardingView> {
           ),
           Positioned(
             bottom: 40,
-            left: 50,
+            left: 40,
             child: Column(
               children: [
                 SmoothPageIndicator(
@@ -75,7 +75,7 @@ class _OnboardingViewState extends State<OnboardingView> {
           ),
           Positioned(
             right: 40,
-            bottom: 30,
+            bottom: 20,
             child: GestureDetector(
               onTap: () {
                 if (_pageController.page != null) {

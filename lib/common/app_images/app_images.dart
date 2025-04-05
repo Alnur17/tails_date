@@ -52,6 +52,7 @@ class AppImages {
   static const payment = "assets/icons/payment.png";
   static const accountDelete = "assets/icons/account delete.png";
   static const upload = "assets/icons/upload.png";
+  static const uploadImage = "assets/icons/Upload Image.png";
   static const camera = "assets/icons/camera.png";
   static const gallery = "assets/icons/gallery.png";
   static const facebook = "assets/icons/facebook.png";
@@ -65,7 +66,7 @@ class AppImages {
   //================ Images ==================>
   static const authLogo = "assets/images/auth logo.png";
   static const onboardingOne = "assets/images/onboarding 1.jpg";
-  static const onboardingTwo = "assets/images/onboarding 2.png";
+  static const onboardingTwo = "assets/images/onboarding 2.jpg";
   static const onboardingThree = "assets/images/EearnFinancialRewards.png";
   static const onboardingBackOne = "assets/images/onboarding background 1.png";
   static const onboardingBackTwo = "assets/images/onboarding background 2.png";

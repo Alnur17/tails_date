@@ -36,132 +36,135 @@ class ProfileSettingView extends GetView {
           ),
         ),
       ),
-      body: Column(
-        children: [
-          ListTile(
-            leading: CircleAvatar(
-              radius: 25,
-              backgroundColor: AppColors.white,
-              backgroundImage: NetworkImage(AppImages.catProfileImage),
-            ),
-            title: Text('Piku_The_King'),
-            subtitle: Row(
-              children: [
-                Image.asset(
-                  AppImages.location,
-                  scale: 4,
-                ),
-                sw12,
-                Text('23/1-A, Florida, USA.')
-              ],
-            ),
-          ),
-          sh16,
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: SingleChildScrollView(
-              child: Column(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            ListTile(
+              leading: CircleAvatar(
+                radius: 25,
+                backgroundColor: AppColors.white,
+                backgroundImage: NetworkImage(AppImages.catProfileImage),
+              ),
+              title: Text('Piku_The_King'),
+              subtitle: Row(
                 children: [
-                  CustomContainer(
-                    text: 'Change Password',
-                    imagePath: AppImages.unLock,
-                    onTap: () {
-                      Get.to(() => ChangePasswordView());
-                    },
+                  Image.asset(
+                    AppImages.location,
+                    scale: 4,
                   ),
-                  sh16,
-                  CustomContainer(
-                    onTap: () {
-                      Get.to(() => PrivacyPolicyView());
-                    },
-                    text: 'Privacy Policy',
-                    imagePath: AppImages.adminSettings,
-                  ),
-                  sh16,
-                  CustomContainer(
-                    onTap: () {
-                      Get.to(() => TermsOfServicesView());
-                    },
-                    text: 'Terms of Services',
-                    imagePath: AppImages.adminSettings,
-                  ),
-                  sh16,
-                  CustomContainer(
-                    onTap: () {
-                      Get.to(() => SubscriptionPlanView());
-                    },
-                    text: 'Payment System',
-                    imagePath: AppImages.payment,
-                  ),
-                  sh16,
-                  CustomContainer(
-                    onTap: () {
-                      Get.to(() => StarBalanceView());
-                    },
-                    text: 'Star Balance',
-                    imagePath: AppImages.star,
-                  ),
-                  sh16,
-                  CustomContainer(
-                    onTap: () {
-                      Get.to(() => CollectionsView());
-                    },
-                    text: 'Collections',
-                    imagePath: AppImages.bookmark,
-                  ),
-                  sh16,
-                  Container(
-                    padding: EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color: AppColors.white),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('App Language', style: h3),
-                            Image.asset(AppImages.language, scale: 4),
-                          ],
-                        ),
-                        sh8,
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Image.asset(AppImages.checkBoxFilled, scale: 4),
-                            sw12,
-                            Text('English', style: h4),
-                            sw16,
-                            Image.asset(AppImages.checkBox, scale: 4),
-                            sw12,
-                            Text('Spanish', style: h4),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  sh16,
-                  CustomContainer(
-                    onTap: () {
-                      showDeleteAccountDialog(context);
-                    },
-                    text: 'Delete Account',
-                    imagePath: AppImages.accountDelete,
-                  ),
-                  sh16,
-                  CustomContainer(
-                    onTap: () {},
-                    text: 'Log out',
-                    textStyle: h3.copyWith(
-                      color: AppColors.red,
-                    ),
-                    imagePath: AppImages.logoutTwo,
-                  ),
+                  sw12,
+                  Text('23/1-A, Florida, USA.')
                 ],
               ),
             ),
-          ),
-        ],
+            sh16,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    CustomContainer(
+                      text: 'Change Password',
+                      imagePath: AppImages.unLock,
+                      onTap: () {
+                        Get.to(() => ChangePasswordView());
+                      },
+                    ),
+                    sh16,
+                    CustomContainer(
+                      onTap: () {
+                        Get.to(() => PrivacyPolicyView());
+                      },
+                      text: 'Privacy Policy',
+                      imagePath: AppImages.adminSettings,
+                    ),
+                    sh16,
+                    CustomContainer(
+                      onTap: () {
+                        Get.to(() => TermsOfServicesView());
+                      },
+                      text: 'Terms of Services',
+                      imagePath: AppImages.adminSettings,
+                    ),
+                    sh16,
+                    CustomContainer(
+                      onTap: () {
+                        Get.to(() => SubscriptionPlanView());
+                      },
+                      text: 'Payment System',
+                      imagePath: AppImages.payment,
+                    ),
+                    sh16,
+                    CustomContainer(
+                      onTap: () {
+                        Get.to(() => StarBalanceView());
+                      },
+                      text: 'Star Balance',
+                      imagePath: AppImages.star,
+                    ),
+                    sh16,
+                    CustomContainer(
+                      onTap: () {
+                        Get.to(() => CollectionsView());
+                      },
+                      text: 'Collections',
+                      imagePath: AppImages.bookmark,
+                    ),
+                    sh16,
+                    Container(
+                      padding: EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          color: AppColors.white),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('App Language', style: h3),
+                              Image.asset(AppImages.language, scale: 4),
+                            ],
+                          ),
+                          sh8,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Image.asset(AppImages.checkBoxFilled, scale: 4),
+                              sw12,
+                              Text('English', style: h4),
+                              sw16,
+                              Image.asset(AppImages.checkBox, scale: 4),
+                              sw12,
+                              Text('Spanish', style: h4),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    sh16,
+                    CustomContainer(
+                      onTap: () {
+                        showDeleteAccountDialog(context);
+                      },
+                      text: 'Delete Account',
+                      imagePath: AppImages.accountDelete,
+                    ),
+                    sh16,
+                    CustomContainer(
+                      onTap: () {},
+                      text: 'Log out',
+                      textStyle: h3.copyWith(
+                        color: AppColors.red,
+                      ),
+                      imagePath: AppImages.logoutTwo,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            sh16,
+          ],
+        ),
       ),
     );
   }

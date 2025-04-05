@@ -29,7 +29,7 @@ class AuthLandingView extends GetView<AuthHomeController> {
           Image.asset(
             AppImages.authHome,
             fit: BoxFit.fill,
-             height: Get.height * 0.825,
+             height: Get.height * 0.785,
              width: Get.width,
           ),
           Container(

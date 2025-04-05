@@ -16,7 +16,7 @@ class CustomTextField extends StatelessWidget {
 
   const CustomTextField({
     super.key,
-    this.height = 54,
+    this.height = 48,
     this.controller,
     this.hintText,
     this.hintTextStyle,

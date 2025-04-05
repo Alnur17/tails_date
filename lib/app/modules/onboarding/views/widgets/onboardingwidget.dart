@@ -27,7 +27,7 @@ class OnboardingPage extends StatelessWidget {
       child: Stack(
         children: [
           Positioned.fill(
-            bottom: Get.height * 0.35,
+            bottom: Get.height * 0.4,
             child: Image.asset(
               image,
               fit: BoxFit.cover,

@@ -116,9 +116,11 @@ class CashOutYourStarsView extends GetView {
                     ),
                   ),
                   sw12,
-                  Text(
-                    'CashOuts are available on the 1st of each month.',
-                    style: h6,
+                  Expanded(
+                    child: Text(
+                      'CashOuts are available on the 1st of each month.',
+                      style: h6,
+                    ),
                   ),
                 ],
               ),
@@ -133,9 +135,11 @@ class CashOutYourStarsView extends GetView {
                     ),
                   ),
                   sw12,
-                  Text(
-                    'The cashOut amount will be less than what you spent on points.',
-                    style: h6,
+                  Expanded(
+                    child: Text(
+                      'The cashOut amount will be less than what you spent on points.',
+                      style: h6,
+                    ),
                   ),
                 ],
               ),

@@ -19,7 +19,7 @@ class CustomButton extends StatelessWidget {
     required this.onPressed,
     this.backgroundColor,
     this.textStyle,
-    this.height = 54,
+    this.height = 48,
     this.width = double.infinity,
     this.borderColor,
     this.imageAssetPath,
@@ -33,7 +33,7 @@ class CustomButton extends StatelessWidget {
       child: Container(
         height: height,
         width: width,
-        padding: const EdgeInsets.only(left: 12, right: 12),
+        //padding: const EdgeInsets.only(left: 12, right: 12),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(borderRadius!),
           border: Border.all(color: borderColor ?? AppColors.transparent),

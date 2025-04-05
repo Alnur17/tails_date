@@ -86,6 +86,7 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
                           Get.to(() => VerifyOtpView());
                         },
                       ),
+                      sh16,
                     ],
                   ),
                 ),
