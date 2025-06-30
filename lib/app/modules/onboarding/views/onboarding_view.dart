@@ -34,7 +34,6 @@ class _OnboardingViewState extends State<OnboardingView> {
                 subtitle:
                     "Connect with fellow pet lovers in your area, \nChat, arrange Tailsdates.",
                 highlightedText: ["Memories", "New"],
-                //backgroundImage: AppImages.onboardingBackOne,
               ),
               OnboardingPage(
                 image: AppImages.onboardingTwo,
@@ -42,7 +41,6 @@ class _OnboardingViewState extends State<OnboardingView> {
                 subtitle:
                     "Snap, share and shine – Turn every moment, wag, purr and cuddle in to a story worth telling.",
                 highlightedText: ["Make"],
-                //backgroundImage: AppImages.onboardingBackTwo,
               ),
               OnboardingPage(
                 image: AppImages.onboardingThree,
@@ -50,7 +48,6 @@ class _OnboardingViewState extends State<OnboardingView> {
                 subtitle:
                     "Receive recognition and monetary benefits for your pet photography.",
                 highlightedText: ["Financial"],
-                //backgroundImage: AppImages.onboardingBackTwo,
               ),
             ],
           ),

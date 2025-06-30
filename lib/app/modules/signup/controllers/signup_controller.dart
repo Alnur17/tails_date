@@ -1,23 +1,21 @@
 import 'package:get/get.dart';
 
 class SignupController extends GetxController {
-  //TODO: Implement SignupController
+  var isPasswordVisible = false.obs;
+  var isPasswordVisible1 = false.obs;
+  var isCheckboxVisible = false.obs;
 
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
+  void togglePasswordVisibility() {
+    isPasswordVisible.toggle();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
+  void togglePasswordVisibility1() {
+    isPasswordVisible1.toggle();
   }
 
-  @override
-  void onClose() {
-    super.onClose();
+  void toggleCheckboxVisibility() {
+    isCheckboxVisible.toggle();
+
   }
 
-  void increment() => count.value++;
 }

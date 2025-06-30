@@ -10,7 +10,6 @@ class OnboardingPage extends StatelessWidget {
   final String title;
   final String subtitle;
   final List<String> highlightedText;
-  //final String backgroundImage;
 
   const OnboardingPage({
     super.key,
@@ -18,7 +17,6 @@ class OnboardingPage extends StatelessWidget {
     required this.title,
     required this.subtitle,
     required this.highlightedText,
-    //required this.backgroundImage,
   });
 
   @override
@@ -27,9 +25,10 @@ class OnboardingPage extends StatelessWidget {
       child: Stack(
         children: [
           Positioned.fill(
-            bottom: Get.height * 0.4,
+            bottom: Get.height * 0.35,
             child: Image.asset(
               image,
+              scale: 4,
               fit: BoxFit.cover,
               width: Get.width,
             ),
@@ -64,7 +63,7 @@ class OnboardingPage extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: h4,
                 ),
-                sh100,
+                sh87,
               ],
             ),
           ),

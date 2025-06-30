@@ -96,7 +96,7 @@ class AddStoryView extends GetView<AddStoryController> {
                                 ),
                                 sw8,
                                 Text(
-                                  'Choose from Gallery',
+                                  'Choose from Gallery sasdas',
                                   style: h4,
                                 ),
                               ],

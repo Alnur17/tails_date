@@ -13,22 +13,42 @@ import '../controllers/new_password_controller.dart';
 
 class NewPasswordView extends GetView<NewPasswordController> {
   const NewPasswordView({super.key});
+
   @override
   Widget build(BuildContext context) {
+    final NewPasswordController newPasswordController =
+        Get.put(NewPasswordController());
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       body: SafeArea(
         child: Column(
           children: [
-            SizedBox(
-              height: 380,
-              width: double.infinity,
-              child: Image.asset(
-                AppImages.newPassImage,
-                fit: BoxFit.cover,
-                scale: 4,
-              ),
+            Stack(
+              children: [
+                SizedBox(
+                  height: 380,
+                  width: double.infinity,
+                  child: Image.asset(
+                    AppImages.newPassImage,
+                    fit: BoxFit.cover,
+                    scale: 4,
+                  ),
+                ),
+                Positioned(
+                  top: 16,
+                  left: 16,
+                  child: GestureDetector(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: Image.asset(
+                        AppImages.back,
+                        scale: 4,
+                      )),
+                ),
+              ],
             ),
+
             // Form section
             Expanded(
               child: Container(
@@ -61,27 +81,49 @@ class NewPasswordView extends GetView<NewPasswordController> {
                         textAlign: TextAlign.center,
                       ),
                       sh24,
-                      CustomTextField(
-                        hintText: 'New password',
-                        preIcon: Image.asset(
-                          AppImages.lock,
-                          scale: 4,
-                        ),
-                        sufIcon: Image.asset(
-                          AppImages.eyeClose,
-                          scale: 4,
+                      Obx(
+                        () => CustomTextField(
+                          hintText: 'New password',
+                          preIcon: Image.asset(
+                            AppImages.lock,
+                            scale: 4,
+                          ),
+                          sufIcon: GestureDetector(
+                            onTap: () {
+                              newPasswordController.togglePasswordVisibility();
+                            },
+                            child: Image.asset(
+                              newPasswordController.isPasswordVisible.value
+                                  ? AppImages.eye
+                                  : AppImages.eyeClose,
+                              scale: 4,
+                            ),
+                          ),
+                          obscureText:
+                              !newPasswordController.isPasswordVisible.value,
                         ),
                       ),
                       sh16,
-                      CustomTextField(
-                        hintText: 'Confirm your password',
-                        preIcon: Image.asset(
-                          AppImages.lock,
-                          scale: 4,
-                        ),
-                        sufIcon: Image.asset(
-                          AppImages.eyeClose,
-                          scale: 4,
+                      Obx(
+                        () => CustomTextField(
+                          hintText: 'Confirm your password',
+                          preIcon: Image.asset(
+                            AppImages.lock,
+                            scale: 4,
+                          ),
+                          sufIcon: GestureDetector(
+                            onTap: () {
+                              newPasswordController.togglePasswordVisibility1();
+                            },
+                            child: Image.asset(
+                              newPasswordController.isPasswordVisible1.value
+                                  ? AppImages.eye
+                                  : AppImages.eyeClose,
+                              scale: 4,
+                            ),
+                          ),
+                          obscureText:
+                              !newPasswordController.isPasswordVisible1.value,
                         ),
                       ),
                       sh24,

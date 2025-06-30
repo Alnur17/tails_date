@@ -18,19 +18,36 @@ class LoginView extends GetView<LoginController> {
 
   @override
   Widget build(BuildContext context) {
+    final LoginController loginController = Get.put(LoginController());
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       body: SafeArea(
         child: Column(
           children: [
-            SizedBox(
-              height: 380,
-              width: double.infinity,
-              child: Image.asset(
-                AppImages.loginImage,
-                fit: BoxFit.cover,
-                scale: 4,
-              ),
+            Stack(
+              children: [
+                SizedBox(
+                  height: 350,
+                  width: double.infinity,
+                  child: Image.asset(
+                    AppImages.loginImage,
+                    fit: BoxFit.cover,
+                    scale: 4,
+                  ),
+                ),
+                Positioned(
+                  top: 16,
+                  left: 16,
+                  child: GestureDetector(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: Image.asset(
+                        AppImages.back,
+                        scale: 4,
+                      )),
+                ),
+              ],
             ),
             // Form section
             Expanded(
@@ -72,20 +89,30 @@ class LoginView extends GetView<LoginController> {
                         ),
                       ),
                       sh16,
-                      CustomTextField(
-                        hintText: 'Enter your password',
-                        preIcon: Image.asset(
-                          AppImages.lock,
-                          scale: 4,
-                        ),
-                        sufIcon: Image.asset(
-                          AppImages.eyeClose,
-                          scale: 4,
+                      Obx(
+                        () => CustomTextField(
+                          hintText: 'Enter your password',
+                          preIcon: Image.asset(
+                            AppImages.lock,
+                            scale: 4,
+                          ),
+                          sufIcon: GestureDetector(
+                            onTap: () {
+                              loginController.togglePasswordVisibility();
+                            },
+                            child: Image.asset(
+                              loginController.isPasswordVisible.value
+                                  ? AppImages.eye
+                                  : AppImages.eyeClose,
+                              scale: 4,
+                            ),
+                          ),
+                          obscureText: !loginController.isPasswordVisible.value,
                         ),
                       ),
                       sh24,
                       GestureDetector(
-                        onTap: (){
+                        onTap: () {
                           Get.to(() => ForgotPasswordView());
                         },
                         child: Align(

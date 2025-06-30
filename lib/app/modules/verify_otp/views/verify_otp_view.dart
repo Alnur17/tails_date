@@ -23,15 +23,32 @@ class VerifyOtpView extends GetView<VerifyOtpController> {
       body: SafeArea(
         child: Column(
           children: [
-            SizedBox(
-              height: 380,
-              width: double.infinity,
-              child: Image.asset(
-                AppImages.verifyCodeImage,
-                fit: BoxFit.cover,
-                scale: 4,
-              ),
+            Stack(
+              children: [
+                SizedBox(
+                  height: 380,
+                  width: double.infinity,
+                  child: Image.asset(
+                    AppImages.verifyCodeImage,
+                    fit: BoxFit.cover,
+                    scale: 4,
+                  ),
+                ),
+                Positioned(
+                  top: 16,
+                  left: 16,
+                  child: GestureDetector(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: Image.asset(
+                        AppImages.back,
+                        scale: 4,
+                      )),
+                ),
+              ],
             ),
+
             // Form section
             Expanded(
               child: Container(

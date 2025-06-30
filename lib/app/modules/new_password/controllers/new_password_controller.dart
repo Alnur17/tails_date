@@ -1,23 +1,14 @@
 import 'package:get/get.dart';
 
 class NewPasswordController extends GetxController {
-  //TODO: Implement NewPasswordController
+  var isPasswordVisible = false.obs;
+  var isPasswordVisible1 = false.obs;
 
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
+  void togglePasswordVisibility() {
+    isPasswordVisible.toggle();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
+  void togglePasswordVisibility1() {
+    isPasswordVisible1.toggle();
   }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
 }

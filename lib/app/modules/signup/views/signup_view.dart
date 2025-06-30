@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tails_date/app/modules/dashboard/views/dashboard_view.dart';
 import 'package:tails_date/app/modules/login/views/login_view.dart';
+import 'package:tails_date/app/modules/terms_of_services/views/terms_of_services_view.dart';
 import 'package:tails_date/common/app_color/app_colors.dart';
 import 'package:tails_date/common/app_images/app_images.dart';
 import 'package:tails_date/common/widgets/custom_button.dart';
@@ -17,36 +18,83 @@ class SignupView extends GetView<SignupController> {
 
   @override
   Widget build(BuildContext context) {
+    final SignupController signupController = Get.put(SignupController());
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       body: SafeArea(
         child: Column(
           children: [
-            SizedBox(
-              height: 350,
-              width: double.infinity,
-              child: Image.asset(
-                AppImages.signUpImage,
-                fit: BoxFit.cover,
-              ),
-            ),
+            // Container(
+            //   height: 350,
+            //   width: double.infinity,
+            //   decoration: BoxDecoration(
+            //     border: Border(
+            //       bottom: BorderSide(
+            //         color: AppColors.black,
+            //         width: 4.0,
+            //       ),
+            //     ),
+            //     borderRadius: BorderRadius.only(
+            //       bottomLeft: Radius.circular(40),
+            //       bottomRight: Radius.circular(40),
+            //     ),
+            //   ),
+            //   child: ClipRRect(
+            //     borderRadius: BorderRadius.only(
+            //         bottomLeft: Radius.circular(40),
+            //         bottomRight: Radius.circular(40)),
+            //     child: Image.asset(
+            //       AppImages.signUpImage,
+            //       fit: BoxFit.cover,
+            //     ),
+            //   ),
+            // ),
             // Form section
-            Expanded(
-              child: Container(
-                padding: EdgeInsets.only(left: 16, right: 16),
-                decoration: BoxDecoration(
-                  border: Border(
-                    top: BorderSide(
-                      color: AppColors.black,
-                      width: 4.0,
+            Stack(
+              children: [
+                Container(
+                  height: 350,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        color: AppColors.black,
+                        width: 4.0,
+                      ),
+                    ),
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(40),
+                      bottomRight: Radius.circular(40),
                     ),
                   ),
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(40),
-                      topRight: Radius.circular(40)),
-                  color: AppColors.mainColor,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(40),
+                        bottomRight: Radius.circular(40)),
+                    child: Image.asset(
+                      AppImages.signUpImage,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
-                child: SingleChildScrollView(
+                Positioned(
+                  top: 16,
+                  left: 16,
+                  child: GestureDetector(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: Image.asset(
+                        AppImages.back,
+                        scale: 4,
+                      )),
+                ),
+              ],
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -79,36 +127,62 @@ class SignupView extends GetView<SignupController> {
                         ),
                       ),
                       sh16,
-                      CustomTextField(
-                        hintText: 'Enter your password',
-                        preIcon: Image.asset(
-                          AppImages.lock,
-                          scale: 4,
-                        ),
-                        sufIcon: Image.asset(
-                          AppImages.eyeClose,
-                          scale: 4,
+                      Obx(
+                        () => CustomTextField(
+                          hintText: 'Enter your password',
+                          preIcon: Image.asset(
+                            AppImages.lock,
+                            scale: 4,
+                          ),
+                          sufIcon: GestureDetector(
+                            onTap: () {
+                              signupController.togglePasswordVisibility();
+                            },
+                            child: Image.asset(
+                              signupController.isPasswordVisible.value
+                                  ? AppImages.eye
+                                  : AppImages.eyeClose,
+                              scale: 4,
+                            ),
+                          ),
+                          obscureText:
+                              !signupController.isPasswordVisible.value,
                         ),
                       ),
                       sh16,
-                      CustomTextField(
-                        hintText: 'Confirm your password',
-                        preIcon: Image.asset(
-                          AppImages.lock,
-                          scale: 4,
-                        ),
-                        sufIcon: Image.asset(
-                          AppImages.eyeClose,
-                          scale: 4,
+                      Obx(
+                        () => CustomTextField(
+                          hintText: 'Confirm your password',
+                          preIcon: Image.asset(
+                            AppImages.lock,
+                            scale: 4,
+                          ),
+                          sufIcon: GestureDetector(
+                            onTap: () {
+                              signupController.togglePasswordVisibility1();
+                            },
+                            child: Image.asset(
+                              signupController.isPasswordVisible1.value
+                                  ? AppImages.eye
+                                  : AppImages.eyeClose,
+                              scale: 4,
+                            ),
+                          ),
+                          obscureText:
+                              !signupController.isPasswordVisible1.value,
                         ),
                       ),
                       sh24,
                       Row(
                         children: [
-                          Checkbox(
-                            value: false,
-                            onChanged: (value) {},
-                            activeColor: AppColors.black,
+                          Obx(
+                            () => Checkbox(
+                              value: signupController.isCheckboxVisible.value,
+                              onChanged: (value) {
+                                signupController.toggleCheckboxVisibility();
+                              },
+                              activeColor: AppColors.black,
+                            ),
                           ),
                           Text(
                             'By agreeing to the ',
@@ -116,7 +190,7 @@ class SignupView extends GetView<SignupController> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              // Handle Terms & Conditions tap
+                              Get.to(() => TermsOfServicesView());
                             },
                             child: Text(
                               'Terms & Condition',
@@ -130,14 +204,14 @@ class SignupView extends GetView<SignupController> {
                       CustomButton(
                         text: 'Sign Up',
                         onPressed: () {
-                          Get.to(()=> DashboardView());
+                          Get.to(() => DashboardView());
                         },
                       ),
                       sh16,
                       Center(
                         child: GestureDetector(
                           onTap: () {
-                            Get.to(()=> LoginView());
+                            Get.to(() => LoginView());
                           },
                           child: Text.rich(
                             TextSpan(
@@ -145,7 +219,6 @@ class SignupView extends GetView<SignupController> {
                               style: h4,
                               children: [
                                 TextSpan(
-        
                                   text: 'Log In',
                                   style: h3.copyWith(
                                     color: AppColors.secondaryOrangeColor,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../app_color/app_colors.dart';
 import '../app_text_style/styles.dart';
 
@@ -13,6 +14,9 @@ class CustomTextField extends StatelessWidget {
   final double borderRadius;
   final Color? containerColor;
   final Color? borderColor;
+  final bool obscureText;
+  final TextInputType? keyboardType;
+  final List<TextInputFormatter>? inputFormatters;
 
   const CustomTextField({
     super.key,
@@ -23,7 +27,12 @@ class CustomTextField extends StatelessWidget {
     this.sufIcon,
     this.preIcon,
     this.onChange,
-    this.borderRadius = 12, this.containerColor, this.borderColor,
+    this.borderRadius = 12,
+    this.containerColor,
+    this.borderColor,
+    this.obscureText = false,
+    this.keyboardType,
+    this.inputFormatters,
   });
 
   @override
@@ -39,8 +48,10 @@ class CustomTextField extends StatelessWidget {
         textInputAction: TextInputAction.done,
         onChanged: onChange,
         controller: controller,
-        maxLines: null,
-        keyboardType: TextInputType.multiline,
+        maxLines: obscureText ? 1 : null,
+        keyboardType: obscureText ? TextInputType.text : (keyboardType ?? TextInputType.multiline),
+        obscureText: obscureText,
+        inputFormatters: inputFormatters,
         decoration: InputDecoration(
           hintText: hintText ?? '',
           hintStyle: hintTextStyle ?? h4.copyWith(color: AppColors.grey),

@@ -7,6 +7,7 @@ class AppImages {
   static const checkBox = "assets/icons/Checbox container.png";
   static const checkBoxFilled = "assets/icons/Checbox filled.png";
   static const eyeClose = "assets/icons/eye close.png";
+  static const eye = "assets/icons/eye.png";
   static const lock = "assets/icons/lock.png";
   static const unLock = "assets/icons/unlock.png";
   static const message = "assets/icons/message.png";
