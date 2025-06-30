@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:tails_date/app/modules/dashboard/views/dashboard_view.dart';
 import 'package:tails_date/app/modules/login/views/login_view.dart';
 import 'package:tails_date/app/modules/terms_of_services/views/terms_of_services_view.dart';
 import 'package:tails_date/common/app_color/app_colors.dart';
@@ -11,6 +10,7 @@ import 'package:tails_date/common/widgets/custom_button.dart';
 import '../../../../common/app_text_style/styles.dart';
 import '../../../../common/size_box/custom_sizebox.dart';
 import '../../../../common/widgets/custom_textfield.dart';
+import '../../home/model/all_category_model.dart';
 import '../controllers/signup_controller.dart';
 
 class SignupView extends GetView<SignupController> {
@@ -24,32 +24,6 @@ class SignupView extends GetView<SignupController> {
       body: SafeArea(
         child: Column(
           children: [
-            // Container(
-            //   height: 350,
-            //   width: double.infinity,
-            //   decoration: BoxDecoration(
-            //     border: Border(
-            //       bottom: BorderSide(
-            //         color: AppColors.black,
-            //         width: 4.0,
-            //       ),
-            //     ),
-            //     borderRadius: BorderRadius.only(
-            //       bottomLeft: Radius.circular(40),
-            //       bottomRight: Radius.circular(40),
-            //     ),
-            //   ),
-            //   child: ClipRRect(
-            //     borderRadius: BorderRadius.only(
-            //         bottomLeft: Radius.circular(40),
-            //         bottomRight: Radius.circular(40)),
-            //     child: Image.asset(
-            //       AppImages.signUpImage,
-            //       fit: BoxFit.cover,
-            //     ),
-            //   ),
-            // ),
-            // Form section
             Stack(
               children: [
                 Container(
@@ -81,13 +55,14 @@ class SignupView extends GetView<SignupController> {
                   top: 16,
                   left: 16,
                   child: GestureDetector(
-                      onTap: () {
-                        Get.back();
-                      },
-                      child: Image.asset(
-                        AppImages.back,
-                        scale: 4,
-                      )),
+                    onTap: () {
+                      Get.back();
+                    },
+                    child: Image.asset(
+                      AppImages.back,
+                      scale: 4,
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -112,6 +87,7 @@ class SignupView extends GetView<SignupController> {
                       sh24,
                       // Input fields
                       CustomTextField(
+                        controller: signupController.petNameController,
                         hintText: 'Pet Name',
                         preIcon: Image.asset(
                           AppImages.person,
@@ -120,6 +96,7 @@ class SignupView extends GetView<SignupController> {
                       ),
                       sh16,
                       CustomTextField(
+                        controller: signupController.emailController,
                         hintText: 'Enter your email',
                         preIcon: Image.asset(
                           AppImages.message,
@@ -129,6 +106,7 @@ class SignupView extends GetView<SignupController> {
                       sh16,
                       Obx(
                         () => CustomTextField(
+                          controller: signupController.passwordController,
                           hintText: 'Enter your password',
                           preIcon: Image.asset(
                             AppImages.lock,
@@ -152,6 +130,7 @@ class SignupView extends GetView<SignupController> {
                       sh16,
                       Obx(
                         () => CustomTextField(
+                          controller: signupController.confirmPasswordController,
                           hintText: 'Confirm your password',
                           preIcon: Image.asset(
                             AppImages.lock,
@@ -170,6 +149,50 @@ class SignupView extends GetView<SignupController> {
                           ),
                           obscureText:
                               !signupController.isPasswordVisible1.value,
+                        ),
+                      ),
+                      sh16,
+                      Obx(
+                        () => SizedBox(
+                          height: 48,
+                          child: DropdownButtonFormField<Datum>(
+                            decoration: InputDecoration(
+                              fillColor: AppColors.white,
+                              filled: true,
+                              hintText: 'Select Category',
+                              hintStyle: h4.copyWith(color: Colors.grey[700]),
+                              suffixIcon: Image.asset(
+                                AppImages.arrowDown,
+                                scale: 4,
+                              ),
+                              contentPadding: EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 0,
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                borderSide: BorderSide.none,
+                              ),
+                            ),
+                            value: signupController.selectedCategory.value,
+                            items: signupController.categories
+                                .map((Datum category) {
+                              return DropdownMenuItem<Datum>(
+                                value: category,
+                                child: Text(category.name ?? 'Unknown'),
+                              );
+                            }).toList(),
+                            onChanged: (Datum? newValue) {
+                              signupController.setSelectedCategory(newValue);
+                            },
+                            isExpanded: true,
+                            dropdownColor: AppColors.white,
+                            icon: SizedBox.shrink(),
+                            // Hide default dropdown icon
+                            hint: signupController.isLoading.value
+                                ? Text('Loading categories...')
+                                : Text('Select Category'),
+                          ),
                         ),
                       ),
                       sh24,
@@ -204,7 +227,7 @@ class SignupView extends GetView<SignupController> {
                       CustomButton(
                         text: 'Sign Up',
                         onPressed: () {
-                          Get.to(() => DashboardView());
+                          signupController.signup();
                         },
                       ),
                       sh16,
