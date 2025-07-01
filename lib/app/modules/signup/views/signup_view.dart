@@ -9,6 +9,7 @@ import 'package:tails_date/common/widgets/custom_button.dart';
 
 import '../../../../common/app_text_style/styles.dart';
 import '../../../../common/size_box/custom_sizebox.dart';
+import '../../../../common/widgets/custom_loader.dart';
 import '../../../../common/widgets/custom_textfield.dart';
 import '../../home/model/all_category_model.dart';
 import '../controllers/signup_controller.dart';
@@ -130,7 +131,8 @@ class SignupView extends GetView<SignupController> {
                       sh16,
                       Obx(
                         () => CustomTextField(
-                          controller: signupController.confirmPasswordController,
+                          controller:
+                              signupController.confirmPasswordController,
                           hintText: 'Confirm your password',
                           preIcon: Image.asset(
                             AppImages.lock,
@@ -224,11 +226,17 @@ class SignupView extends GetView<SignupController> {
                         ],
                       ),
                       sh16,
-                      CustomButton(
-                        text: 'Sign Up',
-                        onPressed: () {
-                          signupController.signup();
-                        },
+                      Obx(
+                        () => signupController.isLoading.value
+                            ? CustomLoader(
+                                color: AppColors.white,
+                              )
+                            : CustomButton(
+                                text: 'Sign Up',
+                                onPressed: () {
+                                  signupController.signup();
+                                },
+                              ),
                       ),
                       sh16,
                       Center(

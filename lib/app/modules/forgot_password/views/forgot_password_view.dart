@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
-import 'package:tails_date/app/modules/verify_otp/views/verify_otp_view.dart';
 
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_images/app_images.dart';
@@ -13,8 +11,10 @@ import '../controllers/forgot_password_controller.dart';
 
 class ForgotPasswordView extends GetView<ForgotPasswordController> {
   const ForgotPasswordView({super.key});
+
   @override
   Widget build(BuildContext context) {
+    final forgotPasswordController = Get.put(ForgotPasswordController());
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       body: SafeArea(
@@ -45,7 +45,6 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
                 ),
               ],
             ),
-
             Expanded(
               child: Container(
                 padding: EdgeInsets.only(left: 16, right: 16),
@@ -78,6 +77,7 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
                       ),
                       sh24,
                       CustomTextField(
+                        controller: forgotPasswordController.emailTEController,
                         hintText: 'Enter your email',
                         preIcon: Image.asset(
                           AppImages.message,
@@ -86,7 +86,7 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
                       ),
                       sh24,
                       GestureDetector(
-                        onTap: (){
+                        onTap: () {
                           //Get.to(() => ForgotPasswordView());
                         },
                         child: Text(
@@ -100,7 +100,11 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
                       CustomButton(
                         text: 'Send',
                         onPressed: () {
-                          Get.to(() => VerifyOtpView());
+                          forgotPasswordController.forgotPassword(
+                              email: forgotPasswordController
+                                  .emailTEController.text
+                                  .trim()
+                                  .toLowerCase());
                         },
                       ),
                       sh16,

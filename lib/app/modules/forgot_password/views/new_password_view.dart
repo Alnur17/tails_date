@@ -12,7 +12,8 @@ import '../../../../common/widgets/custom_textfield.dart';
 import '../controllers/new_password_controller.dart';
 
 class NewPasswordView extends GetView<NewPasswordController> {
-  const NewPasswordView({super.key});
+  final String email;
+  const NewPasswordView(this.email, {super.key});
 
   @override
   Widget build(BuildContext context) {

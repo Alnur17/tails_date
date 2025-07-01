@@ -9,14 +9,20 @@ import 'package:tails_date/app/modules/home/views/widgets/category_widgets/categ
 import 'package:tails_date/app/modules/home/views/widgets/home_widgets/stories_section.dart';
 import 'package:tails_date/app/modules/home/views/widgets/home_widgets/user_post_card.dart';
 import 'package:tails_date/app/modules/notifications/views/notifications_view.dart';
+import 'package:tails_date/app/modules/signup/controllers/signup_controller.dart';
 import 'package:tails_date/common/app_color/app_colors.dart';
 import 'package:tails_date/common/app_images/app_images.dart';
 import 'package:tails_date/common/app_text_style/styles.dart';
 
-import '../controllers/home_controller.dart';
-
-class HomeView extends GetView<HomeController> {
+class HomeView extends StatefulWidget {
   const HomeView({super.key});
+
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  final SignupController signupController = Get.put(SignupController());
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +44,6 @@ class HomeView extends GetView<HomeController> {
             child: Image.asset(
               AppImages.search,
               scale: 4,
-
             ),
           ),
           GestureDetector(
@@ -71,19 +76,23 @@ class HomeView extends GetView<HomeController> {
             ),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-              child: Row(
-                children: List.generate(
-                  DummyData.categoryName.length + 1,
-                  (index) {
-                    if (index < DummyData.categoryName.length) {
-                      return CategoryWidget(
-                        name: DummyData.categoryName[index],
-                        backImage: DummyData.categoryImage[index],
-                      );
-                    } else {
-                      return const SizedBox(width: 16);
-                    }
-                  },
+              child: Obx(
+                () => Row(
+                  children: List.generate(
+                    //DummyData.categoryName.length + 1,
+                    signupController.categories.length + 1,
+                    (index) {
+                      if (index < signupController.categories.length) {
+                        final categoryData = signupController.categories[index];
+                        return CategoryWidget(
+                          name: categoryData.name ?? 'Unknown',
+                          backImage: categoryData.image ?? 'Unknown',
+                        );
+                      } else {
+                        return const SizedBox(width: 16);
+                      }
+                    },
+                  ),
                 ),
               ),
             ),

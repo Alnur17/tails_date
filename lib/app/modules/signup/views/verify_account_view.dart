@@ -4,20 +4,23 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:tails_date/app/modules/new_password/views/new_password_view.dart';
+import 'package:tails_date/app/modules/signup/controllers/signup_controller.dart';
+import 'package:tails_date/common/widgets/custom_loader.dart';
 
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_images/app_images.dart';
 import '../../../../common/app_text_style/styles.dart';
 import '../../../../common/size_box/custom_sizebox.dart';
 import '../../../../common/widgets/custom_button.dart';
-import '../controllers/verify_otp_controller.dart';
 
-class VerifyOtpView extends GetView<VerifyOtpController> {
-  const VerifyOtpView({super.key});
+class VerifyAccountView extends GetView<SignupController> {
+  final String email;
+
+  const VerifyAccountView(this.email, {super.key});
 
   @override
   Widget build(BuildContext context) {
+    final SignupController signupController = Get.put(SignupController());
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       body: SafeArea(
@@ -76,12 +79,13 @@ class VerifyOtpView extends GetView<VerifyOtpController> {
                       ),
                       sh8,
                       Text(
-                        'Please enter the code we just sent to email roy@roy.com',
+                        'Please enter the code we just sent to $email',
                         style: h4.copyWith(color: Colors.grey[700]),
                         textAlign: TextAlign.center,
                       ),
                       sh24,
                       PinCodeTextField(
+                        controller: signupController.otpController,
                         length: 6,
                         obscureText: false,
                         keyboardType: TextInputType.number,
@@ -97,7 +101,8 @@ class VerifyOtpView extends GetView<VerifyOtpController> {
                           inactiveFillColor: AppColors.white,
                           selectedColor: AppColors.mainColor,
                           selectedFillColor: AppColors.greyLight,
-                          fieldOuterPadding: EdgeInsets.symmetric(horizontal: 2),
+                          fieldOuterPadding:
+                              EdgeInsets.symmetric(horizontal: 2),
                         ),
                         animationDuration: const Duration(milliseconds: 300),
                         backgroundColor: AppColors.transparent,
@@ -118,9 +123,7 @@ class VerifyOtpView extends GetView<VerifyOtpController> {
                         style: h4.copyWith(),
                       ),
                       GestureDetector(
-                        onTap: () {
-
-                        },
+                        onTap: () {},
                         child: Text(
                           'Resend Code',
                           style: h4.copyWith(
@@ -129,11 +132,15 @@ class VerifyOtpView extends GetView<VerifyOtpController> {
                         ),
                       ),
                       sh16,
-                      CustomButton(
-                        text: 'Verify',
-                        onPressed: () {
-                          Get.to(() => NewPasswordView());
-                        },
+                      Obx(
+                        () => signupController.isLoading.value
+                            ? CustomLoader(color: AppColors.white)
+                            : CustomButton(
+                                text: 'Verify',
+                                onPressed: () {
+                                  signupController.accountVerification(email);
+                                },
+                              ),
                       ),
                       sh16,
                     ],

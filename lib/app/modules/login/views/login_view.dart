@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:tails_date/app/modules/dashboard/views/dashboard_view.dart';
 import 'package:tails_date/app/modules/forgot_password/views/forgot_password_view.dart';
 import 'package:tails_date/app/modules/signup/views/signup_view.dart';
+import 'package:tails_date/common/widgets/custom_loader.dart';
 
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_images/app_images.dart';
@@ -82,6 +82,7 @@ class LoginView extends GetView<LoginController> {
                       ),
                       sh24,
                       CustomTextField(
+                        controller: loginController.emailController,
                         hintText: 'Enter your email',
                         preIcon: Image.asset(
                           AppImages.message,
@@ -91,6 +92,7 @@ class LoginView extends GetView<LoginController> {
                       sh16,
                       Obx(
                         () => CustomTextField(
+                          controller: loginController.passwordController,
                           hintText: 'Enter your password',
                           preIcon: Image.asset(
                             AppImages.lock,
@@ -126,11 +128,15 @@ class LoginView extends GetView<LoginController> {
                         ),
                       ),
                       sh16,
-                      CustomButton(
-                        text: 'Login',
-                        onPressed: () {
-                          Get.to(() => DashboardView());
-                        },
+                      Obx(
+                        () => loginController.isLoading.value
+                            ? CustomLoader(color: AppColors.white)
+                            : CustomButton(
+                                text: 'Login',
+                                onPressed: () {
+                                  loginController.userLogin();
+                                },
+                              ),
                       ),
                       sh16,
                       Center(

@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../common/app_color/app_colors.dart';
+import '../../../../common/app_constant/app_constant.dart';
 import '../../../../common/app_images/app_images.dart';
-import '../../onboarding/views/onboarding_view.dart';
+import '../../../../common/helper/local_store.dart';
+import '../../dashboard/views/dashboard_view.dart';
+import '../../login/views/login_view.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
@@ -18,11 +21,24 @@ class _SplashViewState extends State<SplashView> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 3), () {
+      return chooseScreen();
+    });
+  }
+
+  chooseScreen() {
+    var userToken = LocalStorage.getData(key: AppConstant.token);
+
+    if (userToken != null) {
       Get.offAll(
-        () => OnboardingView(),
+        () => DashboardView(),
         transition: Transition.rightToLeft,
       );
-    });
+    } else {
+      Get.offAll(
+        () => LoginView(),
+        transition: Transition.rightToLeft,
+      );
+    }
   }
 
   @override
@@ -30,7 +46,10 @@ class _SplashViewState extends State<SplashView> {
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       body: Center(
-        child: Image.asset(AppImages.splashLogo,scale: 4,),
+        child: Image.asset(
+          AppImages.splashLogo,
+          scale: 4,
+        ),
       ),
     );
   }

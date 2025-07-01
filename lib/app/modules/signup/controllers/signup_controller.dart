@@ -2,11 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tails_date/app/modules/login/views/login_view.dart';
+import 'package:tails_date/app/modules/signup/views/verify_account_view.dart';
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/widgets/custom_snack_bar.dart';
 import '../../../data/api.dart';
 import '../../../data/base_client.dart';
-import '../../dashboard/views/dashboard_view.dart';
 import '../../home/model/all_category_model.dart';
 
 class SignupController extends GetxController {
@@ -21,6 +22,7 @@ class SignupController extends GetxController {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
+  final otpController = TextEditingController();
 
   @override
   void onInit() {
@@ -45,7 +47,8 @@ class SignupController extends GetxController {
       kSnackBar(message: 'Please enter a pet name', bgColor: AppColors.orange);
       return;
     }
-    if (emailController.text.trim().isEmpty || !GetUtils.isEmail(emailController.text.trim())) {
+    //if (emailController.text.trim().isEmpty || !GetUtils.isEmail(emailController.text.trim())) {
+    if (emailController.text.trim().isEmpty) {
       kSnackBar(message: 'Please enter a valid email', bgColor: AppColors.orange);
       return;
     }
@@ -93,8 +96,52 @@ class SignupController extends GetxController {
         bgColor: AppColors.green,
       );
 
+      Get.to(() => VerifyAccountView(emailController.text.trim()));
+      isLoading.value = false;
+    } catch (e) {
+      kSnackBar(
+        message: e.toString(),
+        bgColor: AppColors.orange,
+      );
+    } finally {
+      isLoading.value = false;
+    }
+  }
 
-      Get.off(() => DashboardView());
+  Future<void> accountVerification(String email) async {
+
+    if (otpController.text.isEmpty) {
+      kSnackBar(message: 'Please enter the otp', bgColor: AppColors.orange);
+      return;
+    }
+
+    try {
+      isLoading.value = true;
+
+      var body = {
+        'email': email,
+        'otp': otpController.text,
+        'verify_account': true,
+      };
+
+      var headers = {
+        'Content-Type': 'application/json',
+      };
+
+      final response = await BaseClient.postRequest(
+        api: Api.verifyAccount,
+        body: jsonEncode(body),
+        headers: headers,
+      );
+
+      final result = await BaseClient.handleResponse(response);
+
+      kSnackBar(
+        message: result['message'] ?? 'Verify successful!',
+        bgColor: AppColors.green,
+      );
+
+      Get.offAll(() => LoginView());
     } catch (e) {
       kSnackBar(
         message: e.toString(),
