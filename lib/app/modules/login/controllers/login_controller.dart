@@ -59,7 +59,8 @@ class LoginController extends GetxController {
       if (result != null) {
         final String token = result['data']['accessToken'].toString();
         LocalStorage.saveData(key: AppConstant.token, data: token);
-
+        String accessToken = LocalStorage.getData(key: AppConstant.token);
+        debugPrint(accessToken);
         kSnackBar(
           message: result['message'] ?? 'Login successful!',
           bgColor: AppColors.green,

@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:tails_date/app/modules/login/views/login_view.dart';
 import 'package:tails_date/app/modules/signup/views/verify_account_view.dart';
 import '../../../../common/app_color/app_colors.dart';
+import '../../../../common/app_constant/app_constant.dart';
+import '../../../../common/helper/local_store.dart';
 import '../../../../common/widgets/custom_snack_bar.dart';
 import '../../../data/api.dart';
 import '../../../data/base_client.dart';
@@ -155,7 +157,8 @@ class SignupController extends GetxController {
   Future<void> fetchCategories() async {
     try {
       isLoading.value = true;
-
+      String accessToken = LocalStorage.getData(key: AppConstant.token);
+      debugPrint(accessToken);
       final headers = {
         'Content-Type': 'application/json',
       };

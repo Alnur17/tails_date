@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:tails_date/app/modules/login/views/login_view.dart';
+import 'package:tails_date/common/widgets/custom_loader.dart';
 
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_images/app_images.dart';
@@ -13,6 +13,7 @@ import '../controllers/new_password_controller.dart';
 
 class NewPasswordView extends GetView<NewPasswordController> {
   final String email;
+
   const NewPasswordView(this.email, {super.key});
 
   @override
@@ -84,6 +85,7 @@ class NewPasswordView extends GetView<NewPasswordController> {
                       sh24,
                       Obx(
                         () => CustomTextField(
+                          controller: newPasswordController.newTEController,
                           hintText: 'New password',
                           preIcon: Image.asset(
                             AppImages.lock,
@@ -107,6 +109,8 @@ class NewPasswordView extends GetView<NewPasswordController> {
                       sh16,
                       Obx(
                         () => CustomTextField(
+                          controller:
+                              newPasswordController.confirmPasswordTEController,
                           hintText: 'Confirm your password',
                           preIcon: Image.asset(
                             AppImages.lock,
@@ -128,11 +132,16 @@ class NewPasswordView extends GetView<NewPasswordController> {
                         ),
                       ),
                       sh24,
-                      CustomButton(
-                        text: 'Update',
-                        onPressed: () {
-                          Get.to(() => LoginView());
-                        },
+                      Obx(
+                        () => newPasswordController.isLoading.value
+                            ? CustomLoader(color: AppColors.white)
+                            : CustomButton(
+                                text: 'Update',
+                                onPressed: () {
+                                  //if(newPasswordController.newTEController.value !=)
+                                  newPasswordController.resetPass(email: email );
+                                },
+                              ),
                       ),
                       sh16,
                     ],

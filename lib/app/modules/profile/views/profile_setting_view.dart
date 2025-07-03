@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:tails_date/app/modules/login/views/login_view.dart';
 import 'package:tails_date/app/modules/privacy_policy/views/privacy_policy_view.dart';
 import 'package:tails_date/app/modules/profile/views/change_password_view.dart';
 import 'package:tails_date/app/modules/profile/views/collections_view.dart';
@@ -151,7 +152,9 @@ class ProfileSettingView extends GetView {
                     ),
                     sh16,
                     CustomContainer(
-                      onTap: () {},
+                      onTap: () {
+                        Get.offAll(()=> LoginView());
+                      },
                       text: 'Log out',
                       textStyle: h3.copyWith(
                         color: AppColors.red,

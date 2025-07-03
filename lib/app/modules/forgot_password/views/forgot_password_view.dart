@@ -6,6 +6,7 @@ import '../../../../common/app_images/app_images.dart';
 import '../../../../common/app_text_style/styles.dart';
 import '../../../../common/size_box/custom_sizebox.dart';
 import '../../../../common/widgets/custom_button.dart';
+import '../../../../common/widgets/custom_loader.dart';
 import '../../../../common/widgets/custom_textfield.dart';
 import '../controllers/forgot_password_controller.dart';
 
@@ -97,15 +98,19 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
                         ),
                       ),
                       sh16,
-                      CustomButton(
-                        text: 'Send',
-                        onPressed: () {
-                          forgotPasswordController.forgotPassword(
-                              email: forgotPasswordController
-                                  .emailTEController.text
-                                  .trim()
-                                  .toLowerCase());
-                        },
+                      Obx(
+                        () => forgotPasswordController.isLoading.value
+                            ? CustomLoader(color: AppColors.white)
+                            : CustomButton(
+                                text: 'Send',
+                                onPressed: () {
+                                  forgotPasswordController.forgotPassword(
+                                      email: forgotPasswordController
+                                          .emailTEController.text
+                                          .trim()
+                                          .toLowerCase());
+                                },
+                              ),
                       ),
                       sh16,
                     ],
