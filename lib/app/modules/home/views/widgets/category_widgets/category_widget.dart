@@ -5,11 +5,13 @@ import '../../../../../../common/app_text_style/styles.dart';
 import '../../category_view.dart';
 
 class CategoryWidget extends StatelessWidget {
+  final String? categoryId;
   final String name;
   final String backImage;
 
   const CategoryWidget({
     super.key,
+     this.categoryId,
     required this.name,
     required this.backImage,
   });
@@ -18,7 +20,7 @@ class CategoryWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.to(() => CategoryView(categoryName: name));
+        Get.to(() => CategoryView(categoryName: name, categoryId: categoryId ?? '',));
       },
       child: Padding(
         padding: const EdgeInsets.only(left: 16, top: 8, bottom: 16),

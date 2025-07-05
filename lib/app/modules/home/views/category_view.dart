@@ -7,12 +7,12 @@ import 'package:tails_date/app/modules/home/views/widgets/home_widgets/user_post
 import 'package:tails_date/common/app_color/app_colors.dart';
 
 import '../../../../common/app_images/app_images.dart';
-import '../../../data/dummy_data.dart';
 
 class CategoryView extends StatefulWidget {
   final String categoryName;
+  final String categoryId;
 
-  const CategoryView({super.key, required this.categoryName});
+  const CategoryView({super.key, required this.categoryName, required this.categoryId});
 
   @override
   State<CategoryView> createState() => _CategoryViewState();
