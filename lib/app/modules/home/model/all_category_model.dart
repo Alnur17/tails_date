@@ -7,20 +7,20 @@ class AllCategoryModel {
 
   final bool? success;
   final String? message;
-  final List<Datum> data;
+  final List<CategoryData> data;
 
   factory AllCategoryModel.fromJson(Map<String, dynamic> json){
     return AllCategoryModel(
       success: json["success"],
       message: json["message"],
-      data: json["data"] == null ? [] : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
+      data: json["data"] == null ? [] : List<CategoryData>.from(json["data"]!.map((x) => CategoryData.fromJson(x))),
     );
   }
 
 }
 
-class Datum {
-  Datum({
+class CategoryData {
+  CategoryData({
     required this.id,
     required this.image,
     required this.name,
@@ -38,8 +38,8 @@ class Datum {
   final DateTime? updatedAt;
   final int? v;
 
-  factory Datum.fromJson(Map<String, dynamic> json){
-    return Datum(
+  factory CategoryData.fromJson(Map<String, dynamic> json){
+    return CategoryData(
       id: json["_id"],
       image: json["image"],
       name: json["name"],

@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tails_date/app/modules/home/controllers/home_controller.dart';
 import 'package:tails_date/app/modules/home/controllers/my_search_controller.dart';
 import 'package:tails_date/app/modules/home/views/widgets/home_widgets/user_post_card.dart';
 import 'package:tails_date/common/app_color/app_colors.dart';
@@ -9,12 +10,13 @@ import 'package:tails_date/common/app_images/app_images.dart';
 import 'package:tails_date/common/size_box/custom_sizebox.dart';
 import 'package:tails_date/common/widgets/custom_textfield.dart';
 
-class SearchView extends GetView<MySearchController> {
-  const SearchView({super.key});
+class MySearchView extends GetView<MySearchController> {
+  const MySearchView({super.key});
 
   @override
   Widget build(BuildContext context) {
     final MySearchController searchController = Get.put(MySearchController());
+    final HomeController homeController = Get.find<HomeController>();
 
     return Scaffold(
       backgroundColor: AppColors.mainColor,
@@ -53,9 +55,28 @@ class SearchView extends GetView<MySearchController> {
               ],
             ),
           ),
-          Expanded(child: Obx(
-            () {
+          Expanded(
+            child: Obx(() {
+              if (homeController.isLoading.value) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              if (homeController.errorMessage.value.isNotEmpty) {
+                return Center(
+                  child: Text(
+                    homeController.errorMessage.value,
+                    style: const TextStyle(color: AppColors.orange, fontSize: 16),
+                  ),
+                );
+              }
               final posts = searchController.filteredPosts;
+              if (posts.isEmpty) {
+                return const Center(
+                  child: Text(
+                    'No posts found',
+                    style: TextStyle(color: AppColors.black, fontSize: 16),
+                  ),
+                );
+              }
               return ListView.builder(
                 shrinkWrap: true,
                 itemCount: posts.length,
@@ -69,22 +90,22 @@ class SearchView extends GetView<MySearchController> {
                       top: 16,
                     ),
                     child: UserPostCard(
-                      userName: post['userName'] ?? '',
-                      location: post['location'] ?? '',
-                      profileImage: post['profileImage'] ?? '',
-                      images: List<String>.from(post['images'] ?? []),
-                      description: post['description'] ?? '',
-                      likeCount: post['likeCount'] ?? 0,
-                      timeAgo: post['timeAgo'] ?? '',
+                      userName: post.author?.name ?? 'Unknown',
+                      location: post.location ?? 'Unknown',
+                      profileImage: post.author?.image ?? '',
+                      images: post.images,
+                      description: post.caption ?? '',
+                      likeCount: 0, // Adjust if API provides like count
+                      timeAgo: homeController.formatTimeAgo(post.createdAt),
                       onAddFriend: () {
-                        log("Add Friend clicked for ${post['userName']}");
+                        log("Add Friend clicked for ${post.author?.name}");
                       },
                     ),
                   );
                 },
               );
-            },
-          )),
+            }),
+          ),
         ],
       ),
     );

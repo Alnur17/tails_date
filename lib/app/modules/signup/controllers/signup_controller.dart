@@ -17,8 +17,8 @@ class SignupController extends GetxController {
   var isPasswordVisible1 = false.obs;
   var isCheckboxVisible = false.obs;
   var isLoading = false.obs;
-  var categories = <Datum>[].obs;
-  var selectedCategory = Rxn<Datum>();
+  var categories = <CategoryData>[].obs;
+  var selectedCategory = Rxn<CategoryData>();
 
   final petNameController = TextEditingController();
   final emailController = TextEditingController();
@@ -174,15 +174,13 @@ class SignupController extends GetxController {
 
       if (categoryModel.success == true) {
         categories.assignAll(categoryModel.data);
-        kSnackBar(
-          message: categoryModel.message ?? 'Categories loaded successfully!',
-          bgColor: AppColors.green,
-        );
+        debugPrint('Categories loaded successfully!');
       } else {
-        kSnackBar(
-          message: categoryModel.message ?? 'Failed to load categories',
-          bgColor: AppColors.orange,
-        );
+        debugPrint('Failed to load categories');
+        // kSnackBar(
+        //   message: categoryModel.message ?? 'Failed to load categories',
+        //   bgColor: AppColors.orange,
+        // );
       }
     } catch (e) {
       kSnackBar(
@@ -194,7 +192,7 @@ class SignupController extends GetxController {
     }
   }
 
-  void setSelectedCategory(Datum? category) {
+  void setSelectedCategory(CategoryData? category) {
     selectedCategory.value = category;
   }
 }

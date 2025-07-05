@@ -44,13 +44,14 @@ class AddStoryView extends GetView<AddStoryController> {
               Obx(() {
                 if (controller.selectedImagePath.value.isEmpty) {
                   return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Expanded(
                         child: GestureDetector(
                           onTap: () async {
                             await controller.pickImageFromCamera();
                           },
-                          child: Container(
+                          child: Container(padding: EdgeInsets.all(8),
                             height: 150,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
@@ -68,6 +69,7 @@ class AddStoryView extends GetView<AddStoryController> {
                                 Text(
                                   'Use a camera',
                                   style: h4,
+                                  textAlign: TextAlign.center,
                                 ),
                               ],
                             ),
@@ -81,6 +83,7 @@ class AddStoryView extends GetView<AddStoryController> {
                             await controller.pickImageFromGallery();
                           },
                           child: Container(
+                            padding: EdgeInsets.all(8),
                             height: 150,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
@@ -96,8 +99,9 @@ class AddStoryView extends GetView<AddStoryController> {
                                 ),
                                 sw8,
                                 Text(
-                                  'Choose from Gallery sasdas',
+                                  'Choose from Gallery',
                                   style: h4,
+                                  textAlign: TextAlign.center,
                                 ),
                               ],
                             ),

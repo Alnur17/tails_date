@@ -26,8 +26,12 @@ class Api {
   // } 
 
 
-  /// get session details by id
- // static getSingleSession(String id) => "$baseUrl/sessions/$id";
+  /// posts
+  //static getSingleSession(String id) => "$baseUrl/sessions/$id";
+  static const String allPosts = "$baseUrl/posts";
+
+  ///profile
+  static const String myProfile = "$baseUrl/users/profile"; //
 
 
 }

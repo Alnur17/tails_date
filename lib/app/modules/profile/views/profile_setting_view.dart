@@ -14,12 +14,14 @@ import 'package:tails_date/common/app_text_style/styles.dart';
 import '../../../../common/app_images/app_images.dart';
 import '../../../../common/size_box/custom_sizebox.dart';
 import '../../../../common/widgets/custom_container.dart';
+import '../controllers/profile_controller.dart';
 
 class ProfileSettingView extends GetView {
   const ProfileSettingView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final ProfileController profileController = Get.put(ProfileController());
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       appBar: AppBar(

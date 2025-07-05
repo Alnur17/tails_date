@@ -157,7 +157,7 @@ class SignupView extends GetView<SignupController> {
                       Obx(
                         () => SizedBox(
                           height: 48,
-                          child: DropdownButtonFormField<Datum>(
+                          child: DropdownButtonFormField<CategoryData>(
                             decoration: InputDecoration(
                               fillColor: AppColors.white,
                               filled: true,
@@ -178,13 +178,13 @@ class SignupView extends GetView<SignupController> {
                             ),
                             value: signupController.selectedCategory.value,
                             items: signupController.categories
-                                .map((Datum category) {
-                              return DropdownMenuItem<Datum>(
+                                .map((CategoryData category) {
+                              return DropdownMenuItem<CategoryData>(
                                 value: category,
                                 child: Text(category.name ?? 'Unknown'),
                               );
                             }).toList(),
-                            onChanged: (Datum? newValue) {
+                            onChanged: (CategoryData? newValue) {
                               signupController.setSelectedCategory(newValue);
                             },
                             isExpanded: true,
