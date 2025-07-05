@@ -27,8 +27,8 @@ class Api {
 
 
   /// posts
-  //static getSingleSession(String id) => "$baseUrl/sessions/$id";
   static const String allPosts = "$baseUrl/posts";
+  static String categoryPosts(categoryId) => "$baseUrl/posts/category/$categoryId";
 
   ///profile
   static const String myProfile = "$baseUrl/users/profile"; //

@@ -12,6 +12,7 @@ import '../model/all_post_model.dart';
 
 class HomeController extends GetxController {
   var posts = <AllPostData>[].obs;
+  var categoryPosts = <AllPostData>[].obs;
   var categories = <CategoryData>[].obs;
   var isLoading = false.obs; // Loading state
   var errorMessage = ''.obs; // Error message
@@ -46,6 +47,48 @@ class HomeController extends GetxController {
 
       if (allPostModel.success == true && allPostModel.data != null) {
         posts.assignAll(allPostModel.data!.data);
+      } else {
+        errorMessage.value = allPostModel.message ?? 'Failed to load posts';
+        kSnackBar(
+          message: errorMessage.value,
+          bgColor: AppColors.orange,
+        );
+      }
+    } catch (e) {
+      errorMessage.value = e.toString();
+      kSnackBar(
+        message: errorMessage.value,
+        bgColor: AppColors.orange,
+      );
+      log('Error fetching posts: $e');
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> fetchCategoryPosts({required String categoryId}) async {
+    try {
+      isLoading.value = true;
+      errorMessage.value = '';
+
+      String token = LocalStorage.getData(key: AppConstant.token);
+
+      final headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      };
+
+      final response = await BaseClient.getRequest(
+        api: Api.categoryPosts(categoryId),
+        headers: headers,
+      );
+
+      final jsonResponse = await BaseClient.handleResponse(response);
+
+      final allPostModel = AllPostModel.fromJson(jsonResponse);
+
+      if (allPostModel.success == true && allPostModel.data != null) {
+        categoryPosts.assignAll(allPostModel.data!.data);
       } else {
         errorMessage.value = allPostModel.message ?? 'Failed to load posts';
         kSnackBar(
@@ -117,5 +160,4 @@ class HomeController extends GetxController {
       return 'Just now';
     }
   }
-
 }
