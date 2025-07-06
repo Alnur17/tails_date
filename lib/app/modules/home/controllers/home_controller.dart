@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:tails_date/app/modules/home/model/all_category_model.dart';
+import 'package:tails_date/app/modules/home/model/category_wise_post_model.dart';
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_constant/app_constant.dart';
 import '../../../../common/helper/local_store.dart';
@@ -12,10 +13,10 @@ import '../model/all_post_model.dart';
 
 class HomeController extends GetxController {
   var posts = <AllPostData>[].obs;
-  var categoryPosts = <AllPostData>[].obs;
+  var categoryWisePost = <CategoryWPostData>[].obs;
   var categories = <CategoryData>[].obs;
-  var isLoading = false.obs; // Loading state
-  var errorMessage = ''.obs; // Error message
+  var isLoading = false.obs;
+  var errorMessage = ''.obs;
 
   @override
   void onInit() {
@@ -85,12 +86,12 @@ class HomeController extends GetxController {
 
       final jsonResponse = await BaseClient.handleResponse(response);
 
-      final allPostModel = AllPostModel.fromJson(jsonResponse);
+      final categoryWiseModel = CategoryWisePostModel.fromJson(jsonResponse);
 
-      if (allPostModel.success == true && allPostModel.data != null) {
-        categoryPosts.assignAll(allPostModel.data!.data);
+      if (categoryWiseModel.success == true && categoryWiseModel.data != null) {
+        categoryWisePost.assignAll(categoryWiseModel.data!.data);
       } else {
-        errorMessage.value = allPostModel.message ?? 'Failed to load posts';
+        errorMessage.value = categoryWiseModel.message ?? 'Failed to load category posts';
         kSnackBar(
           message: errorMessage.value,
           bgColor: AppColors.orange,

@@ -339,6 +339,7 @@ class _ProfileViewState extends State<ProfileView> {
                     return Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8),
                       child: UserPostCard(
+                        postId: post['id'],
                         userName: post['userName'] ?? '',
                         location: post['location'] ?? '',
                         profileImage: post['profileImage'] ?? '',

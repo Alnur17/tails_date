@@ -90,6 +90,7 @@ class MySearchView extends GetView<MySearchController> {
                       top: 16,
                     ),
                     child: UserPostCard(
+                      postId: post.id ?? '',
                       userName: post.author?.name ?? 'Unknown',
                       location: post.location ?? 'Unknown',
                       profileImage: post.author?.image ?? '',

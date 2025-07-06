@@ -27,11 +27,18 @@ class Api {
 
 
   /// posts
-  static const String allPosts = "$baseUrl/posts";
-  static String categoryPosts(categoryId) => "$baseUrl/posts/category/$categoryId";
+  static const String allPosts = "$baseUrl/posts"; //done
+  static String categoryPosts(categoryId) => "$baseUrl/posts/category/$categoryId"; //done
 
   ///profile
   static const String myProfile = "$baseUrl/users/profile"; //
+
+///Reels
+  static const String allReels = "$baseUrl/reels"; //
+  static const String myReels = "$baseUrl/reels/my"; //
+
+  ///Reports
+  static const String reports = "$baseUrl/reports"; // done
 
 
 }

@@ -7,20 +7,22 @@ class MyProfileModel {
 
   final bool? success;
   final String? message;
-  final Data? data;
+  final ProfileData? data;
 
   factory MyProfileModel.fromJson(Map<String, dynamic> json){
     return MyProfileModel(
       success: json["success"],
       message: json["message"],
-      data: json["data"] == null ? null : Data.fromJson(json["data"]),
+      data: json["data"] == null ? null : ProfileData.fromJson(json["data"]),
     );
   }
 
 }
 
-class Data {
-  Data({
+class ProfileData {
+  ProfileData({
+    required this.pointsPurchase,
+    required this.pointsSpent,
     required this.id,
     required this.email,
     required this.v,
@@ -41,21 +43,21 @@ class Data {
     required this.ownerName,
     required this.ownerRelationshipStatus,
     required this.petInfo,
-    required this.pointsPurchase,
-    required this.pointsSpent,
     required this.starBalance,
     required this.type,
     required this.updatedAt,
   });
 
+  final int? pointsPurchase;
+  final int? pointsSpent;
   final String? id;
   final String? email;
   final int? v;
   final dynamic age;
-  final String? category;
+  final dynamic category;
   final String? coverImage;
   final DateTime? createdAt;
-  final dynamic gallery;
+  final List<String> gallery;
   final dynamic gender;
   final String? image;
   final bool? isBlocked;
@@ -68,14 +70,14 @@ class Data {
   final dynamic ownerName;
   final dynamic ownerRelationshipStatus;
   final dynamic petInfo;
-  final int? pointsPurchase;
-  final int? pointsSpent;
   final int? starBalance;
   final String? type;
   final DateTime? updatedAt;
 
-  factory Data.fromJson(Map<String, dynamic> json){
-    return Data(
+  factory ProfileData.fromJson(Map<String, dynamic> json){
+    return ProfileData(
+      pointsPurchase: json["points_purchase"],
+      pointsSpent: json["points_spent"],
       id: json["_id"],
       email: json["email"],
       v: json["__v"],
@@ -83,7 +85,7 @@ class Data {
       category: json["category"],
       coverImage: json["cover_image"],
       createdAt: DateTime.tryParse(json["createdAt"] ?? ""),
-      gallery: json["gallery"],
+      gallery: json["gallery"] == null ? [] : List<String>.from(json["gallery"]!.map((x) => x)),
       gender: json["gender"],
       image: json["image"],
       isBlocked: json["is_blocked"],
@@ -96,8 +98,6 @@ class Data {
       ownerName: json["owner_name"],
       ownerRelationshipStatus: json["owner_relationship_status"],
       petInfo: json["pet_info"],
-      pointsPurchase: json["points_purchase"],
-      pointsSpent: json["points_spent"],
       starBalance: json["star_balance"],
       type: json["type"],
       updatedAt: DateTime.tryParse(json["updatedAt"] ?? ""),
