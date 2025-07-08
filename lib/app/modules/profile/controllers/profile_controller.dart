@@ -10,9 +10,11 @@ import '../../../../common/widgets/custom_snack_bar.dart';
 import '../../../data/api.dart';
 import '../../../data/base_client.dart';
 import '../../login/views/login_view.dart';
+import '../model/my_profile_model.dart';
 
 class ProfileController extends GetxController {
   var isLoading = false.obs;
+  var profileData = Rx<MyProfileModel?>(null); // Store profile data
 
   final TextEditingController currentPassTEController = TextEditingController();
   final TextEditingController newPassTEController = TextEditingController();
@@ -22,7 +24,12 @@ class ProfileController extends GetxController {
   var isPasswordVisible1 = false.obs;
   var isPasswordVisible2 = false.obs;
 
-  // Method to toggle password visibility
+  @override
+  void onInit() {
+    super.onInit();
+    fetchProfile(); // Fetch profile data when controller initializes
+  }
+
   void togglePasswordVisibility() {
     isPasswordVisible.toggle();
   }
@@ -35,9 +42,31 @@ class ProfileController extends GetxController {
     isPasswordVisible2.toggle();
   }
 
-  @override
-  void onInit() {
-    super.onInit();
+  /// Fetch user profile
+  Future<void> fetchProfile() async {
+    try {
+      isLoading(true);
+      var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
+      };
+
+      dynamic responseBody = await BaseClient.handleResponse(
+        await BaseClient.getRequest(api: Api.myProfile, headers: headers),
+      );
+
+      if (responseBody != null) {
+        profileData.value = MyProfileModel.fromJson(responseBody);
+        kSnackBar(message: profileData.value!.message ?? "Profile fetched successfully", bgColor: AppColors.green);
+      } else {
+        throw 'Failed to fetch profile!';
+      }
+    } catch (e) {
+      debugPrint("Catch Error:::::: $e");
+      kSnackBar(message: "Error fetching profile: $e", bgColor: AppColors.red);
+    } finally {
+      isLoading(false);
+    }
   }
 
   ///change password

@@ -6,25 +6,17 @@ class Api {
 
 
   ///auth
-  static const signup = "$baseUrl/auth/sign-up";
-  static const login = "$baseUrl/auth/login"; 
-  static const forgotPassword = "$baseUrl/auth/send-otp"; 
-  static const otpVerify = "$baseUrl/auth/verify-otp"; 
-  static const verifyAccount = "$baseUrl/auth/verify-otp"; 
-  static const sendOtp = "$baseUrl/auth/send-otp"; 
-  static const resetPassword = "$baseUrl/auth/reset-forgotten-password"; 
-  static const changePassword = "$baseUrl/auth/create-new-password"; 
+  static const signup = "$baseUrl/auth/sign-up";//done
+  static const login = "$baseUrl/auth/login"; //done
+  static const forgotPassword = "$baseUrl/auth/send-otp"; //done
+  static const otpVerify = "$baseUrl/auth/verify-otp"; //done
+  static const verifyAccount = "$baseUrl/auth/verify-otp"; //done
+  static const sendOtp = "$baseUrl/auth/send-otp"; //done
+  static const resetPassword = "$baseUrl/auth/reset-forgotten-password"; //done
+  static const changePassword = "$baseUrl/auth/create-new-password";//done
 
   ///Category Data
-  static const getCategory = "$baseUrl/categories";
-
-  ///Trainers Data
-  // static trainers(String? query) {
-  //   return query?.isNotEmpty ?? false
-  //       ? "$baseUrl/trainers?searchTerm=$query"
-  //       : "$baseUrl/trainers";
-  // } 
-
+  static const getCategory = "$baseUrl/categories";//done
 
   /// posts
   static const String allPosts = "$baseUrl/posts"; //done
@@ -34,7 +26,7 @@ class Api {
   static const String myProfile = "$baseUrl/users/profile"; //
 
 ///Reels
-  static const String allReels = "$baseUrl/reels"; //
+  static const String allReels = "$baseUrl/reels"; //done
   static const String myReels = "$baseUrl/reels/my"; //
 
   ///Reports
