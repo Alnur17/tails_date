@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tails_date/app/data/dummy_data.dart';
 import 'package:tails_date/app/modules/home/views/widgets/home_widgets/user_post_card.dart';
-import 'package:tails_date/app/modules/profile/controllers/profile_controller.dart'; // Import ProfileController
+import 'package:tails_date/app/modules/profile/controllers/profile_controller.dart';
 import 'package:tails_date/app/modules/profile/views/edit_post_view.dart';
 import 'package:tails_date/app/modules/profile/views/edit_profile_view.dart';
 import 'package:tails_date/app/modules/profile/views/friends_view.dart';
@@ -44,7 +44,7 @@ class _ProfileViewState extends State<ProfileView> {
         actions: [
           GestureDetector(
             onTap: () {
-              Get.to(() => ProfileSettingView());
+              Get.to(() => ProfileSettingView(profileImage: controller.profileData.value!.data?.image ?? '', name: controller.profileData.value!.data?.name ?? 'N/A', location: controller.profileData.value!.data?.location ?? 'Location not set',));
             },
             child: Padding(
               padding: const EdgeInsets.only(right: 16),
@@ -84,25 +84,6 @@ class _ProfileViewState extends State<ProfileView> {
                                 borderRadius: BorderRadius.circular(16),
                               ),
                             ),
-                            // Positioned(
-                            //   bottom: 12,
-                            //   right: 12,
-                            //   child: GestureDetector(
-                            //     onTap: () {},
-                            //     child: Container(
-                            //       height: 30,
-                            //       decoration: const ShapeDecoration(
-                            //         shape: CircleBorder(),
-                            //         color: AppColors.black,
-                            //       ),
-                            //       child: Image.asset(
-                            //         AppImages.media,
-                            //         scale: 4,
-                            //         color: AppColors.white,
-                            //       ),
-                            //     ),
-                            //   ),
-                            // ),
                             Positioned(
                               bottom: -50,
                               left: 12,
@@ -112,34 +93,6 @@ class _ProfileViewState extends State<ProfileView> {
                                     controller.profileData.value!.data?.image ??
                                         AppImages.profileImage),
                               ),
-                              // Stack(
-                              //   clipBehavior: Clip.none,
-                              //   children: [
-                              //     CircleAvatar(
-                              //       radius: 50,
-                              //       backgroundImage: NetworkImage(
-                              //           controller.profileData.value!.data?.image ??
-                              //               AppImages.profileImage),
-                              //     ),
-                              //     Positioned(
-                              //       top: 0,
-                              //       right: 0,
-                              //       child: GestureDetector(
-                              //         onTap: () {
-                              //           log("Add icon tapped");
-                              //         },
-                              //         child: const CircleAvatar(
-                              //           radius: 18,
-                              //           backgroundColor: AppColors.black,
-                              //           child: Icon(
-                              //             Icons.add,
-                              //             color: AppColors.white,
-                              //           ),
-                              //         ),
-                              //       ),
-                              //     ),
-                              //   ],
-                              // ),
                             ),
                           ],
                         ),
@@ -203,7 +156,7 @@ class _ProfileViewState extends State<ProfileView> {
                                 label: 'Gender',
                                 value: controller
                                         .profileData.value!.data?.gender ??
-                                    'None',
+                                    'N/A',
                               ),
                             ),
                             sw12,
@@ -212,7 +165,7 @@ class _ProfileViewState extends State<ProfileView> {
                                 label: 'Age',
                                 value: controller.profileData.value!.data?.age
                                         ?.toString() ??
-                                    '0',
+                                    'N/A',
                               ),
                             ),
                             sw12,
@@ -221,7 +174,7 @@ class _ProfileViewState extends State<ProfileView> {
                                 label: 'Category',
                                 value: controller
                                         .profileData.value!.data?.category ??
-                                    'None',
+                                    'N/A',
                               ),
                             ),
                           ],
@@ -234,8 +187,7 @@ class _ProfileViewState extends State<ProfileView> {
                         ),
                         sh8,
                         Text(
-                          controller.profileData.value!.data?.petInfo ??
-                              'N/A',
+                          controller.profileData.value!.data?.petInfo ?? 'N/A',
                           style: h4,
                         ),
                         sh16,
@@ -477,7 +429,9 @@ class _ProfileViewState extends State<ProfileView> {
                             children: [
                               CustomButton(
                                 text: 'Upload an Image',
-                                onPressed: () {},
+                                onPressed: () {
+                                  controller.uploadPetGalleryImage();
+                                },
                                 imageAssetPath: AppImages.uploadImage,
                                 backgroundColor: AppColors.fillColorTwo,
                                 textStyle: h3.copyWith(
@@ -499,12 +453,47 @@ class _ProfileViewState extends State<ProfileView> {
                                         ?.gallery.length ??
                                     0,
                                 itemBuilder: (context, index) {
-                                  return ClipRRect(
-                                    borderRadius: BorderRadius.circular(12),
-                                    child: Image.network(
-                                      controller.profileData.value!.data!
-                                          .gallery[index],
-                                      fit: BoxFit.cover,
+                                  final imagePath = controller.profileData
+                                      .value!.data!.gallery[index];
+                                  return Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                      color: AppColors.white,
+                                    ),
+                                    child: Stack(
+                                      children: [
+                                        Positioned.fill(
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            child: Image.network(
+                                              controller.profileData.value!
+                                                  .data!.gallery[index],
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        ),
+                                        Positioned(
+                                          top: 6,
+                                          right: 6,
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              controller.patchRemovePetGalleryImage(imagePath);
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.all(6),
+                                              decoration: ShapeDecoration(
+                                                shape: CircleBorder(),
+                                                color: AppColors.white,
+                                              ),
+                                              child: Image.asset(
+                                                AppImages.close,
+                                                scale: 4,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   );
                                 },
@@ -516,7 +505,9 @@ class _ProfileViewState extends State<ProfileView> {
                             children: [
                               CustomButton(
                                 text: 'Upload an Image',
-                                onPressed: () {},
+                                onPressed: () {
+                                  controller.uploadOwnerGalleryImage();
+                                },
                                 imageAssetPath: AppImages.uploadImage,
                                 backgroundColor: AppColors.fillColorTwo,
                                 textStyle: h3.copyWith(
@@ -535,15 +526,52 @@ class _ProfileViewState extends State<ProfileView> {
                                   childAspectRatio: 0.8,
                                 ),
                                 itemCount: controller.profileData.value!.data
-                                        ?.ownerGallery?.length ??
+                                        ?.ownerGallery.length ??
                                     0,
                                 itemBuilder: (context, index) {
-                                  return ClipRRect(
-                                    borderRadius: BorderRadius.circular(12),
-                                    child: Image.network(
-                                      controller.profileData.value!.data!
-                                          .ownerGallery[index],
-                                      fit: BoxFit.cover,
+                                  final imagePath = controller.profileData
+                                      .value!.data!.ownerGallery[index];
+                                  return Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                      color: AppColors.white,
+                                    ),
+                                    child: Stack(
+                                      children: [
+                                        Positioned.fill(
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            child: Image.network(
+                                              controller.profileData.value!
+                                                  .data!.ownerGallery[index],
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        ),
+                                        Positioned(
+                                          top: 6,
+                                          right: 6,
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              controller
+                                                  .patchRemoveOwnerGalleryImage(
+                                                      imagePath);
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.all(6),
+                                              decoration: ShapeDecoration(
+                                                shape: CircleBorder(),
+                                                color: AppColors.white,
+                                              ),
+                                              child: Image.asset(
+                                                AppImages.close,
+                                                scale: 4,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   );
                                 },

@@ -16,12 +16,26 @@ import '../../../../common/size_box/custom_sizebox.dart';
 import '../../../../common/widgets/custom_container.dart';
 import '../controllers/profile_controller.dart';
 
-class ProfileSettingView extends GetView {
-  const ProfileSettingView({super.key});
+class ProfileSettingView extends StatefulWidget {
+  final String profileImage;
+  final String name;
+  final String location;
+
+  const ProfileSettingView(
+      {super.key,
+      required this.profileImage,
+      required this.name,
+      required this.location});
+
+  @override
+  State<ProfileSettingView> createState() => _ProfileSettingViewState();
+}
+
+class _ProfileSettingViewState extends State<ProfileSettingView> {
+  final ProfileController profileController = Get.put(ProfileController());
 
   @override
   Widget build(BuildContext context) {
-    final ProfileController profileController = Get.put(ProfileController());
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       appBar: AppBar(
@@ -46,9 +60,9 @@ class ProfileSettingView extends GetView {
               leading: CircleAvatar(
                 radius: 25,
                 backgroundColor: AppColors.white,
-                backgroundImage: NetworkImage(AppImages.catProfileImage),
+                backgroundImage: NetworkImage(widget.profileImage),
               ),
-              title: Text('Piku_The_King'),
+              title: Text(widget.name),
               subtitle: Row(
                 children: [
                   Image.asset(
@@ -56,7 +70,7 @@ class ProfileSettingView extends GetView {
                     scale: 4,
                   ),
                   sw12,
-                  Text('23/1-A, Florida, USA.')
+                  Text(widget.location)
                 ],
               ),
             ),
@@ -155,7 +169,7 @@ class ProfileSettingView extends GetView {
                     sh16,
                     CustomContainer(
                       onTap: () {
-                        Get.offAll(()=> LoginView());
+                        Get.offAll(() => LoginView());
                       },
                       text: 'Log out',
                       textStyle: h3.copyWith(

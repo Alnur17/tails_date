@@ -24,6 +24,10 @@ class Api {
 
   ///profile
   static const String myProfile = "$baseUrl/users/profile"; //
+  static const String profileOwnerGallery = "$baseUrl/users/add-to-owner-gallery"; //done
+  static const String profilePetGallery = "$baseUrl/users/add-to-pet-gallery"; //done
+  static const String removeProfileOwnerGallery = "$baseUrl/users/remove-from-owner-gallery"; //
+  static const String removeProfilePetGallery = "$baseUrl/users/remove-from-pet-gallery"; //
 
 ///Reels
   static const String allReels = "$baseUrl/reels"; //done

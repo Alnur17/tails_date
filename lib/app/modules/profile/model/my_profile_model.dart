@@ -64,7 +64,7 @@ class ProfileData {
   final bool? isDeleted;
   final dynamic location;
   final String? name;
-  final dynamic ownerGallery;
+  final List<String> ownerGallery;
   final dynamic ownerGender;
   final String? ownerImage;
   final dynamic ownerName;
@@ -92,7 +92,7 @@ class ProfileData {
       isDeleted: json["is_deleted"],
       location: json["location"],
       name: json["name"],
-      ownerGallery: json["owner_gallery"],
+      ownerGallery: json["owner_gallery"] == null ? [] : List<String>.from(json["owner_gallery"]!.map((x) => x)),
       ownerGender: json["owner_gender"],
       ownerImage: json["owner_image"],
       ownerName: json["owner_name"],
