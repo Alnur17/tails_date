@@ -36,5 +36,8 @@ class Api {
   ///Reports
   static const String reports = "$baseUrl/reports"; // done
 
-
+  ///Subscription Plan
+  static const String subscriptionPlan = "$baseUrl/subscription-plans"; //
+  static const String myCurrentSubscriptionPlan = "$baseUrl/subscriptions/my"; //
+  static String buySubscriptionPlan(String subscriptionPlanId) => "$baseUrl/payments/create-session-for-subscription?planId=$subscriptionPlanId"; //
 }
