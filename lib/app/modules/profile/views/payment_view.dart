@@ -45,7 +45,7 @@ class _PaymentViewState extends State<PaymentView> {
         },
         onPageFinished: (String url) {
           debugPrint('Page finished loading: $url');
-          if (url.contains("verify-session-for-subscription")) {
+          if (url.contains("verify-session-for")) {
             subscriptionPlanController.paymentResults(paymentLink: url);
             debugPrint('::::::::::::: if condition ::::::::::::::::');
           }

@@ -7,7 +7,6 @@ import 'package:share_plus/share_plus.dart';
 import 'package:tails_date/app/modules/home/views/report_view.dart';
 import 'package:tails_date/common/app_color/app_colors.dart';
 import 'package:tails_date/common/app_images/app_images.dart';
-import 'package:tails_date/common/size_box/custom_sizebox.dart';
 import 'package:tails_date/common/widgets/custom_button.dart';
 
 import '../../../../../../common/app_text_style/styles.dart';
@@ -45,6 +44,7 @@ class UserPostCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String shareLink = 'https://example.com/share_link';
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
@@ -235,7 +235,10 @@ class UserPostCard extends StatelessWidget {
                 _buildIcon(AppImages.star, null,
                     onTap: () => showStarBuyDialog(context)),
                 _buildIcon(AppImages.share, null,
-                    onTap: () => _showShareModal(context)),
+                    onTap: () => Share.share(
+                      'Check out this post: $shareLink',
+                      subject: 'Post Link',
+                    ),),
                 _buildIcon(AppImages.bookmark, null),
               ],
             ),
@@ -308,132 +311,130 @@ class UserPostCard extends StatelessWidget {
     );
   }
 
-  final String shareLink = 'https://example.com/share_link';
+  // void _showShareModal(BuildContext context) {
+  //   showModalBottomSheet(
+  //     context: context,
+  //     isScrollControlled: true,
+  //     shape: RoundedRectangleBorder(
+  //       borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+  //     ),
+  //     builder: (context) {
+  //       return Padding(
+  //         padding: const EdgeInsets.all(16.0),
+  //         child: Column(
+  //           mainAxisSize: MainAxisSize.min,
+  //           crossAxisAlignment: CrossAxisAlignment.start,
+  //           children: [
+  //             Text(
+  //               'Share this link via',
+  //               textAlign: TextAlign.center,
+  //               style: h3.copyWith(fontSize: 20),
+  //             ),
+  //             sh16,
+  //             Row(
+  //               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  //               children: [
+  //                 _buildShareButton(
+  //                   image: AppImages.facebook,
+  //                   color: Colors.blue,
+  //                   onTap: () => Share.share(
+  //                     'Check out this post: $shareLink',
+  //                     subject: 'Post Link',
+  //                   ),
+  //                 ),
+  //                 _buildShareButton(
+  //                   image: AppImages.messenger,
+  //                   color: Colors.blueAccent,
+  //                   onTap: () => Share.share(
+  //                     'Check out this post: $shareLink',
+  //                     subject: 'Post Link',
+  //                   ),
+  //                 ),
+  //                 _buildShareButton(
+  //                   image: AppImages.instagram,
+  //                   color: Colors.pink,
+  //                   onTap: () => Share.share(
+  //                     'Check out this post: $shareLink',
+  //                     subject: 'Post Link',
+  //                   ),
+  //                 ),
+  //                 _buildShareButton(
+  //                   image: AppImages.whatsApp,
+  //                   color: Colors.green,
+  //                   onTap: () => Share.share(
+  //                     'Check out this post: $shareLink',
+  //                     subject: 'Post Link',
+  //                   ),
+  //                 ),
+  //                 _buildShareButton(
+  //                   image: AppImages.telegram,
+  //                   color: Colors.lightBlue,
+  //                   onTap: () => Share.share(
+  //                     'Check out this post: $shareLink',
+  //                     subject: 'Post Link',
+  //                   ),
+  //                 ),
+  //               ],
+  //             ),
+  //             SizedBox(height: 16),
+  //             Text(
+  //               'Or Copy Link',
+  //               textAlign: TextAlign.center,
+  //               style: TextStyle(
+  //                 fontSize: 16,
+  //                 fontWeight: FontWeight.w600,
+  //               ),
+  //             ),
+  //             SizedBox(height: 8),
+  //             Container(
+  //               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+  //               decoration: BoxDecoration(
+  //                 border: Border.all(color: Colors.grey),
+  //                 borderRadius: BorderRadius.circular(8),
+  //                 color: Colors.grey[200],
+  //               ),
+  //               child: Row(
+  //                 children: [
+  //                   Text(
+  //                     shareLink,
+  //                     overflow: TextOverflow.ellipsis,
+  //                   ),
+  //                   Spacer(),
+  //                   CustomButton(
+  //                     width: 80,
+  //                     height: 35,
+  //                     onPressed: () {
+  //                       Clipboard.setData(ClipboardData(text: shareLink));
+  //                       ScaffoldMessenger.of(context).showSnackBar(
+  //                         SnackBar(content: Text('Link copied to clipboard')),
+  //                       );
+  //                     },
+  //                     text: 'Copy',
+  //                   ),
+  //                 ],
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 
-  void _showShareModal(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-      ),
-      builder: (context) {
-        return Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Share this link via',
-                textAlign: TextAlign.center,
-                style: h3.copyWith(fontSize: 20),
-              ),
-              sh16,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  _buildShareButton(
-                    image: AppImages.facebook,
-                    color: Colors.blue,
-                    onTap: () => Share.share(
-                      'Check out this post: $shareLink',
-                      subject: 'Post Link',
-                    ),
-                  ),
-                  _buildShareButton(
-                    image: AppImages.messenger,
-                    color: Colors.blueAccent,
-                    onTap: () => Share.share(
-                      'Check out this post: $shareLink',
-                      subject: 'Post Link',
-                    ),
-                  ),
-                  _buildShareButton(
-                    image: AppImages.instagram,
-                    color: Colors.pink,
-                    onTap: () => Share.share(
-                      'Check out this post: $shareLink',
-                      subject: 'Post Link',
-                    ),
-                  ),
-                  _buildShareButton(
-                    image: AppImages.whatsApp,
-                    color: Colors.green,
-                    onTap: () => Share.share(
-                      'Check out this post: $shareLink',
-                      subject: 'Post Link',
-                    ),
-                  ),
-                  _buildShareButton(
-                    image: AppImages.telegram,
-                    color: Colors.lightBlue,
-                    onTap: () => Share.share(
-                      'Check out this post: $shareLink',
-                      subject: 'Post Link',
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 16),
-              Text(
-                'Or Copy Link',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              SizedBox(height: 8),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(8),
-                  color: Colors.grey[200],
-                ),
-                child: Row(
-                  children: [
-                    Text(
-                      shareLink,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    Spacer(),
-                    CustomButton(
-                      width: 80,
-                      height: 35,
-                      onPressed: () {
-                        Clipboard.setData(ClipboardData(text: shareLink));
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Link copied to clipboard')),
-                        );
-                      },
-                      text: 'Copy',
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildShareButton(
-      {required String image,
-      required Color color,
-      required VoidCallback onTap}) {
-    return GestureDetector(
-      onTap: onTap,
-      child: CircleAvatar(
-        backgroundColor: color.withOpacity(0.2),
-        radius: 24,
-        child: Image.asset(
-          image,
-          scale: 4,
-        ),
-      ),
-    );
-  }
+  // Widget _buildShareButton(
+  //     {required String image,
+  //     required Color color,
+  //     required VoidCallback onTap}) {
+  //   return GestureDetector(
+  //     onTap: onTap,
+  //     child: CircleAvatar(
+  //       backgroundColor: color.withOpacity(0.2),
+  //       radius: 24,
+  //       child: Image.asset(
+  //         image,
+  //         scale: 4,
+  //       ),
+  //     ),
+  //   );
+  // }
 }

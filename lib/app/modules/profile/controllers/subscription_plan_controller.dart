@@ -72,7 +72,7 @@ class SubscriptionPlanController extends GetxController {
       );
       final responseData = await BaseClient.handleResponse(response);
       final currentSubscription =
-      MyCurrentSubscriptionModel.fromJson(responseData);
+          MyCurrentSubscriptionModel.fromJson(responseData);
       if (currentSubscription.success == true) {
         myCurrentSubscription.value = currentSubscription;
       } else {
@@ -89,32 +89,34 @@ class SubscriptionPlanController extends GetxController {
 
   Future<void> createPaymentSession({
     required String subscriptionId,
-  })
-  async {
-    isLoading.value = true;
-    String token = LocalStorage.getData(key: AppConstant.token);
+  }) async {
+    try {
+      isLoading.value = true;
+      String token = LocalStorage.getData(key: AppConstant.token);
 
-    final headers = {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer $token',
-    };
+      final headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      };
 
+      dynamic responseBody = await BaseClient.handleResponse(
+        await BaseClient.postRequest(
+          api: Api.buySubscriptionPlan(subscriptionId),
+          headers: headers,
+        ),
+      );
 
-    dynamic responseBody = await BaseClient.handleResponse(
-      await BaseClient.postRequest(
-        api: Api.buySubscriptionPlan(subscriptionId),
-        headers: headers,
-      ),
-    );
-
-    if (responseBody != null) {
-      Get.to(() => PaymentView(paymentUrl: responseBody["data"]["url"]));
+      if (responseBody != null) {
+        Get.to(() => PaymentView(paymentUrl: responseBody["data"]["url"]));
+      } else {
+        Get.snackbar("Error", "Failed to create payment session");
+      }
+    } catch (e) {
+      debugPrint("Error, Failed to create payment $e");
+    } finally {
       isLoading.value = false;
-    } else {
-      Get.snackbar("Error", "Failed to create payment session");
     }
   }
-
 
   Future<void> paymentResults({required String paymentLink}) async {
     try {
@@ -127,12 +129,11 @@ class SubscriptionPlanController extends GetxController {
       };
 
       var response =
-      await BaseClient.getRequest(api: paymentLink, headers: headers);
+          await BaseClient.getRequest(api: paymentLink, headers: headers);
 
       var responseBody = await BaseClient.handleResponse(response);
 
       if (responseBody['success'] == true) {
-
         Get.offAll(() => PaymentSuccessView());
       } else {
         debugPrint("Error on Payment Result: $responseBody['message'] ");
@@ -147,5 +148,4 @@ class SubscriptionPlanController extends GetxController {
       isLoading.value = false;
     }
   }
-
 }

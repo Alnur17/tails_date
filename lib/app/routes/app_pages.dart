@@ -112,12 +112,12 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.PRIVACY_POLICY,
-      page: () => const PrivacyPolicyView(),
+      page: () => PrivacyPolicyView(),
       binding: PrivacyPolicyBinding(),
     ),
     GetPage(
       name: _Paths.TERMS_OF_SERVICES,
-      page: () => const TermsOfServicesView(),
+      page: () => TermsOfServicesView(),
       binding: TermsOfServicesBinding(),
     ),
   ];

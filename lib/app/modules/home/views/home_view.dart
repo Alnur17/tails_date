@@ -143,7 +143,6 @@ class _HomeViewState extends State<HomeView> {
                                   images: post.images,
                                   description: post.caption ?? '',
                                   likeCount: 0,
-                                  // Adjust if API provides like count
                                   timeAgo: homeController
                                       .formatTimeAgo(post.createdAt),
                                   onAddFriend: () {

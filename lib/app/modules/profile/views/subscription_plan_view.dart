@@ -545,7 +545,6 @@
 // }
 
 
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tails_date/app/modules/profile/views/widgets/subscription_plan_card.dart';
@@ -567,7 +566,7 @@ class SubscriptionPlanView extends StatelessWidget {
       appBar: AppBar(
         scrolledUnderElevation: 0,
         backgroundColor: AppColors.mainColor,
-        title: const Text('Subscription Plan'),
+        title: const Text('Subscription Plans'),
         centerTitle: true,
         leading: GestureDetector(
           onTap: () => Get.back(),
@@ -577,49 +576,77 @@ class SubscriptionPlanView extends StatelessWidget {
           ),
         ),
       ),
-      body: Obx(() => controller.isLoading.value
-          ? const Center(child: CircularProgressIndicator())
-          : controller.errorMessage.value.isNotEmpty
-          ? Center(child: Text(controller.errorMessage.value, style: h3))
-          : SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Current Subscription Section
-              if (controller.myCurrentSubscription.value != null) ...[
-                Text(
-                  'My Current Plan',
-                  style: h2.copyWith(fontSize: 20),
-                ),
-                sh12,
-                SubscriptionPlanCard(
-                  title: controller.myCurrentSubscription.value!.data!.plan ?? 'Unknown Plan',
-                  //duration: _getDurationText(controller.myCurrentSubscription.value!.data!.duration),
-                  duration: '',
-                 // price: '\$${controller.myCurrentSubscription.value!.data!.price?.toStringAsFixed(2) ?? '0.00'}',
-                 price: '\$${1100}',
-                  description: 'Enjoy your current subscription benefits.',
-                  expiryDate: _formatDate(controller.myCurrentSubscription.value!.data!.endDate),
-                  remainingDays: _calculateRemainingDays(controller.myCurrentSubscription.value!.data!.endDate),
-                  onSubscribe: () {
-                    controller.createPaymentSession(
-                      subscriptionId: controller.myCurrentSubscription.value!.data!.id!,
-                    );
-                  },
-                  isCurrentPlan: true,
-                  buttonText: _getButtonText(controller.myCurrentSubscription.value!.data!.plan, controller),
-                ),
-                sh30,
-                Text(
-                  'Upgrade Plan',
-                  style: h2.copyWith(fontSize: 20),
-                ),
-              ],
-              // Available Subscription Plans
-              ...controller.subscriptionPlans.map((plan) {
-                if (_shouldShowButton(plan.name, controller)) {
+      body: Obx(() {
+        if (controller.isLoading.value) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (controller.errorMessage.value.isNotEmpty) {
+          return Center(child: Text(controller.errorMessage.value, style: h3));
+        }
+        if (controller.subscriptionPlans.isEmpty) {
+          return Center(child: Text('No subscription plans available', style: h3));
+        }
+
+        final currentSubscription = controller.myCurrentSubscription.value;
+        final currentPlan = currentSubscription?.data?.plan?.name;
+        final currentPlanDetails = currentSubscription?.data?.plan;
+        final endDate = currentSubscription?.data?.endDate;
+        final status = currentSubscription?.data?.status;
+        final parsedEndDate = endDate != null ? DateTime.tryParse(endDate) : null;
+        final remainingDays = parsedEndDate != null && status == 'active'
+            ? parsedEndDate.difference(DateTime.now()).inDays
+            : null;
+
+        return SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Current Plan Section
+                if (currentPlanDetails != null && status == 'active' && remainingDays != null && remainingDays > 0) ...[
+                  Text(
+                    'My Current Plan',
+                    style: h2.copyWith(fontSize: 20, color: AppColors.white),
+                  ),
+                  sh12,
+                  SubscriptionPlanCard(
+                    title: '${currentPlanDetails.name} - My Current Plan',
+                    duration: _getDurationText(currentPlanDetails.duration),
+                    price: '\$${currentPlanDetails.price?.toStringAsFixed(2) ?? '0.00'}',
+                    description: currentPlanDetails.description ?? 'Enjoy your current subscription benefits.',
+                    expiryDate: _formatDate(endDate),
+                    remainingDays: remainingDays,
+                    onSubscribe: () {
+                      if (currentSubscription?.data?.id != null) {
+                        controller.createPaymentSession(subscriptionId: currentSubscription!.data!.id!);
+                        Get.snackbar(
+                          'Renewed',
+                          'Your ${currentPlanDetails.name} has been renewed!',
+                          backgroundColor: Colors.green,
+                          colorText: AppColors.white,
+                        );
+                      }
+                    },
+                    isCurrentPlan: true,
+                    buttonText: 'Renew Plan',
+                    buttonColor: AppColors.mainColor,
+                    buttonTextColor: AppColors.white,
+                    titleTextColor: AppColors.white,
+                  ),
+                  sh30,
+                  Text(
+                    'Upgrade Plan',
+                    style: h2.copyWith(fontSize: 20, color: AppColors.white),
+                  ),
+                  sh12,
+                ],
+                // Available Plans Section
+                ...controller.subscriptionPlans.map((plan) {
+                  final isGoldPlan = plan.name == 'Gold Plan';
+                  if (!_shouldShowButton(plan.name, currentPlan)) {
+                    return const SizedBox.shrink();
+                  }
                   return Column(
                     children: [
                       SubscriptionPlanCard(
@@ -628,39 +655,60 @@ class SubscriptionPlanView extends StatelessWidget {
                         price: '\$${plan.price?.toStringAsFixed(2) ?? '0.00'}',
                         description: plan.description ?? 'No description available',
                         onSubscribe: () {
-                          controller.createPaymentSession(
-                            subscriptionId: plan.id!,
-                          );
+                          if (plan.id != null) {
+                            controller.createPaymentSession(subscriptionId: plan.id!);
+                            Get.snackbar(
+                              'Success',
+                              'You have subscribed to ${plan.name}!',
+                              backgroundColor: Colors.green,
+                              colorText: AppColors.white,
+                            );
+                          } else {
+                            Get.snackbar(
+                              'Error',
+                              'Unable to subscribe: Plan ID not found',
+                              backgroundColor: AppColors.orange,
+                              colorText: AppColors.white,
+                            );
+                          }
                         },
-                        isCurrentPlan: controller.myCurrentSubscription.value?.data?.plan == plan.name,
-                        buttonText: _getButtonText(plan.name, controller),
-                        titleTextColor: _getTitleColor(plan.name),
-                        buttonColor: _getButtonColor(plan.name),
+                        isCurrentPlan: plan.name == currentPlan,
+                        buttonText: _getButtonText(plan.name, currentPlan),
+                        titleTextColor: isGoldPlan ? AppColors.green : AppColors.white,
+                        buttonColor: isGoldPlan ? AppColors.green : AppColors.mainColor,
                         buttonTextColor: AppColors.white,
+                        containerColor: isGoldPlan ? Colors.orange[100] : AppColors.white.withOpacity(0.9),
+                        borderColor: isGoldPlan ? Colors.orange : AppColors.black,
                       ),
+                      if (isGoldPlan) ...[
+                        sh8,
+                        Center(
+                          child: Text(
+                            'Most Popular',
+                            style: h3.copyWith(color: Colors.orange, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ],
                       sh20,
                     ],
                   );
-                }
-                return const SizedBox.shrink();
-              }).toList(),
-            ],
+                }).toList(),
+              ],
+            ),
           ),
-        ),
-      )),
+        );
+      }),
     );
   }
 
-  String _getButtonText(String? plan, SubscriptionPlanController controller) {
-    final currentPlan = controller.myCurrentSubscription.value?.data?.plan;
+  String _getButtonText(String? plan, String? currentPlan) {
     if (currentPlan == null) return 'Subscribe Now';
     if (plan == currentPlan) return 'Renew Plan';
     return 'Upgrade to ${plan?.split(' ')[0] ?? 'Plan'}';
   }
 
-  bool _shouldShowButton(String? plan, SubscriptionPlanController controller) {
+  bool _shouldShowButton(String? plan, String? currentPlan) {
     const planOrder = ['Silver Plan', 'Gold Plan', 'Platinum Plan'];
-    final currentPlan = controller.myCurrentSubscription.value?.data?.plan;
     if (currentPlan == null) return true;
     final currentIndex = planOrder.indexOf(currentPlan);
     final planIndex = planOrder.indexOf(plan ?? '');
@@ -669,45 +717,21 @@ class SubscriptionPlanView extends StatelessWidget {
 
   String _getDurationText(int? duration) {
     if (duration == null) return 'Unknown';
-    if (duration == 1) return '1 Month';
-    if (duration == 3) return '3 Months';
-    if (duration == 12) return '1 Year';
-    return '$duration Months';
+    return duration == 1 ? '1 Month' : '$duration Months';
   }
 
-  String _formatDate(DateTime? date) {
+  String _formatDate(String? date) {
     if (date == null) return 'N/A';
-    return '${date.day} ${_getMonthName(date.month)} ${date.year}';
+    try {
+      final parsedDate = DateTime.parse(date);
+      return '${parsedDate.day} ${_getMonthName(parsedDate.month)} ${parsedDate.year}';
+    } catch (e) {
+      return 'N/A';
+    }
   }
 
   String _getMonthName(int month) {
-    const months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-    ];
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     return months[month - 1];
-  }
-
-  int _calculateRemainingDays(DateTime? endDate) {
-    if (endDate == null) return 0;
-    return endDate.difference(DateTime.now()).inDays;
-  }
-
-  Color _getTitleColor(String? plan) {
-    switch (plan) {
-      case 'Gold Plan':
-        return AppColors.green;
-      default:
-        return AppColors.brownColor;
-    }
-  }
-
-  Color _getButtonColor(String? plan) {
-    switch (plan) {
-      case 'Gold Plan':
-        return AppColors.green;
-      default:
-        return AppColors.mainColor;
-    }
   }
 }

@@ -36,8 +36,8 @@ class Data {
   final String? user;
   final int? v;
   final DateTime? createdAt;
-  final DateTime? endDate;
-  final String? plan;
+  final String? endDate;
+  final Plan? plan;
   final DateTime? startDate;
   final String? status;
   final DateTime? updatedAt;
@@ -48,11 +48,47 @@ class Data {
       user: json["user"],
       v: json["__v"],
       createdAt: DateTime.tryParse(json["createdAt"] ?? ""),
-      endDate: DateTime.tryParse(json["end_date"] ?? ""),
-      plan: json["plan"],
+      endDate: json["end_date"],
+      plan: json["plan"] == null ? null : Plan.fromJson(json["plan"]),
       startDate: DateTime.tryParse(json["start_date"] ?? ""),
       status: json["status"],
       updatedAt: DateTime.tryParse(json["updatedAt"] ?? ""),
+    );
+  }
+
+}
+
+class Plan {
+  Plan({
+    required this.id,
+    required this.name,
+    required this.price,
+    required this.duration,
+    required this.description,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.v,
+  });
+
+  final String? id;
+  final String? name;
+  final double? price;
+  final int? duration;
+  final String? description;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  final int? v;
+
+  factory Plan.fromJson(Map<String, dynamic> json){
+    return Plan(
+      id: json["_id"],
+      name: json["name"],
+      price: json["price"],
+      duration: json["duration"],
+      description: json["description"],
+      createdAt: DateTime.tryParse(json["createdAt"] ?? ""),
+      updatedAt: DateTime.tryParse(json["updatedAt"] ?? ""),
+      v: json["__v"],
     );
   }
 

@@ -28,6 +28,7 @@ class Api {
   static const String profilePetGallery = "$baseUrl/users/add-to-pet-gallery"; //done
   static const String removeProfileOwnerGallery = "$baseUrl/users/remove-from-owner-gallery"; //
   static const String removeProfilePetGallery = "$baseUrl/users/remove-from-pet-gallery"; //
+  static const String conditionsPage = "$baseUrl/settings";
 
 ///Reels
   static const String allReels = "$baseUrl/reels"; //done
@@ -36,8 +37,12 @@ class Api {
   ///Reports
   static const String reports = "$baseUrl/reports"; // done
 
+  ///Reports
+  static const String starPlans = "$baseUrl/star-plans"; //
+
   ///Subscription Plan
   static const String subscriptionPlan = "$baseUrl/subscription-plans"; //
   static const String myCurrentSubscriptionPlan = "$baseUrl/subscriptions/my"; //
   static String buySubscriptionPlan(String subscriptionPlanId) => "$baseUrl/payments/create-session-for-subscription?planId=$subscriptionPlanId"; //
+  static String buyStarPlan(String starPlanId) => "$baseUrl/payments/create-session-for-star?starPlanId=$starPlanId"; //
 }
