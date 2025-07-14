@@ -13,7 +13,7 @@ class BuyStarController extends GetxController {
   var isLoading = true.obs;
   var starPlans = <StarPlanData>[].obs;
   var selectedPlanIndex = (-1).obs; // Tracks the selected plan index, -1 means none selected
-
+  TextEditingController cashOutTEController = TextEditingController();
 
   @override
   void onInit() {
@@ -80,6 +80,10 @@ class BuyStarController extends GetxController {
       }
     } catch (e) {
       debugPrint("Error, Failed to create payment $e");
+      kSnackBar(
+        message: 'Failed to initiate payment: $e',
+        bgColor: AppColors.orange,
+      );
     } finally {
       isLoading.value = false;
     }
@@ -102,8 +106,6 @@ class BuyStarController extends GetxController {
       message: 'Initiating purchase for ${selectedPlan.stars} Stars at \$${selectedPlan.price?.toStringAsFixed(2)}',
       bgColor: AppColors.green,
     );
-
+    createPaymentSessionForStar(starPlanId: selectedPlan.id!);
   }
-
-
 }

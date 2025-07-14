@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:tails_date/app/modules/profile/controllers/buy_star_controller.dart';
 import 'package:tails_date/common/app_color/app_colors.dart';
 import 'package:tails_date/common/widgets/custom_button.dart';
 import 'package:tails_date/common/widgets/custom_textfield.dart';
@@ -9,8 +10,16 @@ import '../../../../common/app_images/app_images.dart';
 import '../../../../common/app_text_style/styles.dart';
 import '../../../../common/size_box/custom_sizebox.dart';
 
-class CashOutYourStarsView extends GetView {
-  const CashOutYourStarsView({super.key});
+class CashOutYourStarsView extends StatefulWidget {
+  final int starBalance;
+  const CashOutYourStarsView( {super.key, required this.starBalance,});
+
+  @override
+  State<CashOutYourStarsView> createState() => _CashOutYourStarsViewState();
+}
+
+class _CashOutYourStarsViewState extends State<CashOutYourStarsView> {
+  BuyStarController buyStarController = Get.put(BuyStarController());
 
   @override
   Widget build(BuildContext context) {
@@ -61,14 +70,14 @@ class CashOutYourStarsView extends GetView {
                         Text('🌟'),
                         sw8,
                         Text(
-                          '500 Stars Remaining',
+                          '${widget.starBalance} Stars Remaining',
                           style: h2,
                         ),
                       ],
                     ),
                     sh8,
                     Text(
-                      'which equals \$5.00',
+                      'which equals \$${widget.starBalance/100}',
                       style: h4,
                     ),
                   ],
@@ -80,6 +89,7 @@ class CashOutYourStarsView extends GetView {
               Text('Enter cash out amount:', style: h4),
               sh8,
               CustomTextField(
+                controller: buyStarController.cashOutTEController,
                 hintText: '\$0.00',
               ),
               sh8,
@@ -146,8 +156,9 @@ class CashOutYourStarsView extends GetView {
               sh24,
               CustomButton(
                 text: 'Submit CashOut Request',
-                onPressed: () {
-                  showSubmitRequestDialog(context);
+                onPressed: () async {
+
+                 await showSubmitRequestDialog(context);
                 },
               ),
               sh24,

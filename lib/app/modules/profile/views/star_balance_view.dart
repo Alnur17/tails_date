@@ -11,7 +11,8 @@ import '../../../../common/app_text_style/styles.dart';
 import '../../../../common/size_box/custom_sizebox.dart';
 
 class StarBalanceView extends StatefulWidget {
-  const StarBalanceView({super.key});
+  final int starBalance;
+  const StarBalanceView({super.key, required this.starBalance});
 
   @override
   State<StarBalanceView> createState() => _StarBalanceViewState();
@@ -80,7 +81,7 @@ class _StarBalanceViewState extends State<StarBalanceView> {
                       Text('🌟'),
                       sw8,
                       Text(
-                        '500 Stars Remaining',
+                        '${widget.starBalance} Stars Remaining',
                         style: h2,
                       ),
                     ],
@@ -103,7 +104,7 @@ class _StarBalanceViewState extends State<StarBalanceView> {
                   CustomButton(
                     text: 'Cash Out Your Stars',
                     onPressed: () {
-                      Get.to(()=> CashOutYourStarsView());
+                      Get.to(()=> CashOutYourStarsView(starBalance: widget.starBalance));
                     },
                     borderColor: AppColors.black,
                     backgroundColor: AppColors.white,

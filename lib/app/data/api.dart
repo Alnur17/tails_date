@@ -29,6 +29,8 @@ class Api {
   static const String removeProfileOwnerGallery = "$baseUrl/users/remove-from-owner-gallery"; //
   static const String removeProfilePetGallery = "$baseUrl/users/remove-from-pet-gallery"; //
   static const String conditionsPage = "$baseUrl/settings";
+  static  String deleteUser(String userId) => "$baseUrl/users/$userId";
+  static const  String cashOut = "$baseUrl/cashout-requests";
 
 ///Reels
   static const String allReels = "$baseUrl/reels"; //done
@@ -37,12 +39,12 @@ class Api {
   ///Reports
   static const String reports = "$baseUrl/reports"; // done
 
-  ///Reports
+  ///Star Plans
   static const String starPlans = "$baseUrl/star-plans"; //
 
   ///Subscription Plan
-  static const String subscriptionPlan = "$baseUrl/subscription-plans"; //
-  static const String myCurrentSubscriptionPlan = "$baseUrl/subscriptions/my"; //
-  static String buySubscriptionPlan(String subscriptionPlanId) => "$baseUrl/payments/create-session-for-subscription?planId=$subscriptionPlanId"; //
-  static String buyStarPlan(String starPlanId) => "$baseUrl/payments/create-session-for-star?starPlanId=$starPlanId"; //
+  static const String subscriptionPlan = "$baseUrl/subscription-plans"; //done
+  static const String myCurrentSubscriptionPlan = "$baseUrl/subscriptions/my"; //done
+  static String buySubscriptionPlan(String subscriptionPlanId) => "$baseUrl/payments/create-session-for-subscription?planId=$subscriptionPlanId"; //done
+  static String buyStarPlan(String starPlanId) => "$baseUrl/payments/create-session-for-star?starPlanId=$starPlanId"; //done
 }

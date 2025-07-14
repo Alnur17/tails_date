@@ -114,7 +114,11 @@ class _ProfileSettingViewState extends State<ProfileSettingView> {
                     sh16,
                     CustomContainer(
                       onTap: () {
-                        Get.to(() => StarBalanceView());
+                        Get.to(() => StarBalanceView(
+                              starBalance: profileController
+                                      .profileData.value?.data?.starBalance ??
+                                  0,
+                            ));
                       },
                       text: 'Star Balance',
                       imagePath: AppImages.star,
@@ -188,7 +192,7 @@ class _ProfileSettingViewState extends State<ProfileSettingView> {
     );
   }
 
-  Future showDeleteAccountDialog(BuildContext context) {
+  Future showDeleteAccountDialog(BuildContext context,) {
     return Get.defaultDialog(
       title: "Delete Your Account",
       titlePadding: EdgeInsets.only(top: 16),
@@ -232,7 +236,9 @@ class _ProfileSettingViewState extends State<ProfileSettingView> {
               ),
               sw10,
               OutlinedButton(
-                onPressed: () {},
+                onPressed: () {
+                  profileController.deleteUser();
+                },
                 style: OutlinedButton.styleFrom(
                   backgroundColor: AppColors.red,
                   padding: const EdgeInsets.symmetric(
