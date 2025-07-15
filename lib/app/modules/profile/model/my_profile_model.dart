@@ -21,8 +21,6 @@ class MyProfileModel {
 
 class ProfileData {
   ProfileData({
-    required this.pointsPurchase,
-    required this.pointsSpent,
     required this.id,
     required this.email,
     required this.v,
@@ -46,15 +44,16 @@ class ProfileData {
     required this.starBalance,
     required this.type,
     required this.updatedAt,
+    required this.pointsPurchase,
+    required this.pointsSpent,
+    required this.totalFriends,
   });
 
-  final int? pointsPurchase;
-  final int? pointsSpent;
   final String? id;
   final String? email;
   final int? v;
-  final dynamic age;
-  final dynamic category;
+  final int? age;
+  final String? category;
   final String? coverImage;
   final DateTime? createdAt;
   final List<String> gallery;
@@ -62,22 +61,23 @@ class ProfileData {
   final String? image;
   final bool? isBlocked;
   final bool? isDeleted;
-  final dynamic location;
+  final String? location;
   final String? name;
   final List<String> ownerGallery;
   final dynamic ownerGender;
   final String? ownerImage;
-  final dynamic ownerName;
+  final String? ownerName;
   final dynamic ownerRelationshipStatus;
-  final dynamic petInfo;
+  final String? petInfo;
   final int? starBalance;
   final String? type;
   final DateTime? updatedAt;
+  final int? pointsPurchase;
+  final int? pointsSpent;
+  final int? totalFriends;
 
   factory ProfileData.fromJson(Map<String, dynamic> json){
     return ProfileData(
-      pointsPurchase: json["points_purchase"],
-      pointsSpent: json["points_spent"],
       id: json["_id"],
       email: json["email"],
       v: json["__v"],
@@ -101,6 +101,9 @@ class ProfileData {
       starBalance: json["star_balance"],
       type: json["type"],
       updatedAt: DateTime.tryParse(json["updatedAt"] ?? ""),
+      pointsPurchase: json["points_purchase"],
+      pointsSpent: json["points_spent"],
+      totalFriends: json["total_friends"],
     );
   }
 

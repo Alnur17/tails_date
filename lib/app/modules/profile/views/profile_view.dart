@@ -1,21 +1,24 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:tails_date/app/data/dummy_data.dart';
 import 'package:tails_date/app/modules/home/views/widgets/home_widgets/user_post_card.dart';
 import 'package:tails_date/app/modules/profile/controllers/profile_controller.dart';
 import 'package:tails_date/app/modules/profile/views/edit_post_view.dart';
 import 'package:tails_date/app/modules/profile/views/edit_profile_view.dart';
 import 'package:tails_date/app/modules/profile/views/friends_view.dart';
+import 'package:tails_date/app/modules/profile/views/my_reels_view.dart';
 import 'package:tails_date/app/modules/profile/views/profile_setting_view.dart';
-import 'package:tails_date/app/modules/reels/views/reels_view.dart';
 import 'package:tails_date/common/app_color/app_colors.dart';
 import 'package:tails_date/common/size_box/custom_sizebox.dart';
 import 'package:tails_date/common/app_images/app_images.dart';
 import 'package:tails_date/common/app_text_style/styles.dart';
 import 'package:tails_date/common/widgets/custom_button.dart';
 import 'package:tails_date/common/widgets/custom_popup_menu_button.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
@@ -31,6 +34,23 @@ class _ProfileViewState extends State<ProfileView> {
   bool showOwnerGallery = false;
 
   final ProfileController controller = Get.put(ProfileController());
+
+  Future<dynamic> generateThumbnail(String videoUrl) async {
+    try {
+      final tempDir = await getTemporaryDirectory();
+      final thumbnailPath = await VideoThumbnail.thumbnailFile(
+        video: videoUrl,
+        thumbnailPath: tempDir.path,
+        imageFormat: ImageFormat.JPEG,
+        maxHeight: 200, // Set desired height
+        quality: 75,
+      );
+      return thumbnailPath;
+    } catch (e) {
+      print("Thumbnail generation error: $e");
+      return null;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -134,9 +154,12 @@ class _ProfileViewState extends State<ProfileView> {
                                   height: 40,
                                   onPressed: () {
                                     Get.to(() =>
-                                        FriendsView(data: DummyData.friends));
+                                        //FriendsView(data: DummyData.friends),
+                                      FriendsView()
+                                        );
                                   },
-                                  text: '${DummyData.friends.length} Friends',
+                                  //text: '${DummyData.friends.length} Friends',
+                                  text: '${controller.profileData.value?.data?.totalFriends} Friends',
                                   backgroundColor: AppColors.white,
                                   borderColor: AppColors.black,
                                   textStyle:
@@ -386,22 +409,18 @@ class _ProfileViewState extends State<ProfileView> {
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
                               gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                              const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,
                                 crossAxisSpacing: 12,
                                 mainAxisSpacing: 12,
                                 childAspectRatio: 1,
                               ),
-                              itemCount: DummyData.posts.length,
+                              itemCount: controller.myReelsData.length,
                               itemBuilder: (context, index) {
-                                final collection = DummyData.posts[index];
-                                final imageUrl =
-                                    (collection['images'] as List).isNotEmpty
-                                        ? collection['images'][0]
-                                        : AppImages.imageNotAvailable;
+                                final reel = controller.myReelsData[index];
                                 return GestureDetector(
                                   onTap: () {
-                                    Get.to(() => ReelsView());
+                                    Get.to(() => MyReelsView(initialReel: reel,));
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
@@ -413,10 +432,29 @@ class _ProfileViewState extends State<ProfileView> {
                                         Positioned.fill(
                                           child: ClipRRect(
                                             borderRadius:
-                                                BorderRadius.circular(12),
-                                            child: Image.network(
-                                              imageUrl,
-                                              fit: BoxFit.cover,
+                                            BorderRadius.circular(12),
+                                            child: FutureBuilder<dynamic>(
+                                              future: generateThumbnail(
+                                                  reel.video ?? ''),
+                                              builder: (context, snapshot) {
+                                                if (snapshot.connectionState ==
+                                                    ConnectionState.waiting) {
+                                                  return const Center(
+                                                      child:
+                                                      CircularProgressIndicator(color: AppColors.black,));
+                                                } else if (snapshot.hasError ||
+                                                    snapshot.data == null) {
+                                                  return Image.asset(
+                                                    AppImages.notFound,
+                                                    fit: BoxFit.cover,
+                                                  );
+                                                } else {
+                                                  return Image.file(
+                                                    File(snapshot.data!),
+                                                    fit: BoxFit.cover,
+                                                  );
+                                                }
+                                              },
                                             ),
                                           ),
                                         ),
@@ -434,6 +472,61 @@ class _ProfileViewState extends State<ProfileView> {
                                 );
                               },
                             )
+
+                          // else if (showVideo)
+                          //   GridView.builder(
+                          //     shrinkWrap: true,
+                          //     physics: const NeverScrollableScrollPhysics(),
+                          //     gridDelegate:
+                          //         const SliverGridDelegateWithFixedCrossAxisCount(
+                          //       crossAxisCount: 2,
+                          //       crossAxisSpacing: 12,
+                          //       mainAxisSpacing: 12,
+                          //       childAspectRatio: 1,
+                          //     ),
+                          //     itemCount: controller.myReelsData.length,
+                          //     itemBuilder: (context, index) {
+                          //       final reels = controller.myReelsData[index];
+                          //       // final collection = DummyData.posts[index];
+                          //       // final imageUrl =
+                          //       //     (collection['images'] as List).isNotEmpty
+                          //       //         ? collection['images'][0]
+                          //       //         : AppImages.imageNotAvailable;
+                          //       return GestureDetector(
+                          //         onTap: () {
+                          //           Get.to(() => ReelsView());
+                          //         },
+                          //         child: Container(
+                          //           decoration: BoxDecoration(
+                          //             borderRadius: BorderRadius.circular(12),
+                          //             color: AppColors.white,
+                          //           ),
+                          //           child: Stack(
+                          //             children: [
+                          //               Positioned.fill(
+                          //                 child: ClipRRect(
+                          //                   borderRadius:
+                          //                       BorderRadius.circular(12),
+                          //                   child: Image.network(
+                          //                     reels.video ?? '',
+                          //                     fit: BoxFit.cover,
+                          //                   ),
+                          //                 ),
+                          //               ),
+                          //               Positioned(
+                          //                 left: 0,
+                          //                 right: 0,
+                          //                 child: Image.asset(
+                          //                   AppImages.playSmall,
+                          //                   scale: 4,
+                          //                 ),
+                          //               ),
+                          //             ],
+                          //           ),
+                          //         ),
+                          //       );
+                          //     },
+                          //   )
                           else if (showPetGallery)
                             Column(
                               children: [

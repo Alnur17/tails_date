@@ -81,6 +81,7 @@ class AppImages {
   static const verifyCodeImage = "assets/images/verify.png";
   static const groupImage = "assets/images/groupImage.png";
   static const starImage = "assets/images/star image.png";
+  static const notFound = "assets/images/not found image.png";
   static const paymentSuccess = "assets/images/payment success.png";
 
 

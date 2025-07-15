@@ -23,14 +23,15 @@ class Api {
   static String categoryPosts(categoryId) => "$baseUrl/posts/category/$categoryId"; //done
 
   ///profile
-  static const String myProfile = "$baseUrl/users/profile"; //
+  static const String myProfile = "$baseUrl/users/profile"; // done
   static const String profileOwnerGallery = "$baseUrl/users/add-to-owner-gallery"; //done
   static const String profilePetGallery = "$baseUrl/users/add-to-pet-gallery"; //done
-  static const String removeProfileOwnerGallery = "$baseUrl/users/remove-from-owner-gallery"; //
-  static const String removeProfilePetGallery = "$baseUrl/users/remove-from-pet-gallery"; //
-  static const String conditionsPage = "$baseUrl/settings";
+  static const String removeProfileOwnerGallery = "$baseUrl/users/remove-from-owner-gallery"; //done
+  static const String removeProfilePetGallery = "$baseUrl/users/remove-from-pet-gallery"; //done
+  static const String conditionsPage = "$baseUrl/settings"; // done
   static  String deleteUser(String userId) => "$baseUrl/users/$userId";
   static const  String cashOut = "$baseUrl/cashout-requests";
+  static const  String friends = "$baseUrl/friends";
 
 ///Reels
   static const String allReels = "$baseUrl/reels"; //done
@@ -40,7 +41,7 @@ class Api {
   static const String reports = "$baseUrl/reports"; // done
 
   ///Star Plans
-  static const String starPlans = "$baseUrl/star-plans"; //
+  static const String starPlans = "$baseUrl/star-plans"; //done
 
   ///Subscription Plan
   static const String subscriptionPlan = "$baseUrl/subscription-plans"; //done

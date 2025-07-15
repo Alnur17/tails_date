@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:path/path.dart' as p;
 import 'package:mime/mime.dart';
+import 'package:tails_date/app/modules/profile/model/my_reels_model.dart';
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_constant/app_constant.dart';
 import '../../../../common/helper/local_store.dart';
@@ -19,6 +20,7 @@ import '../model/my_profile_model.dart';
 class ProfileController extends GetxController {
   var isLoading = false.obs;
   var profileData = Rx<MyProfileModel?>(null); // Store profile data
+  var myReelsData = <MyReelsData>[].obs;
 
   final TextEditingController currentPassTEController = TextEditingController();
   final TextEditingController newPassTEController = TextEditingController();
@@ -34,6 +36,7 @@ class ProfileController extends GetxController {
   void onInit() {
     super.onInit();
     fetchProfile();
+    fetchMyReels();
   }
 
   void togglePasswordVisibility() {
@@ -79,6 +82,39 @@ class ProfileController extends GetxController {
     }
   }
 
+  /// get reels
+  Future<void> fetchMyReels() async {
+    try {
+      isLoading(true);
+      var token = LocalStorage.getData(key: AppConstant.token);
+
+      final response = await BaseClient.getRequest(
+        api: Api.myReels,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token'
+        },
+      );
+      final result = await BaseClient.handleResponse(response);
+      final myReelsModel = MyReelsModel.fromJson(result);
+      if (myReelsModel.success == true) {
+        myReelsData.assignAll(myReelsModel.data);
+      } else {
+        kSnackBar(
+          message: myReelsModel.message ?? 'Failed to load reels',
+          bgColor: AppColors.orange,
+        );
+      }
+    } catch (e) {
+      kSnackBar(
+        message: e.toString(),
+        bgColor: AppColors.orange,
+      );
+    } finally {
+      isLoading(false);
+    }
+  }
+
   Future<void> deleteUser() async {
     try {
       isLoading(true);
@@ -95,14 +131,14 @@ class ProfileController extends GetxController {
       };
 
       dynamic responseBody = await BaseClient.handleResponse(
-        await BaseClient.deleteRequest(api: Api.deleteUser(userId), headers: headers),
+        await BaseClient.deleteRequest(
+            api: Api.deleteUser(userId), headers: headers),
       );
 
       if (responseBody != null) {
         profileData.value = MyProfileModel.fromJson(responseBody);
         kSnackBar(
-            message:
-                profileData.value!.message ?? "Failed to delete account",
+            message: profileData.value!.message ?? "Failed to delete account",
             bgColor: AppColors.green);
       } else {
         throw 'Failed to delete account!';
