@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:tails_date/app/modules/home/controllers/home_controller.dart';
 import 'package:tails_date/app/modules/login/views/login_view.dart';
 import 'package:tails_date/app/modules/terms_of_services/views/terms_of_services_view.dart';
 import 'package:tails_date/common/app_color/app_colors.dart';
@@ -14,12 +15,17 @@ import '../../../../common/widgets/custom_textfield.dart';
 import '../../home/model/all_category_model.dart';
 import '../controllers/signup_controller.dart';
 
-class SignupView extends GetView<SignupController> {
+class SignupView extends StatefulWidget {
   const SignupView({super.key});
 
   @override
+  State<SignupView> createState() => _SignupViewState();
+}
+
+class _SignupViewState extends State<SignupView> {
+  final SignupController signupController = Get.put(SignupController());
+  @override
   Widget build(BuildContext context) {
-    final SignupController signupController = Get.put(SignupController());
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       body: SafeArea(

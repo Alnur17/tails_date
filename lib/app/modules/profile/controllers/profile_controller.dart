@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
-import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:path/path.dart' as p;
 import 'package:mime/mime.dart';
 import 'package:tails_date/app/modules/profile/model/my_reels_model.dart';
@@ -80,6 +79,36 @@ class ProfileController extends GetxController {
     } finally {
       isLoading(false);
     }
+  }  /// Fetch user profile
+
+
+  Future<void> fetchCollection() async {
+    try {
+      isLoading(true);
+      var headers = {
+        'Content-Type': 'application/json',
+        'Authorization':
+            'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
+      };
+
+      dynamic responseBody = await BaseClient.handleResponse(
+        await BaseClient.getRequest(api: Api.myProfile, headers: headers),
+      );
+
+      if (responseBody != null) {
+        profileData.value = MyProfileModel.fromJson(responseBody);
+        kSnackBar(
+            message: profileData.value!.message ?? "Profile fetched successfully",
+            bgColor: AppColors.green);
+      } else {
+        throw 'Failed to fetch profile!';
+      }
+    } catch (e) {
+      debugPrint("Catch Error:::::: $e");
+      kSnackBar(message: "Error fetching profile: $e", bgColor: AppColors.red);
+    } finally {
+      isLoading(false);
+    }
   }
 
   /// get reels
@@ -115,39 +144,36 @@ class ProfileController extends GetxController {
     }
   }
 
-  Future<void> deleteUser() async {
+  Future<void> deleteAccount() async {
     try {
-      isLoading(true);
-
       String token = LocalStorage.getData(key: AppConstant.token);
-      var decodedToken = JwtDecoder.decode(token);
-      var userId = decodedToken['id'].toString();
-
-      debugPrint(';;;;;;;;; $userId ;;;;;;;;;');
 
       var headers = {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $token',
       };
 
-      dynamic responseBody = await BaseClient.handleResponse(
-        await BaseClient.deleteRequest(
-            api: Api.deleteUser(userId), headers: headers),
+      http.Response response = await BaseClient.deleteRequest(
+        api: Api.deleteUser,
+        headers: headers,
       );
 
-      if (responseBody != null) {
-        profileData.value = MyProfileModel.fromJson(responseBody);
-        kSnackBar(
-            message: profileData.value!.message ?? "Failed to delete account",
-            bgColor: AppColors.green);
-      } else {
-        throw 'Failed to delete account!';
-      }
+      var result = await BaseClient.handleResponse(response);
+
+      Get.snackbar(
+        'Success',
+        'Account deleted successfully',
+        backgroundColor: AppColors.green,
+        colorText: AppColors.white,
+      );
+      BaseClient.logout();
     } catch (e) {
-      debugPrint("Catch Error:::::: $e");
-      kSnackBar(message: "Error deleting account: $e", bgColor: AppColors.red);
-    } finally {
-      isLoading(false);
+      Get.snackbar(
+        'Error',
+        e.toString(),
+        backgroundColor: AppColors.orange,
+        colorText: AppColors.white,
+      );
     }
   }
 

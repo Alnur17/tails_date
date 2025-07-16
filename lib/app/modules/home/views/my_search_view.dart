@@ -96,7 +96,7 @@ class MySearchView extends GetView<MySearchController> {
                       profileImage: post.author?.image ?? '',
                       images: post.images,
                       description: post.caption ?? '',
-                      likeCount: 0, // Adjust if API provides like count
+                      likeCount: 0,
                       timeAgo: homeController.formatTimeAgo(post.createdAt),
                       onAddFriend: () {
                         log("Add Friend clicked for ${post.author?.name}");

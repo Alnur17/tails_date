@@ -2,10 +2,14 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:tails_date/app/modules/login/views/login_view.dart';
 
 import '../../common/app_color/app_colors.dart';
+import '../../common/app_constant/app_constant.dart';
+import '../../common/helper/local_store.dart';
 import '../../common/widgets/custom_snack_bar.dart';
 
 
@@ -159,7 +163,7 @@ class BaseClient {
   }
 
   static void logout() {
-    //  LocalStorage.removeData(key: AppConstant.token);
-    //  Get.offAllNamed(AppRoute.signInScreen);
+     LocalStorage.removeData(key: AppConstant.token);
+     Get.offAll(()=> LoginView());
   }
 }

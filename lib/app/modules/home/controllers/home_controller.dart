@@ -22,7 +22,10 @@ class HomeController extends GetxController {
   void onInit() {
     super.onInit();
     fetchPosts();
-    getCategories();
+    //getCategories();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      getCategories();
+    });
   }
 
   Future<void> fetchPosts() async {

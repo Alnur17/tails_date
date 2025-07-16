@@ -97,7 +97,7 @@ class _CategoryViewState extends State<CategoryView> {
                 profileImage: post.author?.image ?? '',
                 images: post.images,
                 description: post.caption ?? '',
-                likeCount: 0,
+                likeCount: post.reactions.length,
                 timeAgo: homeController.formatTimeAgo(post.createdAt),
                 onAddFriend: () {
                   log("Add Friend clicked for ${post.author?.name}");

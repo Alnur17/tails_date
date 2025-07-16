@@ -29,9 +29,10 @@ class Api {
   static const String removeProfileOwnerGallery = "$baseUrl/users/remove-from-owner-gallery"; //done
   static const String removeProfilePetGallery = "$baseUrl/users/remove-from-pet-gallery"; //done
   static const String conditionsPage = "$baseUrl/settings"; // done
-  static  String deleteUser(String userId) => "$baseUrl/users/$userId";
+  static const String deleteUser = "$baseUrl/auth/delete-account";
   static const  String cashOut = "$baseUrl/cashout-requests";
   static const  String friends = "$baseUrl/friends";
+  static const  String collections = "$baseUrl/collections";
 
 ///Reels
   static const String allReels = "$baseUrl/reels"; //done

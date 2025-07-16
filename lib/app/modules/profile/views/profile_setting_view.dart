@@ -11,7 +11,9 @@ import 'package:tails_date/app/modules/terms_of_services/views/terms_of_services
 import 'package:tails_date/common/app_color/app_colors.dart';
 import 'package:tails_date/common/app_text_style/styles.dart';
 
+import '../../../../common/app_constant/app_constant.dart';
 import '../../../../common/app_images/app_images.dart';
+import '../../../../common/helper/local_store.dart';
 import '../../../../common/size_box/custom_sizebox.dart';
 import '../../../../common/widgets/custom_container.dart';
 import '../controllers/profile_controller.dart';
@@ -173,6 +175,7 @@ class _ProfileSettingViewState extends State<ProfileSettingView> {
                     sh16,
                     CustomContainer(
                       onTap: () {
+                        LocalStorage.removeData(key: AppConstant.token);
                         Get.offAll(() => LoginView());
                       },
                       text: 'Log out',
@@ -204,7 +207,7 @@ class _ProfileSettingViewState extends State<ProfileSettingView> {
           Padding(
             padding: const EdgeInsets.only(left: 16, right: 16),
             child: Text(
-              "Are you sure you want to delete your account?",
+              "Are you sure you want to delete your account? This action can not be undone!",
               style: h4.copyWith(
                 fontSize: 18,
               ),
@@ -237,7 +240,7 @@ class _ProfileSettingViewState extends State<ProfileSettingView> {
               sw10,
               OutlinedButton(
                 onPressed: () {
-                  profileController.deleteUser();
+                  profileController.deleteAccount();
                 },
                 style: OutlinedButton.styleFrom(
                   backgroundColor: AppColors.red,

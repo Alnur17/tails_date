@@ -42,7 +42,7 @@ class CustomLoader extends StatelessWidget {
       height: 48,
       width: double.infinity,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(40), color: AppColors.black
+          borderRadius: BorderRadius.circular(12), color: AppColors.black
           //gradient: LinearGradient(colors: AppColors.gradientColorGreen),
           ),
       child: Center(

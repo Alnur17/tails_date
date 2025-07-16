@@ -1,12 +1,9 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tails_date/app/modules/login/views/login_view.dart';
 import 'package:tails_date/app/modules/signup/views/verify_account_view.dart';
 import '../../../../common/app_color/app_colors.dart';
-import '../../../../common/app_constant/app_constant.dart';
-import '../../../../common/helper/local_store.dart';
 import '../../../../common/widgets/custom_snack_bar.dart';
 import '../../../data/api.dart';
 import '../../../data/base_client.dart';
@@ -29,43 +26,41 @@ class SignupController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchCategories();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      fetchCategories();
+    });
   }
 
-  void togglePasswordVisibility() {
-    isPasswordVisible.toggle();
-  }
-
-  void togglePasswordVisibility1() {
-    isPasswordVisible1.toggle();
-  }
-
-  void toggleCheckboxVisibility() {
-    isCheckboxVisible.toggle();
-  }
+  void togglePasswordVisibility() => isPasswordVisible.toggle();
+  void togglePasswordVisibility1() => isPasswordVisible1.toggle();
+  void toggleCheckboxVisibility() => isCheckboxVisible.toggle();
 
   Future<void> signup() async {
     if (petNameController.text.trim().isEmpty) {
       kSnackBar(message: 'Please enter a pet name', bgColor: AppColors.orange);
       return;
     }
-    //if (emailController.text.trim().isEmpty || !GetUtils.isEmail(emailController.text.trim())) {
+
     if (emailController.text.trim().isEmpty) {
       kSnackBar(message: 'Please enter a valid email', bgColor: AppColors.orange);
       return;
     }
+
     if (passwordController.text.trim().isEmpty || passwordController.text.length < 7) {
       kSnackBar(message: 'Password must be at least 7 characters', bgColor: AppColors.orange);
       return;
     }
+
     if (passwordController.text != confirmPasswordController.text) {
       kSnackBar(message: 'Passwords do not match', bgColor: AppColors.orange);
       return;
     }
-    if (selectedCategory.value == null) {
-      kSnackBar(message: 'Please select a category', bgColor: AppColors.orange);
+
+    if (selectedCategory.value == null || selectedCategory.value?.name == null || selectedCategory.value!.name!.isEmpty) {
+      kSnackBar(message: 'Please select a valid category', bgColor: AppColors.orange);
       return;
     }
+
     if (!isCheckboxVisible.value) {
       kSnackBar(message: 'Please agree to the Terms & Conditions', bgColor: AppColors.orange);
       return;
@@ -74,16 +69,14 @@ class SignupController extends GetxController {
     try {
       isLoading.value = true;
 
-      var body = {
+      final body = {
         'name': petNameController.text.trim(),
         'email': emailController.text.trim(),
         'password': passwordController.text.trim(),
-        'category': selectedCategory.value!.name,
+        'category': selectedCategory.value!.name!,
       };
 
-      var headers = {
-        'Content-Type': 'application/json',
-      };
+      final headers = {'Content-Type': 'application/json'};
 
       final response = await BaseClient.postRequest(
         api: Api.signup,
@@ -92,43 +85,39 @@ class SignupController extends GetxController {
       );
 
       final result = await BaseClient.handleResponse(response);
+      debugPrint('Signup response: $result');
 
       kSnackBar(
-        message: result['message'] ?? 'Signup successful!',
+        message: result['message']?.toString() ?? 'Signup successful!',
         bgColor: AppColors.green,
       );
 
       Get.to(() => VerifyAccountView(emailController.text.trim()));
-      isLoading.value = false;
-    } catch (e) {
-      kSnackBar(
-        message: e.toString(),
-        bgColor: AppColors.orange,
-      );
+    } catch (e, stack) {
+      debugPrint('Signup error: $e');
+      debugPrint('Stack trace: $stack');
+      kSnackBar(message: e.toString(), bgColor: AppColors.orange);
     } finally {
       isLoading.value = false;
     }
   }
 
   Future<void> accountVerification(String email) async {
-
     if (otpController.text.isEmpty) {
-      kSnackBar(message: 'Please enter the otp', bgColor: AppColors.orange);
+      kSnackBar(message: 'Please enter the OTP', bgColor: AppColors.orange);
       return;
     }
 
     try {
       isLoading.value = true;
 
-      var body = {
+      final body = {
         'email': email,
         'otp': otpController.text,
         'verify_account': true,
       };
 
-      var headers = {
-        'Content-Type': 'application/json',
-      };
+      final headers = {'Content-Type': 'application/json'};
 
       final response = await BaseClient.postRequest(
         api: Api.verifyAccount,
@@ -137,18 +126,18 @@ class SignupController extends GetxController {
       );
 
       final result = await BaseClient.handleResponse(response);
+      debugPrint('Verify response: $result');
 
       kSnackBar(
-        message: result['message'] ?? 'Verify successful!',
+        message: result['message']?.toString() ?? 'Verification successful!',
         bgColor: AppColors.green,
       );
 
       Get.offAll(() => LoginView());
-    } catch (e) {
-      kSnackBar(
-        message: e.toString(),
-        bgColor: AppColors.orange,
-      );
+    } catch (e, stack) {
+      debugPrint('Verification error: $e');
+      debugPrint('Stack trace: $stack');
+      kSnackBar(message: e.toString(), bgColor: AppColors.orange);
     } finally {
       isLoading.value = false;
     }
@@ -157,11 +146,8 @@ class SignupController extends GetxController {
   Future<void> fetchCategories() async {
     try {
       isLoading.value = true;
-      String accessToken = LocalStorage.getData(key: AppConstant.token);
-      debugPrint(accessToken);
-      final headers = {
-        'Content-Type': 'application/json',
-      };
+
+      final headers = {'Content-Type': 'application/json'};
 
       final response = await BaseClient.getRequest(
         api: Api.getCategory,
@@ -169,6 +155,7 @@ class SignupController extends GetxController {
       );
 
       final result = await BaseClient.handleResponse(response);
+      debugPrint('Categories response: $result');
 
       final categoryModel = AllCategoryModel.fromJson(result);
 
@@ -176,17 +163,15 @@ class SignupController extends GetxController {
         categories.assignAll(categoryModel.data);
         debugPrint('Categories loaded successfully!');
       } else {
-        debugPrint('Failed to load categories');
-        // kSnackBar(
-        //   message: categoryModel.message ?? 'Failed to load categories',
-        //   bgColor: AppColors.orange,
-        // );
+        kSnackBar(
+          message: categoryModel.message?.toString() ?? 'Failed to load categories',
+          bgColor: AppColors.orange,
+        );
       }
-    } catch (e) {
-      kSnackBar(
-        message: e.toString(),
-        bgColor: AppColors.orange,
-      );
+    } catch (e, stack) {
+      debugPrint('Fetch categories error: $e');
+      debugPrint('Stack trace: $stack');
+      kSnackBar(message: e.toString(), bgColor: AppColors.orange);
     } finally {
       isLoading.value = false;
     }

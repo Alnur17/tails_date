@@ -68,7 +68,7 @@ class LoginController extends GetxController {
 
         Get.offAll(() => DashboardView());
       } else {
-        kSnackBar(message: 'Failed', bgColor: AppColors.red);
+        kSnackBar(message: result['message'], bgColor: AppColors.red);
       }
     } catch (e) {
       kSnackBar(
