@@ -33,6 +33,7 @@ class Api {
   static const  String cashOut = "$baseUrl/cashout-requests";
   static const  String friends = "$baseUrl/friends";
   static const  String collections = "$baseUrl/collections";
+  static const  String addOrRemoveCollections = "$baseUrl/collections";
 
 ///Reels
   static const String allReels = "$baseUrl/reels"; //done

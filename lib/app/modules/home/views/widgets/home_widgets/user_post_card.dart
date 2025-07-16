@@ -24,6 +24,7 @@ class UserPostCard extends StatelessWidget {
   final String description;
   final int likeCount;
   final VoidCallback? onAddFriend;
+  final VoidCallback? onBookmark;
   final Widget? popupMenuButton;
   final bool showAddFriendButton;
 
@@ -39,7 +40,7 @@ class UserPostCard extends StatelessWidget {
     this.onAddFriend,
     this.popupMenuButton,
     this.showAddFriendButton = true,
-    required this.postId, // Default to showing the button
+    required this.postId, this.onBookmark, // Default to showing the button
   });
 
   @override
@@ -239,7 +240,9 @@ class UserPostCard extends StatelessWidget {
                       'Check out this post: $shareLink',
                       subject: 'Post Link',
                     ),),
-                _buildIcon(AppImages.bookmark, null),
+                _buildIcon(AppImages.bookmark, null,
+                  onTap: () => onBookmark,
+                ),
               ],
             ),
           ),
