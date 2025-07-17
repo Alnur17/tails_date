@@ -10,6 +10,8 @@ import 'package:tails_date/common/app_images/app_images.dart';
 import 'package:tails_date/common/size_box/custom_sizebox.dart';
 import 'package:tails_date/common/widgets/custom_textfield.dart';
 
+import '../../profile/controllers/collections_controller.dart';
+
 class MySearchView extends GetView<MySearchController> {
   const MySearchView({super.key});
 
@@ -17,6 +19,8 @@ class MySearchView extends GetView<MySearchController> {
   Widget build(BuildContext context) {
     final MySearchController searchController = Get.put(MySearchController());
     final HomeController homeController = Get.find<HomeController>();
+    final CollectionsController collectionsController =
+    Get.put(CollectionsController());
 
     return Scaffold(
       backgroundColor: AppColors.mainColor,
@@ -100,6 +104,9 @@ class MySearchView extends GetView<MySearchController> {
                       timeAgo: homeController.formatTimeAgo(post.createdAt),
                       onAddFriend: () {
                         log("Add Friend clicked for ${post.author?.name}");
+                      },
+                      onBookmark: (){
+                        collectionsController.addOrRemoveCollection(post.id!);
                       },
                     ),
                   );

@@ -5,6 +5,7 @@ import 'package:tails_date/app/modules/home/controllers/home_controller.dart';
 import 'package:tails_date/app/modules/home/views/widgets/home_widgets/user_post_card.dart';
 import 'package:tails_date/common/app_color/app_colors.dart';
 import '../../../../common/app_images/app_images.dart';
+import '../../profile/controllers/collections_controller.dart';
 
 class CategoryView extends StatefulWidget {
   final String categoryName;
@@ -19,6 +20,8 @@ class CategoryView extends StatefulWidget {
 
 class _CategoryViewState extends State<CategoryView> {
   final HomeController homeController = Get.find<HomeController>();
+  final CollectionsController collectionsController =
+      Get.put(CollectionsController());
 
   @override
   void initState() {
@@ -68,7 +71,8 @@ class _CategoryViewState extends State<CategoryView> {
                 const SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: () {
-                    homeController.fetchCategoryPosts(categoryId: widget.categoryId);
+                    homeController.fetchCategoryPosts(
+                        categoryId: widget.categoryId);
                   },
                   child: const Text('Retry'),
                 ),
@@ -85,7 +89,9 @@ class _CategoryViewState extends State<CategoryView> {
             final post = homeController.categoryWisePost[index];
             return Padding(
               padding: EdgeInsets.only(
-                bottom: index == homeController.categoryWisePost.length - 1 ? 30 : 0,
+                bottom: index == homeController.categoryWisePost.length - 1
+                    ? 30
+                    : 0,
                 left: 16,
                 right: 16,
                 top: 16,
@@ -101,6 +107,9 @@ class _CategoryViewState extends State<CategoryView> {
                 timeAgo: homeController.formatTimeAgo(post.createdAt),
                 onAddFriend: () {
                   log("Add Friend clicked for ${post.author?.name}");
+                },
+                onBookmark: () {
+                  collectionsController.addOrRemoveCollection(post.id!);
                 },
               ),
             );

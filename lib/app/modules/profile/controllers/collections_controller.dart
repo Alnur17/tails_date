@@ -73,7 +73,6 @@ class CollectionsController extends GetxController {
           message: result['message']?.toString() ?? 'Collection updated successfully',
           bgColor: AppColors.green,
         );
-        // Refresh collections after add/remove
         await fetchCollections();
       } else {
         kSnackBar(

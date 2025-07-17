@@ -155,8 +155,12 @@ class _HomeViewState extends State<HomeView> {
                                     log("Add Friend clicked for ${post.author?.name}");
                                   },
                                   onBookmark: () {
-                                    collectionsController
-                                        .addOrRemoveCollection(post.id ?? '');
+                                    log("Bookmark button clicked for post ID: ${post.id}");
+                                    if (post.id == null || post.id!.isEmpty) {
+                                      log("Error: Post ID is null or empty");
+                                      return;
+                                    }
+                                    collectionsController.addOrRemoveCollection(post.id!);
                                   },
                                 ),
                               );

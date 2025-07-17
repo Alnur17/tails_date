@@ -7,12 +7,14 @@ class CustomDropdown extends StatefulWidget {
   final List<String> items;
   final String hintText;
   final ValueChanged<String> onChanged;
+  final String? value; // Added to support initial value
 
   const CustomDropdown({
     super.key,
     required this.items,
     required this.hintText,
     required this.onChanged,
+    this.value,
   });
 
   @override
@@ -21,6 +23,15 @@ class CustomDropdown extends StatefulWidget {
 
 class _CustomDropdownState extends State<CustomDropdown> {
   String? selectedValue;
+
+  @override
+  void initState() {
+    super.initState();
+    // Set initial value if provided
+    if (widget.value != null && widget.items.contains(widget.value)) {
+      selectedValue = widget.value;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,21 +43,19 @@ class _CustomDropdownState extends State<CustomDropdown> {
         height: 54,
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         decoration: BoxDecoration(
-          //border: Border.all(color: Colors.grey),
           borderRadius: BorderRadius.circular(8),
-          color: Colors.white,
+          color: AppColors.white,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
               selectedValue ?? widget.hintText,
-              style: TextStyle(
-                color: selectedValue == null ? Colors.grey : Colors.black,
-                fontSize: 16,
-              ),
+              style: selectedValue == null
+                  ? h4.copyWith(color: AppColors.grey)
+                  : h4.copyWith(color: AppColors.black),
             ),
-            Image.asset(AppImages.arrowDown,scale: 4,),
+            Image.asset(AppImages.arrowDown, scale: 4),
           ],
         ),
       ),
@@ -67,12 +76,12 @@ class _CustomDropdownState extends State<CustomDropdown> {
           itemBuilder: (context, index) {
             final item = widget.items[index];
             return ListTile(
-              title: Text(item,style: h3.copyWith(color: AppColors.white),),
+              title: Text(item, style: h3.copyWith(color: AppColors.white)),
               onTap: () {
                 setState(() {
                   selectedValue = item;
                 });
-                widget.onChanged(item);
+                widget.onChanged(item); // Trigger callback with selected value
                 Navigator.pop(context);
               },
             );

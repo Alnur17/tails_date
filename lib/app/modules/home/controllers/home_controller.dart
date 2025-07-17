@@ -9,10 +9,12 @@ import '../../../../common/helper/local_store.dart';
 import '../../../../common/widgets/custom_snack_bar.dart';
 import '../../../data/api.dart';
 import '../../../data/base_client.dart';
+import '../../profile/model/my_post_model.dart';
 import '../model/all_post_model.dart';
 
 class HomeController extends GetxController {
   var posts = <AllPostData>[].obs;
+  var myPosts = <MyPostDatum>[].obs;
   var categoryWisePost = <CategoryWPostData>[].obs;
   var categories = <CategoryData>[].obs;
   var isLoading = false.obs;
@@ -65,6 +67,48 @@ class HomeController extends GetxController {
         bgColor: AppColors.orange,
       );
       log('Error fetching posts: $e');
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> fetchMyPosts() async {
+    try {
+      isLoading.value = true;
+      errorMessage.value = '';
+
+      String token = LocalStorage.getData(key: AppConstant.token);
+
+      final headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      };
+
+      final response = await BaseClient.getRequest(
+        api: Api.myPosts,
+        headers: headers,
+      );
+
+      final jsonResponse = await BaseClient.handleResponse(response);
+
+      final myPostModel = MyPostModel.fromJson(jsonResponse);
+
+      if (myPostModel.success == true && myPostModel.data != null) {
+        myPosts.assignAll(myPostModel.data!.data);
+      } else {
+        errorMessage.value = myPostModel.message ?? 'Failed to load my posts';
+        kSnackBar(
+          message: errorMessage.value,
+          bgColor: AppColors.orange,
+        );
+      }
+    } catch (e) {
+      errorMessage.value = e.toString();
+      kSnackBar(
+        message: errorMessage.value,
+        bgColor: AppColors.orange,
+      );
+      log('Error fetching my posts: $e');
     } finally {
       isLoading.value = false;
     }

@@ -24,7 +24,7 @@ class UserPostCard extends StatelessWidget {
   final String description;
   final int likeCount;
   final VoidCallback? onAddFriend;
-  final VoidCallback? onBookmark;
+  final VoidCallback onBookmark;
   final Widget? popupMenuButton;
   final bool showAddFriendButton;
 
@@ -40,7 +40,8 @@ class UserPostCard extends StatelessWidget {
     this.onAddFriend,
     this.popupMenuButton,
     this.showAddFriendButton = true,
-    required this.postId, this.onBookmark, // Default to showing the button
+    required this.postId,
+    required this.onBookmark, // Default to showing the button
   });
 
   @override
@@ -235,14 +236,15 @@ class UserPostCard extends StatelessWidget {
                 _buildIcon(AppImages.heart, likeCount),
                 _buildIcon(AppImages.star, null,
                     onTap: () => showStarBuyDialog(context)),
-                _buildIcon(AppImages.share, null,
-                    onTap: () => Share.share(
-                      'Check out this post: $shareLink',
-                      subject: 'Post Link',
-                    ),),
-                _buildIcon(AppImages.bookmark, null,
-                  onTap: () => onBookmark,
+                _buildIcon(
+                  AppImages.share,
+                  null,
+                  onTap: () => Share.share(
+                    'Check out this post: $shareLink',
+                    subject: 'Post Link',
+                  ),
                 ),
+                _buildIcon(AppImages.bookmark, null, onTap: onBookmark),
               ],
             ),
           ),
@@ -261,7 +263,7 @@ class UserPostCard extends StatelessWidget {
             const SizedBox(width: 5),
             Text('$count', style: h6),
           ],
-          const SizedBox(width: 16),
+          const SizedBox(width: 12),
         ],
       ),
     );
@@ -314,130 +316,131 @@ class UserPostCard extends StatelessWidget {
     );
   }
 
-  // void _showShareModal(BuildContext context) {
-  //   showModalBottomSheet(
-  //     context: context,
-  //     isScrollControlled: true,
-  //     shape: RoundedRectangleBorder(
-  //       borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-  //     ),
-  //     builder: (context) {
-  //       return Padding(
-  //         padding: const EdgeInsets.all(16.0),
-  //         child: Column(
-  //           mainAxisSize: MainAxisSize.min,
-  //           crossAxisAlignment: CrossAxisAlignment.start,
-  //           children: [
-  //             Text(
-  //               'Share this link via',
-  //               textAlign: TextAlign.center,
-  //               style: h3.copyWith(fontSize: 20),
-  //             ),
-  //             sh16,
-  //             Row(
-  //               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  //               children: [
-  //                 _buildShareButton(
-  //                   image: AppImages.facebook,
-  //                   color: Colors.blue,
-  //                   onTap: () => Share.share(
-  //                     'Check out this post: $shareLink',
-  //                     subject: 'Post Link',
-  //                   ),
-  //                 ),
-  //                 _buildShareButton(
-  //                   image: AppImages.messenger,
-  //                   color: Colors.blueAccent,
-  //                   onTap: () => Share.share(
-  //                     'Check out this post: $shareLink',
-  //                     subject: 'Post Link',
-  //                   ),
-  //                 ),
-  //                 _buildShareButton(
-  //                   image: AppImages.instagram,
-  //                   color: Colors.pink,
-  //                   onTap: () => Share.share(
-  //                     'Check out this post: $shareLink',
-  //                     subject: 'Post Link',
-  //                   ),
-  //                 ),
-  //                 _buildShareButton(
-  //                   image: AppImages.whatsApp,
-  //                   color: Colors.green,
-  //                   onTap: () => Share.share(
-  //                     'Check out this post: $shareLink',
-  //                     subject: 'Post Link',
-  //                   ),
-  //                 ),
-  //                 _buildShareButton(
-  //                   image: AppImages.telegram,
-  //                   color: Colors.lightBlue,
-  //                   onTap: () => Share.share(
-  //                     'Check out this post: $shareLink',
-  //                     subject: 'Post Link',
-  //                   ),
-  //                 ),
-  //               ],
-  //             ),
-  //             SizedBox(height: 16),
-  //             Text(
-  //               'Or Copy Link',
-  //               textAlign: TextAlign.center,
-  //               style: TextStyle(
-  //                 fontSize: 16,
-  //                 fontWeight: FontWeight.w600,
-  //               ),
-  //             ),
-  //             SizedBox(height: 8),
-  //             Container(
-  //               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-  //               decoration: BoxDecoration(
-  //                 border: Border.all(color: Colors.grey),
-  //                 borderRadius: BorderRadius.circular(8),
-  //                 color: Colors.grey[200],
-  //               ),
-  //               child: Row(
-  //                 children: [
-  //                   Text(
-  //                     shareLink,
-  //                     overflow: TextOverflow.ellipsis,
-  //                   ),
-  //                   Spacer(),
-  //                   CustomButton(
-  //                     width: 80,
-  //                     height: 35,
-  //                     onPressed: () {
-  //                       Clipboard.setData(ClipboardData(text: shareLink));
-  //                       ScaffoldMessenger.of(context).showSnackBar(
-  //                         SnackBar(content: Text('Link copied to clipboard')),
-  //                       );
-  //                     },
-  //                     text: 'Copy',
-  //                   ),
-  //                 ],
-  //               ),
-  //             ),
-  //           ],
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
 
-  // Widget _buildShareButton(
-  //     {required String image,
-  //     required Color color,
-  //     required VoidCallback onTap}) {
-  //   return GestureDetector(
-  //     onTap: onTap,
-  //     child: CircleAvatar(
-  //       backgroundColor: color.withOpacity(0.2),
-  //       radius: 24,
-  //       child: Image.asset(
-  //         image,
-  //         scale: 4,
-  //       ),
-  //     ),
-  //   );
-  // }
 }
+// void _showShareModal(BuildContext context) {
+//   showModalBottomSheet(
+//     context: context,
+//     isScrollControlled: true,
+//     shape: RoundedRectangleBorder(
+//       borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+//     ),
+//     builder: (context) {
+//       return Padding(
+//         padding: const EdgeInsets.all(16.0),
+//         child: Column(
+//           mainAxisSize: MainAxisSize.min,
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           children: [
+//             Text(
+//               'Share this link via',
+//               textAlign: TextAlign.center,
+//               style: h3.copyWith(fontSize: 20),
+//             ),
+//             sh16,
+//             Row(
+//               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//               children: [
+//                 _buildShareButton(
+//                   image: AppImages.facebook,
+//                   color: Colors.blue,
+//                   onTap: () => Share.share(
+//                     'Check out this post: $shareLink',
+//                     subject: 'Post Link',
+//                   ),
+//                 ),
+//                 _buildShareButton(
+//                   image: AppImages.messenger,
+//                   color: Colors.blueAccent,
+//                   onTap: () => Share.share(
+//                     'Check out this post: $shareLink',
+//                     subject: 'Post Link',
+//                   ),
+//                 ),
+//                 _buildShareButton(
+//                   image: AppImages.instagram,
+//                   color: Colors.pink,
+//                   onTap: () => Share.share(
+//                     'Check out this post: $shareLink',
+//                     subject: 'Post Link',
+//                   ),
+//                 ),
+//                 _buildShareButton(
+//                   image: AppImages.whatsApp,
+//                   color: Colors.green,
+//                   onTap: () => Share.share(
+//                     'Check out this post: $shareLink',
+//                     subject: 'Post Link',
+//                   ),
+//                 ),
+//                 _buildShareButton(
+//                   image: AppImages.telegram,
+//                   color: Colors.lightBlue,
+//                   onTap: () => Share.share(
+//                     'Check out this post: $shareLink',
+//                     subject: 'Post Link',
+//                   ),
+//                 ),
+//               ],
+//             ),
+//             SizedBox(height: 16),
+//             Text(
+//               'Or Copy Link',
+//               textAlign: TextAlign.center,
+//               style: TextStyle(
+//                 fontSize: 16,
+//                 fontWeight: FontWeight.w600,
+//               ),
+//             ),
+//             SizedBox(height: 8),
+//             Container(
+//               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+//               decoration: BoxDecoration(
+//                 border: Border.all(color: Colors.grey),
+//                 borderRadius: BorderRadius.circular(8),
+//                 color: Colors.grey[200],
+//               ),
+//               child: Row(
+//                 children: [
+//                   Text(
+//                     shareLink,
+//                     overflow: TextOverflow.ellipsis,
+//                   ),
+//                   Spacer(),
+//                   CustomButton(
+//                     width: 80,
+//                     height: 35,
+//                     onPressed: () {
+//                       Clipboard.setData(ClipboardData(text: shareLink));
+//                       ScaffoldMessenger.of(context).showSnackBar(
+//                         SnackBar(content: Text('Link copied to clipboard')),
+//                       );
+//                     },
+//                     text: 'Copy',
+//                   ),
+//                 ],
+//               ),
+//             ),
+//           ],
+//         ),
+//       );
+//     },
+//   );
+// }
+
+// Widget _buildShareButton(
+//     {required String image,
+//     required Color color,
+//     required VoidCallback onTap}) {
+//   return GestureDetector(
+//     onTap: onTap,
+//     child: CircleAvatar(
+//       backgroundColor: color.withOpacity(0.2),
+//       radius: 24,
+//       child: Image.asset(
+//         image,
+//         scale: 4,
+//       ),
+//     ),
+//   );
+// }

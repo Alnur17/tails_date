@@ -84,6 +84,7 @@ class AppImages {
   static const starImage = "assets/images/star image.png";
   static const notFound = "assets/images/not found image.png";
   static const paymentSuccess = "assets/images/payment success.png";
+  static const profileBack = "assets/images/profile back.png";
 
 
   static const catProfileImage = 'https://images.pexels.com/photos/45201/kitty-cat-kitten-pet-45201.jpeg?auto=compress&cs=tinysrgb&w=600';

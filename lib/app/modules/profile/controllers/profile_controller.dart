@@ -31,6 +31,10 @@ class ProfileController extends GetxController {
 
   final ImagePicker _picker = ImagePicker();
 
+  var selectedImage = Rx<XFile?>(null); // Added for image management
+  var ownerImage = Rx<XFile?>(null);    // Added for image management
+  var coverImage = Rx<XFile?>(null);    // Added for image management
+
   @override
   void onInit() {
     super.onInit();
@@ -57,7 +61,7 @@ class ProfileController extends GetxController {
       var headers = {
         'Content-Type': 'application/json',
         'Authorization':
-            'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
+        'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
       };
 
       dynamic responseBody = await BaseClient.handleResponse(
@@ -68,7 +72,7 @@ class ProfileController extends GetxController {
         profileData.value = MyProfileModel.fromJson(responseBody);
         kSnackBar(
             message:
-                profileData.value!.message ?? "Profile fetched successfully",
+            profileData.value!.message ?? "Profile fetched successfully",
             bgColor: AppColors.green);
       } else {
         throw 'Failed to fetch profile!';
@@ -79,16 +83,16 @@ class ProfileController extends GetxController {
     } finally {
       isLoading(false);
     }
-  }  /// Fetch user profile
+  }
 
-
+  /// Fetch user profile
   Future<void> fetchCollection() async {
     try {
       isLoading(true);
       var headers = {
         'Content-Type': 'application/json',
         'Authorization':
-            'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
+        'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
       };
 
       dynamic responseBody = await BaseClient.handleResponse(
@@ -250,13 +254,13 @@ class ProfileController extends GetxController {
       debugPrint(";;;;;;;;;;;;;;;; This is headers $headers ;;;;;;;;;;;;;;;;");
 
       var request =
-          http.MultipartRequest('POST', Uri.parse(Api.profileOwnerGallery));
+      http.MultipartRequest('POST', Uri.parse(Api.profileOwnerGallery));
       request.headers.addAll(headers);
       request.files.add(await http.MultipartFile.fromPath(
         'image',
         image.path,
         contentType:
-            MediaType.parse(mimeType!), //MediaType from http_parser package
+        MediaType.parse(mimeType!), //MediaType from http_parser package
       ));
 
       var streamedResponse = await request.send();
@@ -270,7 +274,7 @@ class ProfileController extends GetxController {
       if (responseBody != null) {
         kSnackBar(
             message:
-                responseBody["message"] ?? "Image uploaded to owner gallery",
+            responseBody["message"] ?? "Image uploaded to owner gallery",
             bgColor: AppColors.green);
         await fetchProfile(); // Refresh profile data
       } else {
@@ -316,7 +320,7 @@ class ProfileController extends GetxController {
       };
 
       var request =
-          http.MultipartRequest('POST', Uri.parse(Api.profilePetGallery));
+      http.MultipartRequest('POST', Uri.parse(Api.profilePetGallery));
       request.headers.addAll(headers);
       request.files.add(await http.MultipartFile.fromPath(
         'image',
@@ -354,7 +358,7 @@ class ProfileController extends GetxController {
       var headers = {
         'Content-Type': 'application/json',
         'Authorization':
-            'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
+        'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
       };
       var body = jsonEncode({"image": imagePath});
 
@@ -369,7 +373,7 @@ class ProfileController extends GetxController {
       if (responseBody != null) {
         kSnackBar(
             message:
-                responseBody["message"] ?? "Image removed from owner gallery",
+            responseBody["message"] ?? "Image removed from owner gallery",
             bgColor: AppColors.green);
         await fetchProfile(); // Refresh profile data
       } else {
@@ -389,7 +393,7 @@ class ProfileController extends GetxController {
       var headers = {
         'Content-Type': 'application/json',
         'Authorization':
-            'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
+        'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
       };
 
       var body = jsonEncode({"image": imagePath});
@@ -405,7 +409,7 @@ class ProfileController extends GetxController {
       if (responseBody != null) {
         kSnackBar(
             message:
-                responseBody["message"] ?? "Image removed from pet gallery",
+            responseBody["message"] ?? "Image removed from pet gallery",
             bgColor: AppColors.green);
         await fetchProfile();
       } else {
@@ -416,6 +420,157 @@ class ProfileController extends GetxController {
       kSnackBar(message: "Error removing image: $e", bgColor: AppColors.red);
     } finally {
       isLoading(false);
+    }
+  }
+
+  /// Update user profile
+  Future<void> updateProfile({
+    required String name,
+    required String location,
+    required String age,
+    required String gender,
+    required String category,
+    required String petInfo,
+    required String ownerName,
+    required String ownerRelationshipStatus,
+    required String ownerGender,
+    XFile? selectedImage,
+    XFile? ownerImage,
+    XFile? coverImage,
+  })
+  async {try {
+      String token = LocalStorage.getData(key: AppConstant.token);
+      if (token.isEmpty) {
+        kSnackBar(message: "User not authenticated", bgColor: AppColors.orange);
+        return;
+      }
+
+      var request = http.MultipartRequest('PUT', Uri.parse(Api.editProfile));
+
+      request.headers.addAll({
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'multipart/form-data',
+      });
+
+      // Add JSON payload as text with updated fields
+      Map<String, dynamic> payload = {
+        "name": name,
+        "gender": gender,
+        "location": location,
+        "age": age,
+        "category": category,
+        "pet_info": petInfo,
+        "owner_name": ownerName,
+        "owner_relationship_status": ownerRelationshipStatus,
+        "owner_gender": ownerGender,
+      };
+
+      request.fields['payload'] = jsonEncode(payload);
+
+      // Handle Image Uploads with Validation
+      List<String> supportedExtensions = ['.jpg', '.jpeg', '.png', '.webp'];
+      List<String> supportedMimeTypes = ['image/jpeg', 'image/png', 'image/webp'];
+
+      // Image
+      if (selectedImage != null) {
+        String imagePath = selectedImage.path;
+        String? mimeType = lookupMimeType(imagePath);
+        String extension = p.extension(imagePath).toLowerCase();
+
+        if (!supportedExtensions.contains(extension) ||
+            !supportedMimeTypes.contains(mimeType)) {
+          kSnackBar(
+              message: "Unsupported image format. Use JPG, PNG, or WebP",
+              bgColor: AppColors.orange);
+          return;
+        }
+
+        request.files.add(
+          await http.MultipartFile.fromPath(
+            'image',
+            imagePath,
+            contentType: MediaType.parse(mimeType ?? 'image/jpeg'),
+          ),
+        );
+      }
+
+      // Owner Image
+      if (ownerImage != null) {
+        String imagePath = ownerImage.path;
+        String? mimeType = lookupMimeType(imagePath);
+        String extension = p.extension(imagePath).toLowerCase();
+
+        if (!supportedExtensions.contains(extension) ||
+            !supportedMimeTypes.contains(mimeType)) {
+          kSnackBar(
+              message: "Unsupported owner image format. Use JPG, PNG, or WebP",
+              bgColor: AppColors.orange);
+          return;
+        }
+
+        request.files.add(
+          await http.MultipartFile.fromPath(
+            'ownerImage',
+            imagePath,
+            contentType: MediaType.parse(mimeType ?? 'image/jpeg'),
+          ),
+        );
+      }
+
+      // Cover Image
+      if (coverImage != null) {
+        String imagePath = coverImage.path;
+        String? mimeType = lookupMimeType(imagePath);
+        String extension = p.extension(imagePath).toLowerCase();
+
+        if (!supportedExtensions.contains(extension) ||
+            !supportedMimeTypes.contains(mimeType)) {
+          kSnackBar(
+              message: "Unsupported cover image format. Use JPG, PNG, or WebP",
+              bgColor: AppColors.orange);
+          return;
+        }
+
+        request.files.add(
+          await http.MultipartFile.fromPath(
+            'coverImage',
+            imagePath,
+            contentType: MediaType.parse(mimeType ?? 'image/jpeg'),
+          ),
+        );
+      }
+
+      var response = await request.send();
+      var responseData = await http.Response.fromStream(response);
+
+      try {
+        var decodedResponse = json.decode(responseData.body);
+
+        if (response.statusCode == 200) {
+          kSnackBar(
+              message: "Profile updated successfully",
+              bgColor: AppColors.green);
+
+          await fetchProfile(); // Refresh profile data
+          update(); // Notify listeners
+          if (Get.context != null) {
+            Navigator.pop(Get.context!);
+          }
+        } else {
+          kSnackBar(
+            message: decodedResponse['message'] ?? "Failed to update profile",
+            bgColor: AppColors.orange,
+          );
+        }
+      } catch (decodeError) {
+        kSnackBar(
+            message: "Invalid response format", bgColor: AppColors.orange);
+        debugPrint("Response Error: $decodeError");
+      }
+    } catch (e) {
+      kSnackBar(
+          message: "Error updating profile: $e", bgColor: AppColors.orange);
+      debugPrint("Update Error: $e");
     }
   }
 }

@@ -20,10 +20,12 @@ class Api {
 
   /// posts
   static const String allPosts = "$baseUrl/posts"; //done
+  static const String myPosts = "$baseUrl/posts/my"; //done
   static String categoryPosts(categoryId) => "$baseUrl/posts/category/$categoryId"; //done
 
   ///profile
   static const String myProfile = "$baseUrl/users/profile"; // done
+  static const String editProfile = "$baseUrl/users"; // done
   static const String profileOwnerGallery = "$baseUrl/users/add-to-owner-gallery"; //done
   static const String profilePetGallery = "$baseUrl/users/add-to-pet-gallery"; //done
   static const String removeProfileOwnerGallery = "$baseUrl/users/remove-from-owner-gallery"; //done
