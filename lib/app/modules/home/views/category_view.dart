@@ -111,6 +111,9 @@ class _CategoryViewState extends State<CategoryView> {
                 onBookmark: () {
                   collectionsController.addOrRemoveCollection(post.id!);
                 },
+                onReaction: () {
+                  homeController.addOrRemoveReaction(post.id!);
+                },
               ),
             );
           },

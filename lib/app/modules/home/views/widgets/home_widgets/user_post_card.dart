@@ -25,6 +25,7 @@ class UserPostCard extends StatelessWidget {
   final int likeCount;
   final VoidCallback? onAddFriend;
   final VoidCallback onBookmark;
+  final VoidCallback onReaction;
   final Widget? popupMenuButton;
   final bool showAddFriendButton;
 
@@ -42,6 +43,7 @@ class UserPostCard extends StatelessWidget {
     this.showAddFriendButton = true,
     required this.postId,
     required this.onBookmark, // Default to showing the button
+    required this.onReaction, // Default to showing the button
   });
 
   @override
@@ -208,7 +210,6 @@ class UserPostCard extends StatelessWidget {
                               SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount:
                                 images.length <= 3 ? images.length : 2,
-                            // 1 row for 1-3 images, 2 rows for 4 images
                             crossAxisSpacing: 4,
                             mainAxisSpacing: 4,
                             childAspectRatio: 0.9,
@@ -233,7 +234,7 @@ class UserPostCard extends StatelessWidget {
               children: [
                 Text(timeAgo, style: h6),
                 const Spacer(),
-                _buildIcon(AppImages.heart, likeCount),
+                _buildIcon(AppImages.heart, likeCount, onTap: onReaction),
                 _buildIcon(AppImages.star, null,
                     onTap: () => showStarBuyDialog(context)),
                 _buildIcon(
@@ -304,7 +305,7 @@ class UserPostCard extends StatelessWidget {
                   Text('OR', style: h3),
                   const SizedBox(height: 8),
                   CustomButton(
-                    onPressed: () => Get.to(() => SendStarsView()),
+                    onPressed: () => Get.to(() => SendStarsView(id: postId)),
                     text: "Send Stars 🤩",
                   ),
                 ],
@@ -315,132 +316,4 @@ class UserPostCard extends StatelessWidget {
       },
     );
   }
-
-
 }
-// void _showShareModal(BuildContext context) {
-//   showModalBottomSheet(
-//     context: context,
-//     isScrollControlled: true,
-//     shape: RoundedRectangleBorder(
-//       borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-//     ),
-//     builder: (context) {
-//       return Padding(
-//         padding: const EdgeInsets.all(16.0),
-//         child: Column(
-//           mainAxisSize: MainAxisSize.min,
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             Text(
-//               'Share this link via',
-//               textAlign: TextAlign.center,
-//               style: h3.copyWith(fontSize: 20),
-//             ),
-//             sh16,
-//             Row(
-//               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//               children: [
-//                 _buildShareButton(
-//                   image: AppImages.facebook,
-//                   color: Colors.blue,
-//                   onTap: () => Share.share(
-//                     'Check out this post: $shareLink',
-//                     subject: 'Post Link',
-//                   ),
-//                 ),
-//                 _buildShareButton(
-//                   image: AppImages.messenger,
-//                   color: Colors.blueAccent,
-//                   onTap: () => Share.share(
-//                     'Check out this post: $shareLink',
-//                     subject: 'Post Link',
-//                   ),
-//                 ),
-//                 _buildShareButton(
-//                   image: AppImages.instagram,
-//                   color: Colors.pink,
-//                   onTap: () => Share.share(
-//                     'Check out this post: $shareLink',
-//                     subject: 'Post Link',
-//                   ),
-//                 ),
-//                 _buildShareButton(
-//                   image: AppImages.whatsApp,
-//                   color: Colors.green,
-//                   onTap: () => Share.share(
-//                     'Check out this post: $shareLink',
-//                     subject: 'Post Link',
-//                   ),
-//                 ),
-//                 _buildShareButton(
-//                   image: AppImages.telegram,
-//                   color: Colors.lightBlue,
-//                   onTap: () => Share.share(
-//                     'Check out this post: $shareLink',
-//                     subject: 'Post Link',
-//                   ),
-//                 ),
-//               ],
-//             ),
-//             SizedBox(height: 16),
-//             Text(
-//               'Or Copy Link',
-//               textAlign: TextAlign.center,
-//               style: TextStyle(
-//                 fontSize: 16,
-//                 fontWeight: FontWeight.w600,
-//               ),
-//             ),
-//             SizedBox(height: 8),
-//             Container(
-//               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-//               decoration: BoxDecoration(
-//                 border: Border.all(color: Colors.grey),
-//                 borderRadius: BorderRadius.circular(8),
-//                 color: Colors.grey[200],
-//               ),
-//               child: Row(
-//                 children: [
-//                   Text(
-//                     shareLink,
-//                     overflow: TextOverflow.ellipsis,
-//                   ),
-//                   Spacer(),
-//                   CustomButton(
-//                     width: 80,
-//                     height: 35,
-//                     onPressed: () {
-//                       Clipboard.setData(ClipboardData(text: shareLink));
-//                       ScaffoldMessenger.of(context).showSnackBar(
-//                         SnackBar(content: Text('Link copied to clipboard')),
-//                       );
-//                     },
-//                     text: 'Copy',
-//                   ),
-//                 ],
-//               ),
-//             ),
-//           ],
-//         ),
-//       );
-//     },
-//   );
-// }
-
-// Widget _buildShareButton(
-//     {required String image,
-//     required Color color,
-//     required VoidCallback onTap}) {
-//   return GestureDetector(
-//     onTap: onTap,
-//     child: CircleAvatar(
-//       backgroundColor: color.withOpacity(0.2),
-//       radius: 24,
-//       child: Image.asset(
-//         image,
-//         scale: 4,
-//       ),
-//     ),
-//   );
-// }

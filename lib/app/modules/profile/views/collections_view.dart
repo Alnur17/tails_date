@@ -64,6 +64,9 @@ class CollectionsView extends GetView {
                 print('object');
                 controller.addOrRemoveCollection(post.id!);
               },
+              onReaction: () {
+                homeController.addOrRemoveReaction(post.id!);
+              },
             );
           },
         );

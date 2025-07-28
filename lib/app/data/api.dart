@@ -19,9 +19,11 @@ class Api {
   static const getCategory = "$baseUrl/categories";//done
 
   /// posts
+  static const String createPost = "$baseUrl/posts"; //done
   static const String allPosts = "$baseUrl/posts"; //done
   static const String myPosts = "$baseUrl/posts/my"; //done
   static String categoryPosts(categoryId) => "$baseUrl/posts/category/$categoryId"; //done
+  static const String addOrRemoveReaction = "$baseUrl/posts/reactions"; //done
 
   ///profile
   static const String myProfile = "$baseUrl/users/profile"; // done
@@ -37,15 +39,18 @@ class Api {
   static const  String collections = "$baseUrl/collections";
   static const  String addOrRemoveCollections = "$baseUrl/collections";
 
-///Reels
+  ///Reels
+  static const String createReels = "$baseUrl/reels"; //
   static const String allReels = "$baseUrl/reels"; //done
   static const String myReels = "$baseUrl/reels/my"; //
+
 
   ///Reports
   static const String reports = "$baseUrl/reports"; // done
 
   ///Star Plans
   static const String starPlans = "$baseUrl/star-plans"; //done
+  static const String sendStars = "$baseUrl/posts/send-star"; //done
 
   ///Subscription Plan
   static const String subscriptionPlan = "$baseUrl/subscription-plans"; //done

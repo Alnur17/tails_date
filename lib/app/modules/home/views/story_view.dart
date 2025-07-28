@@ -238,7 +238,7 @@ class StoryView extends GetView {
                   Text('OR', style: h3),
                   const SizedBox(height: 8),
                   CustomButton(
-                    onPressed: () => Get.to(() => SendStarsView()),
+                    onPressed: () => Get.to(() => SendStarsView(id: '',)),
                     text: "Send Stars 🤩",
                   ),
                 ],

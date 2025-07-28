@@ -148,7 +148,7 @@ class _HomeViewState extends State<HomeView> {
                                   profileImage: post.author?.image ?? '',
                                   images: post.images,
                                   description: post.caption ?? '',
-                                  likeCount: 0,
+                                  likeCount: post.reactions.length,
                                   timeAgo: homeController
                                       .formatTimeAgo(post.createdAt),
                                   onAddFriend: () {
@@ -161,6 +161,14 @@ class _HomeViewState extends State<HomeView> {
                                       return;
                                     }
                                     collectionsController.addOrRemoveCollection(post.id!);
+                                  },
+                                  onReaction: () {
+                                    log("Reaction button clicked for post ID: ${post.id}");
+                                    if (post.id == null || post.id!.isEmpty) {
+                                      log("Error: Post ID is null or empty");
+                                      return;
+                                    }
+                                    homeController.addOrRemoveReaction(post.id!);
                                   },
                                 ),
                               );

@@ -100,13 +100,16 @@ class MySearchView extends GetView<MySearchController> {
                       profileImage: post.author?.image ?? '',
                       images: post.images,
                       description: post.caption ?? '',
-                      likeCount: 0,
+                      likeCount: post.reactions.length,
                       timeAgo: homeController.formatTimeAgo(post.createdAt),
                       onAddFriend: () {
                         log("Add Friend clicked for ${post.author?.name}");
                       },
                       onBookmark: (){
                         collectionsController.addOrRemoveCollection(post.id!);
+                      },
+                      onReaction: () {
+                        homeController.addOrRemoveReaction(post.id!);
                       },
                     ),
                   );

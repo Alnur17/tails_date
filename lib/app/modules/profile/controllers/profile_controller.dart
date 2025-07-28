@@ -1,4 +1,583 @@
+// import 'dart:convert';
+// import 'package:flutter/material.dart';
+// import 'package:get/get.dart';
+// import 'package:http_parser/http_parser.dart';
+// import 'package:image_picker/image_picker.dart';
+// import 'package:http/http.dart' as http;
+// import 'package:path/path.dart' as p;
+// import 'package:mime/mime.dart';
+// import 'package:tails_date/app/modules/profile/model/my_reels_model.dart';
+// import '../../../../common/app_color/app_colors.dart';
+// import '../../../../common/app_constant/app_constant.dart';
+// import '../../../../common/helper/local_store.dart';
+// import '../../../../common/widgets/custom_snack_bar.dart';
+// import '../../../data/api.dart';
+// import '../../../data/base_client.dart';
+// import '../../login/views/login_view.dart';
+// import '../model/my_profile_model.dart';
+//
+// class ProfileController extends GetxController {
+//   var isLoading = false.obs;
+//   var profileData = Rx<MyProfileModel?>(null); // Store profile data
+//   var myReelsData = <MyReelsData>[].obs;
+//
+//   final TextEditingController currentPassTEController = TextEditingController();
+//   final TextEditingController newPassTEController = TextEditingController();
+//   final TextEditingController confirmPassTEController = TextEditingController();
+//
+//   var isPasswordVisible = false.obs;
+//   var isPasswordVisible1 = false.obs;
+//   var isPasswordVisible2 = false.obs;
+//
+//   final ImagePicker _picker = ImagePicker();
+//
+//   var selectedImage = Rx<XFile?>(null); // Added for image management
+//   var ownerImage = Rx<XFile?>(null);    // Added for image management
+//   var coverImage = Rx<XFile?>(null);    // Added for image management
+//
+//   @override
+//   void onInit() {
+//     super.onInit();
+//     fetchProfile();
+//     fetchMyReels();
+//   }
+//
+//   void togglePasswordVisibility() {
+//     isPasswordVisible.toggle();
+//   }
+//
+//   void togglePasswordVisibility1() {
+//     isPasswordVisible1.toggle();
+//   }
+//
+//   void togglePasswordVisibility2() {
+//     isPasswordVisible2.toggle();
+//   }
+//
+//   /// Fetch user profile
+//   Future<void> fetchProfile() async {
+//     try {
+//       isLoading(true);
+//       var headers = {
+//         'Content-Type': 'application/json',
+//         'Authorization':
+//         'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
+//       };
+//
+//       dynamic responseBody = await BaseClient.handleResponse(
+//         await BaseClient.getRequest(api: Api.myProfile, headers: headers),
+//       );
+//
+//       if (responseBody != null) {
+//         profileData.value = MyProfileModel.fromJson(responseBody);
+//         kSnackBar(
+//             message:
+//             profileData.value!.message ?? "Profile fetched successfully",
+//             bgColor: AppColors.green);
+//       } else {
+//         throw 'Failed to fetch profile!';
+//       }
+//     } catch (e) {
+//       debugPrint("Catch Error:::::: $e");
+//       kSnackBar(message: "Error fetching profile: $e", bgColor: AppColors.red);
+//     } finally {
+//       isLoading(false);
+//     }
+//   }
+//
+//   /// Fetch user profile
+//   Future<void> fetchCollection() async {
+//     try {
+//       isLoading(true);
+//       var headers = {
+//         'Content-Type': 'application/json',
+//         'Authorization':
+//         'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
+//       };
+//
+//       dynamic responseBody = await BaseClient.handleResponse(
+//         await BaseClient.getRequest(api: Api.myProfile, headers: headers),
+//       );
+//
+//       if (responseBody != null) {
+//         profileData.value = MyProfileModel.fromJson(responseBody);
+//         kSnackBar(
+//             message: profileData.value!.message ?? "Profile fetched successfully",
+//             bgColor: AppColors.green);
+//       } else {
+//         throw 'Failed to fetch profile!';
+//       }
+//     } catch (e) {
+//       debugPrint("Catch Error:::::: $e");
+//       kSnackBar(message: "Error fetching profile: $e", bgColor: AppColors.red);
+//     } finally {
+//       isLoading(false);
+//     }
+//   }
+//
+//   /// get reels
+//   Future<void> fetchMyReels() async {
+//     try {
+//       isLoading(true);
+//       var token = LocalStorage.getData(key: AppConstant.token);
+//
+//       final response = await BaseClient.getRequest(
+//         api: Api.myReels,
+//         headers: {
+//           'Content-Type': 'application/json',
+//           'Authorization': 'Bearer $token'
+//         },
+//       );
+//       final result = await BaseClient.handleResponse(response);
+//       final myReelsModel = MyReelsModel.fromJson(result);
+//       if (myReelsModel.success == true) {
+//         myReelsData.assignAll(myReelsModel.data);
+//       } else {
+//         kSnackBar(
+//           message: myReelsModel.message ?? 'Failed to load reels',
+//           bgColor: AppColors.orange,
+//         );
+//       }
+//     } catch (e) {
+//       kSnackBar(
+//         message: e.toString(),
+//         bgColor: AppColors.orange,
+//       );
+//     } finally {
+//       isLoading(false);
+//     }
+//   }
+//
+//   Future<void> deleteAccount() async {
+//     try {
+//       String token = LocalStorage.getData(key: AppConstant.token);
+//
+//       var headers = {
+//         'Content-Type': 'application/json',
+//         'Authorization': 'Bearer $token',
+//       };
+//
+//       http.Response response = await BaseClient.deleteRequest(
+//         api: Api.deleteUser,
+//         headers: headers,
+//       );
+//
+//       var result = await BaseClient.handleResponse(response);
+//
+//       Get.snackbar(
+//         'Success',
+//         'Account deleted successfully',
+//         backgroundColor: AppColors.green,
+//         colorText: AppColors.white,
+//       );
+//       BaseClient.logout();
+//     } catch (e) {
+//       Get.snackbar(
+//         'Error',
+//         e.toString(),
+//         backgroundColor: AppColors.orange,
+//         colorText: AppColors.white,
+//       );
+//     }
+//   }
+//
+//   /// Change password
+//   Future changePassword({
+//     required String currentPassword,
+//     required String newPassword,
+//     required BuildContext context,
+//   }) async {
+//     try {
+//       isLoading(true);
+//       var map = {"oldPassword": currentPassword, "newPassword": newPassword};
+//       String token = LocalStorage.getData(key: AppConstant.token);
+//
+//       var headers = {
+//         'Content-Type': 'application/json',
+//         'Authorization': 'Bearer $token',
+//       };
+//
+//       debugPrint(";;;;;;;;;;;;$headers;;;;;;;;;");
+//
+//       dynamic responseBody = await BaseClient.handleResponse(
+//         await BaseClient.postRequest(
+//             api: Api.changePassword, body: jsonEncode(map), headers: headers),
+//       );
+//
+//       debugPrint(";;;;;;;;;;;;$responseBody;;;;;;;;;");
+//
+//       if (responseBody != null) {
+//         kSnackBar(message: responseBody["message"], bgColor: AppColors.green);
+//         Get.offAll(() => LoginView());
+//         isLoading(false);
+//       } else {
+//         throw 'Reset password failed!';
+//       }
+//     } catch (e) {
+//       debugPrint("Catch Error:::::: $e");
+//       kSnackBar(message: "Error changing password: $e", bgColor: AppColors.red);
+//     } finally {
+//       isLoading(false);
+//     }
+//   }
+//
+//   /// Upload image to owner gallery
+//   Future<void> uploadOwnerGalleryImage() async {
+//     try {
+//       isLoading(true);
+//       final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+//       if (image == null) {
+//         kSnackBar(message: "No image selected", bgColor: AppColors.orange);
+//         return;
+//       }
+//
+//       final mimeType = lookupMimeType(image.path);
+//       if (!['image/jpeg', 'image/png'].contains(mimeType)) {
+//         kSnackBar(
+//             message: "Only JPEG and PNG images are supported",
+//             bgColor: AppColors.orange);
+//         return;
+//       }
+//       if (!['.jpg', '.jpeg', '.png']
+//           .contains(p.extension(image.path).toLowerCase())) {
+//         kSnackBar(
+//             message: "Only JPG and PNG images are supported",
+//             bgColor: AppColors.orange);
+//         return;
+//       }
+//
+//       String token = LocalStorage.getData(key: AppConstant.token);
+//
+//       var headers = {
+//         'Authorization': 'Bearer $token',
+//       };
+//       debugPrint(";;;;;;;;;;;;;;;; This is headers $headers ;;;;;;;;;;;;;;;;");
+//
+//       var request =
+//       http.MultipartRequest('POST', Uri.parse(Api.profileOwnerGallery));
+//       request.headers.addAll(headers);
+//       request.files.add(await http.MultipartFile.fromPath(
+//         'image',
+//         image.path,
+//         contentType:
+//         MediaType.parse(mimeType!), //MediaType from http_parser package
+//       ));
+//
+//       var streamedResponse = await request.send();
+//       debugPrint('Streamed Response Status: ${streamedResponse.statusCode}');
+//       var response = await http.Response.fromStream(streamedResponse);
+//       debugPrint('Raw Response Status: ${response.statusCode}');
+//       debugPrint('Raw Response Body: ${response.body}');
+//
+//       dynamic responseBody = await BaseClient.handleResponse(response);
+//
+//       if (responseBody != null) {
+//         kSnackBar(
+//             message:
+//             responseBody["message"] ?? "Image uploaded to owner gallery",
+//             bgColor: AppColors.green);
+//         await fetchProfile(); // Refresh profile data
+//       } else {
+//         throw 'Failed to upload image!';
+//       }
+//     } catch (e) {
+//       debugPrint("Catch Error:::::: $e");
+//       kSnackBar(message: "Error uploading image: $e", bgColor: AppColors.red);
+//     } finally {
+//       isLoading(false);
+//     }
+//   }
+//
+//   /// Upload image to pet gallery
+//   Future<void> uploadPetGalleryImage() async {
+//     try {
+//       isLoading(true);
+//       final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+//       if (image == null) {
+//         kSnackBar(message: "No image selected", bgColor: AppColors.orange);
+//         return;
+//       }
+//
+//       final mimeType = lookupMimeType(image.path);
+//       if (!['image/jpeg', 'image/png'].contains(mimeType)) {
+//         kSnackBar(
+//             message: "Only JPEG and PNG images are supported",
+//             bgColor: AppColors.orange);
+//         return;
+//       }
+//       if (!['.jpg', '.jpeg', '.png']
+//           .contains(p.extension(image.path).toLowerCase())) {
+//         kSnackBar(
+//             message: "Only JPG and PNG images are supported",
+//             bgColor: AppColors.orange);
+//         return;
+//       }
+//
+//       String token = LocalStorage.getData(key: AppConstant.token);
+//
+//       var headers = {
+//         'Authorization': 'Bearer $token',
+//       };
+//
+//       var request =
+//       http.MultipartRequest('POST', Uri.parse(Api.profilePetGallery));
+//       request.headers.addAll(headers);
+//       request.files.add(await http.MultipartFile.fromPath(
+//         'image',
+//         image.path,
+//         contentType: MediaType.parse(mimeType!), //from http_parser package
+//       ));
+//
+//       var streamedResponse = await request.send();
+//       debugPrint('Streamed Response Status: ${streamedResponse.statusCode}');
+//       var response = await http.Response.fromStream(streamedResponse);
+//       debugPrint('Raw Response Status: ${response.statusCode}');
+//       debugPrint('Raw Response Body: ${response.body}');
+//
+//       dynamic responseBody = await BaseClient.handleResponse(response);
+//
+//       if (responseBody != null) {
+//         kSnackBar(
+//             message: responseBody["message"] ?? "Image uploaded to pet gallery",
+//             bgColor: AppColors.green);
+//         await fetchProfile(); // Refresh profile data
+//       } else {
+//         throw 'Failed to upload image!';
+//       }
+//     } catch (e) {
+//       debugPrint("Catch Error:::::: $e");
+//       kSnackBar(message: "Error uploading image: $e", bgColor: AppColors.red);
+//     } finally {
+//       isLoading(false);
+//     }
+//   }
+//
+//   Future<void> patchRemoveOwnerGalleryImage(String imagePath) async {
+//     try {
+//       isLoading(true);
+//       var headers = {
+//         'Content-Type': 'application/json',
+//         'Authorization':
+//         'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
+//       };
+//       var body = jsonEncode({"image": imagePath});
+//
+//       dynamic responseBody = await BaseClient.handleResponse(
+//         await BaseClient.patchRequest(
+//           api: Api.removeProfileOwnerGallery,
+//           body: body,
+//           headers: headers,
+//         ),
+//       );
+//
+//       if (responseBody != null) {
+//         kSnackBar(
+//             message:
+//             responseBody["message"] ?? "Image removed from owner gallery",
+//             bgColor: AppColors.green);
+//         await fetchProfile(); // Refresh profile data
+//       } else {
+//         throw 'Failed to remove image!';
+//       }
+//     } catch (e) {
+//       debugPrint("Catch Error:::::: $e");
+//       kSnackBar(message: "Error removing image: $e", bgColor: AppColors.red);
+//     } finally {
+//       isLoading(false);
+//     }
+//   }
+//
+//   Future<void> patchRemovePetGalleryImage(String imagePath) async {
+//     try {
+//       isLoading(true);
+//       var headers = {
+//         'Content-Type': 'application/json',
+//         'Authorization':
+//         'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
+//       };
+//
+//       var body = jsonEncode({"image": imagePath});
+//
+//       dynamic responseBody = await BaseClient.handleResponse(
+//         await BaseClient.patchRequest(
+//           api: Api.removeProfilePetGallery,
+//           body: body,
+//           headers: headers,
+//         ),
+//       );
+//
+//       if (responseBody != null) {
+//         kSnackBar(
+//             message:
+//             responseBody["message"] ?? "Image removed from pet gallery",
+//             bgColor: AppColors.green);
+//         await fetchProfile();
+//       } else {
+//         throw 'Failed to remove image!';
+//       }
+//     } catch (e) {
+//       debugPrint("Catch Error:::::: $e");
+//       kSnackBar(message: "Error removing image: $e", bgColor: AppColors.red);
+//     } finally {
+//       isLoading(false);
+//     }
+//   }
+//
+//   /// Update user profile
+//   Future<void> updateProfile({
+//     required String name,
+//     required String location,
+//     required int age,
+//     required String gender,
+//     required String category,
+//     required String petInfo,
+//     required String ownerName,
+//     required String ownerRelationshipStatus,
+//     required String ownerGender,
+//     XFile? selectedImage,
+//     XFile? ownerImage,
+//     XFile? coverImage,
+//   })
+//   async {try {
+//       String token = LocalStorage.getData(key: AppConstant.token);
+//       if (token.isEmpty) {
+//         kSnackBar(message: "User not authenticated", bgColor: AppColors.orange);
+//         return;
+//       }
+//
+//       var request = http.MultipartRequest('PUT', Uri.parse(Api.editProfile));
+//
+//       request.headers.addAll({
+//         'Authorization': 'Bearer $token',
+//         'Content-Type': 'multipart/form-data',
+//       });
+//
+//       // Add JSON payload as text with updated fields
+//       Map<String, dynamic> payload = {
+//         "name": name,
+//         "gender": gender,
+//         "location": location,
+//         "age": age,
+//         "category": category,
+//         "pet_info": petInfo,
+//         "owner_name": ownerName,
+//         "owner_relationship_status": ownerRelationshipStatus,
+//         "owner_gender": ownerGender,
+//       };
+//
+//       request.fields['payload'] = jsonEncode(payload);
+//
+//
+//       // // Handle Image Uploads with Validation
+//       // List<String> supportedExtensions = ['.jpg', '.jpeg', '.png', '.webp'];
+//       // List<String> supportedMimeTypes = ['image/jpeg', 'image/png', 'image/webp'];
+//
+//       // Image
+//       if (selectedImage != null) {
+//         String imagePath = selectedImage.path;
+//         String? mimeType = lookupMimeType(imagePath);
+//         //String extension = p.extension(imagePath).toLowerCase();
+//
+//         // if (!supportedExtensions.contains(extension) ||
+//         //     !supportedMimeTypes.contains(mimeType)) {
+//         //   kSnackBar(
+//         //       message: "Unsupported image format. Use JPG, PNG, or WebP",
+//         //       bgColor: AppColors.orange);
+//         //   return;
+//         // }
+//
+//         request.files.add(
+//           await http.MultipartFile.fromPath(
+//             'image',
+//             imagePath,
+//             contentType: MediaType.parse(mimeType!),
+//           ),
+//         );
+//       }
+//
+//       // Owner Image
+//       if (ownerImage != null) {
+//         String imagePath = ownerImage.path;
+//         String? mimeType = lookupMimeType(imagePath);
+//         //String extension = p.extension(imagePath).toLowerCase();
+//
+//         // if (!supportedExtensions.contains(extension) ||
+//         //     !supportedMimeTypes.contains(mimeType)) {
+//         //   kSnackBar(
+//         //       message: "Unsupported owner image format. Use JPG, PNG, or WebP",
+//         //       bgColor: AppColors.orange);
+//         //   return;
+//         // }
+//
+//         request.files.add(
+//           await http.MultipartFile.fromPath(
+//             'owner_Image',
+//             imagePath,
+//             contentType: MediaType.parse(mimeType!),
+//           ),
+//         );
+//       }
+//
+//       // Cover Image
+//       if (coverImage != null) {
+//         String imagePath = coverImage.path;
+//         String? mimeType = lookupMimeType(imagePath);
+//         // String extension = p.extension(imagePath).toLowerCase();
+//         //
+//         // if (!supportedExtensions.contains(extension) ||
+//         //     !supportedMimeTypes.contains(mimeType)) {
+//         //   kSnackBar(
+//         //       message: "Unsupported cover image format. Use JPG, PNG, or WebP",
+//         //       bgColor: AppColors.orange);
+//         //   return;
+//         // }
+//
+//         request.files.add(
+//           await http.MultipartFile.fromPath(
+//             'cover_Image',
+//             imagePath,
+//             contentType: MediaType.parse(mimeType!),
+//           ),
+//         );
+//       }
+//
+//       var response = await request.send();
+//       var responseData = await http.Response.fromStream(response);
+//
+//       try {
+//         var decodedResponse = json.decode(responseData.body);
+//
+//         if (response.statusCode == 200) {
+//           kSnackBar(
+//               message: "Profile updated successfully",
+//               bgColor: AppColors.green);
+//
+//           await fetchProfile(); // Refresh profile data
+//           update(); // Notify listeners
+//           if (Get.context != null) {
+//             Navigator.pop(Get.context!);
+//           }
+//         } else {
+//           kSnackBar(
+//             message: decodedResponse['message'] ?? "Failed to update profile",
+//             bgColor: AppColors.orange,
+//           );
+//         }
+//       } catch (decodeError) {
+//         kSnackBar(
+//             message: "Invalid response format", bgColor: AppColors.orange);
+//         debugPrint("Response Error: $decodeError");
+//       }
+//     } catch (e) {
+//       kSnackBar(
+//           message: "Error updating profile: $e", bgColor: AppColors.orange);
+//       debugPrint("Update Error: $e");
+//     }
+//   }
+// }
+
 import 'dart:convert';
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http_parser/http_parser.dart';
@@ -18,7 +597,7 @@ import '../model/my_profile_model.dart';
 
 class ProfileController extends GetxController {
   var isLoading = false.obs;
-  var profileData = Rx<MyProfileModel?>(null); // Store profile data
+  var profileData = Rx<MyProfileModel?>(null);
   var myReelsData = <MyReelsData>[].obs;
 
   final TextEditingController currentPassTEController = TextEditingController();
@@ -31,9 +610,9 @@ class ProfileController extends GetxController {
 
   final ImagePicker _picker = ImagePicker();
 
-  var selectedImage = Rx<XFile?>(null); // Added for image management
-  var ownerImage = Rx<XFile?>(null);    // Added for image management
-  var coverImage = Rx<XFile?>(null);    // Added for image management
+  var selectedImage = Rx<XFile?>(null);
+  var ownerImage = Rx<XFile?>(null);
+  var coverImage = Rx<XFile?>(null);
 
   @override
   void onInit() {
@@ -54,14 +633,12 @@ class ProfileController extends GetxController {
     isPasswordVisible2.toggle();
   }
 
-  /// Fetch user profile
   Future<void> fetchProfile() async {
     try {
       isLoading(true);
       var headers = {
         'Content-Type': 'application/json',
-        'Authorization':
-        'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
+        'Authorization': 'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
       };
 
       dynamic responseBody = await BaseClient.handleResponse(
@@ -71,9 +648,9 @@ class ProfileController extends GetxController {
       if (responseBody != null) {
         profileData.value = MyProfileModel.fromJson(responseBody);
         kSnackBar(
-            message:
-            profileData.value!.message ?? "Profile fetched successfully",
-            bgColor: AppColors.green);
+          message: profileData.value!.message ?? "Profile fetched successfully",
+          bgColor: AppColors.green,
+        );
       } else {
         throw 'Failed to fetch profile!';
       }
@@ -85,37 +662,6 @@ class ProfileController extends GetxController {
     }
   }
 
-  /// Fetch user profile
-  Future<void> fetchCollection() async {
-    try {
-      isLoading(true);
-      var headers = {
-        'Content-Type': 'application/json',
-        'Authorization':
-        'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
-      };
-
-      dynamic responseBody = await BaseClient.handleResponse(
-        await BaseClient.getRequest(api: Api.myProfile, headers: headers),
-      );
-
-      if (responseBody != null) {
-        profileData.value = MyProfileModel.fromJson(responseBody);
-        kSnackBar(
-            message: profileData.value!.message ?? "Profile fetched successfully",
-            bgColor: AppColors.green);
-      } else {
-        throw 'Failed to fetch profile!';
-      }
-    } catch (e) {
-      debugPrint("Catch Error:::::: $e");
-      kSnackBar(message: "Error fetching profile: $e", bgColor: AppColors.red);
-    } finally {
-      isLoading(false);
-    }
-  }
-
-  /// get reels
   Future<void> fetchMyReels() async {
     try {
       isLoading(true);
@@ -125,7 +671,7 @@ class ProfileController extends GetxController {
         api: Api.myReels,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer $token'
+          'Authorization': 'Bearer $token',
         },
       );
       final result = await BaseClient.handleResponse(response);
@@ -164,25 +710,20 @@ class ProfileController extends GetxController {
 
       var result = await BaseClient.handleResponse(response);
 
-      Get.snackbar(
-        'Success',
-        'Account deleted successfully',
-        backgroundColor: AppColors.green,
-        colorText: AppColors.white,
+      kSnackBar(
+        message: 'Account deleted successfully',
+        bgColor: AppColors.green,
       );
       BaseClient.logout();
     } catch (e) {
-      Get.snackbar(
-        'Error',
-        e.toString(),
-        backgroundColor: AppColors.orange,
-        colorText: AppColors.white,
+      kSnackBar(
+        message: e.toString(),
+        bgColor: AppColors.orange,
       );
     }
   }
 
-  /// Change password
-  Future changePassword({
+  Future<void> changePassword({
     required String currentPassword,
     required String newPassword,
     required BuildContext context,
@@ -197,19 +738,17 @@ class ProfileController extends GetxController {
         'Authorization': 'Bearer $token',
       };
 
-      debugPrint(";;;;;;;;;;;;$headers;;;;;;;;;");
-
       dynamic responseBody = await BaseClient.handleResponse(
         await BaseClient.postRequest(
-            api: Api.changePassword, body: jsonEncode(map), headers: headers),
+          api: Api.changePassword,
+          body: jsonEncode(map),
+          headers: headers,
+        ),
       );
-
-      debugPrint(";;;;;;;;;;;;$responseBody;;;;;;;;;");
 
       if (responseBody != null) {
         kSnackBar(message: responseBody["message"], bgColor: AppColors.green);
         Get.offAll(() => LoginView());
-        isLoading(false);
       } else {
         throw 'Reset password failed!';
       }
@@ -221,7 +760,6 @@ class ProfileController extends GetxController {
     }
   }
 
-  /// Upload image to owner gallery
   Future<void> uploadOwnerGalleryImage() async {
     try {
       isLoading(true);
@@ -234,15 +772,16 @@ class ProfileController extends GetxController {
       final mimeType = lookupMimeType(image.path);
       if (!['image/jpeg', 'image/png'].contains(mimeType)) {
         kSnackBar(
-            message: "Only JPEG and PNG images are supported",
-            bgColor: AppColors.orange);
+          message: "Only JPEG and PNG images are supported",
+          bgColor: AppColors.orange,
+        );
         return;
       }
-      if (!['.jpg', '.jpeg', '.png']
-          .contains(p.extension(image.path).toLowerCase())) {
+      if (!['.jpg', '.jpeg', '.png'].contains(p.extension(image.path).toLowerCase())) {
         kSnackBar(
-            message: "Only JPG and PNG images are supported",
-            bgColor: AppColors.orange);
+          message: "Only JPG and PNG images are supported",
+          bgColor: AppColors.orange,
+        );
         return;
       }
 
@@ -251,32 +790,26 @@ class ProfileController extends GetxController {
       var headers = {
         'Authorization': 'Bearer $token',
       };
-      debugPrint(";;;;;;;;;;;;;;;; This is headers $headers ;;;;;;;;;;;;;;;;");
 
-      var request =
-      http.MultipartRequest('POST', Uri.parse(Api.profileOwnerGallery));
+      var request = http.MultipartRequest('POST', Uri.parse(Api.profileOwnerGallery));
       request.headers.addAll(headers);
       request.files.add(await http.MultipartFile.fromPath(
         'image',
         image.path,
-        contentType:
-        MediaType.parse(mimeType!), //MediaType from http_parser package
+        contentType: MediaType.parse(mimeType!),
       ));
 
       var streamedResponse = await request.send();
-      debugPrint('Streamed Response Status: ${streamedResponse.statusCode}');
       var response = await http.Response.fromStream(streamedResponse);
-      debugPrint('Raw Response Status: ${response.statusCode}');
-      debugPrint('Raw Response Body: ${response.body}');
 
       dynamic responseBody = await BaseClient.handleResponse(response);
 
       if (responseBody != null) {
         kSnackBar(
-            message:
-            responseBody["message"] ?? "Image uploaded to owner gallery",
-            bgColor: AppColors.green);
-        await fetchProfile(); // Refresh profile data
+          message: responseBody["message"] ?? "Image uploaded to owner gallery",
+          bgColor: AppColors.green,
+        );
+        await fetchProfile();
       } else {
         throw 'Failed to upload image!';
       }
@@ -288,7 +821,6 @@ class ProfileController extends GetxController {
     }
   }
 
-  /// Upload image to pet gallery
   Future<void> uploadPetGalleryImage() async {
     try {
       isLoading(true);
@@ -301,15 +833,16 @@ class ProfileController extends GetxController {
       final mimeType = lookupMimeType(image.path);
       if (!['image/jpeg', 'image/png'].contains(mimeType)) {
         kSnackBar(
-            message: "Only JPEG and PNG images are supported",
-            bgColor: AppColors.orange);
+          message: "Only JPEG and PNG images are supported",
+          bgColor: AppColors.orange,
+        );
         return;
       }
-      if (!['.jpg', '.jpeg', '.png']
-          .contains(p.extension(image.path).toLowerCase())) {
+      if (!['.jpg', '.jpeg', '.png'].contains(p.extension(image.path).toLowerCase())) {
         kSnackBar(
-            message: "Only JPG and PNG images are supported",
-            bgColor: AppColors.orange);
+          message: "Only JPG and PNG images are supported",
+          bgColor: AppColors.orange,
+        );
         return;
       }
 
@@ -319,28 +852,25 @@ class ProfileController extends GetxController {
         'Authorization': 'Bearer $token',
       };
 
-      var request =
-      http.MultipartRequest('POST', Uri.parse(Api.profilePetGallery));
+      var request = http.MultipartRequest('POST', Uri.parse(Api.profilePetGallery));
       request.headers.addAll(headers);
       request.files.add(await http.MultipartFile.fromPath(
         'image',
         image.path,
-        contentType: MediaType.parse(mimeType!), //from http_parser package
+        contentType: MediaType.parse(mimeType!),
       ));
 
       var streamedResponse = await request.send();
-      debugPrint('Streamed Response Status: ${streamedResponse.statusCode}');
       var response = await http.Response.fromStream(streamedResponse);
-      debugPrint('Raw Response Status: ${response.statusCode}');
-      debugPrint('Raw Response Body: ${response.body}');
 
       dynamic responseBody = await BaseClient.handleResponse(response);
 
       if (responseBody != null) {
         kSnackBar(
-            message: responseBody["message"] ?? "Image uploaded to pet gallery",
-            bgColor: AppColors.green);
-        await fetchProfile(); // Refresh profile data
+          message: responseBody["message"] ?? "Image uploaded to pet gallery",
+          bgColor: AppColors.green,
+        );
+        await fetchProfile();
       } else {
         throw 'Failed to upload image!';
       }
@@ -357,8 +887,7 @@ class ProfileController extends GetxController {
       isLoading(true);
       var headers = {
         'Content-Type': 'application/json',
-        'Authorization':
-        'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
+        'Authorization': 'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
       };
       var body = jsonEncode({"image": imagePath});
 
@@ -372,10 +901,10 @@ class ProfileController extends GetxController {
 
       if (responseBody != null) {
         kSnackBar(
-            message:
-            responseBody["message"] ?? "Image removed from owner gallery",
-            bgColor: AppColors.green);
-        await fetchProfile(); // Refresh profile data
+          message: responseBody["message"] ?? "Image removed from owner gallery",
+          bgColor: AppColors.green,
+        );
+        await fetchProfile();
       } else {
         throw 'Failed to remove image!';
       }
@@ -392,10 +921,8 @@ class ProfileController extends GetxController {
       isLoading(true);
       var headers = {
         'Content-Type': 'application/json',
-        'Authorization':
-        'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
+        'Authorization': 'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
       };
-
       var body = jsonEncode({"image": imagePath});
 
       dynamic responseBody = await BaseClient.handleResponse(
@@ -408,9 +935,9 @@ class ProfileController extends GetxController {
 
       if (responseBody != null) {
         kSnackBar(
-            message:
-            responseBody["message"] ?? "Image removed from pet gallery",
-            bgColor: AppColors.green);
+          message: responseBody["message"] ?? "Image removed from pet gallery",
+          bgColor: AppColors.green,
+        );
         await fetchProfile();
       } else {
         throw 'Failed to remove image!';
@@ -423,11 +950,10 @@ class ProfileController extends GetxController {
     }
   }
 
-  /// Update user profile
   Future<void> updateProfile({
     required String name,
     required String location,
-    required String age,
+    required int age,
     required String gender,
     required String category,
     required String petInfo,
@@ -437,8 +963,9 @@ class ProfileController extends GetxController {
     XFile? selectedImage,
     XFile? ownerImage,
     XFile? coverImage,
-  })
-  async {try {
+  }) async {
+    try {
+      isLoading(true);
       String token = LocalStorage.getData(key: AppConstant.token);
       if (token.isEmpty) {
         kSnackBar(message: "User not authenticated", bgColor: AppColors.orange);
@@ -446,13 +973,11 @@ class ProfileController extends GetxController {
       }
 
       var request = http.MultipartRequest('PUT', Uri.parse(Api.editProfile));
-
       request.headers.addAll({
         'Authorization': 'Bearer $token',
-        'Content-Type': 'multipart/form-data',
       });
 
-      // Add JSON payload as text with updated fields
+      // Add JSON payload
       Map<String, dynamic> payload = {
         "name": name,
         "gender": gender,
@@ -464,113 +989,96 @@ class ProfileController extends GetxController {
         "owner_relationship_status": ownerRelationshipStatus,
         "owner_gender": ownerGender,
       };
-
       request.fields['payload'] = jsonEncode(payload);
 
-      // Handle Image Uploads with Validation
-      List<String> supportedExtensions = ['.jpg', '.jpeg', '.png', '.webp'];
-      List<String> supportedMimeTypes = ['image/jpeg', 'image/png', 'image/webp'];
-
-      // Image
       if (selectedImage != null) {
         String imagePath = selectedImage.path;
         String? mimeType = lookupMimeType(imagePath);
-        String extension = p.extension(imagePath).toLowerCase();
-
-        if (!supportedExtensions.contains(extension) ||
-            !supportedMimeTypes.contains(mimeType)) {
-          kSnackBar(
-              message: "Unsupported image format. Use JPG, PNG, or WebP",
-              bgColor: AppColors.orange);
-          return;
-        }
 
         request.files.add(
           await http.MultipartFile.fromPath(
             'image',
             imagePath,
-            contentType: MediaType.parse(mimeType ?? 'image/jpeg'),
+            contentType: MediaType.parse(mimeType!),
           ),
         );
+        log('Profile image added to request: $imagePath');
       }
 
       // Owner Image
       if (ownerImage != null) {
         String imagePath = ownerImage.path;
         String? mimeType = lookupMimeType(imagePath);
-        String extension = p.extension(imagePath).toLowerCase();
-
-        if (!supportedExtensions.contains(extension) ||
-            !supportedMimeTypes.contains(mimeType)) {
-          kSnackBar(
-              message: "Unsupported owner image format. Use JPG, PNG, or WebP",
-              bgColor: AppColors.orange);
-          return;
-        }
 
         request.files.add(
           await http.MultipartFile.fromPath(
-            'ownerImage',
+            'owner_image', // Changed to match expected server field name
             imagePath,
-            contentType: MediaType.parse(mimeType ?? 'image/jpeg'),
+            contentType: MediaType.parse(mimeType!),
           ),
         );
+        log('Owner image added to request: $imagePath');
       }
 
       // Cover Image
       if (coverImage != null) {
         String imagePath = coverImage.path;
         String? mimeType = lookupMimeType(imagePath);
-        String extension = p.extension(imagePath).toLowerCase();
-
-        if (!supportedExtensions.contains(extension) ||
-            !supportedMimeTypes.contains(mimeType)) {
-          kSnackBar(
-              message: "Unsupported cover image format. Use JPG, PNG, or WebP",
-              bgColor: AppColors.orange);
-          return;
-        }
 
         request.files.add(
           await http.MultipartFile.fromPath(
-            'coverImage',
+            'cover_image', // Changed to match expected server field name
             imagePath,
-            contentType: MediaType.parse(mimeType ?? 'image/jpeg'),
+            contentType: MediaType.parse(mimeType!),
           ),
         );
+        log('Cover image added to request: $imagePath');
       }
 
-      var response = await request.send();
-      var responseData = await http.Response.fromStream(response);
+      var streamedResponse = await request.send();
+      var response = await http.Response.fromStream(streamedResponse);
+      log('Response Status: ${response.statusCode}');
+      log('Response Body: ${response.body}');
 
+      dynamic responseBody;
       try {
-        var decodedResponse = json.decode(responseData.body);
-
-        if (response.statusCode == 200) {
-          kSnackBar(
-              message: "Profile updated successfully",
-              bgColor: AppColors.green);
-
-          await fetchProfile(); // Refresh profile data
-          update(); // Notify listeners
-          if (Get.context != null) {
-            Navigator.pop(Get.context!);
-          }
-        } else {
-          kSnackBar(
-            message: decodedResponse['message'] ?? "Failed to update profile",
-            bgColor: AppColors.orange,
-          );
-        }
-      } catch (decodeError) {
+        responseBody = jsonDecode(response.body);
+      } catch (e) {
         kSnackBar(
-            message: "Invalid response format", bgColor: AppColors.orange);
-        debugPrint("Response Error: $decodeError");
+          message: "Invalid server response format",
+          bgColor: AppColors.orange,
+        );
+        debugPrint("JSON Decode Error: $e");
+        return;
+      }
+
+      if (response.statusCode == 200) {
+        kSnackBar(
+          message: responseBody["message"] ?? "Profile updated successfully",
+          bgColor: AppColors.green,
+        );
+        // Clear selected images after successful update
+        this.selectedImage.value = null;
+        this.ownerImage.value = null;
+        this.coverImage.value = null;
+        await fetchProfile();
+        if (Get.context != null) {
+          Navigator.pop(Get.context!);
+        }
+      } else {
+        kSnackBar(
+          message: responseBody["message"] ?? "Failed to update profile",
+          bgColor: AppColors.orange,
+        );
       }
     } catch (e) {
       kSnackBar(
-          message: "Error updating profile: $e", bgColor: AppColors.orange);
+        message: "Error updating profile: $e",
+        bgColor: AppColors.orange,
+      );
       debugPrint("Update Error: $e");
+    } finally {
+      isLoading(false);
     }
   }
 }

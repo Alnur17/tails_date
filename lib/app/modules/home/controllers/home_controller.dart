@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -72,6 +73,72 @@ class HomeController extends GetxController {
     }
   }
 
+  // Future<void> createPosts({
+  //   required String location,
+  //   required String categoryId,
+  //   required String caption,
+  // })
+  // async {try {
+  //     isLoading.value = true;
+  //     errorMessage.value = '';
+  //
+  //     String token = LocalStorage.getData(key: AppConstant.token);
+  //
+  //     final headers = {
+  //       'Content-Type': 'application/json',
+  //       'Authorization': 'Bearer $token',
+  //     };
+  //
+  //     // Prepare the form-data body as shown in the screenshot
+  //     var request = http.MultipartRequest('POST', Uri.parse(Api.createPost));
+  //     request.headers.addAll(headers);
+  //
+  //     // Add payload with dynamic data
+  //     request.fields['payload'] = jsonEncode({
+  //       "location": location,
+  //       "category": categoryId,
+  //       "caption": caption,
+  //     });
+  //
+  //     final mimeType = lookupMimeType(image.path);
+  //
+  //     // Add images dynamically
+  //     for (var imagePath in imagePaths) {
+  //       request.files.add(await http.MultipartFile.fromPath(
+  //         'images',
+  //         imagePath,
+  //         contentType: MediaType.parse(mimeType),
+  //       ));
+  //     }
+  //
+  //     var response = await http.Response.fromStream(await request.send());
+  //     final jsonResponse = await BaseClient.handleResponse(response);
+  //
+  //     if (jsonResponse['success'] == true) {
+  //       kSnackBar(
+  //         message: jsonResponse['message'] ?? 'Post created successfully',
+  //         bgColor: AppColors.green,
+  //       );
+  //       await fetchPosts(); // Refresh posts after creating
+  //     } else {
+  //       errorMessage.value = jsonResponse['message'] ?? 'Failed to create post';
+  //       kSnackBar(
+  //         message: errorMessage.value,
+  //         bgColor: AppColors.orange,
+  //       );
+  //     }
+  //   } catch (e) {
+  //     errorMessage.value = e.toString();
+  //     kSnackBar(
+  //       message: errorMessage.value,
+  //       bgColor: AppColors.orange,
+  //     );
+  //     log('Error creating post: $e');
+  //   } finally {
+  //     isLoading.value = false;
+  //   }
+  // }
+
   Future<void> fetchMyPosts() async {
     try {
       isLoading.value = true;
@@ -138,7 +205,8 @@ class HomeController extends GetxController {
       if (categoryWiseModel.success == true && categoryWiseModel.data != null) {
         categoryWisePost.assignAll(categoryWiseModel.data!.data);
       } else {
-        errorMessage.value = categoryWiseModel.message ?? 'Failed to load category posts';
+        errorMessage.value =
+            categoryWiseModel.message ?? 'Failed to load category posts';
         kSnackBar(
           message: errorMessage.value,
           bgColor: AppColors.orange,
@@ -191,6 +259,43 @@ class HomeController extends GetxController {
       );
     } finally {
       isLoading.value = false;
+    }
+  }
+
+  Future<void> addOrRemoveReaction(String postId) async {
+    try {
+      final token = LocalStorage.getData(key: 'token') ?? '';
+      final headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      };
+      final body = jsonEncode({'postId': postId});
+
+      final response = await BaseClient.putRequest(
+        api: Api.addOrRemoveReaction,
+        body: body,
+        headers: headers,
+      );
+
+      final result = await BaseClient.handleResponse(response);
+      if (result['success'] == true) {
+        kSnackBar(
+          message:
+              result['message']?.toString() ?? 'Reaction updated successfully',
+          bgColor: AppColors.green,
+        );
+        await fetchPosts();
+      } else {
+        kSnackBar(
+          message: result['message']?.toString() ?? 'Failed to update reaction',
+          bgColor: AppColors.red,
+        );
+      }
+    } catch (e) {
+      kSnackBar(
+        message: e.toString(),
+        bgColor: AppColors.red,
+      );
     }
   }
 
