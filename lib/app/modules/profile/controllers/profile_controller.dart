@@ -977,66 +977,62 @@ class ProfileController extends GetxController {
         'Authorization': 'Bearer $token',
       });
 
-      // Add JSON payload
+      // 🔹 Create JSON payload
       Map<String, dynamic> payload = {
         "name": name,
-        "gender": gender,
+        "gender": gender.toLowerCase(),
         "location": location,
         "age": age,
         "category": category,
         "pet_info": petInfo,
         "owner_name": ownerName,
-        "owner_relationship_status": ownerRelationshipStatus,
-        "owner_gender": ownerGender,
+        "owner_relationship_status": ownerRelationshipStatus.toLowerCase(),
+        "owner_gender": ownerGender.toLowerCase(),
       };
+
+
+      // 🔹 Add payload as a single JSON string field
       request.fields['payload'] = jsonEncode(payload);
 
+      // 🔹 Optional: profile image
       if (selectedImage != null) {
         String imagePath = selectedImage.path;
         String? mimeType = lookupMimeType(imagePath);
-
-        request.files.add(
-          await http.MultipartFile.fromPath(
-            'image',
-            imagePath,
-            contentType: MediaType.parse(mimeType!),
-          ),
-        );
-        log('Profile image added to request: $imagePath');
+        request.files.add(await http.MultipartFile.fromPath(
+          'image',
+          imagePath,
+          contentType: MediaType.parse(mimeType!),
+        ));
+        log('Profile image added: $imagePath');
       }
 
-      // Owner Image
+      // 🔹 Optional: owner image
       if (ownerImage != null) {
         String imagePath = ownerImage.path;
         String? mimeType = lookupMimeType(imagePath);
-
-        request.files.add(
-          await http.MultipartFile.fromPath(
-            'owner_image', // Changed to match expected server field name
-            imagePath,
-            contentType: MediaType.parse(mimeType!),
-          ),
-        );
-        log('Owner image added to request: $imagePath');
+        request.files.add(await http.MultipartFile.fromPath(
+          'owner_image',
+          imagePath,
+          contentType: MediaType.parse(mimeType!),
+        ));
+        log('Owner image added: $imagePath');
       }
 
-      // Cover Image
+      // 🔹 Optional: cover image
       if (coverImage != null) {
         String imagePath = coverImage.path;
         String? mimeType = lookupMimeType(imagePath);
-
-        request.files.add(
-          await http.MultipartFile.fromPath(
-            'cover_image', // Changed to match expected server field name
-            imagePath,
-            contentType: MediaType.parse(mimeType!),
-          ),
-        );
-        log('Cover image added to request: $imagePath');
+        request.files.add(await http.MultipartFile.fromPath(
+          'cover_image',
+          imagePath,
+          contentType: MediaType.parse(mimeType!),
+        ));
+        log('Cover image added: $imagePath');
       }
 
       var streamedResponse = await request.send();
       var response = await http.Response.fromStream(streamedResponse);
+
       log('Response Status: ${response.statusCode}');
       log('Response Body: ${response.body}');
 
@@ -1057,12 +1053,11 @@ class ProfileController extends GetxController {
           message: responseBody["message"] ?? "Profile updated successfully",
           bgColor: AppColors.green,
         );
-        // Clear selected images after successful update
         this.selectedImage.value = null;
         this.ownerImage.value = null;
         this.coverImage.value = null;
         await fetchProfile();
-        if (Get.context != null) {
+        if (Get.context != null && Navigator.of(Get.context!).canPop()) {
           Navigator.pop(Get.context!);
         }
       } else {
@@ -1074,11 +1069,13 @@ class ProfileController extends GetxController {
     } catch (e) {
       kSnackBar(
         message: "Error updating profile: $e",
-        bgColor: AppColors.orange,
+        bgColor: AppColors.red,
       );
       debugPrint("Update Error: $e");
     } finally {
       isLoading(false);
     }
   }
+
+
 }

@@ -1049,18 +1049,19 @@ class _EditProfileViewState extends State<EditProfileView> {
 
                   controller.updateProfile(
                     name: nameController.text,
-                    gender: selectedGender!,
+                    gender: selectedGender!.toLowerCase(),
                     location: locationController.text,
                     age: age,
                     category: selectedCategory!,
                     petInfo: petInfoController.text,
                     ownerName: ownerNameController.text,
-                    ownerRelationshipStatus: selectedOwnerRelationshipStatus!,
-                    ownerGender: selectedOwnerGender!,
+                    ownerRelationshipStatus: selectedOwnerRelationshipStatus!.toLowerCase(),
+                    ownerGender: selectedOwnerGender!.toLowerCase(),
                     selectedImage: controller.selectedImage.value,
                     ownerImage: controller.ownerImage.value,
                     coverImage: controller.coverImage.value,
                   );
+
                 },
               ),
               sh30,
