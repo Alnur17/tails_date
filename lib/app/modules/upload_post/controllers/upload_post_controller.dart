@@ -146,6 +146,8 @@ import 'package:tails_date/common/app_constant/app_constant.dart';
 import 'package:video_player/video_player.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
+import 'package:mime/mime.dart';
 import 'package:tails_date/app/data/api.dart';
 import 'package:tails_date/app/data/base_client.dart';
 import 'package:tails_date/common/helper/local_store.dart';
@@ -161,7 +163,7 @@ class UploadPostController extends GetxController {
   final categoryController = TextEditingController();
   final isCreatingVideo = false.obs;
   final selectedCategoryId = RxString('');
-  final isLoading = false.obs; // New loading state
+  final isLoading = false.obs;
 
   final homeController = Get.find<HomeController>();
 
@@ -275,19 +277,27 @@ class UploadPostController extends GetxController {
     if (!validateInput()) return;
 
     isLoading.value = true;
-
     var token = LocalStorage.getData(key: AppConstant.token);
 
     try {
       var headers = {
-        'Content-Type': 'multipart/form-data',
         'Authorization': 'Bearer $token',
       };
 
       if (isCreatingVideo.value) {
         var request = http.MultipartRequest('POST', Uri.parse(Api.createReels));
         request.fields['payload'] = jsonEncode({'caption': postContentController.text});
-        request.files.add(await http.MultipartFile.fromPath('video', selectedVideo.value!.path));
+
+        final videoMimeType = lookupMimeType(selectedVideo.value!.path);
+        if (videoMimeType != null) {
+          final typeSplit = videoMimeType.split('/');
+          request.files.add(await http.MultipartFile.fromPath(
+            'video',
+            selectedVideo.value!.path,
+            contentType: MediaType(typeSplit[0], typeSplit[1]),
+          ));
+        }
+
         request.headers.addAll(headers);
 
         var streamedResponse = await request.send();
@@ -304,9 +314,19 @@ class UploadPostController extends GetxController {
           'location': locationController.text,
           'category': selectedCategoryId.value,
         });
+
         for (var image in selectedImages) {
-          request.files.add(await http.MultipartFile.fromPath('images', image.path));
+          final mimeType = lookupMimeType(image.path);
+          if (mimeType != null) {
+            final typeSplit = mimeType.split('/');
+            request.files.add(await http.MultipartFile.fromPath(
+              'images',
+              image.path,
+              contentType: MediaType(typeSplit[0], typeSplit[1]),
+            ));
+          }
         }
+
         request.headers.addAll(headers);
 
         var streamedResponse = await request.send();
@@ -333,3 +353,4 @@ class UploadPostController extends GetxController {
     }
   }
 }
+
