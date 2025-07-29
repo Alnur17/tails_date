@@ -194,6 +194,11 @@ class _ProfileViewState extends State<ProfileView> {
                             initialOwnerRelationshipStatus: profileController.profileData.value!.data?.ownerRelationshipStatus ?? '',
                             initialOwnerGender: profileController.profileData.value!.data?.ownerGender ?? '',
                           ));
+                          //     ?.then((_) async {
+                          //   imageCache.clear(); // Clear Flutter image cache
+                          //   imageCache.clearLiveImages();
+                          //   await profileController.fetchProfile(); // Refresh profile after edit
+                          // });
                         },
                         text: 'Edit Profile',
                       ),

@@ -732,10 +732,10 @@ class _EditProfileViewState extends State<EditProfileView> {
           if (type == 'image') {
             controller.selectedImage.value = pickedFile;
             log('Profile image selected: ${pickedFile.path}');
-          } else if (type == 'cover_Image') {
+          } else if (type == 'cover_image') {
             controller.coverImage.value = pickedFile;
             log('Cover image selected: ${pickedFile.path}');
-          } else if (type == 'owner_Image') {
+          } else if (type == 'owner_image') {
             controller.ownerImage.value = pickedFile;
             log('Owner image selected: ${pickedFile.path}');
           }
@@ -797,7 +797,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                     bottom: 12,
                     right: 12,
                     child: GestureDetector(
-                      onTap: () => pickImage(ImageSource.gallery, 'cover_Image'),
+                      onTap: () => pickImage(ImageSource.gallery, 'cover_image'),
                       child: Container(
                         height: 30,
                         decoration: ShapeDecoration(
@@ -970,7 +970,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                     left: 0,
                     right: 0,
                     child: GestureDetector(
-                      onTap: () => pickImage(ImageSource.gallery, 'owner_Image'),
+                      onTap: () => pickImage(ImageSource.gallery, 'owner_image'),
                       child: Image.asset(
                         AppImages.edit,
                         scale: 4,

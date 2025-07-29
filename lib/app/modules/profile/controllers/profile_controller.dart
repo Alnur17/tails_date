@@ -638,7 +638,8 @@ class ProfileController extends GetxController {
       isLoading(true);
       var headers = {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
+        'Authorization':
+            'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
       };
 
       dynamic responseBody = await BaseClient.handleResponse(
@@ -777,7 +778,8 @@ class ProfileController extends GetxController {
         );
         return;
       }
-      if (!['.jpg', '.jpeg', '.png'].contains(p.extension(image.path).toLowerCase())) {
+      if (!['.jpg', '.jpeg', '.png']
+          .contains(p.extension(image.path).toLowerCase())) {
         kSnackBar(
           message: "Only JPG and PNG images are supported",
           bgColor: AppColors.orange,
@@ -791,7 +793,8 @@ class ProfileController extends GetxController {
         'Authorization': 'Bearer $token',
       };
 
-      var request = http.MultipartRequest('POST', Uri.parse(Api.profileOwnerGallery));
+      var request =
+          http.MultipartRequest('POST', Uri.parse(Api.profileOwnerGallery));
       request.headers.addAll(headers);
       request.files.add(await http.MultipartFile.fromPath(
         'image',
@@ -838,7 +841,8 @@ class ProfileController extends GetxController {
         );
         return;
       }
-      if (!['.jpg', '.jpeg', '.png'].contains(p.extension(image.path).toLowerCase())) {
+      if (!['.jpg', '.jpeg', '.png']
+          .contains(p.extension(image.path).toLowerCase())) {
         kSnackBar(
           message: "Only JPG and PNG images are supported",
           bgColor: AppColors.orange,
@@ -852,7 +856,8 @@ class ProfileController extends GetxController {
         'Authorization': 'Bearer $token',
       };
 
-      var request = http.MultipartRequest('POST', Uri.parse(Api.profilePetGallery));
+      var request =
+          http.MultipartRequest('POST', Uri.parse(Api.profilePetGallery));
       request.headers.addAll(headers);
       request.files.add(await http.MultipartFile.fromPath(
         'image',
@@ -887,7 +892,8 @@ class ProfileController extends GetxController {
       isLoading(true);
       var headers = {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
+        'Authorization':
+            'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
       };
       var body = jsonEncode({"image": imagePath});
 
@@ -901,7 +907,8 @@ class ProfileController extends GetxController {
 
       if (responseBody != null) {
         kSnackBar(
-          message: responseBody["message"] ?? "Image removed from owner gallery",
+          message:
+              responseBody["message"] ?? "Image removed from owner gallery",
           bgColor: AppColors.green,
         );
         await fetchProfile();
@@ -921,7 +928,8 @@ class ProfileController extends GetxController {
       isLoading(true);
       var headers = {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
+        'Authorization':
+            'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
       };
       var body = jsonEncode({"image": imagePath});
 
@@ -977,7 +985,6 @@ class ProfileController extends GetxController {
         'Authorization': 'Bearer $token',
       });
 
-      // 🔹 Create JSON payload
       Map<String, dynamic> payload = {
         "name": name,
         "gender": gender.toLowerCase(),
@@ -990,44 +997,50 @@ class ProfileController extends GetxController {
         "owner_gender": ownerGender.toLowerCase(),
       };
 
-
-      // 🔹 Add payload as a single JSON string field
       request.fields['payload'] = jsonEncode(payload);
 
-      // 🔹 Optional: profile image
       if (selectedImage != null) {
         String imagePath = selectedImage.path;
         String? mimeType = lookupMimeType(imagePath);
-        request.files.add(await http.MultipartFile.fromPath(
-          'image',
-          imagePath,
-          contentType: MediaType.parse(mimeType!),
-        ));
-        log('Profile image added: $imagePath');
+        if (mimeType != null) {
+          request.files.add(await http.MultipartFile.fromPath(
+            'image',
+            imagePath,
+            contentType: MediaType.parse(mimeType),
+          ));
+        } else {
+          kSnackBar(
+              message: "Unsupported image type", bgColor: AppColors.orange);
+        }
       }
 
-      // 🔹 Optional: owner image
       if (ownerImage != null) {
         String imagePath = ownerImage.path;
         String? mimeType = lookupMimeType(imagePath);
-        request.files.add(await http.MultipartFile.fromPath(
-          'owner_image',
-          imagePath,
-          contentType: MediaType.parse(mimeType!),
-        ));
-        log('Owner image added: $imagePath');
+        if (mimeType != null) {
+          request.files.add(await http.MultipartFile.fromPath(
+            'owner_image',
+            imagePath,
+            contentType: MediaType.parse(mimeType),
+          ));
+        } else {
+          kSnackBar(
+              message: "Unsupported image type", bgColor: AppColors.orange);
+        }
       }
 
-      // 🔹 Optional: cover image
       if (coverImage != null) {
         String imagePath = coverImage.path;
         String? mimeType = lookupMimeType(imagePath);
+        if (mimeType != null) {
         request.files.add(await http.MultipartFile.fromPath(
           'cover_image',
           imagePath,
-          contentType: MediaType.parse(mimeType!),
+          contentType: MediaType.parse(mimeType),
         ));
-        log('Cover image added: $imagePath');
+        } else {
+          kSnackBar(message: "Unsupported image type", bgColor: AppColors.orange);
+        }
       }
 
       var streamedResponse = await request.send();
@@ -1076,6 +1089,4 @@ class ProfileController extends GetxController {
       isLoading(false);
     }
   }
-
-
 }
