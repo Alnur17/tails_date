@@ -12,30 +12,52 @@ import '../../../../common/size_box/custom_sizebox.dart';
 import '../../../../common/widgets/custom_button.dart';
 import '../../../../common/widgets/custom_dropdown.dart';
 import '../../../../common/widgets/custom_textfield.dart';
+import '../../signup/controllers/signup_controller.dart';
 
-class EditPostView extends StatelessWidget {
-  //final String selectedCategory;
+class EditPostView extends StatefulWidget {
   final String location;
   final List<String> images;
   final String description;
+  final String categoryId;
 
   const EditPostView({
     super.key,
-    //required this.selectedCategory,
     required this.location,
     required this.images,
     required this.description,
+    required this.categoryId,
   });
 
   @override
-  Widget build(BuildContext context) {
-    final UploadPostController postController = Get.put(UploadPostController());
+  State<EditPostView> createState() => _EditPostViewState();
+}
+
+class _EditPostViewState extends State<EditPostView> {
+  final UploadPostController postController = Get.put(UploadPostController());
+  final SignupController signupController = Get.put(SignupController());
+
+  @override
+  void initState() {
+    super.initState();
+    postController.toggleMode(false); // Ensure it's not in reel mode
 
     // Set initial values
-    postController.postContentController.text = description;
-    postController.selectedImages.assignAll(
-        images.map((e) => File(e)).toList()); // Convert to File list if needed
+    postController.postContentController.text = widget.description;
+    postController.locationController.text = widget.location;
+    postController.selectedCategoryId.value = widget.categoryId;
 
+    // Separate image URLs from local file paths
+    for (var imagePath in widget.images) {
+      if (imagePath.startsWith('http')) {
+        postController.originalImageUrls.add(imagePath); // Remote image
+      } else {
+        postController.selectedImages.add(File(imagePath)); // Local file
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       appBar: AppBar(
@@ -55,101 +77,107 @@ class EditPostView extends StatelessWidget {
           children: [
             Text('Category', style: h3),
             sh8,
-            CustomDropdown(
-              items: [
-                'Cats',
-                'Dogs',
-                'Birds',
-                'Exotic Animals',
-                'Farm Animals'
-              ],
-              hintText: 'Select an option',
-              onChanged: (value) {},
-            ),
+            Obx(() {
+              if (signupController.isLoading.value) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              if (signupController.categories.isEmpty) {
+                return const Text(
+                  'No categories available',
+                  style: TextStyle(color: AppColors.red),
+                );
+              }
+
+              final items = signupController.categories;
+              return Obx(() => CustomDropdown(
+                    value: items
+                        .firstWhereOrNull((cat) =>
+                            cat.id == postController.selectedCategoryId.value)
+                        ?.name,
+                    items: items.map((cat) => cat.name!).toList(),
+                    hintText: 'Select your pet category',
+                    onChanged: (value) {
+                      final matched =
+                          items.firstWhereOrNull((cat) => cat.name == value);
+                      if (matched != null) {
+                        postController.selectedCategoryId.value = matched.id!;
+                      }
+                    },
+                  ));
+            }),
             sh16,
             Text('Add Location', style: h3),
             sh8,
             CustomTextField(
               hintText: 'Enter Location',
               borderColor: AppColors.black,
-              controller:
-                  TextEditingController(text: location), // Prefill location
+              controller: postController.locationController,
             ),
             sh16,
-            Obx(
-              () {
-                return Container(
-                  height: 200,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    color: AppColors.white,
-                    border: Border.all(color: AppColors.black),
-                  ),
-                  child: postController.selectedImages.isEmpty
-                      ? GestureDetector(
-                          onTap: postController.pickImages,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
+            Obx(() {
+              return Container(
+                height: 200,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: AppColors.white,
+                  border: Border.all(color: AppColors.black),
+                ),
+                child: postController.selectedImages.isEmpty
+                    ? GestureDetector(
+                        onTap: postController.pickImages,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(AppImages.upload, scale: 4),
+                            sw8,
+                            Text('Click here to select photos', style: h4),
+                          ],
+                        ),
+                      )
+                    : GridView.builder(
+                        padding: const EdgeInsets.all(8),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 8,
+                          crossAxisSpacing: 8,
+                        ),
+                        itemCount: postController.selectedImages.length,
+                        itemBuilder: (context, index) {
+                          final image = postController.selectedImages[index];
+                          return Stack(
                             children: [
-                              Image.asset(AppImages.upload, scale: 4),
-                              sw8,
-                              Text('Click here to select photos', style: h4),
-                            ],
-                          ),
-                        )
-                      : GridView.builder(
-                          padding: const EdgeInsets.all(8),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            mainAxisSpacing: 8,
-                            crossAxisSpacing: 8,
-                          ),
-                          itemCount: postController.selectedImages.length,
-                          itemBuilder: (context, index) {
-                            final image = postController.selectedImages[index];
-                            return Stack(
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(12),
-                                  child: image.path.startsWith(
-                                          'http') // Check if it's a URL
-                                      ? Image.network(
-                                          image.path, // Use URL
-                                          fit: BoxFit.cover,
-                                          width: double.infinity,
-                                          height: double.infinity,
-                                        )
-                                      : Image.file(
-                                          image,
-                                          fit: BoxFit.cover,
-                                          width: double.infinity,
-                                          height: double.infinity,
-                                        ),
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: Image.file(
+                                  image,
+                                  fit: BoxFit.cover,
+                                  width: double.infinity,
+                                  height: double.infinity,
                                 ),
-                                Positioned(
-                                  top: 4,
-                                  right: 4,
-                                  child: GestureDetector(
-                                    onTap: () =>
-                                        postController.removeImage(index),
-                                    child: CircleAvatar(
-                                      radius: 15,
-                                      backgroundColor:
-                                          Colors.black.withOpacity(0.7),
-                                      child: Icon(Icons.close,
-                                          color: Colors.white, size: 16),
-                                    ),
+                              ),
+                              Positioned(
+                                top: 4,
+                                right: 4,
+                                child: GestureDetector(
+                                  onTap: () =>
+                                      postController.removeImage(index),
+                                  child: CircleAvatar(
+                                    radius: 15,
+                                    backgroundColor:
+                                        Colors.black.withOpacity(0.7),
+                                    child: const Icon(Icons.close,
+                                        color: Colors.white, size: 16),
                                   ),
                                 ),
-                              ],
-                            );
-                          },
-                        ),
-                );
-              },
-            ),
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+              );
+            }),
             sh8,
             Text('Write a description for the post', style: h3),
             sh8,
@@ -165,10 +193,7 @@ class EditPostView extends StatelessWidget {
                 Expanded(
                   child: CustomButton(
                     text: 'Cancel',
-                    onPressed: () {
-                      Get.back();
-                      //postController.postContent();
-                    },
+                    onPressed: () => Get.back(),
                     backgroundColor: AppColors.white,
                     textStyle: h3.copyWith(
                       fontWeight: FontWeight.w700,
@@ -178,12 +203,14 @@ class EditPostView extends StatelessWidget {
                 ),
                 sw12,
                 Expanded(
-                  child: CustomButton(
-                    text: 'Save',
-                    onPressed: () {
-                      postController.postContent(); // Save edited content
-                    },
-                  ),
+                  child: Obx(() => CustomButton(
+                        text: postController.isLoading.value
+                            ? 'Saving...'
+                            : 'Save',
+                        onPressed: postController.isLoading.value
+                            ? () {}
+                            : () => postController.postContent(),
+                      )),
                 ),
               ],
             ),

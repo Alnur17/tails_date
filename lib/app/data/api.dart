@@ -52,6 +52,11 @@ class Api {
   static const String starPlans = "$baseUrl/star-plans"; //done
   static const String sendStars = "$baseUrl/posts/send-star"; //done
 
+  ///Notifications
+  static const String notifications = "$baseUrl/notifications"; //done
+  static const String addFriends = "$baseUrl/friends"; //done
+  static const String friendsRequests = "$baseUrl/friends/requests"; //done
+
   ///Subscription Plan
   static const String subscriptionPlan = "$baseUrl/subscription-plans"; //done
   static const String myCurrentSubscriptionPlan = "$baseUrl/subscriptions/my"; //done

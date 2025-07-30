@@ -306,6 +306,7 @@ import 'package:tails_date/common/app_color/app_colors.dart';
 import 'package:tails_date/common/app_images/app_images.dart';
 import 'package:tails_date/common/app_text_style/styles.dart';
 import 'package:tails_date/common/widgets/custom_button.dart';
+import 'package:tails_date/common/widgets/custom_loader.dart';
 import 'package:tails_date/common/widgets/custom_textfield.dart';
 import 'package:video_player/video_player.dart';
 import '../../../../common/size_box/custom_sizebox.dart';
@@ -587,12 +588,16 @@ class UploadPostView extends StatelessWidget {
                 }
               }),
               sh16,
-              CustomButton(
-                text: 'Upload',
-                onPressed: () {
-                  controller.postContent();
-                  print('Upload Button click');
-                },
+              Obx(
+                () => controller.isLoading.value
+                    ? CustomLoader(color: AppColors.white)
+                    : CustomButton(
+                        text: 'Upload',
+                        onPressed: () {
+                          controller.postContent();
+                          print('Upload Button click');
+                        },
+                      ),
               ),
               sh30,
             ],

@@ -28,7 +28,7 @@ class _CashOutYourStarsViewState extends State<CashOutYourStarsView> {
       appBar: AppBar(
         scrolledUnderElevation: 0,
         backgroundColor: AppColors.mainColor,
-        title: const Text('CashOut Your Stars'),
+        title: const Text('Cash Out Your Stars'),
         centerTitle: true,
         leading: GestureDetector(
           onTap: () {
@@ -91,6 +91,7 @@ class _CashOutYourStarsViewState extends State<CashOutYourStarsView> {
               CustomTextField(
                 controller: buyStarController.cashOutTEController,
                 hintText: '\$0.00',
+                keyboardType: TextInputType.number,
               ),
               sh8,
               Text(

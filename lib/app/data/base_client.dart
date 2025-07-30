@@ -12,8 +12,6 @@ import '../../common/app_constant/app_constant.dart';
 import '../../common/helper/local_store.dart';
 import '../../common/widgets/custom_snack_bar.dart';
 
-
-
 class BaseClient {
 
   static getRequest({required String api, params, headers}) async {
@@ -43,11 +41,6 @@ class BaseClient {
   }
   static patchRequest({required String api, body,headers}) async {
 
-    // //String token = LocalStorage.getData(key: AppConstant.token);
-    // var headers = {
-    //   'Content-Type': "application/json",
-    //  // "Authorization": token
-    // };
     debugPrint("API Hit: $api");
     debugPrint("body: $body");
     http.Response response = await http.patch(
@@ -59,11 +52,7 @@ class BaseClient {
   }
 
   static putRequest({required String api, body,headers}) async {
-    //String token = LocalStorage.getData(key: AppConstant.token);
-    // var headers = {
-    //   'Content-Type': "application/json",
-    //   //"Authorization": "Bearer, $token"
-    // };
+
     debugPrint("API Hit: $api");
     debugPrint("body: $body");
     http.Response response = await http.put(
@@ -77,11 +66,6 @@ class BaseClient {
 
   static deleteRequest({required String api, body,headers}) async {
 
-   // String token = LocalStorage.getData(key: AppConstant.token);
-   //  var headers = {
-   //    'Content-Type': "application/json",
-   //   // "Authorization": token
-   //  };
     debugPrint("API Hit: $api");
     debugPrint("body: $body");
     http.Response response = await http.delete(
