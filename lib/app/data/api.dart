@@ -56,6 +56,7 @@ class Api {
   static const String notifications = "$baseUrl/notifications"; //done
   static const String addFriends = "$baseUrl/friends"; //done
   static const String friendsRequests = "$baseUrl/friends/requests"; //done
+  static const String friendsSuggestions = "$baseUrl/friends/suggestions"; //done
 
   ///Subscription Plan
   static const String subscriptionPlan = "$baseUrl/subscription-plans"; //done

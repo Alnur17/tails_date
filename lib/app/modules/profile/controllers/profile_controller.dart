@@ -648,6 +648,10 @@ class ProfileController extends GetxController {
 
       if (responseBody != null) {
         profileData.value = MyProfileModel.fromJson(responseBody);
+        final String userId =   profileData.value?.data?.id ?? '';
+       // final String userId =   responseBody['data']['_id'].toString();
+        LocalStorage.saveData(key:  AppConstant.userId, data: userId);
+        print("User Id : ${LocalStorage.getData(key: AppConstant.userId)}");
         kSnackBar(
           message: profileData.value!.message ?? "Profile fetched successfully",
           bgColor: AppColors.green,

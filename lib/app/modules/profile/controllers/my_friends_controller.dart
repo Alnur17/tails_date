@@ -47,4 +47,5 @@ class MyFriendsController extends GetxController {
       isLoading.value = false;
     }
   }
+
 }

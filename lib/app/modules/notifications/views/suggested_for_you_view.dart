@@ -52,7 +52,9 @@ class SuggestedForYouView extends GetView {
                   title: Text(item['name']!),
                   trailing: CustomButton(
                     text: 'Add friend',
-                    onPressed: () {},
+                    onPressed: () {
+                      //notificationController.sendFriendRequest(item.id ?? '');
+                    },
                     width: 120,
                     height: 30,
                   ),

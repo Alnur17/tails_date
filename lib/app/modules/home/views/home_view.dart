@@ -9,6 +9,7 @@ import 'package:tails_date/app/modules/home/views/widgets/home_widgets/stories_s
 import 'package:tails_date/app/modules/home/views/widgets/home_widgets/user_post_card.dart';
 import 'package:tails_date/app/modules/notifications/views/notifications_view.dart';
 import 'package:tails_date/app/modules/profile/controllers/collections_controller.dart';
+import 'package:tails_date/app/modules/profile/controllers/profile_controller.dart';
 import 'package:tails_date/common/app_color/app_colors.dart';
 import 'package:tails_date/common/app_images/app_images.dart';
 import 'package:tails_date/common/app_text_style/styles.dart';
@@ -27,6 +28,14 @@ class _HomeViewState extends State<HomeView> {
   final HomeController homeController = Get.put(HomeController());
   final CollectionsController collectionsController =
       Get.put(CollectionsController());
+  final ProfileController profileController =
+      Get.put(ProfileController());
+
+  @override
+  void initState() {
+    super.initState();
+    profileController.fetchProfile();
+  }
 
   @override
   Widget build(BuildContext context) {
