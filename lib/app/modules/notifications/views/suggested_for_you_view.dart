@@ -7,12 +7,14 @@ import '../../../../common/app_images/app_images.dart';
 import '../../../../common/size_box/custom_sizebox.dart';
 import '../../../../common/widgets/custom_button.dart';
 import '../../../../common/widgets/custom_textfield.dart';
+import '../controllers/notifications_controller.dart';
 
 class SuggestedForYouView extends GetView {
   final List<Map<String, String>> data;
   const SuggestedForYouView( {super.key, required this.data});
   @override
   Widget build(BuildContext context) {
+   final NotificationsController notificationController = Get.find();
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       appBar: AppBar(
@@ -53,7 +55,7 @@ class SuggestedForYouView extends GetView {
                   trailing: CustomButton(
                     text: 'Add friend',
                     onPressed: () {
-                      //notificationController.sendFriendRequest(item.id ?? '');
+                      notificationController.sendFriendRequest(item['id'] ?? '');
                     },
                     width: 120,
                     height: 30,
