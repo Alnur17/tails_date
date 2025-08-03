@@ -46,7 +46,7 @@ class NotificationsView extends GetView<NotificationsController> {
         ),
       ),
       body: Obx(
-        () => Column(
+            () => Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
@@ -60,9 +60,9 @@ class NotificationsView extends GetView<NotificationsController> {
                         notificationController.toggleTab(0);
                       },
                       backgroundColor:
-                          notificationController.activeTab.value == 0
-                              ? AppColors.black
-                              : AppColors.transparent,
+                      notificationController.activeTab.value == 0
+                          ? AppColors.black
+                          : AppColors.transparent,
                       textStyle: h3.copyWith(
                         color: notificationController.activeTab.value == 0
                             ? AppColors.white
@@ -77,9 +77,9 @@ class NotificationsView extends GetView<NotificationsController> {
                         notificationController.toggleTab(1);
                       },
                       backgroundColor:
-                          notificationController.activeTab.value == 1
-                              ? AppColors.black
-                              : AppColors.transparent,
+                      notificationController.activeTab.value == 1
+                          ? AppColors.black
+                          : AppColors.transparent,
                       textStyle: h3.copyWith(
                         color: notificationController.activeTab.value == 1
                             ? AppColors.white
@@ -93,35 +93,35 @@ class NotificationsView extends GetView<NotificationsController> {
             Expanded(
               child: notificationController.activeTab.value == 0
                   ? ListView(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      children: _buildFriendActivity(notificationController),
-                    )
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                children: _buildFriendActivity(notificationController),
+              )
                   : FutureBuilder<NotificationModel>(
-                      future: notificationController.fetchNotifications(),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const Center(
-                              child: CircularProgressIndicator(
-                                  color: AppColors.black));
-                        } else if (snapshot.hasError) {
-                          return Center(
-                              child: Text('Error: ${snapshot.error}',
-                                  style: h5.copyWith(color: AppColors.black)));
-                        } else if (snapshot.hasData &&
-                            snapshot.data!.data != null &&
-                            snapshot.data!.data!.data.isNotEmpty) {
-                          return ListView(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            children: _postEngagementData(snapshot.data!),
-                          );
-                        } else {
-                          return Center(
-                              child: Text('No notifications available',
-                                  style: h5.copyWith(color: AppColors.black)));
-                        }
-                      },
-                    ),
+                future: notificationController.fetchNotifications(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState ==
+                      ConnectionState.waiting) {
+                    return const Center(
+                        child: CircularProgressIndicator(
+                            color: AppColors.black));
+                  } else if (snapshot.hasError) {
+                    return Center(
+                        child: Text('Error: ${snapshot.error}',
+                            style: h5.copyWith(color: AppColors.black)));
+                  } else if (snapshot.hasData &&
+                      snapshot.data!.data != null &&
+                      snapshot.data!.data!.data.isNotEmpty) {
+                    return ListView(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      children: _postEngagementData(snapshot.data!),
+                    );
+                  } else {
+                    return Center(
+                        child: Text('No notifications available',
+                            style: h5.copyWith(color: AppColors.black)));
+                  }
+                },
+              ),
             ),
           ],
         ),
@@ -130,8 +130,8 @@ class NotificationsView extends GetView<NotificationsController> {
   }
 
   List<Widget> _buildFriendActivity(
-    NotificationsController notificationController,
-  ) {
+      NotificationsController notificationController,
+      ) {
     // Get the current user ID
     final String userId = LocalStorage.getData(key: AppConstant.userId);
 
@@ -167,24 +167,24 @@ class NotificationsView extends GetView<NotificationsController> {
             final friendRequests = snapshot.data!.data!.data
                 .where((item) => item.receiver?.id == userId)
                 .map((item) => {
-                      'name': item.sender?.name ?? 'Unknown',
-                      'image': item.sender?.image ??
-                          'https://via.placeholder.com/150',
-                      'id': item.id ?? '',
-                      'status': item.status ?? 'pending',
-                    })
+              'name': item.sender?.name ?? 'Unknown',
+              'image': item.sender?.image ??
+                  'https://via.placeholder.com/150',
+              'id': item.id ?? '',
+              'status': item.status ?? 'pending',
+            })
                 .toList();
 
             // Filter friend requests where the user is the sender
             final sendRequests = snapshot.data!.data!.data
                 .where((item) => item.sender?.id == userId)
                 .map((item) => {
-                      'name': item.receiver?.name ?? 'Unknown',
-                      'image': item.receiver?.image ??
-                          'https://via.placeholder.com/150',
-                      'id': item.id ?? '',
-                      'status': item.status ?? 'pending',
-                    })
+              'name': item.receiver?.name ?? 'Unknown',
+              'image': item.receiver?.image ??
+                  'https://via.placeholder.com/150',
+              'id': item.id ?? '',
+              'status': item.status ?? 'pending',
+            })
                 .toList();
 
             return Column(
@@ -206,30 +206,32 @@ class NotificationsView extends GetView<NotificationsController> {
                   ...friendRequests
                       .take(5)
                       .map((item) => CustomListTileWithButton(
-                            closeOnPressed: () {
-                              print('Close Button tapped');
-                            },
-                            name: item['name'] ?? 'Unknown',
-                            actionText: 'Confirm',
-                            showCloseButton: true,
-                            actionOnPressed: () {
-                              // Implement confirm action (e.g., API call to accept request)
-                              // You can use item['id'] for the request ID
-                            },
-                            actionStyle: CustomButton(
-                              width: 100,
-                              height: 30,
-                              text: 'Confirm',
-                              onPressed: () {
-                                print('Confirm Button tapped');
-                              },
-                              borderColor: AppColors.black,
-                              backgroundColor: AppColors.white,
-                              textStyle: h3.copyWith(color: AppColors.black),
-                            ),
-                            image: item['image'] ??
-                                'https://via.placeholder.com/150',
-                          )),
+                    closeOnPressed: () {
+                      notificationController.updateFriendRequest(
+                          item['id']!, 'rejected');
+                    },
+                    name: item['name'] ?? 'Unknown',
+                    actionText: 'Confirm',
+                    showCloseButton: true,
+                    actionOnPressed: () {
+                      notificationController.updateFriendRequest(
+                          item['id']!, 'accepted');
+                    },
+                    actionStyle: CustomButton(
+                      width: 100,
+                      height: 30,
+                      text: 'Confirm',
+                      onPressed: () {
+                        notificationController.updateFriendRequest(
+                            item['id']!, 'accepted');
+                      },
+                      borderColor: AppColors.black,
+                      backgroundColor: AppColors.white,
+                      textStyle: h3.copyWith(color: AppColors.black),
+                    ),
+                    image: item['image'] ??
+                        'https://via.placeholder.com/150',
+                  )),
 
                 // Send Requests Section
                 sh12,
@@ -257,15 +259,16 @@ class NotificationsView extends GetView<NotificationsController> {
                         image: item['image']!,
                         actionText: 'Cancel Request',
                         actionOnPressed: () {
-                          // Implement cancel action (e.g., API call to cancel request)
-                          // You can use item['id'] for the request ID
+                          notificationController.updateFriendRequest(
+                              item['id']!, 'cancelled');
                         },
                         actionStyle: CustomButton(
                           width: 150,
                           height: 30,
                           text: 'Cancel Request',
                           onPressed: () {
-                            print('Cancel Request tapped');
+                            notificationController.updateFriendRequest(
+                                item['id']!, 'cancelled');
                           },
                           backgroundColor: AppColors.secondaryOrangeColor,
                           textStyle: h3.copyWith(color: AppColors.white),
@@ -283,11 +286,11 @@ class NotificationsView extends GetView<NotificationsController> {
                     Get.to(() => SuggestedForYouView(
                         data: notificationController.friendsSuggestionList
                             .map((item) => {
-                                  'name': item.name ?? 'Unknown',
-                                  'image': item.image ??
-                                      'https://via.placeholder.com/150',
-                                  'id': item.id ?? '',
-                                })
+                          'name': item.name ?? 'Unknown',
+                          'image': item.image ??
+                              'https://via.placeholder.com/150',
+                          'id': item.id ?? '',
+                        })
                             .toList()));
                   },
                 ),
@@ -296,7 +299,7 @@ class NotificationsView extends GetView<NotificationsController> {
                   if (notificationController.isLoading.value) {
                     return const Center(
                         child:
-                            CircularProgressIndicator(color: AppColors.black));
+                        CircularProgressIndicator(color: AppColors.black));
                   } else if (notificationController
                       .errorMessage.value.isNotEmpty) {
                     return Center(
@@ -315,27 +318,27 @@ class NotificationsView extends GetView<NotificationsController> {
                       children: notificationController.friendsSuggestionList
                           .take(5)
                           .map((item) => CustomListTileWithButton(
-                                name: item.name ?? 'Unknown',
-                                actionText: 'Add Friend',
-                                actionOnPressed: () {
-                                  notificationController
-                                      .sendFriendRequest(item.id ?? '');
-                                },
-                                actionStyle: CustomButton(
-                                  width: 140,
-                                  height: 30,
-                                  text: 'Add Friend',
-                                  onPressed: () {
-                                    notificationController
-                                        .sendFriendRequest(item.id ?? '');
-                                  },
-                                  backgroundColor: AppColors.black,
-                                  textStyle:
-                                      h3.copyWith(color: AppColors.white),
-                                ),
-                                image: item.image ??
-                                    'https://via.placeholder.com/150',
-                              ))
+                        name: item.name ?? 'Unknown',
+                        actionText: 'Add Friend',
+                        actionOnPressed: () {
+                          notificationController
+                              .sendFriendRequest(item.id ?? '');
+                        },
+                        actionStyle: CustomButton(
+                          width: 140,
+                          height: 30,
+                          text: 'Add Friend',
+                          onPressed: () {
+                            notificationController
+                                .sendFriendRequest(item.id ?? '');
+                          },
+                          backgroundColor: AppColors.black,
+                          textStyle:
+                          h3.copyWith(color: AppColors.white),
+                        ),
+                        image: item.image ??
+                            'https://via.placeholder.com/150',
+                      ))
                           .toList(),
                     );
                   }
@@ -375,11 +378,11 @@ class NotificationsView extends GetView<NotificationsController> {
                     Get.to(() => SuggestedForYouView(
                         data: notificationController.friendsSuggestionList
                             .map((item) => {
-                                  'name': item.name ?? 'Unknown',
-                                  'image': item.image ??
-                                      'https://via.placeholder.com/150',
-                                  'id': item.id ?? '',
-                                })
+                          'name': item.name ?? 'Unknown',
+                          'image': item.image ??
+                              'https://via.placeholder.com/150',
+                          'id': item.id ?? '',
+                        })
                             .toList()));
                   },
                 ),
@@ -388,7 +391,7 @@ class NotificationsView extends GetView<NotificationsController> {
                   if (notificationController.isLoading.value) {
                     return const Center(
                         child:
-                            CircularProgressIndicator(color: AppColors.black));
+                        CircularProgressIndicator(color: AppColors.black));
                   } else if (notificationController
                       .errorMessage.value.isNotEmpty) {
                     return Center(
@@ -404,29 +407,27 @@ class NotificationsView extends GetView<NotificationsController> {
                       children: notificationController.friendsSuggestionList
                           .take(5)
                           .map((item) => CustomListTileWithButton(
-                                name: item.name ?? 'Unknown',
-                                actionText: 'Add Friend',
-                                actionOnPressed: () {
-                                  // Uncomment and implement sendFriendRequest when ready
-                                  notificationController
-                                      .sendFriendRequest(item.id ?? '');
-                                },
-                                actionStyle: CustomButton(
-                                  width: 140,
-                                  height: 30,
-                                  text: 'Add Friend',
-                                  onPressed: () {
-                                    // Uncomment and implement sendFriendRequest when ready
-                                    notificationController
-                                        .sendFriendRequest(item.id ?? '');
-                                  },
-                                  backgroundColor: AppColors.black,
-                                  textStyle:
-                                      h3.copyWith(color: AppColors.white),
-                                ),
-                                image: item.image ??
-                                    'https://via.placeholder.com/150',
-                              ))
+                        name: item.name ?? 'Unknown',
+                        actionText: 'Add Friend',
+                        actionOnPressed: () {
+                          notificationController
+                              .sendFriendRequest(item.id ?? '');
+                        },
+                        actionStyle: CustomButton(
+                          width: 140,
+                          height: 30,
+                          text: 'Add Friend',
+                          onPressed: () {
+                            notificationController
+                                .sendFriendRequest(item.id ?? '');
+                          },
+                          backgroundColor: AppColors.black,
+                          textStyle:
+                          h3.copyWith(color: AppColors.white),
+                        ),
+                        image: item.image ??
+                            'https://via.placeholder.com/150',
+                      ))
                           .toList(),
                     );
                   }
@@ -469,25 +470,25 @@ class NotificationsView extends GetView<NotificationsController> {
                     color: AppColors.white,
                   ),
                   child: notification.image != null &&
-                          notification.image is String &&
-                          notification.image!.isNotEmpty
+                      notification.image is String &&
+                      notification.image!.isNotEmpty
                       ? ClipOval(
-                          child: Image.network(
-                            notification.image!,
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) =>
-                                Image.asset(
-                              AppImages.notificationTwo,
-                              color: AppColors.black,
-                              scale: 4,
-                            ),
+                    child: Image.network(
+                      notification.image!,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) =>
+                          Image.asset(
+                            AppImages.notificationTwo,
+                            color: AppColors.black,
+                            scale: 4,
                           ),
-                        )
+                    ),
+                  )
                       : Image.asset(
-                          AppImages.notificationTwo,
-                          color: AppColors.black,
-                          scale: 4,
-                        ),
+                    AppImages.notificationTwo,
+                    color: AppColors.black,
+                    scale: 4,
+                  ),
                 ),
                 sw12,
                 Expanded(

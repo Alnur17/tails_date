@@ -11,6 +11,7 @@ import 'package:tails_date/common/size_box/custom_sizebox.dart';
 import 'package:tails_date/common/widgets/custom_textfield.dart';
 
 import '../../profile/controllers/collections_controller.dart';
+import '../../profile/views/other_profile_view.dart';
 
 class MySearchView extends GetView<MySearchController> {
   const MySearchView({super.key});
@@ -94,6 +95,9 @@ class MySearchView extends GetView<MySearchController> {
                       top: 16,
                     ),
                     child: UserPostCard(
+                      onOtherProfileTap: (){
+                        Get.to(()=> OtherProfileView());
+                      },
                       postId: post.id ?? '',
                       userName: post.author?.name ?? 'Unknown',
                       location: post.location ?? 'Unknown',

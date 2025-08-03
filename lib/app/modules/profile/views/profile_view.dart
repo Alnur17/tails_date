@@ -494,6 +494,7 @@ class _ProfileViewState extends State<ProfileView> {
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 8),
                                         child: UserPostCard(
+                                          onOtherProfileTap: (){},
                                           onBookmark: () {},
                                           postId: post.id ?? '',
                                           userName: post.author?.name ?? '',

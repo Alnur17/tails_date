@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:tails_date/app/modules/home/model/all_category_model.dart';
 import 'package:tails_date/app/modules/home/model/category_wise_post_model.dart';
 import '../../../../common/app_color/app_colors.dart';
@@ -296,6 +297,35 @@ class HomeController extends GetxController {
         message: e.toString(),
         bgColor: AppColors.red,
       );
+    }
+  }
+
+  Future<void> addNotInterested(String userId, postId) async {
+    try {
+      final token = LocalStorage.getData(key: AppConstant.token);
+
+      var decodedToken = JwtDecoder.decode(token);
+      final String? userId = decodedToken['id']?.toString();
+
+      final headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      };
+
+      var body = {"postId": postId, "userId": userId};
+
+      var response = await BaseClient.patchRequest(
+        api: Api.addNotInterested,
+        headers: headers,
+        body: jsonEncode(body),
+      );
+
+      final result = await BaseClient.handleResponse(response);
+      if (result['success'] == true) {
+        await fetchPosts();
+      }
+    } catch (e) {
+      return print(e);
     }
   }
 

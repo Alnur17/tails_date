@@ -6,6 +6,7 @@ import 'package:tails_date/app/modules/home/views/widgets/home_widgets/user_post
 import 'package:tails_date/common/app_color/app_colors.dart';
 import '../../../../common/app_images/app_images.dart';
 import '../../profile/controllers/collections_controller.dart';
+import '../../profile/views/other_profile_view.dart';
 
 class CategoryView extends StatefulWidget {
   final String categoryName;
@@ -97,6 +98,9 @@ class _CategoryViewState extends State<CategoryView> {
                 top: 16,
               ),
               child: UserPostCard(
+                onOtherProfileTap: (){
+                  Get.to(()=> OtherProfileView());
+                },
                 postId: post.id ?? '',
                 userName: post.author?.name ?? 'Unknown',
                 location: post.location ?? 'Unknown',

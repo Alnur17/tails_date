@@ -7,6 +7,7 @@ import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_images/app_images.dart';
 import '../../home/views/widgets/home_widgets/user_post_card.dart';
 import '../controllers/collections_controller.dart';
+import 'other_profile_view.dart';
 
 class CollectionsView extends GetView {
   const CollectionsView({super.key});
@@ -49,6 +50,9 @@ class CollectionsView extends GetView {
             final collection = controller.collections[index];
             final post = collection.post;
             return UserPostCard(
+              onOtherProfileTap: (){
+                Get.to(()=> OtherProfileView());
+              },
               postId: post?.id ?? '',
               userName: post?.author?.name ?? 'Unknown',
               location: post?.location ?? 'Unknown',

@@ -103,8 +103,7 @@ class ChatsView extends StatelessWidget {
                     child: ListTile(
                       leading: CircleAvatar(
                         radius: 25,
-                        backgroundImage:
-                            NetworkImage(user['picture']['thumbnail']),
+                        backgroundImage: NetworkImage(user['picture']['thumbnail']),
                       ),
                       title: Text(
                           '${user['name']['first']} ${user['name']['last']}'),

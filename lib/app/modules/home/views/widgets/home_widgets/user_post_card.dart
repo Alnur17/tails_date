@@ -26,6 +26,7 @@ class UserPostCard extends StatelessWidget {
   final VoidCallback? onAddFriend;
   final VoidCallback onBookmark;
   final VoidCallback onReaction;
+  final VoidCallback onOtherProfileTap;
   final Widget? popupMenuButton;
   final bool showAddFriendButton;
 
@@ -44,6 +45,7 @@ class UserPostCard extends StatelessWidget {
     required this.postId,
     required this.onBookmark, // Default to showing the button
     required this.onReaction, // Default to showing the button
+    required this.onOtherProfileTap,
   });
 
   @override
@@ -60,84 +62,87 @@ class UserPostCard extends StatelessWidget {
           // Header
           Padding(
             padding: const EdgeInsets.all(8),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                CircleAvatar(
-                  backgroundImage: NetworkImage(profileImage),
-                  radius: 20,
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        userName,
-                        style: h3,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const SizedBox(height: 5),
-                      Row(
-                        children: [
-                          Image.asset(
-                            AppImages.location,
-                            scale: 4,
-                          ),
-                          const SizedBox(width: 5),
-                          Expanded(
-                            child: Text(
-                              location,
-                              style: h5.copyWith(color: AppColors.black),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+            child: GestureDetector(
+              onTap: onOtherProfileTap,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  CircleAvatar(
+                    backgroundImage: NetworkImage(profileImage),
+                    radius: 20,
                   ),
-                ),
-                const SizedBox(width: 8),
-                // Buttons in Row
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    if (showAddFriendButton)
-                      CustomButton(
-                        width: 90,
-                        text: 'Add friend',
-                        onPressed: onAddFriend!,
-                        height: 30,
-                        backgroundColor: AppColors.black,
-                        borderRadius: 8,
-                        textStyle: h6.copyWith(color: AppColors.white),
-                      ),
-                    const SizedBox(width: 8),
-                    popupMenuButton ??
-                        CustomPopupMenuButton(
-                          items: [
-                            PopupMenuItemData(
-                              value: 'Report Content',
-                              label: 'Report Content',
-                              onSelected: () {
-                                Get.to(() => ReportView(postId),
-                                    transition: Transition.downToUp);
-                              },
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          userName,
+                          style: h3,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: 5),
+                        Row(
+                          children: [
+                            Image.asset(
+                              AppImages.location,
+                              scale: 4,
                             ),
-                            PopupMenuItemData(isDivider: true),
-                            PopupMenuItemData(
-                              value: 'Not Interested',
-                              label: 'Not Interested',
-                              onSelected: () {
-                                log('Not Interested selected');
-                              },
+                            const SizedBox(width: 5),
+                            Expanded(
+                              child: Text(
+                                location,
+                                style: h5.copyWith(color: AppColors.black),
+                                overflow: TextOverflow.ellipsis,
+                              ),
                             ),
                           ],
                         ),
-                  ],
-                ),
-              ],
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  // Buttons in Row
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (showAddFriendButton)
+                        CustomButton(
+                          width: 90,
+                          text: 'Add friend',
+                          onPressed: onAddFriend!,
+                          height: 30,
+                          backgroundColor: AppColors.black,
+                          borderRadius: 8,
+                          textStyle: h6.copyWith(color: AppColors.white),
+                        ),
+                      const SizedBox(width: 8),
+                      popupMenuButton ??
+                          CustomPopupMenuButton(
+                            items: [
+                              PopupMenuItemData(
+                                value: 'Report Content',
+                                label: 'Report Content',
+                                onSelected: () {
+                                  Get.to(() => ReportView(postId),
+                                      transition: Transition.downToUp);
+                                },
+                              ),
+                              PopupMenuItemData(isDivider: true),
+                              PopupMenuItemData(
+                                value: 'Not Interested',
+                                label: 'Not Interested',
+                                onSelected: () {
+                                  log('Not Interested selected');
+                                },
+                              ),
+                            ],
+                          ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
           // Description

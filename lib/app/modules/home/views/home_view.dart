@@ -10,6 +10,7 @@ import 'package:tails_date/app/modules/home/views/widgets/home_widgets/user_post
 import 'package:tails_date/app/modules/notifications/views/notifications_view.dart';
 import 'package:tails_date/app/modules/profile/controllers/collections_controller.dart';
 import 'package:tails_date/app/modules/profile/controllers/profile_controller.dart';
+import 'package:tails_date/app/modules/profile/views/other_profile_view.dart';
 import 'package:tails_date/common/app_color/app_colors.dart';
 import 'package:tails_date/common/app_images/app_images.dart';
 import 'package:tails_date/common/app_text_style/styles.dart';
@@ -151,6 +152,9 @@ class _HomeViewState extends State<HomeView> {
                                   top: 16,
                                 ),
                                 child: UserPostCard(
+                                  onOtherProfileTap: (){
+                                    Get.to(()=> OtherProfileView());
+                                  },
                                   postId: post.id ?? '',
                                   userName: post.author?.name ?? 'Unknown',
                                   location: post.location ?? 'Unknown',

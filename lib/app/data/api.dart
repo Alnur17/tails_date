@@ -24,6 +24,7 @@ class Api {
   static const String myPosts = "$baseUrl/posts/my"; //done
   static String categoryPosts(categoryId) => "$baseUrl/posts/category/$categoryId"; //done
   static const String addOrRemoveReaction = "$baseUrl/posts/reactions"; //done
+  static const String addNotInterested = "$baseUrl/posts/interests"; //done
 
   ///profile
   static const String myProfile = "$baseUrl/users/profile"; // done
@@ -39,10 +40,15 @@ class Api {
   static const  String collections = "$baseUrl/collections";
   static const  String addOrRemoveCollections = "$baseUrl/collections";
 
+  ///Story
+  static const String createStory = "$baseUrl/stories"; //
+  static const String myStory = "$baseUrl/stories/my"; //
+  static const String getAllStory = "$baseUrl/stories"; //
+
   ///Reels
-  static const String createReels = "$baseUrl/reels"; //
+  static const String createReels = "$baseUrl/reels"; //done
   static const String allReels = "$baseUrl/reels"; //done
-  static const String myReels = "$baseUrl/reels/my"; //
+  static const String myReels = "$baseUrl/reels/my"; //done
 
 
   ///Reports
@@ -56,6 +62,7 @@ class Api {
   static const String notifications = "$baseUrl/notifications"; //done
   static const String addFriends = "$baseUrl/friends"; //done
   static const String friendsRequests = "$baseUrl/friends/requests"; //done
+  static const String updateFriendsRequests = "$baseUrl/friends"; //done
   static const String friendsSuggestions = "$baseUrl/friends/suggestions"; //done
 
   ///Subscription Plan

@@ -112,5 +112,32 @@ class NotificationsController extends GetxController {
     }
   }
 
+  Future<void> updateFriendRequest(String requestId, String status) async {
+    try {
+      final headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
+      };
+
+      final body = jsonEncode({
+        "friendRequestId": requestId,
+        "status": status,
+      });
+      final response = await BaseClient.patchRequest(
+        api: Api.updateFriendsRequests,
+        headers: headers,
+        body: body,
+      );
+
+      await BaseClient.handleResponse(response);
+      Get.snackbar("Success", "Friend request $status successfully");
+
+      // Refresh friend requests after update
+      await fetchFriendRequests();
+      update(); // Update the controller to refresh UI
+    } catch (e) {
+      Get.snackbar("Error", "Failed to update friend request: $e");
+    }
+  }
 
 }
