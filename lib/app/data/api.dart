@@ -40,6 +40,11 @@ class Api {
   static const  String collections = "$baseUrl/collections";
   static const  String addOrRemoveCollections = "$baseUrl/collections";
 
+  ///Chats
+  static const String createChat = "$baseUrl/chats"; //
+  static const String allChat = "$baseUrl/chats"; //done
+  static String getMessage(String userId) => "$baseUrl/messages/$userId"; //
+
   ///Story
   static const String createStory = "$baseUrl/stories"; //
   static const String myStory = "$baseUrl/stories/my"; //

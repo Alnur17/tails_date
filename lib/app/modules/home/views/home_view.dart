@@ -12,8 +12,10 @@ import 'package:tails_date/app/modules/profile/controllers/collections_controlle
 import 'package:tails_date/app/modules/profile/controllers/profile_controller.dart';
 import 'package:tails_date/app/modules/profile/views/other_profile_view.dart';
 import 'package:tails_date/common/app_color/app_colors.dart';
+import 'package:tails_date/common/app_constant/app_constant.dart';
 import 'package:tails_date/common/app_images/app_images.dart';
 import 'package:tails_date/common/app_text_style/styles.dart';
+import 'package:tails_date/common/helper/local_store.dart';
 
 import 'category_view.dart';
 
@@ -29,8 +31,7 @@ class _HomeViewState extends State<HomeView> {
   final HomeController homeController = Get.put(HomeController());
   final CollectionsController collectionsController =
       Get.put(CollectionsController());
-  final ProfileController profileController =
-      Get.put(ProfileController());
+  final ProfileController profileController = Get.put(ProfileController());
 
   @override
   void initState() {
@@ -141,6 +142,8 @@ class _HomeViewState extends State<HomeView> {
                             homeController.posts.length,
                             (index) {
                               final post = homeController.posts[index];
+                              final userId =
+                                  LocalStorage.getData(key: AppConstant.userId);
                               return Padding(
                                 padding: EdgeInsets.only(
                                   bottom:
@@ -152,8 +155,12 @@ class _HomeViewState extends State<HomeView> {
                                   top: 16,
                                 ),
                                 child: UserPostCard(
-                                  onOtherProfileTap: (){
-                                    Get.to(()=> OtherProfileView());
+                                  onNotInterestedTap: () {
+                                    homeController.addNotInterested(
+                                        userId, post.id);
+                                  },
+                                  onOtherProfileTap: () {
+                                    Get.to(() => OtherProfileView());
                                   },
                                   postId: post.id ?? '',
                                   userName: post.author?.name ?? 'Unknown',
@@ -173,7 +180,8 @@ class _HomeViewState extends State<HomeView> {
                                       log("Error: Post ID is null or empty");
                                       return;
                                     }
-                                    collectionsController.addOrRemoveCollection(post.id!);
+                                    collectionsController
+                                        .addOrRemoveCollection(post.id!);
                                   },
                                   onReaction: () {
                                     log("Reaction button clicked for post ID: ${post.id}");
@@ -181,7 +189,8 @@ class _HomeViewState extends State<HomeView> {
                                       log("Error: Post ID is null or empty");
                                       return;
                                     }
-                                    homeController.addOrRemoveReaction(post.id!);
+                                    homeController
+                                        .addOrRemoveReaction(post.id!);
                                   },
                                 ),
                               );

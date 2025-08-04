@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -27,6 +26,7 @@ class UserPostCard extends StatelessWidget {
   final VoidCallback onBookmark;
   final VoidCallback onReaction;
   final VoidCallback onOtherProfileTap;
+  final VoidCallback? onNotInterestedTap;
   final Widget? popupMenuButton;
   final bool showAddFriendButton;
 
@@ -45,7 +45,7 @@ class UserPostCard extends StatelessWidget {
     required this.postId,
     required this.onBookmark, // Default to showing the button
     required this.onReaction, // Default to showing the button
-    required this.onOtherProfileTap,
+    required this.onOtherProfileTap, this.onNotInterestedTap,
   });
 
   @override
@@ -133,9 +133,7 @@ class UserPostCard extends StatelessWidget {
                               PopupMenuItemData(
                                 value: 'Not Interested',
                                 label: 'Not Interested',
-                                onSelected: () {
-                                  log('Not Interested selected');
-                                },
+                                onSelected: onNotInterestedTap,
                               ),
                             ],
                           ),

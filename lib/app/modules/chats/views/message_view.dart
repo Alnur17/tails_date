@@ -1,79 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:tails_date/app/modules/chats/views/message_settings_view.dart';
 
 import '../../../../../common/size_box/custom_sizebox.dart';
 import '../../../../common/app_color/app_colors.dart';
+import '../../../../common/app_constant/app_constant.dart';
 import '../../../../common/app_images/app_images.dart';
 import '../../../../common/app_text_style/styles.dart';
+import '../../../../common/helper/local_store.dart';
 import '../../../../common/widgets/custom_textfield.dart';
+import '../controllers/chats_controller.dart';
 
 class MessageView extends StatefulWidget {
-  final dynamic user;
+  final String? chatId;
+  final String? userName;
+  final String? userImage;
 
-  const MessageView({super.key, this.user});
+  const MessageView({
+    super.key,
+    this.chatId,
+    this.userImage,
+    this.userName,
+  });
 
   @override
   State<MessageView> createState() => _MessageViewState();
 }
 
 class _MessageViewState extends State<MessageView> {
-  final TextEditingController _messageController = TextEditingController();
-  final List<Map<String, dynamic>> _messages = [
-    {
-      "message": "OMG, your cat is the cutest thing ever! 🥰",
-      "isSender": false,
-      "time": "10:10",
-    },
-    {
-      "message": "Is that Gultush in the latest photo?",
-      "isSender": false,
-      "time": "10:10",
-    },
-    {
-      "message": "Haha, yes, that’s Gultush!",
-      "isSender": true,
-      "time": "10:15",
-    },
-    {
-      "message":
-          "He was having his “royal spa” moment during that photo. He loves being brushed!",
-      "isSender": true,
-      "time": "10:15",
-    },
-    {
-      "message": "He looks so fluffy and relaxed!",
-      "isSender": false,
-      "time": "10:20",
-    },
-    {
-      "message":
-          "😍 I wish my cat was as chill during brushing—mine acts like it’s the end of the world. 😂",
-      "isSender": false,
-      "time": "10:20",
-    },
-    {
-      "message": "LOL, 🤣🤣",
-      "isSender": true,
-      "time": "10:20",
-    },
-  ];
+  final ChatsController controller = Get.put(ChatsController());
+  final TextEditingController messageController = TextEditingController();
 
-  void _sendMessage() {
-    if (_messageController.text.trim().isEmpty) return;
-
-    final String message = _messageController.text.trim();
-    final String time = TimeOfDay.now().format(context);
-
-    setState(() {
-      _messages.add({
-        "message": message,
-        "isSender": true,
-        "time": time,
-      });
-    });
-
-    _messageController.clear();
+  @override
+  void initState() {
+    super.initState();
+    if (widget.chatId != null) {
+      controller.fetchMessageBody(widget.chatId!);
+    }
   }
 
   @override
@@ -86,20 +50,21 @@ class _MessageViewState extends State<MessageView> {
         titleSpacing: 0,
         title: GestureDetector(
           onTap: () {
-            Get.to(() => MessageSettingsView());
+            Get.to(() => MessageSettingsView(
+                  userName: widget.userName,
+                  userImage: widget.userImage,
+                ));
           },
           child: Row(
             children: [
               CircleAvatar(
-                backgroundImage:
-                    NetworkImage(widget.user['picture']['thumbnail']),
+                backgroundImage: NetworkImage(widget.userImage ?? ''),
               ),
               SizedBox(width: 10),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                      '${widget.user['name']['first']} ${widget.user['name']['last']}'),
+                  Text(widget.userName ?? ''),
                   Text('Online',
                       style:
                           h5.copyWith(color: AppColors.secondaryOrangeColor)),
@@ -118,25 +83,33 @@ class _MessageViewState extends State<MessageView> {
           ),
         ),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              padding: EdgeInsets.all(16),
-              itemCount: _messages.length,
-              itemBuilder: (context, index) {
-                final message = _messages[index];
-                return _buildChatBubble(
-                  message: message['message'],
-                  isSender: message['isSender'],
-                  time: message['time'],
-                );
-              },
-            ),
-          ),
-          _buildMessageInput(),
-        ],
-      ),
+      body: Obx(() => Column(
+            children: [
+              Expanded(
+                child: controller.isLoading.value
+                    ? Center(child: CircularProgressIndicator())
+                    : ListView.builder(
+                        padding: EdgeInsets.all(16),
+                        itemCount: controller.messageBody.length,
+                        itemBuilder: (context, index) {
+                          final message = controller.messageBody[index];
+                          final isSender =
+                              message.sender == controller.getCurrentUserId();
+                          return _buildChatBubble(
+                            message: message.text ?? '',
+                            isSender: isSender,
+                            time: _formatTime(message.createdAt),
+                          );
+                        },
+                      ),
+              ),
+              _buildMessageInput(
+                controller: controller,
+                messageController: messageController,
+                chatId: widget.chatId,
+              ),
+            ],
+          )),
     );
   }
 
@@ -180,7 +153,11 @@ class _MessageViewState extends State<MessageView> {
     );
   }
 
-  Widget _buildMessageInput() {
+  Widget _buildMessageInput({
+    required ChatsController controller,
+    required TextEditingController messageController,
+    required String? chatId,
+  }) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Row(
@@ -199,7 +176,7 @@ class _MessageViewState extends State<MessageView> {
           sw8,
           Expanded(
             child: CustomTextField(
-              controller: _messageController,
+              controller: messageController,
               hintText: "Message",
               borderColor: AppColors.black,
               sufIcon: IconButton(
@@ -207,12 +184,36 @@ class _MessageViewState extends State<MessageView> {
                   AppImages.send,
                   scale: 4,
                 ),
-                onPressed: _sendMessage,
+                onPressed: () {
+                  // if (messageController.text.trim().isNotEmpty &&
+                  //     chatId != null) {
+                  //   controller.sendMessage(
+                  //       chatId, messageController.text.trim());
+                  //   messageController.clear();
+                  // }
+                },
               ),
             ),
           ),
         ],
       ),
     );
+  }
+
+  String _formatTime(DateTime? dateTime) {
+    if (dateTime == null) return '';
+    final time = TimeOfDay.fromDateTime(dateTime);
+    return time.format(Get.context!);
+  }
+}
+
+extension ChatsControllerExtension on ChatsController {
+  String? getCurrentUserId() {
+    String token = LocalStorage.getData(key: AppConstant.token);
+    if (token.isNotEmpty) {
+      Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
+      return decodedToken['id'] ?? decodedToken['_id'];
+    }
+    return null;
   }
 }

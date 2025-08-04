@@ -77,9 +77,9 @@
 //   }
 // }
 
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tails_date/app/modules/chats/views/message_view.dart';
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_images/app_images.dart';
 import '../../../../common/size_box/custom_sizebox.dart';
@@ -130,36 +130,46 @@ class FriendsView extends GetView<MyFriendsController> {
           Obx(() => controller.isLoading.value
               ? const Center(child: CircularProgressIndicator())
               : controller.errorMessage.isNotEmpty
-              ? Center(child: Text(controller.errorMessage.value, style: const TextStyle(color: Colors.red)))
-              : Expanded(
-            child: Obx(() => ListView.builder(
-              shrinkWrap: true,
-              itemCount: controller.friendsList.length,
-              itemBuilder: (context, index) {
-                final friend = controller.friendsList[index];
-                final friendName = friend.receiver?.name ?? 'Unknown';
+                  ? Center(
+                      child: Text(controller.errorMessage.value,
+                          style: const TextStyle(color: Colors.red)))
+                  : Expanded(
+                      child: Obx(() => ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: controller.friendsList.length,
+                            itemBuilder: (context, index) {
+                              final friend = controller.friendsList[index];
+                              final friendName =
+                                  friend.receiver?.name ?? 'Unknown';
+                              final friendImage = friend.receiver?.image ?? '';
 
-                return ListTile(
-                  onTap: () {
-                    debugPrint('Friend tapped: $friendName');
-                  },
-                  leading: CircleAvatar(
-                    backgroundImage: NetworkImage(AppImages.imageNotAvailable),
-                  ),
-                  title: Text(friendName),
-                  subtitle: Text(friend.receiver?.email ?? ''),
-                  trailing: CustomButton(
-                    text: 'Message',
-                    onPressed: () {
-                      debugPrint('Message tapped for: $friendName');
-                    },
-                    width: Get.width * 0.30,
-                    height: 30,
-                  ),
-                );
-              },
-            )),
-          )),
+                              return ListTile(
+                                onTap: () {
+                                  debugPrint('Friend tapped: $friendName');
+                                },
+                                leading: CircleAvatar(
+                                  backgroundImage: NetworkImage(friendImage),
+                                ),
+                                title: Text(friendName),
+                                subtitle: Text(friend.receiver?.email ?? ''),
+                                trailing: CustomButton(
+                                  text: 'Message',
+                                  onPressed: () {
+                                    Get.to(
+                                      () => MessageView(
+                                        userImage: friendImage,
+                                        userName: friendName,
+                                        chatId: friend.id,
+                                      ),
+                                    );
+                                  },
+                                  width: Get.width * 0.30,
+                                  height: 30,
+                                ),
+                              );
+                            },
+                          )),
+                    )),
         ],
       ),
     );

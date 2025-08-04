@@ -11,8 +11,18 @@ import '../../../../common/size_box/custom_sizebox.dart';
 import '../../../../common/widgets/custom_list_tile.dart';
 import '../controllers/message_settings_controller.dart';
 
-class MessageSettingsView extends GetView<MessageSettingsController> {
-  const MessageSettingsView({super.key});
+class MessageSettingsView extends StatefulWidget {
+  final String? userName;
+  final String? userImage;
+  const MessageSettingsView({super.key, this.userName, this.userImage});
+
+  @override
+  State<MessageSettingsView> createState() => _MessageSettingsViewState();
+}
+
+class _MessageSettingsViewState extends State<MessageSettingsView> {
+  final MessageSettingsController controller = Get.put(MessageSettingsController());
+
 
   @override
   Widget build(BuildContext context) {
@@ -43,13 +53,13 @@ class MessageSettingsView extends GetView<MessageSettingsController> {
           child: Column(
             children: [
               sh20,
-              const CircleAvatar(
+              CircleAvatar(
                 radius: 85,
-                backgroundImage: NetworkImage(AppImages.profileImage),
+                backgroundImage: NetworkImage( widget.userImage ?? AppImages.profileImage),
               ),
               sh24,
               Text(
-                'Saiteja Pagadala',
+                widget.userName ?? 'Unknown',
                 style: h3.copyWith(
                   fontSize: 22,
                 ),

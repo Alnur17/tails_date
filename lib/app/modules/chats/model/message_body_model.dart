@@ -1,5 +1,5 @@
-class MyFriendsModel {
-  MyFriendsModel({
+class MessageBodyModel {
+  MessageBodyModel({
     required this.success,
     required this.message,
     required this.data,
@@ -9,8 +9,8 @@ class MyFriendsModel {
   final String? message;
   final Data? data;
 
-  factory MyFriendsModel.fromJson(Map<String, dynamic> json){
-    return MyFriendsModel(
+  factory MessageBodyModel.fromJson(Map<String, dynamic> json){
+    return MessageBodyModel(
       success: json["success"],
       message: json["message"],
       data: json["data"] == null ? null : Data.fromJson(json["data"]),
@@ -25,70 +25,52 @@ class Data {
     required this.meta,
   });
 
-  final List<Datum> data;
+  final List<MessageBodyDatum> data;
   final Meta? meta;
 
   factory Data.fromJson(Map<String, dynamic> json){
     return Data(
-      data: json["data"] == null ? [] : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
+      data: json["data"] == null ? [] : List<MessageBodyDatum>.from(json["data"]!.map((x) => MessageBodyDatum.fromJson(x))),
       meta: json["meta"] == null ? null : Meta.fromJson(json["meta"]),
     );
   }
 
 }
 
-class Datum {
-  Datum({
+class MessageBodyDatum {
+  MessageBodyDatum({
     required this.id,
     required this.sender,
     required this.receiver,
-    required this.status,
+    required this.chat,
+    required this.text,
+    required this.seen,
     required this.createdAt,
     required this.updatedAt,
     required this.v,
   });
 
   final String? id;
-  final Receiver? sender;
-  final Receiver? receiver;
-  final String? status;
+  final String? sender;
+  final String? receiver;
+  final String? chat;
+  final String? text;
+  final bool? seen;
   final DateTime? createdAt;
   final DateTime? updatedAt;
   final int? v;
 
-  factory Datum.fromJson(Map<String, dynamic> json){
-    return Datum(
+  factory MessageBodyDatum.fromJson(Map<String, dynamic> json){
+    return MessageBodyDatum(
       id: json["_id"],
-      sender: json["sender"] == null ? null : Receiver.fromJson(json["sender"]),
-      receiver: json["receiver"] == null ? null : Receiver.fromJson(json["receiver"]),
-      status: json["status"],
+      sender: json["sender"],
+      receiver: json["receiver"],
+      chat: json["chat"],
+      text: json["text"],
+      seen: json["seen"],
       createdAt: DateTime.tryParse(json["createdAt"] ?? ""),
       updatedAt: DateTime.tryParse(json["updatedAt"] ?? ""),
       v: json["__v"],
-    );
-  }
-
-}
-
-class Receiver {
-  Receiver({
-    required this.id,
-    required this.email,
-    required this.image,
-    required this.name,
-  });
-
-  final String? id;
-  final String? email;
-  final String? image;
-  final String? name;
-
-  factory Receiver.fromJson(Map<String, dynamic> json){
-    return Receiver(
-      id: json["_id"],
-      email: json["email"],
-      image: json["image"],
-      name: json["name"],
     );
   }
 
