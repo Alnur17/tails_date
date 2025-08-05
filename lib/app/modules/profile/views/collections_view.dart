@@ -50,6 +50,13 @@ class CollectionsView extends GetView {
             final collection = controller.collections[index];
             final post = collection.post;
             return UserPostCard(
+              onNotInterestedTap: () {
+                homeController.addNotInterested(
+                  homeController.userId,
+                  post.id,
+                );
+                debugPrint(";;;;;;;;;; ${homeController.userId};;;;;;;;");
+              },
               onOtherProfileTap: (){
                 Get.to(()=> OtherProfileView());
               },

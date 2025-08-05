@@ -98,6 +98,13 @@ class _CategoryViewState extends State<CategoryView> {
                 top: 16,
               ),
               child: UserPostCard(
+                onNotInterestedTap: () {
+                  homeController.addNotInterested(
+                    homeController.userId,
+                    post.id,
+                  );
+                  debugPrint(";;;;;;;;;; ${homeController.userId};;;;;;;;");
+                },
                 onOtherProfileTap: (){
                   Get.to(()=> OtherProfileView());
                 },

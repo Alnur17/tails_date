@@ -95,6 +95,14 @@ class MySearchView extends GetView<MySearchController> {
                       top: 16,
                     ),
                     child: UserPostCard(
+
+                      onNotInterestedTap: () {
+                        homeController.addNotInterested(
+                          homeController.userId,
+                          post.id,
+                        );
+                        debugPrint(";;;;;;;;;; ${homeController.userId};;;;;;;;");
+                      },
                       onOtherProfileTap: (){
                         Get.to(()=> OtherProfileView());
                       },

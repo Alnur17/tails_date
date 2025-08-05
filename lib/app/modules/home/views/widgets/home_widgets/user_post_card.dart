@@ -1,17 +1,15 @@
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:tails_date/app/modules/home/controllers/home_controller.dart';
 import 'package:tails_date/app/modules/home/views/report_view.dart';
 import 'package:tails_date/common/app_color/app_colors.dart';
 import 'package:tails_date/common/app_images/app_images.dart';
 import 'package:tails_date/common/widgets/custom_button.dart';
-
-import '../../../../../../common/app_text_style/styles.dart';
-import '../../../../../../common/widgets/custom_popup_menu_button.dart';
-import '../../../../profile/views/buy_star_view.dart';
-import '../../../../profile/views/send_stars_view.dart';
+import 'package:tails_date/common/app_text_style/styles.dart';
+import 'package:tails_date/common/widgets/custom_popup_menu_button.dart';
+import 'package:tails_date/app/modules/profile/views/buy_star_view.dart';
+import 'package:tails_date/app/modules/profile/views/send_stars_view.dart';
 
 class UserPostCard extends StatelessWidget {
   final String userName;
@@ -43,13 +41,15 @@ class UserPostCard extends StatelessWidget {
     this.popupMenuButton,
     this.showAddFriendButton = true,
     required this.postId,
-    required this.onBookmark, // Default to showing the button
-    required this.onReaction, // Default to showing the button
-    required this.onOtherProfileTap, this.onNotInterestedTap,
+    required this.onBookmark,
+    required this.onReaction,
+    required this.onOtherProfileTap,
+    this.onNotInterestedTap,
   });
 
   @override
   Widget build(BuildContext context) {
+    final HomeController homeController = Get.find<HomeController>();
     final String shareLink = 'https://example.com/share_link';
     return Container(
       decoration: BoxDecoration(
@@ -103,7 +103,6 @@ class UserPostCard extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  // Buttons in Row
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -157,79 +156,76 @@ class UserPostCard extends StatelessWidget {
               padding: const EdgeInsets.all(6.0),
               child: images.length == 1
                   ? ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: Image.network(
-                        images.first,
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                        //height: 400,
-                        scale: 4,
-                      ),
-                    )
+                borderRadius: BorderRadius.circular(8),
+                child: Image.network(
+                  images.first,
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                  scale: 4,
+                ),
+              )
                   : images.length == 5
-                      ? Column(
-                          children: [
-                            Row(
-                              children: images.sublist(0, 2).map((image) {
-                                return Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(2.0),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(8),
-                                      child: Image.network(
-                                        image,
-                                        fit: BoxFit.cover,
-                                        height: 140,
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              }).toList(),
+                  ? Column(
+                children: [
+                  Row(
+                    children: images.sublist(0, 2).map((image) {
+                      return Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: Image.network(
+                              image,
+                              fit: BoxFit.cover,
+                              height: 140,
                             ),
-                            Row(
-                              children: images.sublist(2, 5).map((image) {
-                                return Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(2.0),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(8),
-                                      child: Image.network(
-                                        image,
-                                        fit: BoxFit.cover,
-                                        height: 120,
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              }).toList(),
-                            ),
-                          ],
-                        )
-                      : GridView.builder(
-                          padding: EdgeInsets.all(2),
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount:
-                                images.length <= 3 ? images.length : 2,
-                            crossAxisSpacing: 4,
-                            mainAxisSpacing: 4,
-                            childAspectRatio: 0.9,
                           ),
-                          itemCount: images.length,
-                          itemBuilder: (context, index) {
-                            return ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: Image.network(
-                                images[index],
-                                fit: BoxFit.cover,
-                              ),
-                            );
-                          },
                         ),
+                      );
+                    }).toList(),
+                  ),
+                  Row(
+                    children: images.sublist(2, 5).map((image) {
+                      return Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: Image.network(
+                              image,
+                              fit: BoxFit.cover,
+                              height: 120,
+                            ),
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ],
+              )
+                  : GridView.builder(
+                padding: const EdgeInsets.all(2),
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate:
+                const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 4,
+                  mainAxisSpacing: 4,
+                  childAspectRatio: 0.9,
+                ),
+                itemCount: images.length,
+                itemBuilder: (context, index) {
+                  return ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Image.network(
+                      images[index],
+                      fit: BoxFit.cover,
+                    ),
+                  );
+                },
+              ),
             ),
-
           // Footer
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -237,7 +233,13 @@ class UserPostCard extends StatelessWidget {
               children: [
                 Text(timeAgo, style: h6),
                 const Spacer(),
-                _buildIcon(AppImages.heart, likeCount, onTap: onReaction),
+                Obx(() => _buildIcon(
+                  homeController.isPostLiked(postId)
+                      ? AppImages.heartFilled
+                      : AppImages.heart,
+                  likeCount,
+                  onTap: onReaction,
+                )),
                 _buildIcon(AppImages.star, null,
                     onTap: () => showStarBuyDialog(context)),
                 _buildIcon(
@@ -248,7 +250,13 @@ class UserPostCard extends StatelessWidget {
                     subject: 'Post Link',
                   ),
                 ),
-                _buildIcon(AppImages.bookmark, null, onTap: onBookmark),
+                Obx(() => _buildIcon(
+                  homeController.isPostInCollections(postId)
+                      ? AppImages.bookmarkFilled
+                      : AppImages.bookmark,
+                  null,
+                  onTap: onBookmark,
+                )),
               ],
             ),
           ),
@@ -278,8 +286,7 @@ class UserPostCard extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return Dialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           child: Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(

@@ -27,6 +27,7 @@ class AppImages {
   static const bookmark = "assets/icons/bookmark.png";
   static const bookmarkFilled = "assets/icons/bookmark filled.png";
   static const heart = "assets/icons/heart.png";
+  static const heartFilled = "assets/icons/heart filled.png";
   static const location = "assets/icons/location.png";
   static const share = "assets/icons/share.png";
   static const star = "assets/icons/star.png";

@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -494,7 +493,7 @@ class _ProfileViewState extends State<ProfileView> {
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 8),
                                         child: UserPostCard(
-                                          onOtherProfileTap: (){},
+                                          onOtherProfileTap: () {},
                                           onBookmark: () {},
                                           postId: post.id ?? '',
                                           userName: post.author?.name ?? '',
@@ -524,7 +523,8 @@ class _ProfileViewState extends State<ProfileView> {
                                                         images: post.images,
                                                         description:
                                                             post.caption ?? '',
-                                                        categoryId: post.id ?? '',
+                                                        categoryId:
+                                                            post.id ?? '',
                                                       ));
                                                 },
                                               ),
@@ -534,7 +534,8 @@ class _ProfileViewState extends State<ProfileView> {
                                                 value: 'Delete Post',
                                                 label: 'Delete Post',
                                                 onSelected: () {
-                                                  log('Delete Post selected');
+                                                  homeController.deletePost(
+                                                      post.id ?? '');
                                                 },
                                               ),
                                             ],

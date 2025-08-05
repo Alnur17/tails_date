@@ -25,6 +25,7 @@ class Api {
   static String categoryPosts(categoryId) => "$baseUrl/posts/category/$categoryId"; //done
   static const String addOrRemoveReaction = "$baseUrl/posts/reactions"; //done
   static const String addNotInterested = "$baseUrl/posts/interests"; //done
+  static String deletePost(postId) => "$baseUrl/posts/$postId"; //done
 
   ///profile
   static const String myProfile = "$baseUrl/users/profile"; // done
@@ -49,6 +50,7 @@ class Api {
   static const String createStory = "$baseUrl/stories"; //
   static const String myStory = "$baseUrl/stories/my"; //
   static const String getAllStory = "$baseUrl/stories"; //
+  static String getSingleStory(String storyId) => "$baseUrl/stories/$storyId"; //
 
   ///Reels
   static const String createReels = "$baseUrl/reels"; //done
