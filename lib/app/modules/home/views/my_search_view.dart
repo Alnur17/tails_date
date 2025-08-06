@@ -118,7 +118,7 @@ class MySearchView extends GetView<MySearchController> {
                         log("Add Friend clicked for ${post.author?.name}");
                       },
                       onBookmark: (){
-                        collectionsController.addOrRemoveCollection(post.id!);
+                        homeController.toggleCollection(post.id!);
                       },
                       onReaction: () {
                         homeController.addOrRemoveReaction(post.id!);

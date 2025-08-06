@@ -2,7 +2,7 @@ class Api {
   /// base url
 
   static const baseUrl = "http://172.252.13.83:5004/api/v1";
-  //static const socket = "https://socket.thirdshotslot.co.uk/";
+  static const socket = "http://172.252.13.83:4000";
 
 
   ///auth
