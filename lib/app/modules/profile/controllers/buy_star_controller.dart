@@ -1,8 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tails_date/app/modules/dashboard/views/dashboard_view.dart';
+import 'package:tails_date/app/modules/profile/controllers/profile_controller.dart';
 import 'package:tails_date/common/app_constant/app_constant.dart';
 import 'package:tails_date/common/helper/local_store.dart';
 import '../../../../common/app_color/app_colors.dart';
+import '../../../../common/app_text_style/styles.dart';
+import '../../../../common/size_box/custom_sizebox.dart';
+import '../../../../common/widgets/custom_button.dart';
 import '../../../../common/widgets/custom_snack_bar.dart';
 import '../../../data/api.dart';
 import '../../../data/base_client.dart';
@@ -12,7 +20,7 @@ import '../views/payment_view.dart';
 class BuyStarController extends GetxController {
   var isLoading = true.obs;
   var starPlans = <StarPlanData>[].obs;
-  var selectedPlanIndex = (-1).obs; // Tracks the selected plan index, -1 means none selected
+  var selectedPlanIndex = (-1).obs;
   TextEditingController cashOutTEController = TextEditingController();
 
   @override
@@ -103,9 +111,73 @@ class BuyStarController extends GetxController {
     }
     final selectedPlan = starPlans[selectedPlanIndex.value];
     kSnackBar(
-      message: 'Initiating purchase for ${selectedPlan.stars} Stars at \$${selectedPlan.price?.toStringAsFixed(2)}',
+      message:
+          'Initiating purchase for ${selectedPlan.stars} Stars at \$${selectedPlan.price?.toStringAsFixed(2)}',
       bgColor: AppColors.green,
     );
     createPaymentSessionForStar(starPlanId: selectedPlan.id!);
+  }
+
+  Future<void> casOutRequest(context,int amount) async {
+    try {
+      isLoading.value = true;
+      var token = LocalStorage.getData(key: AppConstant.token);
+
+      final headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      };
+
+      final body = {"stars": amount * 100, "amount": amount};
+
+      dynamic responseBody = await BaseClient.postRequest(
+        api: Api.cashOut,
+        body: jsonEncode(body),
+        headers: headers,
+      );
+
+      final result = await BaseClient.handleResponse(responseBody);
+
+      if(result['success'] == true) {
+        showSubmitRequestDialog(context);
+      }
+
+    } catch (e) {
+      return debugPrint("$e");
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future showSubmitRequestDialog(BuildContext context) {
+    return Get.defaultDialog(
+      title: "CashOut Request Submitted",
+      titlePadding: EdgeInsets.only(top: 16),
+      backgroundColor: AppColors.white,
+      radius: 8,
+      content: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 16, right: 16),
+            child: Text(
+              "You've requested to cash out \$${cashOutTEController.text.trim()} . Processing will be done when approved.",
+              style: h4.copyWith(
+                fontSize: 18,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          sh20,
+          CustomButton(
+            text: 'Close ',
+            onPressed: () {
+             Get.offAll(()=> DashboardView());
+            },
+            backgroundColor: Colors.red,
+          ),
+        ],
+      ),
+    );
   }
 }

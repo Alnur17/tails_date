@@ -9,6 +9,7 @@ import 'package:tails_date/common/widgets/custom_textfield.dart';
 import '../../../../common/app_images/app_images.dart';
 import '../../../../common/app_text_style/styles.dart';
 import '../../../../common/size_box/custom_sizebox.dart';
+import '../../../../common/widgets/custom_snack_bar.dart';
 
 class CashOutYourStarsView extends StatefulWidget {
   final int starBalance;
@@ -90,7 +91,7 @@ class _CashOutYourStarsViewState extends State<CashOutYourStarsView> {
               sh8,
               CustomTextField(
                 controller: buyStarController.cashOutTEController,
-                hintText: '\$0.00',
+                hintText: '\$0',
                 keyboardType: TextInputType.number,
               ),
               sh8,
@@ -158,8 +159,23 @@ class _CashOutYourStarsViewState extends State<CashOutYourStarsView> {
               CustomButton(
                 text: 'Submit CashOut Request',
                 onPressed: () async {
-
-                 await showSubmitRequestDialog(context);
+                  final amountText = buyStarController.cashOutTEController.text.trim();
+                  if (amountText.isNotEmpty) {
+                    final amount = int.tryParse(amountText);
+                    if (amount != null && amount > 0) {
+                      await buyStarController.casOutRequest(context, amount);
+                    } else {
+                      kSnackBar(
+                        message: 'Please enter a valid positive amount.',
+                        bgColor: AppColors.orange,
+                      );
+                    }
+                  } else {
+                    kSnackBar(
+                      message: 'Please enter an amount.',
+                      bgColor: AppColors.orange,
+                    );
+                  }
                 },
               ),
               sh24,
@@ -177,52 +193,24 @@ class _CashOutYourStarsViewState extends State<CashOutYourStarsView> {
           ),
         ),
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
-        child: CustomButton(
-          text: 'WithDraw',
-          onPressed: () {
-            Get.snackbar(
-              'Need Approval',
-              'You need to submit CashOut request first.',
-              snackPosition: SnackPosition.TOP,
-              duration: Duration(seconds: 5),
-              backgroundColor: Colors.red,
-              colorText: Colors.white,
-            );
-          },
-        ),
-      ),
+      // bottomNavigationBar: Padding(
+      //   padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+      //   child: CustomButton(
+      //     text: 'WithDraw',
+      //     onPressed: () {
+      //       Get.snackbar(
+      //         'Need Approval',
+      //         'You need to submit CashOut request first.',
+      //         snackPosition: SnackPosition.TOP,
+      //         duration: Duration(seconds: 5),
+      //         backgroundColor: Colors.red,
+      //         colorText: Colors.white,
+      //       );
+      //     },
+      //   ),
+      // ),
     );
   }
 
-  Future showSubmitRequestDialog(BuildContext context) {
-    return Get.defaultDialog(
-      title: "CashOut Request Submitted",
-      titlePadding: EdgeInsets.only(top: 16),
-      backgroundColor: AppColors.white,
-      radius: 8,
-      content: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 16, right: 16),
-            child: Text(
-              "You've requested to cash out \$5.00. Processing will occur on the 1st of the month.",
-              style: h4.copyWith(
-                fontSize: 18,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-          sh20,
-          CustomButton(
-            text: 'Close ',
-            onPressed: () {},
-            backgroundColor: Colors.red,
-          ),
-        ],
-      ),
-    );
-  }
+
 }

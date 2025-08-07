@@ -156,10 +156,6 @@ class SocketService {
       'extraHeaders': {'token': 'Bearer $token'},
     });
 
-    // Connect to the socket (async operation)
-    socket.connect();
-    await Future.delayed(Duration(milliseconds: 500)); // Optional: Small delay to ensure connection
-
     socket.onConnect((_) {
       print('Socket connected');
     });
@@ -188,6 +184,8 @@ class SocketService {
       'receiver': receiverId,
       'chat': chatId,
       'text': text,
+      "sender": senderId,
+      "seen": false,
     });
     print('Sent message: $chatId, $text to $receiverId');
   }

@@ -373,6 +373,7 @@ class _ProfileViewState extends State<ProfileView> {
                                 '${profileController.profileData.value!.data?.ownerRelationshipStatus ?? 'N/A'}, ${profileController.profileData.value!.data?.ownerGender ?? 'N/A'}',
                                 style: h6,
                               ),
+                              trailing: Text("Age: ${profileController.profileData.value!.data?.ownerAge ?? 'N/A'}" , style: h6,),
                             ),
                           ),
                           sh16,

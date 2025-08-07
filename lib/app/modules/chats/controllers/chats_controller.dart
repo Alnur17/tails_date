@@ -279,6 +279,8 @@
 //     super.dispose();
 //   }
 // }
+
+
 import 'package:get/get.dart';
 import 'package:tails_date/app/modules/chats/model/message_body_model.dart';
 import 'package:tails_date/common/app_constant/app_constant.dart';
@@ -289,8 +291,8 @@ import '../../../data/base_client.dart';
 import '../model/all_chat_model.dart';
 
 class ChatsController extends GetxController {
-  var chats = <AllChatDatum>[].obs;
-  var messageBody = <MessageBodyDatum>[].obs;
+  var chatsList = <AllChatDatum>[].obs;
+  var messageList = <MessageBodyDatum>[].obs;
   var isLoading = false.obs;
   late SocketService socketService;
 
@@ -301,8 +303,8 @@ class ChatsController extends GetxController {
     // Get the existing SocketService instance and update onNewMessage
     socketService = Get.find<SocketService>();
     socketService.onNewMessage = (message) {
-      messageBody.add(message);
-      messageBody.refresh();
+      messageList.add(message);
+      messageList.refresh();
     };
   }
 
@@ -321,7 +323,7 @@ class ChatsController extends GetxController {
       final result = await BaseClient.handleResponse(response);
       final chatModel = AllChatModel.fromJson(result);
       if (chatModel.success == true) {
-        chats.value = chatModel.data;
+        chatsList.value = chatModel.data;
       } else {
         Get.snackbar('Error', chatModel.message ?? 'Failed to fetch chats');
       }
@@ -347,7 +349,7 @@ class ChatsController extends GetxController {
       final result = await BaseClient.handleResponse(response);
       final messageBodyModel = MessageBodyModel.fromJson(result);
       if (messageBodyModel.success == true && messageBodyModel.data != null) {
-        messageBody.value = messageBodyModel.data!.data;
+        messageList.value = messageBodyModel.data!.data;
       } else {
         Get.snackbar('Error', messageBodyModel.message ?? 'Failed to fetch messages');
       }
@@ -364,21 +366,13 @@ class ChatsController extends GetxController {
     }
   }
 
-  // String? getCurrentUserId() {
-  //   String token = LocalStorage.getData(key: AppConstant.token);
-  //   if (token.isNotEmpty) {
-  //     Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
-  //     return decodedToken['id'] ?? decodedToken['_id'];
-  //   }
-  //   return null;
-  // }
-
   @override
   void onClose() {
     socketService.dispose();
     super.onClose();
   }
 }
+
 
 // import 'package:get/get.dart';
 // import 'package:tails_date/app/modules/chats/model/message_body_model.dart';

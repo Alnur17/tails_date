@@ -126,7 +126,6 @@
 //   }
 // }
 
-
 // import 'package:flutter/material.dart';
 // import 'package:get/get.dart';
 // import 'package:intl/intl.dart';
@@ -309,7 +308,6 @@
 //   }
 // }
 
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -372,9 +370,9 @@ class ChatsView extends StatelessWidget {
                 shrinkWrap: true,
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 scrollDirection: Axis.horizontal,
-                itemCount: controller.chats.length,
+                itemCount: controller.chatsList.length,
                 itemBuilder: (context, index) {
-                  final chat = controller.chats[index];
+                  final chat = controller.chatsList[index];
                   // Filter participants to exclude current user
                   final participant = chat.participants.firstWhere(
                     (p) => p.id != userId,
@@ -431,9 +429,9 @@ class ChatsView extends StatelessWidget {
           Expanded(
             child: Obx(
               () => ListView.builder(
-                itemCount: controller.chats.length,
+                itemCount: controller.chatsList.length,
                 itemBuilder: (context, index) {
-                  final chat = controller.chats[index];
+                  final chat = controller.chatsList[index];
                   // Filter participants to exclude current user
                   final participant = chat.participants.firstWhere(
                     (p) => p.id != userId,
@@ -456,7 +454,7 @@ class ChatsView extends StatelessWidget {
                   }
                   return Padding(
                     padding: EdgeInsets.only(
-                      bottom: index == controller.chats.length - 1 ? 20 : 0,
+                      bottom: index == controller.chatsList.length - 1 ? 20 : 0,
                     ),
                     child: ListTile(
                       leading: CircleAvatar(
@@ -484,6 +482,7 @@ class ChatsView extends StatelessWidget {
                               chatId: chat.id ?? '',
                               userImage: participant.image ?? '',
                               userName: participant.name ?? '',
+                              receiverId: (participant.id != userId).toString(),
                             ));
                       },
                     ),

@@ -46,6 +46,7 @@ class ProfileData {
     required this.updatedAt,
     required this.pointsPurchase,
     required this.pointsSpent,
+    required this.ownerAge,
     required this.totalFriends,
   });
 
@@ -74,6 +75,7 @@ class ProfileData {
   final DateTime? updatedAt;
   final int? pointsPurchase;
   final int? pointsSpent;
+  final int? ownerAge;
   final int? totalFriends;
 
   factory ProfileData.fromJson(Map<String, dynamic> json){
@@ -103,6 +105,7 @@ class ProfileData {
       updatedAt: DateTime.tryParse(json["updatedAt"] ?? ""),
       pointsPurchase: json["points_purchase"],
       pointsSpent: json["points_spent"],
+      ownerAge: json["owner_age"],
       totalFriends: json["total_friends"],
     );
   }
