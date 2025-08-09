@@ -149,7 +149,7 @@ class SocketService {
   SocketService({required this.onNewMessage});
 
   Future<void> initialize() async {
-    String token = LocalStorage.getData(key: AppConstant.token);
+    String token = LocalStorage.getData(key: AppConstant.token) ?? '';
     socket = IO.io(Api.socket, <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': true,

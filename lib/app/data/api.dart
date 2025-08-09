@@ -37,6 +37,7 @@ class Api {
   static const String conditionsPage = "$baseUrl/settings"; // done
   static const String deleteUser = "$baseUrl/auth/delete-account";
   static const  String cashOut = "$baseUrl/cashout-requests";
+  static const  String cashOutStatus = "$baseUrl/cashout-requests/my";
   static const  String friends = "$baseUrl/friends";
   static const  String collections = "$baseUrl/collections";
   static const  String addOrRemoveCollections = "$baseUrl/collections";
@@ -64,6 +65,8 @@ class Api {
   ///Star Plans
   static const String starPlans = "$baseUrl/star-plans"; //done
   static const String sendStars = "$baseUrl/posts/send-star"; //done
+  static const String sendStarsHistory = "$baseUrl/stars/sent"; //done
+  static const String receivedStarsHistory = "$baseUrl/stars/received"; //done
 
   ///Notifications
   static const String notifications = "$baseUrl/notifications"; //done

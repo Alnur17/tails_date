@@ -1,10 +1,8 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tails_date/app/modules/dashboard/views/dashboard_view.dart';
-import 'package:tails_date/app/modules/profile/controllers/profile_controller.dart';
 import 'package:tails_date/common/app_constant/app_constant.dart';
 import 'package:tails_date/common/helper/local_store.dart';
 import '../../../../common/app_color/app_colors.dart';
@@ -14,12 +12,14 @@ import '../../../../common/widgets/custom_button.dart';
 import '../../../../common/widgets/custom_snack_bar.dart';
 import '../../../data/api.dart';
 import '../../../data/base_client.dart';
+import '../model/cashout_status_model.dart';
 import '../model/star_plan_model.dart';
 import '../views/payment_view.dart';
 
 class BuyStarController extends GetxController {
   var isLoading = true.obs;
   var starPlans = <StarPlanData>[].obs;
+  var cashOutStatusList = <CashOutStatusDatum>[].obs; // Added to store cash-out status data
   var selectedPlanIndex = (-1).obs;
   TextEditingController cashOutTEController = TextEditingController();
 
@@ -112,13 +112,13 @@ class BuyStarController extends GetxController {
     final selectedPlan = starPlans[selectedPlanIndex.value];
     kSnackBar(
       message:
-          'Initiating purchase for ${selectedPlan.stars} Stars at \$${selectedPlan.price?.toStringAsFixed(2)}',
+      'Initiating purchase for ${selectedPlan.stars} Stars at \$${selectedPlan.price?.toStringAsFixed(2)}',
       bgColor: AppColors.green,
     );
     createPaymentSessionForStar(starPlanId: selectedPlan.id!);
   }
 
-  Future<void> casOutRequest(context,int amount) async {
+  Future<void> casOutRequest(context, int amount) async {
     try {
       isLoading.value = true;
       var token = LocalStorage.getData(key: AppConstant.token);
@@ -138,12 +138,11 @@ class BuyStarController extends GetxController {
 
       final result = await BaseClient.handleResponse(responseBody);
 
-      if(result['success'] == true) {
+      if (result['success'] == true) {
         showSubmitRequestDialog(context);
       }
-
     } catch (e) {
-      return debugPrint("$e");
+      debugPrint("$e");
     } finally {
       isLoading.value = false;
     }
@@ -172,12 +171,50 @@ class BuyStarController extends GetxController {
           CustomButton(
             text: 'Close ',
             onPressed: () {
-             Get.offAll(()=> DashboardView());
+              Get.offAll(() => DashboardView());
             },
             backgroundColor: Colors.red,
           ),
         ],
       ),
     );
+  }
+
+  Future<void> getCashOutStatus() async {
+    try {
+      isLoading.value = true;
+      var token = LocalStorage.getData(key: AppConstant.token);
+
+      final headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      };
+
+      final response = await BaseClient.getRequest(
+        api: Api.cashOutStatus,
+        headers: headers,
+      );
+
+      final result = await BaseClient.handleResponse(response);
+      final cashOutStatusModel = CashOutStatusModel.fromJson(result);
+
+      if (cashOutStatusModel.success == true) {
+        cashOutStatusList.assignAll(cashOutStatusModel.data);
+        debugPrint('CashOut Status fetched successfully: ${cashOutStatusList.length} records');
+      } else {
+        kSnackBar(
+          message: cashOutStatusModel.message ?? 'Failed to fetch cash-out status',
+          bgColor: AppColors.orange,
+        );
+      }
+    } catch (e) {
+      debugPrint("Error fetching cash-out status: $e");
+      kSnackBar(
+        message: 'Failed to fetch cash-out status: $e',
+        bgColor: AppColors.orange,
+      );
+    } finally {
+      isLoading.value = false;
+    }
   }
 }

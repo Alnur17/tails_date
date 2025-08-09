@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:tails_date/app/modules/auth_landing/views/auth_landing_view.dart';
 
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_constant/app_constant.dart';
@@ -35,7 +36,7 @@ class _SplashViewState extends State<SplashView> {
       );
     } else {
       Get.offAll(
-        () => LoginView(),
+        () => AuthLandingView(),
         transition: Transition.rightToLeft,
       );
     }

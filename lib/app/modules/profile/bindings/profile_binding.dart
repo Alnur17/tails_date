@@ -4,6 +4,7 @@ import 'package:tails_date/app/modules/profile/controllers/buy_star_controller.d
 import 'package:tails_date/app/modules/profile/controllers/collections_controller.dart';
 import 'package:tails_date/app/modules/profile/controllers/conditions_controller.dart';
 import 'package:tails_date/app/modules/profile/controllers/my_friends_controller.dart';
+import 'package:tails_date/app/modules/profile/controllers/send_and_received_stars_controller.dart';
 import 'package:tails_date/app/modules/profile/controllers/send_stars_controller.dart';
 import 'package:tails_date/app/modules/profile/controllers/subscription_plan_controller.dart';
 
@@ -12,6 +13,9 @@ import '../controllers/profile_controller.dart';
 class ProfileBinding extends Bindings {
   @override
   void dependencies() {
+    Get.lazyPut<SendAndReceivedStarsController>(
+      () => SendAndReceivedStarsController(),
+    );
     Get.lazyPut<CollectionsController>(
       () => CollectionsController(),
     );
