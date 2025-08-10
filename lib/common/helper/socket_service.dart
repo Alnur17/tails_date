@@ -135,63 +135,127 @@
 //   }
 // }
 
- import 'package:socket_io_client/socket_io_client.dart' as IO;
-import 'package:tails_date/app/data/api.dart';
+//  import 'package:socket_io_client/socket_io_client.dart' as IO;
+// import 'package:tails_date/app/data/api.dart';
+// import 'package:tails_date/common/app_constant/app_constant.dart';
+// import 'package:tails_date/common/helper/local_store.dart';
+// import 'package:tails_date/app/modules/chats/model/message_body_model.dart';
+//
+// class SocketService {
+//   late IO.Socket socket;
+//   //final String serverUrl = 'http://172.252.13.83:4000';
+//   void Function(MessageBodyDatum) onNewMessage;
+//
+//   SocketService({required this.onNewMessage});
+//
+//   Future<void> initialize() async {
+//     String token = LocalStorage.getData(key: AppConstant.token) ?? '';
+//     socket = IO.io(Api.socket, <String, dynamic>{
+//       'transports': ['websocket'],
+//       'autoConnect': true,
+//       'extraHeaders': {'token': 'Bearer $token'},
+//     });
+//
+//     socket.onConnect((_) {
+//       print('Socket connected');
+//     });
+//
+//     socket.onDisconnect((_) {
+//       print('Socket disconnected');
+//     });
+//
+//     socket.on('receive-message', (data) {
+//       try {
+//         final message = MessageBodyDatum.fromJson(data);
+//         onNewMessage(message);
+//       } catch (e) {
+//         print('Error parsing receive-message: $e');
+//       }
+//     });
+//
+//     socket.onError((error) {
+//       print('Socket error: $error');
+//     });
+//   }
+//
+//   void sendMessage(String chatId, String text, String receiverId) {
+//     String senderId = LocalStorage.getData(key: AppConstant.userId) ?? '';
+//     socket.emit('send-message', {
+//       'receiver': receiverId,
+//       'chat': chatId,
+//       'text': text,
+//       "sender": senderId,
+//       "seen": false,
+//     });
+//     print('Sent message: $chatId, $text to $receiverId');
+//   }
+//
+//   void dispose() {
+//     socket.disconnect();
+//     socket.dispose();
+//   }
+// }
+
+import 'package:get/get.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:tails_date/common/app_constant/app_constant.dart';
 import 'package:tails_date/common/helper/local_store.dart';
-import 'package:tails_date/app/modules/chats/model/message_body_model.dart';
 
-class SocketService {
-  late IO.Socket socket;
-  //final String serverUrl = 'http://172.252.13.83:4000';
-  void Function(MessageBodyDatum) onNewMessage;
 
-  SocketService({required this.onNewMessage});
+import '../../app/data/api.dart';
+import '../../app/modules/profile/controllers/profile_controller.dart';
 
-  Future<void> initialize() async {
-    String token = LocalStorage.getData(key: AppConstant.token) ?? '';
-    socket = IO.io(Api.socket, <String, dynamic>{
+class SocketService extends GetxController {
+  late IO.Socket _socket;
+
+  RxBool isLoading = false.obs;
+  final ProfileController profileController = Get.put(ProfileController());
+
+  final _messageList = <Map<String, dynamic>>[].obs;
+  final _socketFriendList = <Map<String, dynamic>>[].obs;
+  final _notificationsList = <Map<String, dynamic>>[].obs;
+
+  RxList<Map<String, dynamic>> get messageList => _messageList;
+  RxList<Map<String, dynamic>> get socketFriendtList => _socketFriendList;
+  RxList<Map<String, dynamic>> get notificationsList => _notificationsList;
+
+  IO.Socket get sokect => _socket;
+
+  Future<SocketService> init() async {
+    final token = LocalStorage.getData(key: AppConstant.token) ?? '';
+    final userId = LocalStorage.getData(key: AppConstant.userId) ?? '';
+
+    _socket = IO.io(Api.socket, <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': true,
-      'extraHeaders': {'token': 'Bearer $token'},
+      'extraHeaders': {'token': "Bearer $token"},
     });
 
-    socket.onConnect((_) {
-      print('Socket connected');
+    _socket.on('connect', (_) {
+      print('✅ Connected to the server');
+      _socket.emit("connection", userId);
     });
 
-    socket.onDisconnect((_) {
-      print('Socket disconnected');
+    _socket.onConnect((_) async {
+      print('🟢 Socket connected');
+      _socket.emit("connection", userId);
     });
 
-    socket.on('receive-message', (data) {
-      try {
-        final message = MessageBodyDatum.fromJson(data);
-        onNewMessage(message);
-      } catch (e) {
-        print('Error parsing receive-message: $e');
-      }
+    _socket.on('checking_notification', (data) {
+      print('Check in data from socket');
+      print(data);
     });
 
-    socket.onError((error) {
-      print('Socket error: $error');
+    _socket.onDisconnect((_) {
+      print('🔴 Socket disconnected');
     });
+
+
+
+    return this;
   }
 
-  void sendMessage(String chatId, String text, String receiverId) {
-    String senderId = LocalStorage.getData(key: AppConstant.userId) ?? '';
-    socket.emit('send-message', {
-      'receiver': receiverId,
-      'chat': chatId,
-      'text': text,
-      "sender": senderId,
-      "seen": false,
-    });
-    print('Sent message: $chatId, $text to $receiverId');
-  }
-
-  void dispose() {
-    socket.disconnect();
-    socket.dispose();
+  void disconnect() {
+    _socket.disconnect();
   }
 }

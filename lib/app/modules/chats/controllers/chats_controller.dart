@@ -291,21 +291,24 @@ import '../../../data/base_client.dart';
 import '../model/all_chat_model.dart';
 
 class ChatsController extends GetxController {
-  var chatsList = <AllChatDatum>[].obs;
-  var messageList = <MessageBodyDatum>[].obs;
-  var isLoading = false.obs;
-  late SocketService socketService;
+   var chatsList = <AllChatDatum>[].obs;
+   var apiMessageList = <MessageBodyDatum>[].obs;
+   var message = MessageBodyModel().obs;
+   var messageList = <MessageBodyDatum>[].obs; //from socket
+
+   var isLoading = false.obs;
+   final SocketService socketService = Get.put(SocketService());
 
   @override
   void onInit() async {
     super.onInit();
     await fetchAllChats();
-    // Get the existing SocketService instance and update onNewMessage
-    socketService = Get.find<SocketService>();
-    socketService.onNewMessage = (message) {
-      messageList.add(message);
-      messageList.refresh();
-    };
+    // // Get the existing SocketService instance and update onNewMessage
+    // socketService = Get.find<SocketService>();
+    // socketService.onNewMessage = (message) {
+    //   messageList.add(message);
+    //   messageList.refresh();
+    // };
   }
 
   Future<void> fetchAllChats() async {
@@ -328,7 +331,7 @@ class ChatsController extends GetxController {
         Get.snackbar('Error', chatModel.message ?? 'Failed to fetch chats');
       }
     } catch (e) {
-      Get.snackbar('Error', e.toString());
+      Get.snackbar('Errors', e.toString());
     } finally {
       isLoading.value = false;
     }
@@ -349,28 +352,53 @@ class ChatsController extends GetxController {
       final result = await BaseClient.handleResponse(response);
       final messageBodyModel = MessageBodyModel.fromJson(result);
       if (messageBodyModel.success == true && messageBodyModel.data != null) {
-        messageList.value = messageBodyModel.data!.data;
+        apiMessageList.value = messageBodyModel.data!.data;
+        messageList.clear();
+        message.value = MessageBodyModel.fromJson(response.responseData);
+        messageList.addAll(message.value.data?.data ?? []);
+
+        print('📦 Messages loaded from API: ${messageList.length}');
+
+        // Clear socket messageList and populate with API messages
+        socketService.messageList.clear();
+
+
+        // Api diye data ene messageList e add kora hoyeche
+        for (final msg in messageList) {
+          socketService.messageList.add({
+            "id": msg.id.toString(),
+            "text": msg.text ?? '',
+            "seen": msg.seen,
+            "senderId": msg.sender,
+            "receiverId": msg.receiver,
+            "chat": msg.chat.toString(),
+            "createdAt": msg.createdAt?.toIso8601String() ??
+                DateTime.now().toIso8601String(),
+          });
+
+        }
       } else {
         Get.snackbar('Error', messageBodyModel.message ?? 'Failed to fetch messages');
       }
     } catch (e) {
-      Get.snackbar('Error', e.toString());
+      Get.snackbar('Error ghfghfghf', e.toString());
     } finally {
       isLoading.value = false;
     }
   }
 
-  void sendMessage(String chatId, String message, String receiverId) {
-    if (message.trim().isNotEmpty) {
-      socketService.sendMessage(chatId, message, receiverId);
-    }
-  }
 
-  @override
-  void onClose() {
-    socketService.dispose();
-    super.onClose();
-  }
+  // void sendMessage(String chatId, String message, String receiverId) {
+  //   if (message.trim().isNotEmpty) {
+  //     socketService.sendMessage(chatId, message, receiverId);
+  //   }
+  // }
+
+  // @override
+  // void onClose() {
+  //   socketService.dispose();
+  //   super.onClose();
+  // }
 }
 
 

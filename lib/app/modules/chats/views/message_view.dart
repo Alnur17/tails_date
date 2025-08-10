@@ -9,6 +9,7 @@ import '../../../../common/app_constant/app_constant.dart';
 import '../../../../common/app_images/app_images.dart';
 import '../../../../common/app_text_style/styles.dart';
 import '../../../../common/helper/local_store.dart';
+import '../../../../common/helper/socket_service.dart';
 import '../../../../common/widgets/custom_textfield.dart';
 import '../controllers/chats_controller.dart';
 
@@ -33,12 +34,15 @@ class MessageView extends StatefulWidget {
 class _MessageViewState extends State<MessageView> {
   final ChatsController controller = Get.put(ChatsController());
   final TextEditingController messageController = TextEditingController();
+  final SocketService socketService = Get.put(SocketService());
 
   @override
   void initState() {
     super.initState();
+    socketService.init();
     if (widget.chatId != null) {
       controller.fetchMessageBody(widget.chatId!);
+      print('Init State');
     }
   }
 
@@ -92,15 +96,15 @@ class _MessageViewState extends State<MessageView> {
                     ? Center(child: CircularProgressIndicator())
                     : ListView.builder(
                         padding: EdgeInsets.all(16),
-                        itemCount: controller.messageList.length,
+                  itemCount: socketService.messageList.length,
                         itemBuilder: (context, index) {
-                          final message = controller.messageList[index];
+                          final message = socketService.messageList[index];;
                           final isSender =
-                              message.sender == LocalStorage.getData(key: AppConstant.userId);
+                              message['senderId'] == LocalStorage.getData(key: AppConstant.userId);
                           return _buildChatBubble(
-                            message: message.text ?? '',
+                            message: message['text'] ?? '',
                             isSender: isSender,
-                            time: _formatTime(message.createdAt),
+                            time: _formatTime(message['createdAt']),
                           );
                         },
                       ),
@@ -187,10 +191,10 @@ class _MessageViewState extends State<MessageView> {
                   scale: 4,
                 ),
                 onPressed: () {
-                    if (messageController.text.trim().isNotEmpty && widget.chatId != null && widget.receiverId != null) {
-                      controller.sendMessage(widget.chatId!, messageController.text.trim(), widget.receiverId!);
-                      messageController.clear();
-                    }
+                    // if (messageController.text.trim().isNotEmpty && widget.chatId != null && widget.receiverId != null) {
+                    //   controller.sendMessage(widget.chatId!, messageController.text.trim(), widget.receiverId!);
+                    //   messageController.clear();
+                    // }
                 },
               ),
             ),

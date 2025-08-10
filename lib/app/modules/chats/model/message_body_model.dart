@@ -1,8 +1,8 @@
 class MessageBodyModel {
   MessageBodyModel({
-    required this.success,
-    required this.message,
-    required this.data,
+     this.success,
+     this.message,
+     this.data,
   });
 
   final bool? success;

@@ -11,15 +11,8 @@ void main() async {
   // Initialize GetStorage
   await GetStorage.init();
 
-  // Initialize SocketService with a placeholder onNewMessage callback
-  final socketService = SocketService(
-    onNewMessage: (message) {
-      // Placeholder: This will be overridden by ChatsController
-      print('New message received (placeholder): $message');
-    },
-  );
-  await socketService.initialize();
-  Get.put(socketService, permanent: true);
+  final SocketService socketService = Get.put(SocketService());
+  await socketService.init();
 
   runApp(
     GetMaterialApp(
