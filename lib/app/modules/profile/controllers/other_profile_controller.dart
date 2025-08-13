@@ -604,39 +604,39 @@ class OtherProfileController extends GetxController {
 
   }
 
-
-  Future<void> fetchOtherProfile(String id) async {
-    try {
-      isLoading(true);
-      var headers = {
-        'Content-Type': 'application/json',
-        'Authorization':
-        'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
-      };
-
-      dynamic responseBody = await BaseClient.handleResponse(
-        await BaseClient.getRequest(api: Api.otherProfile(id), headers: headers),
-      );
-
-      if (responseBody != null) {
-        profileData.value = MyProfileModel.fromJson(responseBody);
-        final String userId =   profileData.value?.data?.id ?? '';
-        // final String userId =   responseBody['data']['_id'].toString();
-        LocalStorage.saveData(key:  AppConstant.userId, data: userId);
-        print("User Id : ${LocalStorage.getData(key: AppConstant.userId)}");
-        kSnackBar(
-          message: profileData.value!.message ?? "Profile fetched successfully",
-          bgColor: AppColors.green,
-        );
-      } else {
-        throw 'Failed to fetch profile!';
-      }
-    } catch (e) {
-      debugPrint("Catch Error:::::: $e");
-      kSnackBar(message: "Error fetching profile: $e", bgColor: AppColors.red);
-    } finally {
-      isLoading(false);
-    }
-  }
+  //
+  // Future<void> fetchOtherProfile(String id) async {
+  //   try {
+  //     isLoading(true);
+  //     var headers = {
+  //       'Content-Type': 'application/json',
+  //       'Authorization':
+  //       'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
+  //     };
+  //
+  //     dynamic responseBody = await BaseClient.handleResponse(
+  //       await BaseClient.getRequest(api: Api.otherProfile(id), headers: headers),
+  //     );
+  //
+  //     if (responseBody != null) {
+  //       profileData.value = MyProfileModel.fromJson(responseBody);
+  //       final String userId =   profileData.value?.data?.id ?? '';
+  //       // final String userId =   responseBody['data']['_id'].toString();
+  //       LocalStorage.saveData(key:  AppConstant.userId, data: userId);
+  //       print("User Id : ${LocalStorage.getData(key: AppConstant.userId)}");
+  //       kSnackBar(
+  //         message: profileData.value!.message ?? "Profile fetched successfully",
+  //         bgColor: AppColors.green,
+  //       );
+  //     } else {
+  //       throw 'Failed to fetch profile!';
+  //     }
+  //   } catch (e) {
+  //     debugPrint("Catch Error:::::: $e");
+  //     kSnackBar(message: "Error fetching profile: $e", bgColor: AppColors.red);
+  //   } finally {
+  //     isLoading(false);
+  //   }
+  // }
 
 }
