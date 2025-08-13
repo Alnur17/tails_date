@@ -1,5 +1,5 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 
 import '../../../../common/app_color/app_colors.dart';
@@ -9,8 +9,6 @@ import '../../../../common/size_box/custom_sizebox.dart';
 import '../../../../common/widgets/custom_button.dart';
 import '../../../../common/widgets/custom_textfield.dart';
 import '../controllers/add_story_controller.dart';
-
-import 'dart:io';
 
 class AddStoryView extends GetView<AddStoryController> {
   const AddStoryView({super.key});
@@ -51,7 +49,8 @@ class AddStoryView extends GetView<AddStoryController> {
                           onTap: () async {
                             await controller.pickImageFromCamera();
                           },
-                          child: Container(padding: EdgeInsets.all(8),
+                          child: Container(
+                            padding: const EdgeInsets.all(8),
                             height: 150,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
@@ -61,16 +60,9 @@ class AddStoryView extends GetView<AddStoryController> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Image.asset(
-                                  AppImages.camera,
-                                  scale: 4,
-                                ),
+                                Image.asset(AppImages.camera, scale: 4),
                                 sw8,
-                                Text(
-                                  'Use a camera',
-                                  style: h4,
-                                  textAlign: TextAlign.center,
-                                ),
+                                Text('Use a camera', style: h4, textAlign: TextAlign.center),
                               ],
                             ),
                           ),
@@ -83,7 +75,7 @@ class AddStoryView extends GetView<AddStoryController> {
                             await controller.pickImageFromGallery();
                           },
                           child: Container(
-                            padding: EdgeInsets.all(8),
+                            padding: const EdgeInsets.all(8),
                             height: 150,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
@@ -93,16 +85,9 @@ class AddStoryView extends GetView<AddStoryController> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Image.asset(
-                                  AppImages.gallery,
-                                  scale: 4,
-                                ),
+                                Image.asset(AppImages.gallery, scale: 4),
                                 sw8,
-                                Text(
-                                  'Choose from Gallery',
-                                  style: h4,
-                                  textAlign: TextAlign.center,
-                                ),
+                                Text('Choose from Gallery', style: h4, textAlign: TextAlign.center),
                               ],
                             ),
                           ),
@@ -143,11 +128,7 @@ class AddStoryView extends GetView<AddStoryController> {
                               color: AppColors.black.withOpacity(0.6),
                               shape: BoxShape.circle,
                             ),
-                            child: Icon(
-                              Icons.close,
-                              color: AppColors.white,
-                              size: 20,
-                            ),
+                            child: Icon(Icons.close, color: AppColors.white, size: 20),
                           ),
                         ),
                       ),
@@ -156,24 +137,23 @@ class AddStoryView extends GetView<AddStoryController> {
                 }
               }),
               sh16,
-              Text(
-                'Write something here',
-                style: h3,
-              ),
+              Text('Write something here', style: h3),
               sh8,
               CustomTextField(
                 height: 250,
                 borderColor: AppColors.black,
               ),
               sh20,
-              CustomButton(
-                text: 'Add Story',
-                onPressed: () {
-                  if (controller.selectedImagePath.value.isNotEmpty) {
-                    Get.back(result: controller.selectedImagePath.value);
-                  }
-                },
-              ),
+              Obx(() {
+                return controller.isLoading.value
+                    ? const Center(child: CircularProgressIndicator())
+                    : CustomButton(
+                  text: 'Add Story',
+                  onPressed: () {
+                    controller.uploadStory();
+                  },
+                );
+              }),
               sh30,
             ],
           ),
