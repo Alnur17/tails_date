@@ -533,15 +533,15 @@ class _ReelsViewState extends State<ReelsView> {
                           ),
                         ),
                         sh16,
-                        GestureDetector(
-                          onTap: () {},
-                          child: Image.asset(
-                            AppImages.share,
-                            scale: 4,
-                            color: Colors.white,
-                          ),
-                        ),
-                        sh16,
+                        // GestureDetector(
+                        //   onTap: () {},
+                        //   child: Image.asset(
+                        //     AppImages.share,
+                        //     scale: 4,
+                        //     color: Colors.white,
+                        //   ),
+                        // ),
+                        // sh16,
                         GestureDetector(
                           onTap: () {},
                           child: Image.asset(

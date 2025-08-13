@@ -95,7 +95,10 @@ class MySearchView extends GetView<MySearchController> {
                       top: 16,
                     ),
                     child: UserPostCard(
-
+                      isFriend: true,
+                      isLiked: true,
+                      isSaved: true,
+                      isMe: true,
                       onNotInterestedTap: () {
                         homeController.addNotInterested(
                           homeController.userId,

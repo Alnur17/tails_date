@@ -45,8 +45,10 @@ class AllPostData {
     required this.caption,
     required this.author,
     required this.createdAt,
-    required this.stars,
     required this.reactions,
+    required this.isReacted,
+    required this.isBookmarked,
+    required this.stars,
   });
 
   final String? id;
@@ -55,8 +57,10 @@ class AllPostData {
   final String? caption;
   final Author? author;
   final DateTime? createdAt;
-  final List<String> stars;
   final List<String> reactions;
+  final bool? isReacted;
+  final bool? isBookmarked;
+  final List<dynamic> stars;
 
   factory AllPostData.fromJson(Map<String, dynamic> json){
     return AllPostData(
@@ -66,8 +70,10 @@ class AllPostData {
       caption: json["caption"],
       author: json["author"] == null ? null : Author.fromJson(json["author"]),
       createdAt: DateTime.tryParse(json["createdAt"] ?? ""),
-      stars: json["stars"] == null ? [] : List<String>.from(json["stars"]!.map((x) => x)),
       reactions: json["reactions"] == null ? [] : List<String>.from(json["reactions"]!.map((x) => x)),
+      isReacted: json["isReacted"],
+      isBookmarked: json["isBookmarked"],
+      stars: json["stars"] == null ? [] : List<dynamic>.from(json["stars"]!.map((x) => x)),
     );
   }
 
@@ -75,15 +81,18 @@ class AllPostData {
 
 class Author {
   Author({
+    required this.id,
     required this.image,
     required this.name,
   });
 
+  final String? id;
   final String? image;
   final String? name;
 
   factory Author.fromJson(Map<String, dynamic> json){
     return Author(
+      id: json["_id"],
       image: json["image"],
       name: json["name"],
     );

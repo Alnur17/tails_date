@@ -12,6 +12,10 @@ import 'package:tails_date/app/modules/profile/views/buy_star_view.dart';
 import 'package:tails_date/app/modules/profile/views/send_stars_view.dart';
 
 class UserPostCard extends StatelessWidget {
+  final bool isLiked;
+  final bool isSaved;
+  final bool isFriend;
+  final bool isMe;
   final String userName;
   final String postId;
   final String location;
@@ -44,7 +48,7 @@ class UserPostCard extends StatelessWidget {
     required this.onBookmark,
     required this.onReaction,
     required this.onOtherProfileTap,
-    this.onNotInterestedTap,
+    this.onNotInterestedTap, required this.isLiked, required this.isSaved, required this.isFriend, required this.isMe,
   });
 
   @override
@@ -82,7 +86,7 @@ class UserPostCard extends StatelessWidget {
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        const SizedBox(height: 5),
+                        const SizedBox(height: 2),
                         Row(
                           children: [
                             Image.asset(
@@ -106,17 +110,17 @@ class UserPostCard extends StatelessWidget {
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      if (showAddFriendButton)
-                        CustomButton(
-                          width: 90,
-                          text: 'Add friend',
-                          onPressed: onAddFriend!,
-                          height: 30,
-                          backgroundColor: AppColors.black,
-                          borderRadius: 8,
-                          textStyle: h6.copyWith(color: AppColors.white),
-                        ),
-                      const SizedBox(width: 8),
+                      // if (!isMe)
+                      //   CustomButton(
+                      //     width: 90,
+                      //     text: 'Add friend',
+                      //     onPressed: onAddFriend!,
+                      //     height: 30,
+                      //     backgroundColor: AppColors.black,
+                      //     borderRadius: 8,
+                      //     textStyle: h6.copyWith(color: AppColors.white),
+                      //   ),
+                      // const SizedBox(width: 8),
                       popupMenuButton ??
                           CustomPopupMenuButton(
                             items: [
@@ -242,14 +246,14 @@ class UserPostCard extends StatelessWidget {
                 )),
                 _buildIcon(AppImages.star, null,
                     onTap: () => showStarBuyDialog(context)),
-                _buildIcon(
-                  AppImages.share,
-                  null,
-                  onTap: () => Share.share(
-                    'Check out this post: $shareLink',
-                    subject: 'Post Link',
-                  ),
-                ),
+                // _buildIcon(
+                //   AppImages.share,
+                //   null,
+                //   onTap: () => Share.share(
+                //     'Check out this post: $shareLink',
+                //     subject: 'Post Link',
+                //   ),
+                // ),
                 Obx(() => _buildIcon(
                   homeController.isPostInCollections(postId)
                       ? AppImages.bookmarkFilled

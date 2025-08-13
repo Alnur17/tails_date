@@ -2,6 +2,7 @@ class Api {
   /// base url
 
   static const baseUrl = "http://172.252.13.83:5004/api/v1";
+  // static const baseUrl = "http://10.10.10.17:5004/api/v1";
   static const socket = "http://172.252.13.83:4000";
 
 
@@ -29,6 +30,7 @@ class Api {
 
   ///profile
   static const String myProfile = "$baseUrl/users/profile"; // done
+  static const String othersProfile = "$baseUrl/users/profile"; // done
   static const String editProfile = "$baseUrl/users"; // done
   static const String profileOwnerGallery = "$baseUrl/users/add-to-owner-gallery"; //done
   static const String profilePetGallery = "$baseUrl/users/add-to-pet-gallery"; //done
@@ -41,6 +43,7 @@ class Api {
   static const  String friends = "$baseUrl/friends";
   static const  String collections = "$baseUrl/collections";
   static const  String addOrRemoveCollections = "$baseUrl/collections";
+  static String otherProfile(String otherProfileId) => "$baseUrl/users/single/$otherProfileId"; //
 
   ///Chats
   static const String createChat = "$baseUrl/chats"; //
@@ -80,4 +83,5 @@ class Api {
   static const String myCurrentSubscriptionPlan = "$baseUrl/subscriptions/my"; //done
   static String buySubscriptionPlan(String subscriptionPlanId) => "$baseUrl/payments/create-session-for-subscription?planId=$subscriptionPlanId"; //done
   static String buyStarPlan(String starPlanId) => "$baseUrl/payments/create-session-for-star?starPlanId=$starPlanId"; //done
+
 }

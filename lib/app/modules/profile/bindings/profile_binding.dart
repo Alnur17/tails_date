@@ -8,6 +8,7 @@ import 'package:tails_date/app/modules/profile/controllers/send_and_received_sta
 import 'package:tails_date/app/modules/profile/controllers/send_stars_controller.dart';
 import 'package:tails_date/app/modules/profile/controllers/subscription_plan_controller.dart';
 
+import '../controllers/other_profile_controller.dart';
 import '../controllers/profile_controller.dart';
 
 class ProfileBinding extends Bindings {
@@ -36,6 +37,9 @@ class ProfileBinding extends Bindings {
     );
     Get.lazyPut<ProfileController>(
       () => ProfileController(),
+    );
+    Get.lazyPut<OtherProfileController>(
+          () => OtherProfileController(),
     );
   }
 }

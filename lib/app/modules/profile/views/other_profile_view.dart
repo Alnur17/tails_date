@@ -68,7 +68,7 @@ class _OtherProfileViewState extends State<OtherProfileView> {
       appBar: AppBar(
         scrolledUnderElevation: 0,
         backgroundColor: AppColors.mainColor,
-        title: const Text('Profile'),
+        title: const Text('Other'),
         automaticallyImplyLeading: false,
         actions: [
           GestureDetector(
@@ -437,6 +437,10 @@ class _OtherProfileViewState extends State<OtherProfileView> {
                         padding: const EdgeInsets.symmetric(
                             vertical: 8),
                         child: UserPostCard(
+                          isMe: true,
+                          isSaved: true,
+                          isLiked: true,
+                          isFriend: true,
                           onOtherProfileTap: (){},
                           onBookmark: () {},
                           postId: post.id ?? '',

@@ -50,6 +50,10 @@ class CollectionsView extends GetView {
             final collection = controller.collections[index];
             final post = collection.post;
             return UserPostCard(
+              isMe: true,
+              isSaved: true,
+              isLiked: true,
+              isFriend: true,
               onNotInterestedTap: () {
                 homeController.addNotInterested(
                   homeController.userId,
