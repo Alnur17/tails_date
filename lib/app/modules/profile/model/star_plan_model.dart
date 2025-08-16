@@ -43,7 +43,9 @@ class StarPlanData {
   factory StarPlanData.fromJson(Map<String, dynamic> json){
     return StarPlanData(
       id: json["_id"],
-      price: json["price"],
+      price: (json["price"] is int)
+          ? (json["price"] as int).toDouble()
+          : (json["price"] as double?),
       stars: json["stars"],
       status: json["status"],
       discountRate: json["discount_rate"],

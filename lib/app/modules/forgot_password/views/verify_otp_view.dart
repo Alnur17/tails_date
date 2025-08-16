@@ -42,6 +42,7 @@ class VerifyOtpView extends GetView {
                   left: 16,
                   child: GestureDetector(
                     onTap: () {
+                      Get.closeCurrentSnackbar();
                       Get.back();
                     },
                     child: Image.asset(
@@ -150,7 +151,7 @@ class VerifyOtpView extends GetView {
                                 child: Text(
                                   'Resend code',
                                   style: h4.copyWith(
-                                    color: AppColors.mainColor,
+                                    color: AppColors.black,
                                     decoration: TextDecoration.underline,
                                     decorationColor: AppColors.mainColor,
                                     decorationThickness: 2,
@@ -159,7 +160,7 @@ class VerifyOtpView extends GetView {
                                 ),
                               );
                       }),
-                      sh16,
+                      sh30,
                       Obx(
                         () => forgotPasswordController.isLoading.value
                             ? CustomLoader(color: AppColors.white)

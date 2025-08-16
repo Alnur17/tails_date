@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:tails_date/app/modules/dashboard/views/dashboard_view.dart';
 import 'package:tails_date/app/modules/onboarding/views/widgets/onboardingwidget.dart';
 import 'package:tails_date/common/app_color/app_colors.dart';
 import 'package:tails_date/common/app_images/app_images.dart';
 
+import '../../../../common/app_constant/app_constant.dart';
+import '../../../../common/helper/local_store.dart';
 import '../../auth_landing/views/auth_landing_view.dart';
 
 class OnboardingView extends StatefulWidget {
@@ -75,6 +76,7 @@ class _OnboardingViewState extends State<OnboardingView> {
             bottom: 20,
             child: GestureDetector(
               onTap: () {
+                LocalStorage.saveData(key: AppConstant.onboardingDone, data: "onboardingDone");
                 if (_pageController.page != null) {
                   final nextPage = (_pageController.page! + 1).toInt();
                   if (nextPage < 3) {
@@ -106,7 +108,8 @@ class _OnboardingViewState extends State<OnboardingView> {
             right: 16,
             child: TextButton(
               onPressed: () {
-                Get.to(() => DashboardView());
+                LocalStorage.saveData(key: AppConstant.onboardingDone, data: "onboardingDone");
+                Get.to(() => AuthLandingView());
               },
               child: Text(
                 "Skip",

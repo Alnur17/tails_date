@@ -27,7 +27,7 @@ class LoginView extends GetView<LoginController> {
             Stack(
               children: [
                 SizedBox(
-                  height: 350,
+                  height: 380,
                   width: double.infinity,
                   child: Image.asset(
                     AppImages.loginImage,
@@ -40,6 +40,7 @@ class LoginView extends GetView<LoginController> {
                   left: 16,
                   child: GestureDetector(
                       onTap: () {
+                        Get.closeCurrentSnackbar();
                         Get.back();
                       },
                       child: Image.asset(
@@ -117,13 +118,10 @@ class LoginView extends GetView<LoginController> {
                         onTap: () {
                           Get.to(() => ForgotPasswordView());
                         },
-                        child: Align(
-                          alignment: Alignment.topRight,
-                          child: Text(
-                            'Forgot the password ',
-                            style: h4.copyWith(
-                              color: AppColors.secondaryOrangeColor,
-                            ),
+                        child: Text(
+                          'Forgot the password ',
+                          style: h4.copyWith(
+                            color: AppColors.secondaryOrangeColor,
                           ),
                         ),
                       ),

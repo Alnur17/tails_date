@@ -92,16 +92,16 @@ class _BuyStarViewState extends State<BuyStarView> {
                                       buyStarController.selectPlan(index);
                                     },
                                   ),
-                                  if (index == 0) ...[
-                                    sh8,
-                                    Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        'Your first stars are discounted for a limited time!',
-                                        style: h6,
-                                      ),
-                                    ),
-                                  ],
+                                  // if (index == 0) ...[
+                                  //   sh8,
+                                  //   Align(
+                                  //     alignment: Alignment.centerLeft,
+                                  //     child: Text(
+                                  //       'Your first stars are discounted for a limited time!',
+                                  //       style: h6,
+                                  //     ),
+                                  //   ),
+                                  // ],
                                   sh16,
                                 ],
                               );

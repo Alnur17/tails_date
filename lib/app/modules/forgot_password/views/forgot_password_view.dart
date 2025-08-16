@@ -86,17 +86,17 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
                         ),
                       ),
                       sh24,
-                      GestureDetector(
-                        onTap: () {
-                          //Get.to(() => ForgotPasswordView());
-                        },
-                        child: Text(
-                          'Try another way ',
-                          style: h4.copyWith(
-                            color: AppColors.secondaryOrangeColor,
-                          ),
-                        ),
-                      ),
+                      // GestureDetector(
+                      //   onTap: () {
+                      //     //Get.to(() => ForgotPasswordView());
+                      //   },
+                      //   child: Text(
+                      //     'Try another way ',
+                      //     style: h4.copyWith(
+                      //       color: AppColors.secondaryOrangeColor,
+                      //     ),
+                      //   ),
+                      // ),
                       sh16,
                       Obx(
                         () => forgotPasswordController.isLoading.value

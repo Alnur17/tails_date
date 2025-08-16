@@ -6,13 +6,11 @@ import 'package:tails_date/common/helper/local_store.dart';
 
 
 import '../../app/data/api.dart';
-import '../../app/modules/profile/controllers/profile_controller.dart';
 
 class SocketService extends GetxController {
   late IO.Socket _socket;
 
   RxBool isLoading = false.obs;
-  final ProfileController profileController = Get.put(ProfileController());
 
   final _messageList = <Map<String, dynamic>>[].obs;
   final _socketFriendList = <Map<String, dynamic>>[].obs;

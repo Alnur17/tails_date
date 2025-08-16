@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:tails_date/app/modules/auth_landing/views/auth_landing_view.dart';
+import 'package:tails_date/app/modules/onboarding/views/onboarding_view.dart';
 
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_constant/app_constant.dart';
@@ -29,16 +29,26 @@ class _SplashViewState extends State<SplashView> {
   chooseScreen() {
     var userToken = LocalStorage.getData(key: AppConstant.token);
 
+    var  onboardingDone = LocalStorage.getData(key: AppConstant.onboardingDone);
+
     if (userToken != null) {
       Get.offAll(
         () => DashboardView(),
         transition: Transition.rightToLeft,
       );
     } else {
-      Get.offAll(
-        () => AuthLandingView(),
-        transition: Transition.rightToLeft,
-      );
+
+      if(onboardingDone != null){
+        Get.offAll(
+              () => LoginView(),
+          transition: Transition.rightToLeft,
+        );
+      }else{
+        Get.offAll(
+              () => OnboardingView(),
+          transition: Transition.rightToLeft,
+        );
+      }
     }
   }
 

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:tails_date/app/modules/chats/controllers/chats_controller.dart';
 import 'package:tails_date/app/modules/chats/views/message_view.dart';
 import 'package:tails_date/common/app_color/app_colors.dart';
@@ -269,6 +268,7 @@ class _ChatsViewState extends State<ChatsView> {
                             (p) => p.id != userId,
                         orElse: () => Participant(id: null, image: null, name: null),
                       );
+
                       if (participant.id == null || participant.id == userId) {
                         return const SizedBox.shrink();
                       }

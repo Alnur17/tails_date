@@ -286,15 +286,18 @@ class _ProfileViewState extends State<ProfileView> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
+
                               Expanded(
                                 child: AttributeTile(
-                                  label: 'Gender',
+                                  label: 'Category',
                                   value: profileController
-                                          .profileData.value!.data?.gender ??
+                                      .profileData.value!.data?.category ??
                                       'N/A',
                                 ),
                               ),
                               sw12,
+
+
                               Expanded(
                                 child: AttributeTile(
                                   label: 'Age',
@@ -307,12 +310,13 @@ class _ProfileViewState extends State<ProfileView> {
                               sw12,
                               Expanded(
                                 child: AttributeTile(
-                                  label: 'Category',
+                                  label: 'Gender',
                                   value: profileController
-                                          .profileData.value!.data?.category ??
+                                      .profileData.value!.data?.gender ??
                                       'N/A',
                                 ),
                               ),
+
                             ],
                           ),
                           sh20,

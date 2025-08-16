@@ -73,19 +73,20 @@ class AuthLandingView extends GetView<AuthHomeController> {
           //   ),
           // ),
           Positioned(
-            bottom: 30,
+            bottom: 10,
             left: 16,
             right: 16,
+
             child: Column(
               children: [
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset(
-                      AppImages.authLogo,
-                      scale: 4,
-                    ),
-                    sw8,
+                    // Image.asset(
+                    //   AppImages.authLogo,
+                    //   scale: 4,
+                    // ),
+                    // sw8,
                     Text(
                       'Welcome to TailsDate!',
                       style: h1
@@ -142,6 +143,8 @@ class AuthLandingView extends GetView<AuthHomeController> {
                     ),
                   ),
                 ),
+                sh16,
+
               ],
             ),
           ),

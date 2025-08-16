@@ -67,8 +67,8 @@ class ChatsController extends GetxController {
 
             socketService.socketFriendtList.add({
               "receiverId": friend.lastMessage.first.receiver,
-              "name": friend.participants[1].name,
-              "profileImage": friend.participants[1].image,
+              "name": friend.participants[0].name,
+              "profileImage": friend.participants[0].image,
               "lastMessage": friend.lastMessage.first.text ?? '',
               "lastMessageTime": friend.lastMessage.first.createdAt ?? DateTime.now(),
               "isSeen": friend.lastMessage.first.seen ?? false,

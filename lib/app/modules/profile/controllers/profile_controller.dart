@@ -652,10 +652,10 @@ class ProfileController extends GetxController {
        // final String userId =   responseBody['data']['_id'].toString();
         LocalStorage.saveData(key:  AppConstant.userId, data: userId);
         print("User Id : ${LocalStorage.getData(key: AppConstant.userId)}");
-        kSnackBar(
-          message: profileData.value!.message ?? "Profile fetched successfully",
-          bgColor: AppColors.green,
-        );
+        // kSnackBar(
+        //   message: profileData.value!.message ?? "Profile fetched successfully",
+        //   bgColor: AppColors.green,
+        // );
       } else {
         throw 'Failed to fetch profile!';
       }

@@ -18,9 +18,12 @@ class Api {
   ///Category Data
   static const getCategory = "$baseUrl/categories";//done
 
+  ///guest
+  static const guestPosts = "$baseUrl/posts/guest";//done
+
   /// posts
   static const String createPost = "$baseUrl/posts"; //done
-  static const String allPosts = "$baseUrl/posts"; //done
+  static const String allPosts = "$baseUrl/posts?limit=1000"; //done
   static const String myPosts = "$baseUrl/posts/my"; //done
   static String categoryPosts(categoryId) => "$baseUrl/posts/category/$categoryId"; //done
   static const String addOrRemoveReaction = "$baseUrl/posts/reactions"; //done

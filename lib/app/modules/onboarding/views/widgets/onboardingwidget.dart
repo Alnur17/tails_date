@@ -30,7 +30,7 @@ class OnboardingPage extends StatelessWidget {
               image,
               scale: 4,
               fit: BoxFit.cover,
-              width: Get.width,
+              //width: Get.width,
             ),
           ),
           // Positioned(
