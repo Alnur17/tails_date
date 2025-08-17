@@ -52,9 +52,9 @@ class Api {
 
   ///Story
   static const String createStory = "$baseUrl/stories"; //
-  static const String myStory = "$baseUrl/stories/my"; //
-  static const String getAllStory = "$baseUrl/stories"; //
-  static String getSingleStory(String storyId) => "$baseUrl/stories/$storyId"; //
+  static const String allAuthorStory = "$baseUrl/stories/story-authors"; //
+  //static const String getAllStory = "$baseUrl/stories"; //
+  static String getAuthorStoriesById(String authId) => "$baseUrl/stories/$authId"; //
 
   ///Reels
   static const String createReels = "$baseUrl/reels"; //done

@@ -43,51 +43,125 @@
 // }
 
 
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import '../../../../../../common/app_color/app_colors.dart';
 import '../../../../../../common/app_text_style/styles.dart';
 import '../../../../../../common/size_box/custom_sizebox.dart';
-import '../../../model/all_stories_model.dart';
+import '../../../controllers/story_controller.dart';
+import '../../../model/all_author_story_model.dart';
 import '../../story_view.dart';
 
-class StoryAvatar extends StatelessWidget {
-  final AllStoryDatum story;
 
-  const StoryAvatar({required this.story, super.key});
+class StoryAvatar extends StatelessWidget {
+  final AllAuthDatum story;
+  final StoryController controller;
+
+  const StoryAvatar({required this.story, required this.controller, super.key});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         GestureDetector(
-          onTap: () {
-            Get.to(() => const StoryView());
+          onTap: () async {
+            controller.isLoadingStories.value = true;
+            await controller.fetchStoriesByAuthor(story.id!);
+            controller.isLoadingStories.value = false;
+            if (controller.storyImageUrls.isNotEmpty) {
+              Get.to(() => StoryView(authorName: story.name ?? 'Unknown'));
+            }
+            // else {
+            //   kSnackBar(
+            //     message: 'No stories available for this author',
+            //     bgColor: AppColors.orange,
+            //   );
+            // }
           },
-          child: CircleAvatar(
-            radius: Get.width * 0.094,
-            backgroundColor: AppColors.black,
-            child: CircleAvatar(
-              radius: Get.width * 0.09,
-              backgroundColor: AppColors.mainColor,
-              child: CircleAvatar(
-                radius: Get.width * 0.085,
-                backgroundImage: NetworkImage(story.image ?? ''),
-                onBackgroundImageError: (error, stackTrace) => Icon(
-                  Icons.person,
-                  size: Get.width * 0.06,
-                  color: AppColors.white,
+          child: Obx(() {
+            return Stack(
+              alignment: Alignment.center,
+              children: [
+                CircleAvatar(
+                  radius: Get.width * 0.094,
+                  backgroundColor: AppColors.black,
+                  child: CircleAvatar(
+                    radius: Get.width * 0.09,
+                    backgroundColor: AppColors.mainColor,
+                    child: CircleAvatar(
+                      radius: Get.width * 0.085,
+                      backgroundImage: NetworkImage(story.image ?? ''),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ),
+                if (controller.isLoadingStories.value)
+                  CircularProgressIndicator(
+                    strokeWidth: 2,
+                    valueColor: AlwaysStoppedAnimation<Color>(AppColors.white),
+                  ),
+              ],
+            );
+          }),
         ),
         sh8,
         Text(
-          story.author?.name ?? 'Unknown',
+          story.name ?? '',
           style: h7.copyWith(fontWeight: FontWeight.w700),
         ),
       ],
     );
   }
 }
+
+
+
+// import 'package:flutter/material.dart';
+// import 'package:get/get.dart';
+// import '../../../../../../common/app_color/app_colors.dart';
+// import '../../../../../../common/app_text_style/styles.dart';
+// import '../../../../../../common/size_box/custom_sizebox.dart';
+// import '../../../model/all_stories_model.dart';
+// import '../../story_view.dart';
+//
+// class StoryAvatar extends StatelessWidget {
+//   final AllStoryDatum story;
+//
+//   const StoryAvatar({required this.story, super.key});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//       children: [
+//         GestureDetector(
+//           onTap: () {
+//             Get.to(() => const StoryView());
+//           },
+//           child: CircleAvatar(
+//             radius: Get.width * 0.094,
+//             backgroundColor: AppColors.black,
+//             child: CircleAvatar(
+//               radius: Get.width * 0.09,
+//               backgroundColor: AppColors.mainColor,
+//               child: CircleAvatar(
+//                 radius: Get.width * 0.085,
+//                 backgroundImage: NetworkImage(story.image ?? ''),
+//                 onBackgroundImageError: (error, stackTrace) => Icon(
+//                   Icons.person,
+//                   size: Get.width * 0.06,
+//                   color: AppColors.white,
+//                 ),
+//               ),
+//             ),
+//           ),
+//         ),
+//         sh8,
+//         Text(
+//           story.author?.name ?? 'Unknown',
+//           style: h7.copyWith(fontWeight: FontWeight.w700),
+//         ),
+//       ],
+//     );
+//   }
+// }

@@ -40,7 +40,7 @@ class _ProfileViewState extends State<ProfileView> {
   void initState() {
     super.initState();
     homeController
-        .fetchMyPosts(); // Fetch my posts when the view is initialized
+        .fetchMyPosts();
   }
 
   Future<dynamic> generateThumbnail(String videoUrl) async {

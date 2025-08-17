@@ -1,14 +1,23 @@
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
+import 'package:mime/mime.dart';
 import 'package:tails_date/app/data/api.dart';
+import 'package:tails_date/app/modules/home/controllers/story_controller.dart';
 import 'package:tails_date/common/app_constant/app_constant.dart';
 import 'package:tails_date/common/helper/local_store.dart';
 
+import '../../../data/base_client.dart';
+
 class AddStoryController extends GetxController {
   RxString selectedImagePath = ''.obs;
-  RxString payload = ''.obs; // Added payload field
   RxBool isLoading = false.obs;
+
+  final StoryController storyController = Get.find();
 
   final ImagePicker _picker = ImagePicker();
 
@@ -28,67 +37,56 @@ class AddStoryController extends GetxController {
     }
   }
 
-  Future<void> uploadStory() async {
-    if (selectedImagePath.value.isEmpty) {
-      Get.snackbar('Error', 'Please select an image first.');
-      return;
-    }
-
-    isLoading.value = true;
-
+  Future<void> createStory({
+    required String mediaPath,
+    String? caption,
+    required BuildContext context,
+  }) async {
     try {
-      var uri = Uri.parse(Api.createStory);
-
-      var request = http.MultipartRequest('POST', uri);
-
-      // Add headers
-      request.headers.addAll({
-        'Authorization': 'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
-        'Accept': 'application/json',
-      });
-
-      // Add image file
+      isLoading.value = true;
+      caption = caption?.trim() ??
+          ""; // Ensure caption is included, default to empty string
+      debugPrint(
+          'Attempt to create story with mediaPath: $mediaPath, caption: "$caption"');
+      final token = await LocalStorage.getData(key: AppConstant.token);
+      var request = http.MultipartRequest('POST', Uri.parse(Api.createStory));
+      request.headers['Authorization'] = 'Bearer $token';
+      String? mimeType = lookupMimeType(mediaPath);
+      mimeType ??= 'application/octet-stream';
+      debugPrint('Detected MIME type: $mimeType');
       request.files.add(
         await http.MultipartFile.fromPath(
-          'image', // key expected by API
-          selectedImagePath.value,
+          'image',
+          mediaPath,
+          contentType: MediaType.parse(mimeType),
         ),
       );
+      request.fields['payload'] =
+          jsonEncode({'caption': caption});
+      debugPrint('Payload fields: ${request.fields}');
+      final streamedResponse = await request.send();
+      final response = await http.Response.fromStream(streamedResponse);
+      debugPrint(
+          'createStory response: ${response.statusCode} - ${response.body}');
+      if (response.statusCode == 201) {
+        final responseData = jsonDecode(response.body);
+        await BaseClient.handleResponse(response);
 
-      // Add payload field with caption
-      if (payload.value.isNotEmpty) {
-        request.fields['payload'] = payload.value;
-      } else {
-        request.fields['payload'] = '{"caption": ""}'; // Default caption if payload is empty
-      }
+        debugPrint('Story created successfully, refreshing stories');
+        await storyController.fetchStoryAuthors();
 
-      // Send request
-      var response = await request.send();
+        Get.snackbar(
+            'Success', 'Story created successfully with caption: "$caption"');
+        isLoading.value = false;
+        Navigator.pop(context);
 
-      // Read response body
-      final respStr = await response.stream.bytesToString();
-      print('Response Status: ${response.statusCode}');
-      print('Response Body: $respStr');
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        print('Story uploaded successfully!');
-        Get.snackbar('Success', 'Story uploaded successfully!');
-        selectedImagePath.value = ''; // Reset image path
-        payload.value = ''; // Reset payload
-        Get.back();
-      } else {
-        Get.snackbar('Error', 'Failed to upload story. Code: ${response.statusCode}, Body: $respStr');
       }
     } catch (e) {
-      Get.snackbar('Error', 'An unexpected error occurred: ${e.toString()}');
-      print(e);
+      Get.snackbar('Error', 'Failed to create story: ${e.toString()}');
+      debugPrint('createStory error: $e');
     } finally {
       isLoading.value = false;
+      debugPrint('createStory completed, isLoading: ${isLoading.value}');
     }
-  }
-
-  // Method to set payload
-  void setPayload(String newPayload) {
-    payload.value = newPayload;
   }
 }

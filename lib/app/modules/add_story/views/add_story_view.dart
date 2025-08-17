@@ -10,12 +10,15 @@ import '../../../../common/widgets/custom_button.dart';
 import '../../../../common/widgets/custom_textfield.dart';
 import '../controllers/add_story_controller.dart';
 
+
 class AddStoryView extends GetView<AddStoryController> {
   const AddStoryView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(AddStoryController());
+    final TextEditingController captionController = TextEditingController();
+    final AddStoryController controller = Get.put(AddStoryController());
+
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       appBar: AppBar(
@@ -120,6 +123,7 @@ class AddStoryView extends GetView<AddStoryController> {
                         child: GestureDetector(
                           onTap: () {
                             controller.selectedImagePath.value = '';
+                            captionController.clear();
                           },
                           child: Container(
                             height: 30,
@@ -142,6 +146,9 @@ class AddStoryView extends GetView<AddStoryController> {
               CustomTextField(
                 height: 250,
                 borderColor: AppColors.black,
+                controller: captionController,
+                hintText: 'Enter a caption for your story',
+                //maxLines: 5,
               ),
               sh20,
               Obx(() {
@@ -149,8 +156,15 @@ class AddStoryView extends GetView<AddStoryController> {
                     ? const Center(child: CircularProgressIndicator())
                     : CustomButton(
                   text: 'Add Story',
-                  onPressed: () {
-                    controller.uploadStory();
+                  onPressed: controller.selectedImagePath.value.isEmpty
+                      ? (){} // Disable button if no image is selected
+                      : () async {
+                    await controller.createStory(
+                      mediaPath: controller.selectedImagePath.value,
+                      caption: captionController.text,
+                      context: context,
+                    );
+                    print("Caption : ${captionController.text}");
                   },
                 );
               }),

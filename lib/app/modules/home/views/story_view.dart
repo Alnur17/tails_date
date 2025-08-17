@@ -32,7 +32,8 @@
 //                   if (details.globalPosition.dx < Get.width / 2) {
 //                     controller.goToPreviousStory();
 //                   } else {
-//                     controller.goToNextStory(DummyData.storyImageUrls);
+//                     //controller.goToNextStory(DummyData.storyImageUrls);
+//                     controller.goToNextStory();
 //                   }
 //                 },
 //                 child: Image.network(
@@ -252,36 +253,50 @@
 // }
 
 
+
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tails_date/app/modules/profile/views/buy_star_view.dart';
+import 'package:tails_date/app/modules/profile/views/send_stars_view.dart';
+
 import '../../../../common/app_color/app_colors.dart';
+import '../../../../common/app_images/app_images.dart';
 import '../../../../common/app_text_style/styles.dart';
 import '../../../../common/size_box/custom_sizebox.dart';
 import '../../../../common/widgets/custom_button.dart';
-import '../../profile/views/buy_star_view.dart';
-import '../../profile/views/send_stars_view.dart';
 import '../controllers/story_controller.dart';
-import '../../../../common/app_images/app_images.dart';
+import '../model/all_author_story_model.dart';
 
-class StoryView extends GetView<StoryController> {
-  const StoryView({super.key});
+class StoryView extends GetView {
+  final String authorName;
+
+  const StoryView({required this.authorName, super.key});
 
   @override
   Widget build(BuildContext context) {
-    final StoryController controller = Get.put(StoryController());
+    final StoryController controller = Get.find<StoryController>();
 
     return SafeArea(
       child: Scaffold(
         backgroundColor: AppColors.mainColor,
         body: Obx(() {
-          if (controller.isLoading.value) {
-            return Center(child: CircularProgressIndicator());
+          if (controller.isLoadingStories.value) {
+            return const Center(child: CircularProgressIndicator());
           }
-          if (controller.stories.isEmpty) {
-            return Center(child: Text('No stories available', style: h5.copyWith(color: AppColors.white)));
+          if (controller.storyImageUrls.isEmpty ||
+              controller.authorStories.value == null ||
+              controller.authorStories.value!.data.isEmpty) {
+            return Center(
+              child: Text(
+                'No stories available for $authorName',
+                style: h5.copyWith(color: AppColors.white),
+              ),
+            );
           }
-          final story = controller.stories[controller.currentIndex.value];
+
+          final currentStory = controller.authorStories.value!.data[controller.currentIndex.value];
+
           return Stack(
             children: [
               GestureDetector(
@@ -293,11 +308,11 @@ class StoryView extends GetView<StoryController> {
                   }
                 },
                 child: Image.network(
-                  story.image ?? '',
+                  controller.storyImageUrls[controller.currentIndex.value],
                   fit: BoxFit.cover,
                   height: Get.height,
-                  errorBuilder: (context, error, stackTrace) => Center(
-                    child: Text('Failed to load image', style: h5.copyWith(color: AppColors.white)),
+                  errorBuilder: (context, error, stackTrace) => const Center(
+                    child: Text('Failed to load image', style: TextStyle(color: Colors.white)),
                   ),
                 ),
               ),
@@ -337,12 +352,17 @@ class StoryView extends GetView<StoryController> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(30),
                           child: Image.network(
-                            story.author?.image ?? story.image ?? '',
+                            controller.storyAuthors.value?.data.isNotEmpty ?? false
+                                ? (controller.storyAuthors.value!.data.firstWhere(
+                                  (author) => author.id == currentStory.author,
+                              orElse: () => AllAuthDatum(id: null, name: null, image: ''),
+                            ).image ?? '')
+                                : '',
                             fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) => Icon(
+                            errorBuilder: (context, error, stackTrace) => const Icon(
                               Icons.person,
-                              size: 60,
-                              color: AppColors.white,
+                              color: Colors.white,
+                              size: 40,
                             ),
                           ),
                         ),
@@ -350,7 +370,7 @@ class StoryView extends GetView<StoryController> {
                       sw10,
                       Expanded(
                         child: Text(
-                          story.author?.name ?? 'Unknown',
+                          authorName,
                           style: h3.copyWith(
                             fontWeight: FontWeight.bold,
                             color: AppColors.white,
@@ -373,7 +393,6 @@ class StoryView extends GetView<StoryController> {
                   },
                 ),
               ),
-              // Bottom gradient overlay
               Positioned(
                 top: Get.height * 0.8,
                 left: 0,
@@ -392,19 +411,17 @@ class StoryView extends GetView<StoryController> {
                   ),
                 ),
               ),
-              // Story caption
               Positioned(
                 left: 16,
                 right: 75,
                 bottom: 30,
                 child: Text(
-                  story.caption ?? 'No caption available',
+                  currentStory.caption ?? 'No description available',
                   style: h5.copyWith(color: AppColors.white),
                   maxLines: 4,
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              // Action buttons
               Positioned(
                 bottom: 20,
                 right: 16,
@@ -417,7 +434,7 @@ class StoryView extends GetView<StoryController> {
                         scale: 4,
                         color: AppColors.white,
                       ),
-                      onPressed: () => showStarBuyDialog(context, story.id ?? ''),
+                      onPressed: () => showStarBuyDialog(context),
                     ),
                     sh5,
                     IconButton(
@@ -428,20 +445,20 @@ class StoryView extends GetView<StoryController> {
                         color: AppColors.white,
                       ),
                       onPressed: () {
-                        // Add reaction logic here if needed
+                        // Implement reaction logic if needed
                       },
                     ),
                   ],
                 ),
               ),
-              // Progress indicator
+              // Progress indicator at the top
               Positioned(
                 top: 10,
                 left: 15,
                 right: 15,
                 child: Row(
-                  children: controller.stories.map((story) {
-                    int index = controller.stories.indexOf(story);
+                  children: controller.storyImageUrls.map((url) {
+                    int index = controller.storyImageUrls.indexOf(url);
                     return Expanded(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 2.0),
@@ -466,7 +483,7 @@ class StoryView extends GetView<StoryController> {
     );
   }
 
-  void showStarBuyDialog(BuildContext context, String storyId) {
+  void showStarBuyDialog(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -499,7 +516,7 @@ class StoryView extends GetView<StoryController> {
                   Text('OR', style: h3),
                   const SizedBox(height: 8),
                   CustomButton(
-                    onPressed: () => Get.to(() => SendStarsView(id: storyId)),
+                    onPressed: () => Get.to(() => SendStarsView(id: '')),
                     text: "Send Stars 🤩",
                   ),
                 ],
@@ -511,3 +528,265 @@ class StoryView extends GetView<StoryController> {
     );
   }
 }
+
+
+
+// import 'dart:developer';
+// import 'package:flutter/material.dart';
+// import 'package:get/get.dart';
+// import '../../../../common/app_color/app_colors.dart';
+// import '../../../../common/app_text_style/styles.dart';
+// import '../../../../common/size_box/custom_sizebox.dart';
+// import '../../../../common/widgets/custom_button.dart';
+// import '../../profile/views/buy_star_view.dart';
+// import '../../profile/views/send_stars_view.dart';
+// import '../controllers/story_controller.dart';
+// import '../../../../common/app_images/app_images.dart';
+//
+// class StoryView extends GetView<StoryController> {
+//   const StoryView({super.key});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     final StoryController controller = Get.put(StoryController());
+//
+//     return SafeArea(
+//       child: Scaffold(
+//         backgroundColor: AppColors.mainColor,
+//         body: Obx(() {
+//           if (controller.isLoading.value) {
+//             return Center(child: CircularProgressIndicator());
+//           }
+//           if (controller.stories.isEmpty) {
+//             return Center(child: Text('No stories available', style: h5.copyWith(color: AppColors.white)));
+//           }
+//           final story = controller.stories[controller.currentIndex.value];
+//           return Stack(
+//             children: [
+//               GestureDetector(
+//                 onTapUp: (details) {
+//                   if (details.globalPosition.dx < Get.width / 2) {
+//                     controller.goToPreviousStory();
+//                   } else {
+//                     controller.goToNextStory();
+//                   }
+//                 },
+//                 child: Image.network(
+//                   story.image ?? '',
+//                   fit: BoxFit.cover,
+//                   height: Get.height,
+//                   errorBuilder: (context, error, stackTrace) => Center(
+//                     child: Text('Failed to load image', style: h5.copyWith(color: AppColors.white)),
+//                   ),
+//                 ),
+//               ),
+//               // Semi-transparent overlay at the top for user info
+//               Positioned(
+//                 top: 0,
+//                 left: 10,
+//                 right: 10,
+//                 bottom: Get.height * 0.83,
+//                 child: Container(
+//                   decoration: BoxDecoration(
+//                     gradient: LinearGradient(
+//                       colors: [
+//                         AppColors.black.withOpacity(0.7),
+//                         AppColors.black.withOpacity(0.0),
+//                       ],
+//                       begin: Alignment.topCenter,
+//                       end: Alignment.bottomCenter,
+//                     ),
+//                   ),
+//                 ),
+//               ),
+//               // Story user profile and close button
+//               Positioned(
+//                 top: 30,
+//                 left: 25,
+//                 right: 80,
+//                 child: GestureDetector(
+//                   onTap: () {
+//                     log('tap image profile');
+//                   },
+//                   child: Row(
+//                     children: [
+//                       SizedBox(
+//                         height: 60,
+//                         width: 60,
+//                         child: ClipRRect(
+//                           borderRadius: BorderRadius.circular(30),
+//                           child: Image.network(
+//                             story.author?.image ?? story.image ?? '',
+//                             fit: BoxFit.cover,
+//                             errorBuilder: (context, error, stackTrace) => Icon(
+//                               Icons.person,
+//                               size: 60,
+//                               color: AppColors.white,
+//                             ),
+//                           ),
+//                         ),
+//                       ),
+//                       sw10,
+//                       Expanded(
+//                         child: Text(
+//                           story.author?.name ?? 'Unknown',
+//                           style: h3.copyWith(
+//                             fontWeight: FontWeight.bold,
+//                             color: AppColors.white,
+//                           ),
+//                           maxLines: 2,
+//                           overflow: TextOverflow.ellipsis,
+//                         ),
+//                       ),
+//                     ],
+//                   ),
+//                 ),
+//               ),
+//               Positioned(
+//                 top: 30,
+//                 right: 16,
+//                 child: IconButton(
+//                   icon: const Icon(Icons.close, color: Colors.white),
+//                   onPressed: () {
+//                     Get.back();
+//                   },
+//                 ),
+//               ),
+//               // Bottom gradient overlay
+//               Positioned(
+//                 top: Get.height * 0.8,
+//                 left: 0,
+//                 right: 0,
+//                 bottom: 0,
+//                 child: Container(
+//                   decoration: BoxDecoration(
+//                     gradient: LinearGradient(
+//                       colors: [
+//                         AppColors.black.withOpacity(0.6),
+//                         AppColors.black.withOpacity(0.1),
+//                       ],
+//                       begin: Alignment.bottomCenter,
+//                       end: Alignment.topCenter,
+//                     ),
+//                   ),
+//                 ),
+//               ),
+//               // Story caption
+//               Positioned(
+//                 left: 16,
+//                 right: 75,
+//                 bottom: 30,
+//                 child: Text(
+//                   story.caption ?? 'No caption available',
+//                   style: h5.copyWith(color: AppColors.white),
+//                   maxLines: 4,
+//                   overflow: TextOverflow.ellipsis,
+//                 ),
+//               ),
+//               // Action buttons
+//               Positioned(
+//                 bottom: 20,
+//                 right: 16,
+//                 child: Column(
+//                   children: [
+//                     IconButton(
+//                       style: IconButton.styleFrom(backgroundColor: Colors.black38),
+//                       icon: Image.asset(
+//                         AppImages.star,
+//                         scale: 4,
+//                         color: AppColors.white,
+//                       ),
+//                       onPressed: () => showStarBuyDialog(context, story.id ?? ''),
+//                     ),
+//                     sh5,
+//                     IconButton(
+//                       style: IconButton.styleFrom(backgroundColor: Colors.black38),
+//                       icon: Image.asset(
+//                         AppImages.heart,
+//                         scale: 4,
+//                         color: AppColors.white,
+//                       ),
+//                       onPressed: () {
+//                         // Add reaction logic here if needed
+//                       },
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//               // Progress indicator
+//               Positioned(
+//                 top: 10,
+//                 left: 15,
+//                 right: 15,
+//                 child: Row(
+//                   children: controller.stories.map((story) {
+//                     int index = controller.stories.indexOf(story);
+//                     return Expanded(
+//                       child: Padding(
+//                         padding: const EdgeInsets.symmetric(horizontal: 2.0),
+//                         child: LinearProgressIndicator(
+//                           value: index < controller.currentIndex.value
+//                               ? 1.0
+//                               : index == controller.currentIndex.value
+//                               ? controller.progress.value
+//                               : 0.0,
+//                           backgroundColor: Colors.grey,
+//                           valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
+//                         ),
+//                       ),
+//                     );
+//                   }).toList(),
+//                 ),
+//               ),
+//             ],
+//           );
+//         }),
+//       ),
+//     );
+//   }
+//
+//   void showStarBuyDialog(BuildContext context, String storyId) {
+//     showDialog(
+//       context: context,
+//       builder: (BuildContext context) {
+//         return Dialog(
+//           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+//           child: Container(
+//             decoration: BoxDecoration(
+//               gradient: LinearGradient(
+//                 colors: AppColors.gradientColor,
+//                 begin: Alignment.topCenter,
+//                 end: Alignment.bottomCenter,
+//               ),
+//               borderRadius: BorderRadius.circular(16),
+//             ),
+//             child: Padding(
+//               padding: const EdgeInsets.all(20.0),
+//               child: Column(
+//                 mainAxisSize: MainAxisSize.min,
+//                 children: [
+//                   Text('Support what you love! 🌟', style: h3, textAlign: TextAlign.center),
+//                   Image.asset(AppImages.starImage, scale: 4),
+//                   const SizedBox(height: 8),
+//                   CustomButton(
+//                     onPressed: () => Get.to(() => BuyStarView()),
+//                     text: "Buy Star 🌟",
+//                     backgroundColor: AppColors.white,
+//                     textStyle: h3.copyWith(fontWeight: FontWeight.w700),
+//                   ),
+//                   const SizedBox(height: 8),
+//                   Text('OR', style: h3),
+//                   const SizedBox(height: 8),
+//                   CustomButton(
+//                     onPressed: () => Get.to(() => SendStarsView(id: storyId)),
+//                     text: "Send Stars 🤩",
+//                   ),
+//                 ],
+//               ),
+//             ),
+//           ),
+//         );
+//       },
+//     );
+//   }
+// }
