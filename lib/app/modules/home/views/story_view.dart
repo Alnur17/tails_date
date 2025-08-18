@@ -270,8 +270,9 @@ import '../model/all_author_story_model.dart';
 
 class StoryView extends GetView {
   final String authorName;
+  final String storyId;
 
-  const StoryView({required this.authorName, super.key});
+  const StoryView( { required this.storyId,required this.authorName, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -516,7 +517,7 @@ class StoryView extends GetView {
                   Text('OR', style: h3),
                   const SizedBox(height: 8),
                   CustomButton(
-                    onPressed: () => Get.to(() => SendStarsView(id: '')),
+                    onPressed: () => Get.to(() => SendStarsView(id: storyId,isFromStory: true)),
                     text: "Send Stars 🤩",
                   ),
                 ],

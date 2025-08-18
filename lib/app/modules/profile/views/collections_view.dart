@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tails_date/app/modules/home/controllers/home_controller.dart';
 import '../../../../common/app_color/app_colors.dart';
+import '../../../../common/app_constant/app_constant.dart';
 import '../../../../common/app_images/app_images.dart';
+import '../../../../common/app_text_style/styles.dart';
+import '../../../../common/helper/local_store.dart';
 import '../../home/views/widgets/home_widgets/user_post_card.dart';
 import '../controllers/collections_controller.dart';
 import 'other_profile_view.dart';
@@ -36,10 +39,10 @@ class CollectionsView extends GetView {
           return const Center(child: CircularProgressIndicator());
         }
         if (controller.collections.isEmpty) {
-          return const Center(
+          return Center(
             child: Text(
               'No collections found',
-              style: TextStyle(fontSize: 20, color: Colors.white),
+              style: h4,
             ),
           );
         }
@@ -50,9 +53,9 @@ class CollectionsView extends GetView {
             final collection = controller.collections[index];
             final post = collection.post;
             return UserPostCard(
-              isMe: true,
-              isSaved: true,
-              isLiked: true,
+              isLiked: homeController.isPostLiked(post?.id ?? ''),
+              isSaved: homeController.isPostInCollections(post?.id ?? ''),
+              isMe: post?.author?.id == LocalStorage.getData(key: AppConstant.userId),
               isFriend: true,
               onNotInterestedTap: () {
                 homeController.addNotInterested(
@@ -80,7 +83,7 @@ class CollectionsView extends GetView {
                 homeController.toggleCollection(post.id!);
               },
               onReaction: () {
-                homeController.addOrRemoveReaction(post.id!);
+                homeController.toggleLike(post.id!);
               },
             );
           },

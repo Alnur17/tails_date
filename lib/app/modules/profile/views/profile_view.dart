@@ -18,6 +18,8 @@ import 'package:tails_date/common/widgets/custom_button.dart';
 import 'package:tails_date/common/widgets/custom_popup_menu_button.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
+import '../../../../common/app_constant/app_constant.dart';
+import '../../../../common/helper/local_store.dart';
 import '../../home/views/widgets/home_widgets/user_post_card.dart';
 
 class ProfileView extends StatefulWidget {
@@ -34,6 +36,7 @@ class _ProfileViewState extends State<ProfileView> {
   bool showOwnerGallery = false;
 
   final ProfileController profileController = Get.put(ProfileController());
+
   final HomeController homeController = Get.put(HomeController());
 
   @override
@@ -498,12 +501,14 @@ class _ProfileViewState extends State<ProfileView> {
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 8),
                                         child: UserPostCard(
-                                          isMe: true,
-                                          isSaved: true,
-                                          isLiked: true,
+                                          isLiked: homeController.isPostLiked(post.id ?? ''),
+                                          isSaved: homeController.isPostInCollections(post.id ?? ''),
+                                          isMe: post.author?.id == LocalStorage.getData(key: AppConstant.userId),
                                           isFriend: true,
                                           onOtherProfileTap: () {},
-                                          onBookmark: () {},
+                                          onBookmark: () {
+                                            homeController.toggleCollection(post.id!);
+                                          },
                                           postId: post.id ?? '',
                                           userName: post.author?.name ?? '',
                                           location: post.location ?? '',

@@ -70,8 +70,10 @@ class StoryAvatar extends StatelessWidget {
             controller.isLoadingStories.value = true;
             await controller.fetchStoriesByAuthor(story.id!);
             controller.isLoadingStories.value = false;
-            if (controller.storyImageUrls.isNotEmpty) {
-              Get.to(() => StoryView(authorName: story.name ?? 'Unknown'));
+            //if (controller.storyImageUrls.isNotEmpty) {
+            if (controller.authorStories.value?.data.isNotEmpty ?? false) {
+              final firstStoryId = controller.authorStories.value!.data.first.id;
+              Get.to(() => StoryView(authorName: story.name ?? 'Unknown', storyId: firstStoryId!,));
             }
             // else {
             //   kSnackBar(

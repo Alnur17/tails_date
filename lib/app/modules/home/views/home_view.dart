@@ -1,5 +1,3 @@
-
-
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -27,8 +25,13 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  final HomeController homeController = Get.put(HomeController());
-  final ProfileController profileController = Get.put(ProfileController());
+  final HomeController homeController = Get.isRegistered<HomeController>()
+      ? Get.find()
+      : Get.put(HomeController());
+
+  final ProfileController profileController = Get.isRegistered<ProfileController>()
+      ? Get.find()
+      : Get.put(ProfileController());
 
   @override
   void initState() {
@@ -151,9 +154,9 @@ class _HomeViewState extends State<HomeView> {
                       ),
                       child: UserPostCard(
                         isFriend: true,
-                        isLiked: true,
-                        isSaved: true,
-                        isMe: post.author?.id == LocalStorage.getData(key: AppConstant.userId) ? true : false,
+                        isLiked: homeController.isPostLiked(post.id ?? ''),
+                        isSaved: homeController.isPostInCollections(post.id ?? ''),
+                        isMe: post.author?.id == LocalStorage.getData(key: AppConstant.userId),
                         onNotInterestedTap: () {
                           homeController.addNotInterested(
                             homeController.userId,
@@ -172,8 +175,7 @@ class _HomeViewState extends State<HomeView> {
                         images: post.images,
                         description: post.caption ?? '',
                         likeCount: post.reactions.length,
-                        timeAgo: homeController
-                            .formatTimeAgo(post.createdAt),
+                        timeAgo: homeController.formatTimeAgo(post.createdAt),
                         onAddFriend: () {
                           log("Add Friend clicked for ${post.author?.name}");
                         },
@@ -194,6 +196,7 @@ class _HomeViewState extends State<HomeView> {
                           homeController.toggleLike(post.id!);
                         },
                       ),
+
                     );
                   },
                 ),

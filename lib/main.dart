@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'Services/socket_services.dart';
 import 'app/routes/app_pages.dart';
-import 'common/helper/socket_service.dart';
 
 void main() async {
   // Ensure the widget binding is initialized for async operations

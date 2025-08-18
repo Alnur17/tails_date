@@ -22,11 +22,11 @@ class MyCollectionsModel {
 class Datum {
   Datum({
     required this.id,
-    required this.user,
-    required this.post,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.v,
+     this.user,
+     this.post,
+     this.createdAt,
+     this.updatedAt,
+     this.v,
   });
 
   final String? id;

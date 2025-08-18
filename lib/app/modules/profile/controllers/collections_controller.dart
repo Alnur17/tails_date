@@ -73,7 +73,13 @@ class CollectionsController extends GetxController {
           message: result['message']?.toString() ?? 'Collection updated successfully',
           bgColor: AppColors.green,
         );
-        await fetchCollections();
+        if (collections.any((c) => c.id == postId)) {
+          collections.removeWhere((c) => c.id == postId);
+        } else {
+          collections.add(Datum(id: postId)); // Add a minimal Datum
+        }
+        collections.refresh();
+        fetchCollections();
       } else {
         kSnackBar(
           message: result['message']?.toString() ?? 'Failed to update collection',

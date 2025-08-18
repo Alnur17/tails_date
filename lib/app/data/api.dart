@@ -68,6 +68,7 @@ class Api {
   ///Star Plans
   static const String starPlans = "$baseUrl/star-plans"; //done
   static const String sendStars = "$baseUrl/posts/send-star"; //done
+  static const String sendStarsFromStory = "$baseUrl/stories/send-star"; //done
   static const String sendStarsHistory = "$baseUrl/stars/sent"; //done
   static const String receivedStarsHistory = "$baseUrl/stars/received"; //done
 

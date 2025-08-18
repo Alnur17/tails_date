@@ -4,7 +4,9 @@ import 'package:get/get.dart';
 import 'package:tails_date/app/modules/home/controllers/home_controller.dart';
 import 'package:tails_date/app/modules/home/views/widgets/home_widgets/user_post_card.dart';
 import 'package:tails_date/common/app_color/app_colors.dart';
+import '../../../../common/app_constant/app_constant.dart';
 import '../../../../common/app_images/app_images.dart';
+import '../../../../common/helper/local_store.dart';
 import '../../profile/controllers/collections_controller.dart';
 import '../../profile/views/other_profile_view.dart';
 
@@ -30,6 +32,7 @@ class _CategoryViewState extends State<CategoryView> {
     Future.microtask(() {
       homeController.fetchCategoryPosts(categoryId: widget.categoryId);
     });
+    collectionsController.fetchCollections();
   }
 
   @override
@@ -99,9 +102,9 @@ class _CategoryViewState extends State<CategoryView> {
               ),
               child: UserPostCard(
                 isFriend: true,
-                isLiked: true,
-                isSaved: true,
-                isMe: true,
+                isLiked: homeController.isPostLiked(post.id ?? ''),
+                isSaved: homeController.isPostInCollections(post.id ?? ''),
+                isMe: post.author?.id == LocalStorage.getData(key: AppConstant.userId),
                 onNotInterestedTap: () {
                   homeController.addNotInterested(
                     homeController.userId,
@@ -124,9 +127,18 @@ class _CategoryViewState extends State<CategoryView> {
                   log("Add Friend clicked for ${post.author?.name}");
                 },
                 onBookmark: () {
-                  collectionsController.addOrRemoveCollection(post.id!);
+                  if (post.id == null || post.id!.isEmpty) {
+                    log("Error: Post ID is null or empty");
+                    return;
+                  }
+                  homeController.toggleCollection(post.id!);
+                  //collectionsController.addOrRemoveCollection(post.id!);
                 },
                 onReaction: () {
+                  if (post.id == null || post.id!.isEmpty) {
+                    log("Error: Post ID is null or empty");
+                    return;
+                  }
                   homeController.addOrRemoveReaction(post.id!);
                 },
               ),

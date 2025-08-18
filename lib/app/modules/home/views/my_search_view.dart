@@ -10,6 +10,8 @@ import 'package:tails_date/common/app_images/app_images.dart';
 import 'package:tails_date/common/size_box/custom_sizebox.dart';
 import 'package:tails_date/common/widgets/custom_textfield.dart';
 
+import '../../../../common/app_constant/app_constant.dart';
+import '../../../../common/helper/local_store.dart';
 import '../../profile/controllers/collections_controller.dart';
 import '../../profile/views/other_profile_view.dart';
 
@@ -96,9 +98,9 @@ class MySearchView extends GetView<MySearchController> {
                     ),
                     child: UserPostCard(
                       isFriend: true,
-                      isLiked: true,
-                      isSaved: true,
-                      isMe: true,
+                      isLiked: homeController.isPostLiked(post.id ?? ''),
+                      isSaved: homeController.isPostInCollections(post.id ?? ''),
+                      isMe: post.author?.id == LocalStorage.getData(key: AppConstant.userId),
                       onNotInterestedTap: () {
                         homeController.addNotInterested(
                           homeController.userId,

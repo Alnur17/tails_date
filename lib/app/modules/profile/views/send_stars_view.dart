@@ -12,8 +12,14 @@ import '../../../../common/size_box/custom_sizebox.dart';
 import '../../../../common/widgets/custom_button.dart';
 
 class SendStarsView extends GetView<SendStarsController> {
-  final String? id;
-  const SendStarsView({super.key, required this.id});
+  final String id;
+  final bool isFromStory; // 👈 New flag to check source (story or post)
+
+  const SendStarsView({
+    super.key,
+    required this.id,
+    this.isFromStory = false, // default false → means from post
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -27,13 +33,8 @@ class SendStarsView extends GetView<SendStarsController> {
         title: const Text('Send Stars'),
         centerTitle: true,
         leading: GestureDetector(
-          onTap: () {
-            Get.back();
-          },
-          child: Image.asset(
-            AppImages.back,
-            scale: 4,
-          ),
+          onTap: () => Get.back(),
+          child: Image.asset(AppImages.back, scale: 4),
         ),
       ),
       body: Container(
@@ -51,26 +52,18 @@ class SendStarsView extends GetView<SendStarsController> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Text(
-                'Enjoyed this post?',
-                style: h3,
-              ),
+              Text('Enjoyed this post?', style: h3),
               sh24,
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    color: AppColors.black,
-                  ),
+                  border: Border.all(color: AppColors.black),
                   color: AppColors.white,
                 ),
                 child: Row(
                   children: [
-                    Image.asset(
-                      AppImages.starCardTwo,
-                      scale: 4,
-                    ),
+                    Image.asset(AppImages.starCardTwo, scale: 4),
                     sw12,
                     Expanded(
                       child: Text(
@@ -90,25 +83,19 @@ class SendStarsView extends GetView<SendStarsController> {
                       iconPath: AppImages.starFilled,
                       text: '50',
                       isSelected: sendStarsController.selectedAmount.value == 50,
-                      onTap: () {
-                        sendStarsController.selectAmount(50);
-                      },
+                      onTap: () => sendStarsController.selectAmount(50),
                     ),
                     TappableContainer(
                       iconPath: AppImages.starFilled,
                       text: '100',
                       isSelected: sendStarsController.selectedAmount.value == 100,
-                      onTap: () {
-                        sendStarsController.selectAmount(100);
-                      },
+                      onTap: () => sendStarsController.selectAmount(100),
                     ),
                     TappableContainer(
                       iconPath: AppImages.starFilled,
                       text: '200',
                       isSelected: sendStarsController.selectedAmount.value == 200,
-                      onTap: () {
-                        sendStarsController.selectAmount(200);
-                      },
+                      onTap: () => sendStarsController.selectAmount(200),
                     ),
                   ],
                 );
@@ -124,10 +111,7 @@ class SendStarsView extends GetView<SendStarsController> {
               sh8,
               CustomTextField(
                 hintText: 'Send Stars',
-                preIcon: Image.asset(
-                  AppImages.starFilled,
-                  scale: 4,
-                ),
+                preIcon: Image.asset(AppImages.starFilled, scale: 4),
                 controller: sendStarsController.customAmountController,
               ),
               sh24,
@@ -135,9 +119,19 @@ class SendStarsView extends GetView<SendStarsController> {
                 text: 'Send Stars 🌟',
                 onPressed: () {
                   final enteredAmount = sendStarsController.getSelectedAmount();
-                  if (enteredAmount.isNotEmpty && int.tryParse(enteredAmount) != null && int.parse(enteredAmount) > 0) {
-                    sendStarsController.sendStars(id ?? '', int.parse(enteredAmount));
-                    log('Sending $enteredAmount stars!');
+                  if (enteredAmount.isNotEmpty &&
+                      int.tryParse(enteredAmount) != null &&
+                      int.parse(enteredAmount) > 0) {
+
+                    final amount = int.parse(enteredAmount);
+
+                    if (isFromStory) {
+                      sendStarsController.sendStarsFromStory(id, amount, context);
+                    } else {
+                      sendStarsController.sendStars(id, amount, context);
+                    }
+
+                    log('Sending $enteredAmount stars! (from ${isFromStory ? "Story" : "Post"})');
                   } else {
                     Get.snackbar(
                       'Invalid Amount',
