@@ -139,7 +139,7 @@ class _CategoryViewState extends State<CategoryView> {
                     log("Error: Post ID is null or empty");
                     return;
                   }
-                  homeController.addOrRemoveReaction(post.id!);
+                  homeController.toggleLike(post.id!);
                 },
               ),
             );

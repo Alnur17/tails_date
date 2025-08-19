@@ -126,7 +126,7 @@ class MySearchView extends GetView<MySearchController> {
                         homeController.toggleCollection(post.id!);
                       },
                       onReaction: () {
-                        homeController.addOrRemoveReaction(post.id!);
+                        homeController.toggleLike(post.id!);
                       },
                     ),
                   );

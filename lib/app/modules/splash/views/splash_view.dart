@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:tails_date/app/modules/auth_landing/views/auth_landing_view.dart';
 import 'package:tails_date/app/modules/onboarding/views/onboarding_view.dart';
 
 import '../../../../common/app_color/app_colors.dart';
@@ -8,7 +9,6 @@ import '../../../../common/app_constant/app_constant.dart';
 import '../../../../common/app_images/app_images.dart';
 import '../../../../common/helper/local_store.dart';
 import '../../dashboard/views/dashboard_view.dart';
-import '../../login/views/login_view.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
@@ -40,7 +40,7 @@ class _SplashViewState extends State<SplashView> {
 
       if(onboardingDone != null){
         Get.offAll(
-              () => LoginView(),
+              () => AuthLandingView(),
           transition: Transition.rightToLeft,
         );
       }else{

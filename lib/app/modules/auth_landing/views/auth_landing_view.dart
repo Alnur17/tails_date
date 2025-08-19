@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:tails_date/app/modules/home/views/home_view.dart';
 import 'package:tails_date/app/modules/login/views/login_view.dart';
 import 'package:tails_date/app/modules/signup/views/signup_view.dart';
 import 'package:tails_date/common/app_color/app_colors.dart';
@@ -17,6 +16,7 @@ class AuthLandingView extends GetView<AuthHomeController> {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(AuthHomeController());
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       appBar: AppBar(
@@ -118,9 +118,8 @@ class AuthLandingView extends GetView<AuthHomeController> {
                 CustomButton(
                   text: 'Continue As Guest',
                   onPressed: () {
-                    Get.to(() => HomeView());
+                    controller.continueAsGuest();
                   },
-                 //borderColor: AppColors.white,
                 ),
                 sh12,
                 GestureDetector(

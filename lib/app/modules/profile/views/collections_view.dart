@@ -47,44 +47,47 @@ class CollectionsView extends GetView {
           );
         }
         return ListView.builder(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           itemCount: controller.collections.length,
           itemBuilder: (context, index) {
             final collection = controller.collections[index];
             final post = collection.post;
-            return UserPostCard(
-              isLiked: homeController.isPostLiked(post?.id ?? ''),
-              isSaved: homeController.isPostInCollections(post?.id ?? ''),
-              isMe: post?.author?.id == LocalStorage.getData(key: AppConstant.userId),
-              isFriend: true,
-              onNotInterestedTap: () {
-                homeController.addNotInterested(
-                  homeController.userId,
-                  post.id,
-                );
-                debugPrint(";;;;;;;;;; ${homeController.userId};;;;;;;;");
-              },
-              onOtherProfileTap: (){
-                Get.to(()=> OtherProfileView());
-              },
-              postId: post?.id ?? '',
-              userName: post?.author?.name ?? 'Unknown',
-              location: post?.location ?? 'Unknown',
-              profileImage: post?.author?.image ?? '',
-              images: post!.images,
-              description: post.caption ?? '',
-              likeCount: post.reactions.length,
-              timeAgo: homeController.formatTimeAgo(post.createdAt),
-              onAddFriend: () {
-                log("Add Friend clicked for ${post.author?.name}");
-              },
-              onBookmark: (){
-                print('object');
-                homeController.toggleCollection(post.id!);
-              },
-              onReaction: () {
-                homeController.toggleLike(post.id!);
-              },
+            return Padding(
+              padding:  EdgeInsets.only(top: 16,bottom: index == controller.collections.length - 1 ? 16 : 0),
+              child: UserPostCard(
+                isLiked: homeController.isPostLiked(post?.id ?? ''),
+                isSaved: homeController.isPostInCollections(post?.id ?? ''),
+                isMe: post?.author?.id == LocalStorage.getData(key: AppConstant.userId),
+                isFriend: true,
+                onNotInterestedTap: () {
+                  homeController.addNotInterested(
+                    homeController.userId,
+                    post.id,
+                  );
+                  debugPrint(";;;;;;;;;; ${homeController.userId};;;;;;;;");
+                },
+                onOtherProfileTap: (){
+                  Get.to(()=> OtherProfileView());
+                },
+                postId: post?.id ?? '',
+                userName: post?.author?.name ?? 'Unknown',
+                location: post?.location ?? 'Unknown',
+                profileImage: post?.author?.image ?? '',
+                images: post!.images,
+                description: post.caption ?? '',
+                likeCount: post.reactions.length,
+                timeAgo: homeController.formatTimeAgo(post.createdAt),
+                onAddFriend: () {
+                  log("Add Friend clicked for ${post.author?.name}");
+                },
+                onBookmark: (){
+                  print('object');
+                  homeController.toggleCollection(post.id!);
+                },
+                onReaction: () {
+                  homeController.toggleLike(post.id!);
+                },
+              ),
             );
           },
         );

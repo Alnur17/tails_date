@@ -134,7 +134,7 @@ class StoryController extends GetxController {
         api: Api.allAuthorStory,
         headers: {
           'Content-Type': 'application/json',
-          // 'Authorization': 'Bearer ${await LocalStorage.getData(key: AppConstant.token)}',
+         // 'Authorization': 'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
         },
       );
       final result = await BaseClient.handleResponse(response);
@@ -154,7 +154,7 @@ class StoryController extends GetxController {
         api: Api.getAuthorStoriesById(authorId),
         headers: {
           'Content-Type': 'application/json',
-          // 'Authorization': 'Bearer ${await LocalStorage.getData(key: AppConstant.token)}',
+          //'Authorization': 'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
         },
       );
       final result = await BaseClient.handleResponse(response);

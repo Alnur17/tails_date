@@ -85,6 +85,7 @@ import '../../../../common/app_images/app_images.dart';
 import '../../../../common/size_box/custom_sizebox.dart';
 import '../../../../common/widgets/custom_button.dart';
 import '../../../../common/widgets/custom_textfield.dart';
+import '../../chats/controllers/chats_controller.dart';
 import '../controllers/my_friends_controller.dart';
 
 class FriendsView extends GetView<MyFriendsController> {
@@ -93,6 +94,7 @@ class FriendsView extends GetView<MyFriendsController> {
   @override
   Widget build(BuildContext context) {
     Get.put(MyFriendsController()); // Initialize the controller
+    final chatController = Get.put(ChatsController());
 
     return Scaffold(
       backgroundColor: AppColors.mainColor,
@@ -159,7 +161,9 @@ class FriendsView extends GetView<MyFriendsController> {
                                       () => MessageView(
                                         userImage: friendImage,
                                         userName: friendName,
-                                        chatId: friend.id,
+                                        chatId:
+                                            chatController.chatsList.first.id,
+                                        receiverId: friend.sender?.id,
                                       ),
                                     );
                                   },

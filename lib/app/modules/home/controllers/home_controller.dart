@@ -140,6 +140,25 @@ class HomeController extends GetxController {
           posts.refresh();
         }
 
+        final myPostIndex = myPosts.indexWhere((p) => p.id == postId);
+        if (myPostIndex != -1) {
+          if (isPostLiked(postId)) {
+            myPosts[myPostIndex].reactions.add(userId ?? "");
+          } else {
+            myPosts[myPostIndex].reactions.remove(userId ?? "");
+          }
+          myPosts.refresh(); // Trigger UI update for myPosts
+        }
+
+        final categoryWisePostsIndex = categoryWisePost.indexWhere((p) => p.id == postId);
+        if (categoryWisePostsIndex != -1) {
+          if (isPostLiked(postId)) {
+            categoryWisePost[categoryWisePostsIndex].reactions.add(userId ?? "");
+          } else {
+            categoryWisePost[categoryWisePostsIndex].reactions.remove(userId ?? "");
+          }
+          categoryWisePost.refresh(); // Trigger UI update for myPosts
+        }
 
         kSnackBar(
           message: result['message']?.toString() ?? 'Reaction updated successfully',

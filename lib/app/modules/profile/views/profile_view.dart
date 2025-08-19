@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -5,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:tails_date/app/modules/home/controllers/home_controller.dart';
 import 'package:tails_date/app/modules/profile/controllers/profile_controller.dart';
-import 'package:tails_date/app/modules/profile/views/edit_post_view.dart';
 import 'package:tails_date/app/modules/profile/views/edit_profile_view.dart';
 import 'package:tails_date/app/modules/profile/views/friends_view.dart';
 import 'package:tails_date/app/modules/profile/views/my_reels_view.dart';
@@ -15,7 +15,6 @@ import 'package:tails_date/common/size_box/custom_sizebox.dart';
 import 'package:tails_date/common/app_images/app_images.dart';
 import 'package:tails_date/common/app_text_style/styles.dart';
 import 'package:tails_date/common/widgets/custom_button.dart';
-import 'package:tails_date/common/widgets/custom_popup_menu_button.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
 import '../../../../common/app_constant/app_constant.dart';
@@ -42,8 +41,7 @@ class _ProfileViewState extends State<ProfileView> {
   @override
   void initState() {
     super.initState();
-    homeController
-        .fetchMyPosts();
+    homeController.fetchMyPosts();
   }
 
   Future<dynamic> generateThumbnail(String videoUrl) async {
@@ -289,18 +287,15 @@ class _ProfileViewState extends State<ProfileView> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-
                               Expanded(
                                 child: AttributeTile(
                                   label: 'Category',
                                   value: profileController
-                                      .profileData.value!.data?.category ??
+                                          .profileData.value!.data?.category ??
                                       'N/A',
                                 ),
                               ),
                               sw12,
-
-
                               Expanded(
                                 child: AttributeTile(
                                   label: 'Age',
@@ -315,11 +310,10 @@ class _ProfileViewState extends State<ProfileView> {
                                 child: AttributeTile(
                                   label: 'Gender',
                                   value: profileController
-                                      .profileData.value!.data?.gender ??
+                                          .profileData.value!.data?.gender ??
                                       'N/A',
                                 ),
                               ),
-
                             ],
                           ),
                           sh20,
@@ -380,7 +374,10 @@ class _ProfileViewState extends State<ProfileView> {
                                 '${profileController.profileData.value!.data?.ownerRelationshipStatus ?? 'N/A'}, ${profileController.profileData.value!.data?.ownerGender ?? 'N/A'}',
                                 style: h6,
                               ),
-                              trailing: Text("Age: ${profileController.profileData.value!.data?.ownerAge ?? 'N/A'}" , style: h6,),
+                              trailing: Text(
+                                "Age: ${profileController.profileData.value!.data?.ownerAge ?? 'N/A'}",
+                                style: h6,
+                              ),
                             ),
                           ),
                           sh16,
@@ -501,59 +498,36 @@ class _ProfileViewState extends State<ProfileView> {
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 8),
                                         child: UserPostCard(
+                                          isFriend: true,
                                           isLiked: homeController.isPostLiked(post.id ?? ''),
                                           isSaved: homeController.isPostInCollections(post.id ?? ''),
                                           isMe: post.author?.id == LocalStorage.getData(key: AppConstant.userId),
-                                          isFriend: true,
-                                          onOtherProfileTap: () {},
-                                          onBookmark: () {
-                                            homeController.toggleCollection(post.id!);
+                                          onNotInterestedTap: () {
+                                            homeController.addNotInterested(
+                                              homeController.userId,
+                                              post.id,
+                                            );
+                                            debugPrint(";;;;;;;;;; ${homeController.userId};;;;;;;;");
+                                          },
+                                          onOtherProfileTap: (){
                                           },
                                           postId: post.id ?? '',
-                                          userName: post.author?.name ?? '',
-                                          location: post.location ?? '',
-                                          profileImage:
-                                              post.author?.image ?? '',
+                                          userName: post.author?.name ?? 'Unknown',
+                                          location: post.location ?? 'Unknown',
+                                          profileImage: post.author?.image ?? '',
                                           images: post.images,
                                           description: post.caption ?? '',
                                           likeCount: post.reactions.length,
-                                          timeAgo: homeController
-                                              .formatTimeAgo(post.createdAt),
-                                          showAddFriendButton: false,
-                                          onReaction: () {
-                                            homeController
-                                                .addOrRemoveReaction(post.id!);
+                                          timeAgo: homeController.formatTimeAgo(post.createdAt),
+                                          onAddFriend: () {
+                                            log("Add Friend clicked for ${post.author?.name}");
                                           },
-                                          popupMenuButton:
-                                              CustomPopupMenuButton(
-                                            items: [
-                                              PopupMenuItemData(
-                                                value: 'Edit Post',
-                                                label: 'Edit Post',
-                                                onSelected: () {
-                                                  Get.to(() => EditPostView(
-                                                        location:
-                                                            post.location ?? '',
-                                                        images: post.images,
-                                                        description:
-                                                            post.caption ?? '',
-                                                        categoryId:
-                                                            post.id ?? '',
-                                                      ));
-                                                },
-                                              ),
-                                              PopupMenuItemData(
-                                                  isDivider: true),
-                                              PopupMenuItemData(
-                                                value: 'Delete Post',
-                                                label: 'Delete Post',
-                                                onSelected: () {
-                                                  homeController.deletePost(
-                                                      post.id ?? '');
-                                                },
-                                              ),
-                                            ],
-                                          ),
+                                          onBookmark: (){
+                                            homeController.toggleCollection(post.id!);
+                                          },
+                                          onReaction: () {
+                                            homeController.toggleLike(post.id!);
+                                          },
                                         ),
                                       );
                                     },
