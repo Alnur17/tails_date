@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:tails_date/app/modules/forgot_password/views/forgot_password_view.dart';
 import 'package:tails_date/app/modules/signup/views/signup_view.dart';
 import 'package:tails_date/common/widgets/custom_loader.dart';
-
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_images/app_images.dart';
 import '../../../../common/app_text_style/styles.dart';
@@ -72,19 +70,19 @@ class LoginView extends GetView<LoginController> {
                     children: [
                       sh16,
                       Text(
-                        'Log In',
+                        'Login_Title'.tr,
                         style: h2,
                       ),
                       sh8,
                       Text(
-                        'Hii! Welcome back',
+                        'Login_Welcome'.tr,
                         style: h4.copyWith(color: Colors.grey[700]),
                         textAlign: TextAlign.center,
                       ),
                       sh24,
                       CustomTextField(
                         controller: loginController.emailController,
-                        hintText: 'Enter your email',
+                        hintText: 'Enter_Email'.tr,
                         preIcon: Image.asset(
                           AppImages.message,
                           scale: 4,
@@ -92,9 +90,9 @@ class LoginView extends GetView<LoginController> {
                       ),
                       sh16,
                       Obx(
-                        () => CustomTextField(
+                            () => CustomTextField(
                           controller: loginController.passwordController,
-                          hintText: 'Enter your password',
+                          hintText: 'Enter_Password'.tr,
                           preIcon: Image.asset(
                             AppImages.lock,
                             scale: 4,
@@ -119,7 +117,7 @@ class LoginView extends GetView<LoginController> {
                           Get.to(() => ForgotPasswordView());
                         },
                         child: Text(
-                          'Forgot the password ',
+                          'Forgot_Password'.tr,
                           style: h4.copyWith(
                             color: AppColors.secondaryOrangeColor,
                           ),
@@ -127,14 +125,14 @@ class LoginView extends GetView<LoginController> {
                       ),
                       sh16,
                       Obx(
-                        () => loginController.isLoading.value
+                            () => loginController.isLoading.value
                             ? CustomLoader(color: AppColors.white)
                             : CustomButton(
-                                text: 'Login',
-                                onPressed: () {
-                                  loginController.userLogin();
-                                },
-                              ),
+                          text: 'Login_Button'.tr,
+                          onPressed: () {
+                            loginController.userLogin();
+                          },
+                        ),
                       ),
                       sh16,
                       Center(
@@ -144,11 +142,11 @@ class LoginView extends GetView<LoginController> {
                           },
                           child: Text.rich(
                             TextSpan(
-                              text: 'Don’t Have an account? ',
+                              text: 'No_Account'.tr,
                               style: h4,
                               children: [
                                 TextSpan(
-                                  text: 'Sign Up',
+                                  text: 'Sign_Up'.tr,
                                   style: h3.copyWith(
                                     color: AppColors.secondaryOrangeColor,
                                   ),
