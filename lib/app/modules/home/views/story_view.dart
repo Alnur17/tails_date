@@ -404,7 +404,7 @@ class StoryView extends GetView {
                     gradient: LinearGradient(
                       colors: [
                         AppColors.black.withOpacity(0.6),
-                        AppColors.black.withOpacity(0.1),
+                        AppColors.black.withOpacity(0.02),
                       ],
                       begin: Alignment.bottomCenter,
                       end: Alignment.topCenter,
@@ -415,7 +415,7 @@ class StoryView extends GetView {
               Positioned(
                 left: 16,
                 right: 75,
-                bottom: 30,
+                bottom: 25,
                 child: Text(
                   currentStory.caption ?? 'No description available',
                   style: h5.copyWith(color: AppColors.white),
@@ -427,6 +427,7 @@ class StoryView extends GetView {
                 bottom: 20,
                 right: 16,
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     IconButton(
                       style: IconButton.styleFrom(backgroundColor: Colors.black38),
@@ -437,18 +438,18 @@ class StoryView extends GetView {
                       ),
                       onPressed: () => showStarBuyDialog(context),
                     ),
-                    sh5,
-                    IconButton(
-                      style: IconButton.styleFrom(backgroundColor: Colors.black38),
-                      icon: Image.asset(
-                        AppImages.heart,
-                        scale: 4,
-                        color: AppColors.white,
-                      ),
-                      onPressed: () {
-                        // Implement reaction logic if needed
-                      },
-                    ),
+                    // sh5,
+                    // IconButton(
+                    //   style: IconButton.styleFrom(backgroundColor: Colors.black38),
+                    //   icon: Image.asset(
+                    //     AppImages.heart,
+                    //     scale: 4,
+                    //     color: AppColors.white,
+                    //   ),
+                    //   onPressed: () {
+                    //     // Implement reaction logic if needed
+                    //   },
+                    // ),
                   ],
                 ),
               ),

@@ -194,6 +194,26 @@ class _MyReelsViewState extends State<MyReelsView> {
                         ),
                       ),
                     ),
+                    Positioned(
+                      top: 50,
+                      left: 20,
+                      child: GestureDetector(
+                        onTap: () {
+                         Get.back();
+                        },
+                        child: Container(
+                          height: 30,
+                          decoration: const ShapeDecoration(
+                            shape: CircleBorder(),
+                            color: Colors.black38,
+                          ),
+                          child: Image.asset(
+                            AppImages.back,
+                            scale: 4,
+                          ),
+                        ),
+                      ),
+                    ),
                 ],
               ),
             );

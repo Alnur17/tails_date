@@ -16,6 +16,8 @@ import 'package:tails_date/app/data/base_client.dart';
 import 'package:tails_date/app/modules/profile/model/my_post_model.dart';
 import 'package:tails_date/app/modules/home/model/all_post_model.dart';
 
+import '../../profile/model/my_collections_model.dart';
+
 class HomeController extends GetxController {
   var posts = <AllPostData>[].obs;
   var myPosts = <MyPostDatum>[].obs;
@@ -107,7 +109,50 @@ class HomeController extends GetxController {
     savedCollections.refresh();
 
     // Let CollectionsController handle API & internal sync
-    await collectionController.addOrRemoveCollection(postId);
+    await addOrRemoveCollection(postId);
+  }
+
+  Future<void> addOrRemoveCollection(String postId) async {
+    try {
+      final token = LocalStorage.getData(key: 'token') ?? '';
+      final headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      };
+      final body = jsonEncode({'post': postId});
+
+      final response = await BaseClient.postRequest(
+        api: Api.addOrRemoveCollections,
+        body: body,
+        headers: headers,
+      );
+
+      final result = await BaseClient.handleResponse(response);
+      if (result['success'] == true) {
+        kSnackBar(
+          message: result['message']?.toString() ?? 'Collection updated successfully',
+          bgColor: AppColors.green,
+        );
+        if (collectionController.collections.any((c) => c.id == postId)) {
+          collectionController.collections.removeWhere((c) => c.id == postId);
+        } else {
+          collectionController.collections.add(MyCollectionDatum(id: postId)); // Add a minimal Datum
+        }
+        collectionController.collections.refresh();
+        collectionController.fetchCollections();
+
+      } else {
+        kSnackBar(
+          message: result['message']?.toString() ?? 'Failed to update collection',
+          bgColor: AppColors.red,
+        );
+      }
+    } catch (e) {
+      kSnackBar(
+        message: e.toString(),
+        bgColor: AppColors.red,
+      );
+    }
   }
 
 

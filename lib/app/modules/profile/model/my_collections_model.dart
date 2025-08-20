@@ -7,20 +7,20 @@ class MyCollectionsModel {
 
   final bool? success;
   final String? message;
-  final List<Datum> data;
+  final List<MyCollectionDatum> data;
 
   factory MyCollectionsModel.fromJson(Map<String, dynamic> json){
     return MyCollectionsModel(
       success: json["success"],
       message: json["message"],
-      data: json["data"] == null ? [] : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
+      data: json["data"] == null ? [] : List<MyCollectionDatum>.from(json["data"]!.map((x) => MyCollectionDatum.fromJson(x))),
     );
   }
 
 }
 
-class Datum {
-  Datum({
+class MyCollectionDatum {
+  MyCollectionDatum({
     required this.id,
      this.user,
      this.post,
@@ -36,8 +36,8 @@ class Datum {
   final DateTime? updatedAt;
   final int? v;
 
-  factory Datum.fromJson(Map<String, dynamic> json){
-    return Datum(
+  factory MyCollectionDatum.fromJson(Map<String, dynamic> json){
+    return MyCollectionDatum(
       id: json["_id"],
       user: json["user"],
       post: json["post"] == null ? null : Post.fromJson(json["post"]),

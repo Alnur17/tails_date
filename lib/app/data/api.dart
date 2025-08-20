@@ -44,6 +44,7 @@ class Api {
   static const  String friends = "$baseUrl/friends";
   static const  String collections = "$baseUrl/collections";
   static const  String addOrRemoveCollections = "$baseUrl/collections";
+  static String othersProfile(String userId) => "$baseUrl/users/single/$userId";
 
   ///Chats
   static const String createChat = "$baseUrl/chats"; //
@@ -60,6 +61,7 @@ class Api {
   static const String createReels = "$baseUrl/reels"; //done
   static const String allReels = "$baseUrl/reels"; //done
   static const String myReels = "$baseUrl/reels/my"; //done
+  static String addOrRemoveReelsReaction(String reelsId) => "$baseUrl/reels/reactions/$reelsId"; //done
 
 
   ///Reports

@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:get/get.dart';
 import '../../../../common/app_color/app_colors.dart';
@@ -9,7 +8,7 @@ import '../../../data/base_client.dart';
 import '../model/my_collections_model.dart';
 
 class CollectionsController extends GetxController {
-  final collections = <Datum>[].obs;
+  final collections = <MyCollectionDatum>[].obs;
   final isLoading = true.obs;
 
   @override
@@ -52,46 +51,47 @@ class CollectionsController extends GetxController {
     }
   }
 
-  Future<void> addOrRemoveCollection(String postId) async {
-    try {
-      final token = LocalStorage.getData(key: 'token') ?? '';
-      final headers = {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer $token',
-      };
-      final body = jsonEncode({'post': postId});
-
-      final response = await BaseClient.postRequest(
-        api: Api.addOrRemoveCollections,
-        body: body,
-        headers: headers,
-      );
-
-      final result = await BaseClient.handleResponse(response);
-      if (result['success'] == true) {
-        kSnackBar(
-          message: result['message']?.toString() ?? 'Collection updated successfully',
-          bgColor: AppColors.green,
-        );
-        if (collections.any((c) => c.id == postId)) {
-          collections.removeWhere((c) => c.id == postId);
-        } else {
-          collections.add(Datum(id: postId)); // Add a minimal Datum
-        }
-        collections.refresh();
-        fetchCollections();
-      } else {
-        kSnackBar(
-          message: result['message']?.toString() ?? 'Failed to update collection',
-          bgColor: AppColors.red,
-        );
-      }
-    } catch (e) {
-      kSnackBar(
-        message: e.toString(),
-        bgColor: AppColors.red,
-      );
-    }
-  }
+  // Future<void> addOrRemoveCollection(String postId) async {
+  //   try {
+  //     final token = LocalStorage.getData(key: 'token') ?? '';
+  //     final headers = {
+  //       'Content-Type': 'application/json',
+  //       'Authorization': 'Bearer $token',
+  //     };
+  //     final body = jsonEncode({'post': postId});
+  //
+  //     final response = await BaseClient.postRequest(
+  //       api: Api.addOrRemoveCollections,
+  //       body: body,
+  //       headers: headers,
+  //     );
+  //
+  //     final result = await BaseClient.handleResponse(response);
+  //     if (result['success'] == true) {
+  //       kSnackBar(
+  //         message: result['message']?.toString() ?? 'Collection updated successfully',
+  //         bgColor: AppColors.green,
+  //       );
+  //       if (collections.any((c) => c.id == postId)) {
+  //         collections.removeWhere((c) => c.id == postId);
+  //       } else {
+  //         collections.add(MyCollectionDatum(id: postId)); // Add a minimal Datum
+  //       }
+  //       collections.refresh();
+  //       fetchCollections();
+  //
+  //     } else {
+  //       kSnackBar(
+  //         message: result['message']?.toString() ?? 'Failed to update collection',
+  //         bgColor: AppColors.red,
+  //       );
+  //     }
+  //   } catch (e) {
+  //     kSnackBar(
+  //       message: e.toString(),
+  //       bgColor: AppColors.red,
+  //     );
+  //   }
+  // }
 
 }

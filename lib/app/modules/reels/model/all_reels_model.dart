@@ -45,8 +45,8 @@ class Datum {
     required this.author,
     required this.isDeleted,
     required this.createdAt,
-    required this.updatedAt,
-    required this.v,
+    required this.reactions,
+    required this.isReacted,
   });
 
   final String? id;
@@ -55,8 +55,8 @@ class Datum {
   final Author? author;
   final bool? isDeleted;
   final DateTime? createdAt;
-  final DateTime? updatedAt;
-  final int? v;
+  final List<dynamic> reactions;
+  final bool? isReacted;
 
   factory Datum.fromJson(Map<String, dynamic> json){
     return Datum(
@@ -66,8 +66,8 @@ class Datum {
       author: json["author"] == null ? null : Author.fromJson(json["author"]),
       isDeleted: json["is_deleted"],
       createdAt: DateTime.tryParse(json["createdAt"] ?? ""),
-      updatedAt: DateTime.tryParse(json["updatedAt"] ?? ""),
-      v: json["__v"],
+      reactions: json["reactions"] == null ? [] : List<dynamic>.from(json["reactions"]!.map((x) => x)),
+      isReacted: json["isReacted"],
     );
   }
 
