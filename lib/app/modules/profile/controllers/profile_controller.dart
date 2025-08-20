@@ -20,8 +20,10 @@ import '../model/my_profile_model.dart';
 class ProfileController extends GetxController {
   var isLoading = false.obs;
   var profileData = Rx<MyProfileModel?>(null);
+  var otherProfileData = Rx<MyProfileModel?>(null);
   var myReelsData = <MyReelsData>[].obs;
   var isProfileLoading = false.obs;
+  var isOtherProfileLoading = false.obs;
   var isReelsLoading = false.obs;
 
   final TextEditingController currentPassTEController = TextEditingController();
@@ -88,6 +90,38 @@ class ProfileController extends GetxController {
       kSnackBar(message: "Error fetching profile: $e", bgColor: AppColors.red);
     } finally {
       isProfileLoading(false);
+    }
+  }
+
+  Future<void> fetchOtherProfile(String userId) async {
+    try {
+      isOtherProfileLoading(true);
+      var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
+      };
+
+      dynamic responseBody = await BaseClient.handleResponse(
+        await BaseClient.getRequest(
+          api: Api.othersProfile(userId), // Adjust the endpoint as per your API
+          headers: headers,
+        ),
+      );
+
+      if (responseBody != null) {
+        otherProfileData.value = MyProfileModel.fromJson(responseBody);
+        kSnackBar(
+          message: "User profile fetched successfully",
+          bgColor: AppColors.green,
+        );
+      } else {
+        throw 'Failed to fetch user profile!';
+      }
+    } catch (e) {
+      debugPrint("Catch Error:::::: $e");
+      kSnackBar(message: "Error fetching user profile: $e", bgColor: AppColors.red);
+    } finally {
+      isOtherProfileLoading(false);
     }
   }
 

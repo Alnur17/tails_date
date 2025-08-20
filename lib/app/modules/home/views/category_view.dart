@@ -113,7 +113,12 @@ class _CategoryViewState extends State<CategoryView> {
                   debugPrint(";;;;;;;;;; ${homeController.userId};;;;;;;;");
                 },
                 onOtherProfileTap: (){
-                  Get.to(()=> OtherProfileView());
+                  print('Navigating to Other Profile with ID: ${post.author?.id}');
+                  if (post.author?.id != null) {
+                    Get.to(() => OtherProfileView(userId: post.author!.id!));
+                  } else {
+                    Get.snackbar('Error', 'User ID not available');
+                  }
                 },
                 postId: post.id ?? '',
                 userName: post.author?.name ?? 'Unknown',
