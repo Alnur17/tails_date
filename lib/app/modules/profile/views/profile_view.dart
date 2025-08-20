@@ -19,7 +19,9 @@ import 'package:video_thumbnail/video_thumbnail.dart';
 
 import '../../../../common/app_constant/app_constant.dart';
 import '../../../../common/helper/local_store.dart';
+import '../../../../common/widgets/custom_popup_menu_button.dart';
 import '../../home/views/widgets/home_widgets/user_post_card.dart';
+import 'edit_post_view.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
@@ -498,6 +500,36 @@ class _ProfileViewState extends State<ProfileView> {
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 8),
                                         child: UserPostCard(
+                                          popupMenuButton:
+                                          CustomPopupMenuButton(
+                                            items: [
+                                              PopupMenuItemData(
+                                                value: 'Edit Post',
+                                                label: 'Edit Post',
+                                                onSelected: () {
+                                                  Get.to(() => EditPostView(
+                                                    location:
+                                                    post.location ?? '',
+                                                    images: post.images,
+                                                    description:
+                                                    post.caption ?? '',
+                                                    categoryId:
+                                                    post.id ?? '',
+                                                  ));
+                                                },
+                                              ),
+                                              PopupMenuItemData(
+                                                  isDivider: true),
+                                              PopupMenuItemData(
+                                                value: 'Delete Post',
+                                                label: 'Delete Post',
+                                                onSelected: () {
+                                                  homeController.deletePost(
+                                                      post.id ?? '');
+                                                },
+                                              ),
+                                            ],
+                                          ),
                                           isFriend: true,
                                           isLiked: homeController.isPostLiked(post.id ?? ''),
                                           isSaved: homeController.isPostInCollections(post.id ?? ''),

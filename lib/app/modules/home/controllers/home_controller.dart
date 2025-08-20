@@ -434,6 +434,7 @@ class HomeController extends GetxController {
 
       if (result['success'] == true) {
         fetchPosts();
+        fetchMyPosts();
       } else {
         debugPrint('Failed to delete my posts');
       }
