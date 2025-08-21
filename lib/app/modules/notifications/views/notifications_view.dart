@@ -62,10 +62,11 @@ class NotificationsView extends GetView<NotificationsController> {
                       backgroundColor: notificationController.activeTab.value == 0
                           ? AppColors.black
                           : AppColors.transparent,
-                      textStyle: h3.copyWith(
+                      textStyle: h5.copyWith(
                         color: notificationController.activeTab.value == 0
                             ? AppColors.white
                             : AppColors.black,
+                        fontWeight: FontWeight.bold
                       ),
                     ),
                   ),
@@ -78,10 +79,11 @@ class NotificationsView extends GetView<NotificationsController> {
                       backgroundColor: notificationController.activeTab.value == 1
                           ? AppColors.black
                           : AppColors.transparent,
-                      textStyle: h3.copyWith(
+                      textStyle: h5.copyWith(
                         color: notificationController.activeTab.value == 1
                             ? AppColors.white
                             : AppColors.black,
+                          fontWeight: FontWeight.bold
                       ),
                     ),
                   ),
@@ -249,7 +251,7 @@ class NotificationsView extends GetView<NotificationsController> {
                           notificationController.updateFriendRequest(item['id']!, 'cancelled');
                         },
                         actionStyle: CustomButton(
-                          width: 150,
+                          width: 165,
                           height: 30,
                           text: 'Cancel_Request'.tr, // Updated to use translation
                           onPressed: () {

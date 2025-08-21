@@ -14,7 +14,10 @@ void main() async {
   await GetStorage.init();
 
   // Initialize LocalizationController before GetMaterialApp
-  Get.put(LocalizationController());
+  final localizationController = Get.put(LocalizationController());
+
+  // Wait for saved language to load
+  await localizationController.loadSavedLanguage();
 
   // Initialize SocketService
   final SocketService socketService = Get.put(SocketService());
@@ -27,7 +30,7 @@ void main() async {
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
       translations: AppTranslations(), // Set translations
-      locale: Get.find<LocalizationController>().getCurrentLocale(), // Set initial locale
+      locale: localizationController.getCurrentLocale(),
       fallbackLocale: const Locale('en', 'US'), // Fallback to English if needed
     ),
   );

@@ -473,7 +473,7 @@ class AppTranslations extends Translations {
       // NotificationsView
       'Notifications': 'Notifications',
       'Friend_Activity': 'Activité des amis',
-      'Post_Engagement': 'Engagement des publications',
+      'Post_Engagement': 'Engagement des\npublications',
       'Friend_Requests': 'Demandes d’amis',
       'See_All': 'Voir tout',
       'No_Friend_Requests': 'Aucune demande d’ami',
@@ -793,7 +793,7 @@ class AppTranslations extends Translations {
       // NotificationsView
       'Notifications': 'Notificaciones',
       'Friend_Activity': 'Actividad de amigos',
-      'Post_Engagement': 'Interacciones en publicaciones',
+      'Post_Engagement': 'Interacciones en\npublicaciones',
       'Friend_Requests': 'Solicitudes de amistad',
       'See_All': 'Ver todo',
       'No_Friend_Requests': 'No hay solicitudes de amistad',
