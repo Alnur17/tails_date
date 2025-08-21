@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 
 import '../../../../common/app_color/app_colors.dart';
@@ -11,21 +10,22 @@ import '../controllers/notifications_controller.dart';
 
 class SuggestedForYouView extends GetView {
   final List<Map<String, String>> data;
-  const SuggestedForYouView( {super.key, required this.data});
+  const SuggestedForYouView({super.key, required this.data});
+
   @override
   Widget build(BuildContext context) {
-   final NotificationsController notificationController = Get.find();
+    final NotificationsController notificationController = Get.find();
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       appBar: AppBar(
         backgroundColor: AppColors.mainColor,
-        title: const Text('Suggested For You'),
+        title: Text('Suggested_For_You'.tr), // Updated to use translation
         centerTitle: true,
         leading: GestureDetector(
           onTap: () {
             Get.back();
           },
-          child: Image.asset(AppImages.back,scale: 4,),
+          child: Image.asset(AppImages.back, scale: 4),
         ),
       ),
       body: Column(
@@ -37,7 +37,7 @@ class SuggestedForYouView extends GetView {
                 AppImages.searchTwo,
                 scale: 4,
               ),
-              hintText: 'Search Friends',
+              hintText: 'Search_Friends'.tr, // Updated to use translation
             ),
           ),
           sh12,
@@ -53,7 +53,7 @@ class SuggestedForYouView extends GetView {
                   ),
                   title: Text(item['name']!),
                   trailing: CustomButton(
-                    text: 'Add friend',
+                    text: 'Add_Friend'.tr, // Updated to use translation
                     onPressed: () {
                       notificationController.sendFriendRequest(item['id'] ?? '');
                     },

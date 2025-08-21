@@ -24,7 +24,7 @@ class _BuyStarViewState extends State<BuyStarView> {
       appBar: AppBar(
         scrolledUnderElevation: 0,
         backgroundColor: AppColors.mainColor,
-        title: const Text('Buy Stars'),
+        title: Text('Buy_Stars'.tr),
         centerTitle: true,
         leading: GestureDetector(
           onTap: () {
@@ -53,71 +53,69 @@ class _BuyStarViewState extends State<BuyStarView> {
               ),
               sh12,
               Text(
-                '🌟 Add Star to your balance to send gifts 🌟',
+                'Add_Star_To_Balance'.tr,
                 style: h4,
               ),
               sh16,
               Obx(() => buyStarController.isLoading.value
                   ? Center(child: CircularProgressIndicator())
                   : buyStarController.starPlans.isEmpty
-                      ? Text(
-                          'No star plans available',
-                          style: h5,
-                        )
-                      : Column(
-                          children: [
-                            ...buyStarController.starPlans
-                                .asMap()
-                                .entries
-                                .map((entry) {
-                              final index = entry.key;
-                              final plan = entry.value;
-                              return Column(
-                                children: [
-                                  StarContainer(
-                                    numberOfStars:
-                                        plan.stars?.toString() ?? '0',
-                                    price: plan.price ?? 0.0,
-                                    backgroundColor: buyStarController
-                                                .selectedPlanIndex.value ==
-                                            index
-                                        ? AppColors.mainColor
-                                        // : index == 0
-                                        // ? AppColors.mainColor
-                                        : AppColors.transparent,
-                                    isSelected: buyStarController
-                                            .selectedPlanIndex.value ==
-                                        index,
-                                    onTap: () {
-                                      buyStarController.selectPlan(index);
-                                    },
-                                  ),
-                                  // if (index == 0) ...[
-                                  //   sh8,
-                                  //   Align(
-                                  //     alignment: Alignment.centerLeft,
-                                  //     child: Text(
-                                  //       'Your first stars are discounted for a limited time!',
-                                  //       style: h6,
-                                  //     ),
-                                  //   ),
-                                  // ],
-                                  sh16,
-                                ],
-                              );
-                            }).toList(),
-                            sh30,
-                            CustomButton(
-                              text: 'Buy Stars',
-                              onPressed: buyStarController.buySelectedPlan,
-                              backgroundColor: AppColors.mainColor,
-                              textStyle: h3.copyWith(
-                                fontWeight: FontWeight.w700,
-                                color: AppColors.black,
-                              ),
-                            ),
-                          ],
-                        )),
+                  ? Text(
+                'No_Star_Plans_Available'.tr,
+                style: h5,
+              )
+                  : Column(
+                children: [
+                  ...buyStarController.starPlans
+                      .asMap()
+                      .entries
+                      .map((entry) {
+                    final index = entry.key;
+                    final plan = entry.value;
+                    return Column(
+                      children: [
+                        StarContainer(
+                          numberOfStars:
+                          plan.stars?.toString() ?? '0',
+                          price: plan.price ?? 0.0,
+                          backgroundColor: buyStarController
+                              .selectedPlanIndex.value ==
+                              index
+                              ? AppColors.mainColor
+                              : AppColors.transparent,
+                          isSelected: buyStarController
+                              .selectedPlanIndex.value ==
+                              index,
+                          onTap: () {
+                            buyStarController.selectPlan(index);
+                          },
+                        ),
+                        // if (index == 0) ...[
+                        //   sh8,
+                        //   Align(
+                        //     alignment: Alignment.centerLeft,
+                        //     child: Text(
+                        //       'First_Stars_Discounted'.tr,
+                        //       style: h6,
+                        //     ),
+                        //   ),
+                        // ],
+                        sh16,
+                      ],
+                    );
+                  }).toList(),
+                  sh30,
+                  CustomButton(
+                    text: 'Buy_Stars'.tr,
+                    onPressed: buyStarController.buySelectedPlan,
+                    backgroundColor: AppColors.mainColor,
+                    textStyle: h3.copyWith(
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.black,
+                    ),
+                  ),
+                ],
+              )),
             ],
           ),
         ),
@@ -166,7 +164,7 @@ class StarContainer extends StatelessWidget {
             ),
             sw8,
             Text(
-              '$numberOfStars Stars',
+              '$numberOfStars ${'Stars_Suffix'.tr}',
               style: TextStyle(
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
               ),

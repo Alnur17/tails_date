@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:tails_date/app/modules/home/controllers/home_controller.dart';
 import 'package:tails_date/app/modules/home/views/report_view.dart';
 import 'package:tails_date/common/app_color/app_colors.dart';
@@ -48,7 +47,11 @@ class UserPostCard extends StatelessWidget {
     required this.onBookmark,
     required this.onReaction,
     required this.onOtherProfileTap,
-    this.onNotInterestedTap, required this.isLiked, required this.isSaved, required this.isFriend, required this.isMe,
+    this.onNotInterestedTap,
+    required this.isLiked,
+    required this.isSaved,
+    required this.isFriend,
+    required this.isMe,
   });
 
   @override
@@ -113,7 +116,7 @@ class UserPostCard extends StatelessWidget {
                       // if (!isMe)
                       //   CustomButton(
                       //     width: 90,
-                      //     text: 'Add friend',
+                      //     text: 'Add_Friend'.tr,
                       //     onPressed: onAddFriend!,
                       //     height: 30,
                       //     backgroundColor: AppColors.black,
@@ -125,8 +128,8 @@ class UserPostCard extends StatelessWidget {
                           CustomPopupMenuButton(
                             items: [
                               PopupMenuItemData(
-                                value: 'Report Content',
-                                label: 'Report Content',
+                                value: 'Report_Content'.tr,
+                                label: 'Report_Content'.tr,
                                 onSelected: () {
                                   Get.to(() => ReportView(postId),
                                       transition: Transition.downToUp);
@@ -134,8 +137,8 @@ class UserPostCard extends StatelessWidget {
                               ),
                               PopupMenuItemData(isDivider: true),
                               PopupMenuItemData(
-                                value: 'Not Interested',
-                                label: 'Not Interested',
+                                value: 'Not_Interested'.tr,
+                                label: 'Not_Interested'.tr,
                                 onSelected: onNotInterestedTap,
                               ),
                             ],
@@ -250,8 +253,8 @@ class UserPostCard extends StatelessWidget {
                 //   AppImages.share,
                 //   null,
                 //   onTap: () => Share.share(
-                //     'Check out this post: $shareLink',
-                //     subject: 'Post Link',
+                //     'Share_Post'.trParams({'0': shareLink}),
+                //     subject: 'Post_Link'.tr,
                 //   ),
                 // ),
                 Obx(() => _buildIcon(
@@ -305,22 +308,21 @@ class UserPostCard extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text('Support what you love! 🌟',
-                      style: h3, textAlign: TextAlign.center),
+                  Text('Support_Love'.tr, style: h3, textAlign: TextAlign.center),
                   Image.asset(AppImages.starImage, scale: 4),
                   const SizedBox(height: 8),
                   CustomButton(
                     onPressed: () => Get.to(() => BuyStarView()),
-                    text: "Buy Star 🌟",
+                    text: 'Buy_Star'.tr,
                     backgroundColor: AppColors.white,
                     textStyle: h3.copyWith(fontWeight: FontWeight.w700),
                   ),
                   const SizedBox(height: 8),
-                  Text('OR', style: h3),
+                  Text('Or'.tr, style: h3),
                   const SizedBox(height: 8),
                   CustomButton(
                     onPressed: () => Get.to(() => SendStarsView(id: postId)),
-                    text: "Send Stars 🤩",
+                    text: 'Send_Stars'.tr,
                   ),
                 ],
               ),

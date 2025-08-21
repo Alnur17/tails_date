@@ -301,7 +301,7 @@
 // }
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/Get.dart';
 import 'package:tails_date/common/app_color/app_colors.dart';
 import 'package:tails_date/common/app_images/app_images.dart';
 import 'package:tails_date/common/app_text_style/styles.dart';
@@ -327,7 +327,7 @@ class UploadPostView extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppColors.mainColor,
         scrolledUnderElevation: 0,
-        title: const Text('Post Photo or Video'),
+        title: Text('Post_Photo_Or_Video'.tr),
         centerTitle: true,
         leading: GestureDetector(
           onTap: () {
@@ -350,32 +350,32 @@ class UploadPostView extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Obx(() => CustomButton(
-                          text: 'Post Photo',
-                          onPressed: () => controller.toggleMode(false),
-                          textStyle: h3.copyWith(
-                            color: controller.isCreatingVideo.value
-                                ? Colors.black
-                                : Colors.white,
-                          ),
-                          backgroundColor: controller.isCreatingVideo.value
-                              ? AppColors.transparent
-                              : AppColors.black,
-                        )),
+                      text: 'Post_Photo'.tr,
+                      onPressed: () => controller.toggleMode(false),
+                      textStyle: h3.copyWith(
+                        color: controller.isCreatingVideo.value
+                            ? Colors.black
+                            : Colors.white,
+                      ),
+                      backgroundColor: controller.isCreatingVideo.value
+                          ? AppColors.transparent
+                          : AppColors.black,
+                    )),
                   ),
                   sw12,
                   Expanded(
                     child: Obx(() => CustomButton(
-                          text: 'Post Video',
-                          onPressed: () => controller.toggleMode(true),
-                          textStyle: h3.copyWith(
-                            color: controller.isCreatingVideo.value
-                                ? Colors.white
-                                : Colors.black,
-                          ),
-                          backgroundColor: controller.isCreatingVideo.value
-                              ? AppColors.black
-                              : AppColors.transparent,
-                        )),
+                      text: 'Post_Video'.tr,
+                      onPressed: () => controller.toggleMode(true),
+                      textStyle: h3.copyWith(
+                        color: controller.isCreatingVideo.value
+                            ? Colors.white
+                            : Colors.black,
+                      ),
+                      backgroundColor: controller.isCreatingVideo.value
+                          ? AppColors.black
+                          : AppColors.transparent,
+                    )),
                   ),
                 ],
               ),
@@ -385,27 +385,27 @@ class UploadPostView extends StatelessWidget {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Category', style: h3),
+                      Text('Category'.tr, style: h3),
                       sh8,
                       Obx(() => CustomDropdown(
-                            items: homeController.categories
-                                .map((category) => category.name as String)
-                                .toList(),
-                            hintText: 'Select an option',
-                            onChanged: (value) {
-                              final selectedCategory = homeController.categories
-                                  .firstWhere(
-                                      (category) => category.name == value);
-                              controller.selectedCategoryId.value =
-                                  selectedCategory.id.toString();
-                            },
-                          )),
+                        items: homeController.categories
+                            .map((category) => category.name as String)
+                            .toList(),
+                        hintText: 'Select_An_Option'.tr,
+                        onChanged: (value) {
+                          final selectedCategory = homeController.categories
+                              .firstWhere(
+                                  (category) => category.name == value);
+                          controller.selectedCategoryId.value =
+                              selectedCategory.id.toString();
+                        },
+                      )),
                       sh16,
-                      Text('Add Location', style: h3),
+                      Text('Add_Location'.tr, style: h3),
                       sh8,
                       CustomTextField(
                         controller: controller.locationController,
-                        hintText: 'Enter Location',
+                        hintText: 'Enter_Location'.tr,
                         borderColor: AppColors.black,
                       ),
                       sh16,
@@ -426,7 +426,7 @@ class UploadPostView extends StatelessWidget {
                                 children: [
                                   Image.asset(AppImages.upload, scale: 4),
                                   sw8,
-                                  Text('Click here to select photos',
+                                  Text('Click_Here_To_Select_Photos'.tr,
                                       style: h4),
                                 ],
                               ),
@@ -435,7 +435,7 @@ class UploadPostView extends StatelessWidget {
                             return GridView.builder(
                               padding: const EdgeInsets.all(8),
                               gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                              const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,
                                 mainAxisSpacing: 8,
                                 crossAxisSpacing: 8,
@@ -462,7 +462,7 @@ class UploadPostView extends StatelessWidget {
                                         child: CircleAvatar(
                                           radius: 15,
                                           backgroundColor:
-                                              Colors.black.withOpacity(0.7),
+                                          Colors.black.withOpacity(0.7),
                                           child: Icon(
                                             Icons.close,
                                             color: Colors.white,
@@ -489,7 +489,7 @@ class UploadPostView extends StatelessWidget {
                                 children: [
                                   Image.asset(AppImages.addMore, scale: 4),
                                   sh5,
-                                  Text('Add More', style: h5),
+                                  Text('Add_More'.tr, style: h5),
                                 ],
                               ),
                             ),
@@ -498,13 +498,13 @@ class UploadPostView extends StatelessWidget {
                         return SizedBox.shrink();
                       }),
                       sh8,
-                      Text('Write a description for the post', style: h3),
+                      Text('Write_Post_Description'.tr, style: h3),
                       sh8,
                       CustomTextField(
                         controller: controller.postContentController,
                         height: 150,
                         borderColor: AppColors.black,
-                        hintText: 'Enter post description...',
+                        hintText: 'Enter_Post_Description'.tr,
                       ),
                     ],
                   );
@@ -529,7 +529,7 @@ class UploadPostView extends StatelessWidget {
                                   sh20,
                                   Image.asset(AppImages.upload, scale: 4),
                                   sw8,
-                                  Text('Click here to select a video',
+                                  Text('Click_Here_To_Select_Video'.tr,
                                       style: h4),
                                   sh20,
                                 ],
@@ -557,7 +557,7 @@ class UploadPostView extends StatelessWidget {
                                     child: CircleAvatar(
                                       radius: 15,
                                       backgroundColor:
-                                          Colors.black.withOpacity(0.7),
+                                      Colors.black.withOpacity(0.7),
                                       child: const Icon(
                                         Icons.close,
                                         color: Colors.white,
@@ -575,13 +575,13 @@ class UploadPostView extends StatelessWidget {
                         }),
                       ),
                       sh16,
-                      Text('Write a description for the video', style: h3),
+                      Text('Write_Video_Description'.tr, style: h3),
                       sh8,
                       CustomTextField(
                         controller: controller.postContentController,
                         height: 150,
                         borderColor: AppColors.black,
-                        hintText: 'Enter video description...',
+                        hintText: 'Enter_Video_Description'.tr,
                       ),
                     ],
                   );
@@ -589,15 +589,15 @@ class UploadPostView extends StatelessWidget {
               }),
               sh16,
               Obx(
-                () => controller.isLoading.value
+                    () => controller.isLoading.value
                     ? CustomLoader(color: AppColors.white)
                     : CustomButton(
-                        text: 'Upload',
-                        onPressed: () {
-                          controller.postContent();
-                          print('Upload Button click');
-                        },
-                      ),
+                  text: 'Upload'.tr,
+                  onPressed: () {
+                    controller.postContent();
+                    print('Upload Button click');
+                  },
+                ),
               ),
               sh30,
             ],

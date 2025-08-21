@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:tails_date/app/modules/profile/controllers/send_stars_controller.dart';
 import 'package:tails_date/common/app_color/app_colors.dart';
 import 'package:tails_date/common/widgets/custom_textfield.dart';
-
 import '../../../../common/app_images/app_images.dart';
 import '../../../../common/app_text_style/styles.dart';
 import '../../../../common/size_box/custom_sizebox.dart';
@@ -30,7 +29,7 @@ class SendStarsView extends GetView<SendStarsController> {
       appBar: AppBar(
         scrolledUnderElevation: 0,
         backgroundColor: AppColors.mainColor,
-        title: const Text('Send Stars'),
+        title: Text('Send_Stars'.tr), // Updated to use translation
         centerTitle: true,
         leading: GestureDetector(
           onTap: () => Get.back(),
@@ -52,7 +51,7 @@ class SendStarsView extends GetView<SendStarsController> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Text('Enjoyed this post?', style: h3),
+              Text('Enjoyed_This_Post'.tr, style: h3), // Updated to use translation
               sh24,
               Container(
                 padding: const EdgeInsets.all(12),
@@ -67,7 +66,7 @@ class SendStarsView extends GetView<SendStarsController> {
                     sw12,
                     Expanded(
                       child: Text(
-                        'Show your appreciation by sending a star to the creator and let them know you loved it!',
+                        'Show_Appreciation'.tr, // Updated to use translation
                         style: h6.copyWith(fontWeight: FontWeight.w700),
                       ),
                     ),
@@ -81,19 +80,19 @@ class SendStarsView extends GetView<SendStarsController> {
                   children: [
                     TappableContainer(
                       iconPath: AppImages.starFilled,
-                      text: '50',
+                      text: 'Star_Amount_50'.tr, // Updated to use translation
                       isSelected: sendStarsController.selectedAmount.value == 50,
                       onTap: () => sendStarsController.selectAmount(50),
                     ),
                     TappableContainer(
                       iconPath: AppImages.starFilled,
-                      text: '100',
+                      text: 'Star_Amount_100'.tr, // Updated to use translation
                       isSelected: sendStarsController.selectedAmount.value == 100,
                       onTap: () => sendStarsController.selectAmount(100),
                     ),
                     TappableContainer(
                       iconPath: AppImages.starFilled,
-                      text: '200',
+                      text: 'Star_Amount_200'.tr, // Updated to use translation
                       isSelected: sendStarsController.selectedAmount.value == 200,
                       onTap: () => sendStarsController.selectAmount(200),
                     ),
@@ -104,25 +103,24 @@ class SendStarsView extends GetView<SendStarsController> {
               Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  'Custom Amount',
+                  'Custom_Amount'.tr, // Updated to use translation
                   style: h3.copyWith(fontWeight: FontWeight.w700),
                 ),
               ),
               sh8,
               CustomTextField(
-                hintText: 'Send Stars',
+                hintText: 'Send_Stars'.tr, // Updated to use translation
                 preIcon: Image.asset(AppImages.starFilled, scale: 4),
                 controller: sendStarsController.customAmountController,
               ),
               sh24,
               CustomButton(
-                text: 'Send Stars 🌟',
+                text: 'Send_Stars_Button'.tr, // Updated to use translation
                 onPressed: () {
                   final enteredAmount = sendStarsController.getSelectedAmount();
                   if (enteredAmount.isNotEmpty &&
                       int.tryParse(enteredAmount) != null &&
                       int.parse(enteredAmount) > 0) {
-
                     final amount = int.parse(enteredAmount);
 
                     if (isFromStory) {
@@ -134,8 +132,8 @@ class SendStarsView extends GetView<SendStarsController> {
                     log('Sending $enteredAmount stars! (from ${isFromStory ? "Story" : "Post"})');
                   } else {
                     Get.snackbar(
-                      'Invalid Amount',
-                      'Please enter a valid number of stars',
+                      'Invalid_Amount'.tr, // Updated to use translation
+                      'Please_Enter_Valid_Stars'.tr, // Updated to use translation
                       backgroundColor: AppColors.red,
                       colorText: AppColors.white,
                     );

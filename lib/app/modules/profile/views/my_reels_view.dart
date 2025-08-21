@@ -43,30 +43,30 @@ class _MyReelsViewState extends State<MyReelsView> {
     }
 
     final reels = widget.initialReel != null
-        ? [widget.initialReel!] + profileController.myReelsData
-        : profileController.myReelsData;
+    ? [widget.initialReel!] + profileController.myReelsData
+    : profileController.myReelsData;
 
     if (reels.isNotEmpty) {
-      List<Future<void>> initializationFutures = [];
-      for (var reel in reels) {
-        if (reel.video != null) {
-          final controller =
-              VideoPlayerController.networkUrl(Uri.parse(reel.video!));
-          _controllers.add(controller);
-          initializationFutures.add(controller.initialize().then((_) {
-            setState(() {});
-          }));
-        }
-      }
-      await Future.wait(initializationFutures);
-      if (_controllers.isNotEmpty) {
-        _controllers.first.play();
-      }
-      setState(() {
-        _isControllersInitialized = true;
-      });
+    List<Future<void>> initializationFutures = [];
+    for (var reel in reels) {
+    if (reel.video != null) {
+    final controller =
+    VideoPlayerController.networkUrl(Uri.parse(reel.video!));
+    _controllers.add(controller);
+    initializationFutures.add(controller.initialize().then((_) {
+    setState(() {});
+    }));
+    }
+    }
+    await Future.wait(initializationFutures);
+    if (_controllers.isNotEmpty) {
+    _controllers.first.play();
+    }
+    setState(() {
+    _isControllersInitialized = true;
+    });
     } else if (!profileController.isLoading.value) {
-      profileController.fetchMyReels();
+    profileController.fetchMyReels();
     }
   }
 
@@ -105,7 +105,7 @@ class _MyReelsViewState extends State<MyReelsView> {
         }
         if (profileController.myReelsData.isEmpty &&
             widget.initialReel == null) {
-          return const Center(child: Text('No reels available'));
+          return Center(child: Text('No_Reels_Available'.tr)); // Updated to use translation
         }
         if (!_isControllersInitialized ||
             _controllers.length !=
@@ -116,108 +116,108 @@ class _MyReelsViewState extends State<MyReelsView> {
         }
 
         final reels = widget.initialReel != null
-            ? [widget.initialReel!] + profileController.myReelsData
-            : profileController.myReelsData;
+        ? [widget.initialReel!] + profileController.myReelsData
+        : profileController.myReelsData;
 
         return PageView.builder(
-          scrollDirection: Axis.vertical,
-          itemCount: reels.length,
-          onPageChanged: (index) {
-            for (int i = 0; i < _controllers.length; i++) {
-              if (i == index && _controllers[i].value.isInitialized) {
-                _controllers[i].play();
-              } else {
-                _controllers[i].pause();
-              }
-            }
-            _resetHideControlsTimer();
-          },
-          itemBuilder: (context, index) {
-            final controller = _controllers[index];
-            return GestureDetector(
-              onTap: _resetHideControlsTimer,
-              child: Stack(
-                children: [
-                  Center(
-                    child: controller.value.isInitialized
-                        ? AspectRatio(
-                            aspectRatio: controller.value.aspectRatio,
-                            child: VideoPlayer(controller),
-                          )
-                        : const CircularProgressIndicator(),
-                  ),
-                  if (showControls)
-                    Center(
-                      child: GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            if (controller.value.isPlaying) {
-                              controller.pause();
-                            } else {
-                              controller.play();
-                            }
-                          });
-                          _resetHideControlsTimer();
-                        },
-                        child: Image.asset(
-                          controller.value.isPlaying
-                              ? AppImages.pause
-                              : AppImages.play,
-                          color: Colors.white,
-                          scale: 4,
-                        ),
-                      ),
-                    ),
-                  if (showControls)
-                    Positioned(
-                      top: 50,
-                      right: 20,
-                      child: GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isMuted = !isMuted;
-                            controller.setVolume(isMuted ? 0 : 1);
-                          });
-                          _resetHideControlsTimer();
-                        },
-                        child: Container(
-                          height: 30,
-                          decoration: const ShapeDecoration(
-                            shape: CircleBorder(),
-                            color: Colors.black38,
-                          ),
-                          child: Image.asset(
-                            isMuted ? AppImages.mute : AppImages.unMute,
-                            color: Colors.white,
-                            scale: 4,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      top: 50,
-                      left: 20,
-                      child: GestureDetector(
-                        onTap: () {
-                         Get.back();
-                        },
-                        child: Container(
-                          height: 30,
-                          decoration: const ShapeDecoration(
-                            shape: CircleBorder(),
-                            color: Colors.black38,
-                          ),
-                          child: Image.asset(
-                            AppImages.back,
-                            scale: 4,
-                          ),
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-            );
-          },
+        scrollDirection: Axis.vertical,
+        itemCount: reels.length,
+        onPageChanged: (index) {
+        for (int i = 0; i < _controllers.length; i++) {
+        if (i == index && _controllers[i].value.isInitialized) {
+        _controllers[i].play();
+        } else {
+        _controllers[i].pause();
+        }
+        }
+        _resetHideControlsTimer();
+        },
+        itemBuilder: (context, index) {
+        final controller = _controllers[index];
+        return GestureDetector(
+        onTap: _resetHideControlsTimer,
+        child: Stack(
+        children: [
+        Center(
+        child: controller.value.isInitialized
+        ? AspectRatio(
+        aspectRatio: controller.value.aspectRatio,
+        child: VideoPlayer(controller),
+        )
+            : const CircularProgressIndicator(),
+        ),
+        if (showControls)
+        Center(
+        child: GestureDetector(
+        onTap: () {
+        setState(() {
+        if (controller.value.isPlaying) {
+        controller.pause();
+        } else {
+        controller.play();
+        }
+        });
+        _resetHideControlsTimer();
+        },
+        child: Image.asset(
+        controller.value.isPlaying
+        ? AppImages.pause
+            : AppImages.play,
+        color: Colors.white,
+        scale: 4,
+        ),
+        ),
+        ),
+        if (showControls)
+        Positioned(
+        top: 50,
+        right: 20,
+        child: GestureDetector(
+        onTap: () {
+        setState(() {
+        isMuted = !isMuted;
+        controller.setVolume(isMuted ? 0 : 1);
+        });
+        _resetHideControlsTimer();
+        },
+        child: Container(
+        height: 30,
+        decoration: const ShapeDecoration(
+        shape: CircleBorder(),
+        color: Colors.black38,
+        ),
+        child: Image.asset(
+        isMuted ? AppImages.mute : AppImages.unMute,
+        color: Colors.white,
+        scale: 4,
+        ),
+        ),
+        ),
+        ),
+        Positioned(
+        top: 50,
+        left: 20,
+        child: GestureDetector(
+        onTap: () {
+        Get.back();
+        },
+        child: Container(
+        height: 30,
+        decoration: const ShapeDecoration(
+        shape: CircleBorder(),
+        color: Colors.black38,
+        ),
+        child: Image.asset(
+        AppImages.back,
+        scale: 4,
+        ),
+        ),
+        ),
+        ),
+        ],
+        ),
+        );
+        },
         );
       }),
     );

@@ -1,11 +1,8 @@
-
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:tails_date/app/data/dummy_data.dart';
 import 'package:tails_date/app/modules/auth_landing/views/auth_landing_view.dart';
 import 'package:tails_date/app/modules/auth_landing/views/widget/guest_user_post_card.dart';
-
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_images/app_images.dart';
 import '../../../../common/app_text_style/styles.dart';
@@ -28,19 +25,19 @@ class _GuestHomeViewState extends State<GuestHomeView> {
 
   void _showLoginPrompt() {
     Get.defaultDialog(
-      title: 'Login Required',
-      middleText: 'Please login to continue.',
+      title: 'Login_Required'.tr,
+      middleText: 'Please_Login_To_Continue'.tr,
       confirm: ElevatedButton(
         onPressed: () {
           Get.back();
           // Navigate to login or auth page
           Get.offAll(() => AuthLandingView());
         },
-        child: const Text('Login'),
+        child: Text('Login'.tr),
       ),
       cancel: OutlinedButton(
         onPressed: () => Get.back(),
-        child: const Text('Cancel'),
+        child: Text('Cancel'.tr),
       ),
     );
   }
@@ -53,7 +50,7 @@ class _GuestHomeViewState extends State<GuestHomeView> {
         scrolledUnderElevation: 0,
         backgroundColor: AppColors.mainColor,
         title: Text(
-          'TailsDate',
+          'TailsDate'.tr,
           style: h2.copyWith(fontWeight: FontWeight.w700),
         ),
         automaticallyImplyLeading: false,
@@ -88,7 +85,7 @@ class _GuestHomeViewState extends State<GuestHomeView> {
               Padding(
                 padding: const EdgeInsets.only(left: 16, top: 16),
                 child: Text(
-                  'Categories',
+                  'Categories'.tr,
                   style: h1.copyWith(fontSize: 20, color: AppColors.black),
                 ),
               ),
@@ -113,8 +110,8 @@ class _GuestHomeViewState extends State<GuestHomeView> {
                       CircularProgressIndicator(color: AppColors.black));
                 } else if (authHomeController.errorMessage.value.isNotEmpty) {
                   return Center(
-                      child:
-                      Text(authHomeController.errorMessage.value, style: h5));
+                      child: Text(authHomeController.errorMessage.value,
+                          style: h5));
                 } else {
                   return Column(
                     children: List.generate(
@@ -160,4 +157,3 @@ class _GuestHomeViewState extends State<GuestHomeView> {
     );
   }
 }
-

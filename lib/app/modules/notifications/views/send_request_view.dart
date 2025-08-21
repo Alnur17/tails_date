@@ -18,7 +18,7 @@ class SendRequestView extends GetView {
       backgroundColor: AppColors.mainColor,
       appBar: AppBar(
         backgroundColor: AppColors.mainColor,
-        title: const Text('Send Request'),
+        title: Text('Send_Request'.tr),
         centerTitle: true,
         leading: GestureDetector(
           onTap: () {
@@ -40,7 +40,7 @@ class SendRequestView extends GetView {
             ),
             title: Text(item['name']!),
             trailing: CustomButton(
-              text: 'Cancel request',
+              text: 'Cancel_Request'.tr,
               onPressed: () {},
               width: 140,
               height: 30,

@@ -566,7 +566,7 @@ class SubscriptionPlanView extends StatelessWidget {
       appBar: AppBar(
         scrolledUnderElevation: 0,
         backgroundColor: AppColors.mainColor,
-        title: const Text('Subscription Plans'),
+        title: Text('Subscription_Plans'.tr), // Updated to use translation
         centerTitle: true,
         leading: GestureDetector(
           onTap: () => Get.back(),
@@ -584,7 +584,7 @@ class SubscriptionPlanView extends StatelessWidget {
           return Center(child: Text(controller.errorMessage.value, style: h3));
         }
         if (controller.subscriptionPlans.isEmpty) {
-          return Center(child: Text('No subscription plans available', style: h3));
+          return Center(child: Text('No_Subscription_Plans_Available'.tr, style: h3)); // Updated to use translation
         }
 
         final currentSubscription = controller.myCurrentSubscription.value;
@@ -606,12 +606,12 @@ class SubscriptionPlanView extends StatelessWidget {
                 // Current Plan Section
                 if (currentPlanDetails != null && status == 'active' && remainingDays != null && remainingDays > 0) ...[
                   Text(
-                    'My Current Plan',
+                    'My_Current_Plan'.tr, // Updated to use translation
                     style: h2.copyWith(fontSize: 20, color: AppColors.white),
                   ),
                   sh12,
                   SubscriptionPlanCard(
-                    title: '${currentPlanDetails.name} - My Current Plan',
+                    title: '${currentPlanDetails.name} - ${'My_Current_Plan'.tr}', // Updated to use translation
                     duration: _getDurationText(currentPlanDetails.duration),
                     price: '\$${currentPlanDetails.price?.toStringAsFixed(2) ?? '0.00'}',
                     description: currentPlanDetails.description ?? 'Enjoy your current subscription benefits.',
@@ -621,22 +621,22 @@ class SubscriptionPlanView extends StatelessWidget {
                       if (currentSubscription?.data?.id != null) {
                         controller.createPaymentSession(subscriptionId: currentSubscription!.data!.id!);
                         Get.snackbar(
-                          'Renewed',
-                          'Your ${currentPlanDetails.name} has been renewed!',
+                          'Renewed'.tr, // Updated to use translation
+                          '${currentPlanDetails.name} ${'Has_Been_Renewed'.tr}', // Updated to use translation
                           backgroundColor: Colors.green,
                           colorText: AppColors.white,
                         );
                       }
                     },
                     isCurrentPlan: true,
-                    buttonText: 'Renew Plan',
+                    buttonText: 'Renew_Plan'.tr, // Updated to use translation
                     buttonColor: AppColors.mainColor,
                     buttonTextColor: AppColors.white,
                     titleTextColor: AppColors.white,
                   ),
                   sh30,
                   Text(
-                    'Upgrade Plan',
+                    'Upgrade_Plan'.tr, // Updated to use translation
                     style: h2.copyWith(fontSize: 20, color: AppColors.white),
                   ),
                   sh12,
@@ -650,23 +650,23 @@ class SubscriptionPlanView extends StatelessWidget {
                   return Column(
                     children: [
                       SubscriptionPlanCard(
-                        title: plan.name ?? 'Unknown Plan',
+                        title: plan.name ?? 'Unknown_Duration'.tr, // Updated to use translation
                         duration: _getDurationText(plan.duration),
                         price: '\$${plan.price?.toStringAsFixed(2) ?? '0.00'}',
-                        description: plan.description ?? 'No description available',
+                        description: plan.description ?? 'No_Description_Available'.tr, // Updated to use translation
                         onSubscribe: () {
                           if (plan.id != null) {
                             controller.createPaymentSession(subscriptionId: plan.id!);
                             Get.snackbar(
-                              'Success',
-                              'You have subscribed to ${plan.name}!',
+                              'Success'.tr, // Updated to use translation
+                              'You_Have_Subscribed_To'.tr + '${plan.name}!', // Updated to use translation
                               backgroundColor: Colors.green,
                               colorText: AppColors.white,
                             );
                           } else {
                             Get.snackbar(
-                              'Error',
-                              'Unable to subscribe: Plan ID not found',
+                              'Error'.tr, // Already translated
+                              'Unable_To_Subscribe_Plan_ID_Not_Found'.tr, // Updated to use translation
                               backgroundColor: AppColors.orange,
                               colorText: AppColors.white,
                             );
@@ -684,7 +684,7 @@ class SubscriptionPlanView extends StatelessWidget {
                         sh8,
                         Center(
                           child: Text(
-                            'Most Popular',
+                            'Most_Popular'.tr, // Updated to use translation
                             style: h3.copyWith(color: Colors.orange, fontWeight: FontWeight.bold),
                           ),
                         ),
@@ -702,9 +702,9 @@ class SubscriptionPlanView extends StatelessWidget {
   }
 
   String _getButtonText(String? plan, String? currentPlan) {
-    if (currentPlan == null) return 'Subscribe Now';
-    if (plan == currentPlan) return 'Renew Plan';
-    return 'Upgrade to ${plan?.split(' ')[0] ?? 'Plan'}';
+    if (currentPlan == null) return 'Subscribe_Now'.tr; // Updated to use translation
+    if (plan == currentPlan) return 'Renew_Plan'.tr; // Updated to use translation
+    return 'Upgrade_To'.tr + '${plan?.split(' ')[0] ?? 'Plan'}'; // Updated to use translation
   }
 
   bool _shouldShowButton(String? plan, String? currentPlan) {
@@ -716,22 +716,35 @@ class SubscriptionPlanView extends StatelessWidget {
   }
 
   String _getDurationText(int? duration) {
-    if (duration == null) return 'Unknown';
-    return duration == 1 ? '1 Month' : '$duration Months';
+    if (duration == null) return 'Unknown_Duration'.tr; // Updated to use translation
+    return duration == 1 ? 'One_Month'.tr : '$duration ${'Months_Suffix'.tr}'; // Updated to use translation
   }
 
   String _formatDate(String? date) {
-    if (date == null) return 'N/A';
+    if (date == null) return 'Not_Available'.tr; // Updated to use translation
     try {
       final parsedDate = DateTime.parse(date);
-      return '${parsedDate.day} ${_getMonthName(parsedDate.month)} ${parsedDate.year}';
+      return '${parsedDate.day} ${'Month_${_getMonthName(parsedDate.month)}'.tr} ${parsedDate.year}'; // Updated to use translation
     } catch (e) {
-      return 'N/A';
+      return 'Not_Available'.tr; // Updated to use translation
     }
   }
 
   String _getMonthName(int month) {
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const months = [
+      'Month_Jan',
+      'Month_Feb',
+      'Month_Mar',
+      'Month_Apr',
+      'Month_May',
+      'Month_Jun',
+      'Month_Jul',
+      'Month_Aug',
+      'Month_Sep',
+      'Month_Oct',
+      'Month_Nov',
+      'Month_Dec'
+    ];
     return months[month - 1];
   }
 }

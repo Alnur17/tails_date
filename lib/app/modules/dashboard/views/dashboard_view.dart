@@ -54,7 +54,7 @@ class _DashboardViewState extends State<DashboardView> {
                     child: NavBarItem(
                       selectedIcon: AppImages.homeFilled,
                       unselectedIcon: AppImages.home,
-                      label: "Home",
+                      label: 'Home'.tr,
                       isSelected: _selectedIndex == 0,
                     ),
                   ),
@@ -63,7 +63,7 @@ class _DashboardViewState extends State<DashboardView> {
                     child: NavBarItem(
                       selectedIcon: AppImages.reelsFilled,
                       unselectedIcon: AppImages.reels,
-                      label: "Reels",
+                      label: 'Reels'.tr,
                       isSelected: _selectedIndex == 1,
                     ),
                   ),
@@ -73,7 +73,7 @@ class _DashboardViewState extends State<DashboardView> {
                     child: NavBarItem(
                       selectedIcon: AppImages.chatFilled,
                       unselectedIcon: AppImages.chat,
-                      label: "Chat",
+                      label: 'Chat'.tr,
                       isSelected: _selectedIndex == 2,
                     ),
                   ),
@@ -82,7 +82,7 @@ class _DashboardViewState extends State<DashboardView> {
                     child: NavBarItem(
                       selectedIcon: AppImages.profileFilled,
                       unselectedIcon: AppImages.profile,
-                      label: "Profile",
+                      label: 'Profile'.tr,
                       isSelected: _selectedIndex == 3,
                     ),
                   ),

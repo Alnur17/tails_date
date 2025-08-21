@@ -252,7 +252,7 @@ class _CashOutYourStarsViewState extends State<CashOutYourStarsView> {
       appBar: AppBar(
         scrolledUnderElevation: 0,
         backgroundColor: AppColors.mainColor,
-        title: const Text('Cash Out Your Stars'),
+        title: Text('Cash_Out_Your_Stars'.tr),
         centerTitle: true,
         leading: GestureDetector(
           onTap: () {
@@ -270,8 +270,7 @@ class _CashOutYourStarsViewState extends State<CashOutYourStarsView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Turn your stars into cash. Each star equals \$0.01.',
-                  style: h3),
+              Text('Turn_Stars_Into_Cash'.tr, style: h3),
               sh8,
               Container(
                 padding: const EdgeInsets.all(16.0),
@@ -284,7 +283,7 @@ class _CashOutYourStarsViewState extends State<CashOutYourStarsView> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Your Star Balance',
+                      'Your_Star_Balance'.tr,
                       style: h4.copyWith(
                           fontSize: 18, color: AppColors.brownColor),
                     ),
@@ -294,7 +293,7 @@ class _CashOutYourStarsViewState extends State<CashOutYourStarsView> {
                         Text('🌟'),
                         sw8,
                         Text(
-                          '${widget.starBalance} Stars Remaining',
+                          '${widget.starBalance} ${'Stars_Remaining'.tr}',
                           style: h2,
                         ),
                       ],
@@ -308,18 +307,18 @@ class _CashOutYourStarsViewState extends State<CashOutYourStarsView> {
                 ),
               ),
               sh16,
-              Text('Cash Out Details', style: h2),
+              Text('Cash_Out_Details'.tr, style: h2),
               sh8,
-              Text('Enter cash out amount:', style: h4),
+              Text('Enter_Cash_Out_Amount'.tr, style: h4),
               sh8,
               CustomTextField(
                 controller: buyStarController.cashOutTEController,
-                hintText: '\$0',
+                hintText: 'Cash_Out_Amount_Hint'.tr,
                 keyboardType: TextInputType.number,
               ),
               sh8,
               Text(
-                'Guidelines',
+                'Guidelines'.tr,
                 style: h6,
               ),
               sh8,
@@ -335,7 +334,7 @@ class _CashOutYourStarsViewState extends State<CashOutYourStarsView> {
                   ),
                   sw12,
                   Text(
-                    'Each star is worth \$0.01.',
+                    'Star_Value'.tr,
                     style: h6,
                   )
                 ],
@@ -353,7 +352,7 @@ class _CashOutYourStarsViewState extends State<CashOutYourStarsView> {
                   sw12,
                   Expanded(
                     child: Text(
-                      'CashOuts are available on the 1st of each month.',
+                      'CashOut_Availability'.tr,
                       style: h6,
                     ),
                   ),
@@ -372,7 +371,7 @@ class _CashOutYourStarsViewState extends State<CashOutYourStarsView> {
                   sw12,
                   Expanded(
                     child: Text(
-                      'The cashOut amount will be less than what you spent on points.',
+                      'CashOut_Amount_Less'.tr,
                       style: h6,
                     ),
                   ),
@@ -380,7 +379,7 @@ class _CashOutYourStarsViewState extends State<CashOutYourStarsView> {
               ),
               sh24,
               CustomButton(
-                text: 'Submit CashOut Request',
+                text: 'Submit_CashOut_Request'.tr,
                 onPressed: () async {
                   final amountText = buyStarController.cashOutTEController.text.trim();
                   if (amountText.isNotEmpty) {
@@ -392,35 +391,35 @@ class _CashOutYourStarsViewState extends State<CashOutYourStarsView> {
                         await buyStarController.getCashOutStatus();
                       } else {
                         kSnackBar(
-                          message: 'Requested amount exceeds available balance.',
+                          message: 'Amount_Exceeds_Balance'.tr,
                           bgColor: AppColors.orange,
                         );
                       }
                     } else {
                       kSnackBar(
-                        message: 'Please enter a valid positive amount.',
+                        message: 'Enter_Valid_Amount'.tr,
                         bgColor: AppColors.orange,
                       );
                     }
                   } else {
                     kSnackBar(
-                      message: 'Please enter an amount.',
+                      message: 'Enter_Amount'.tr,
                       bgColor: AppColors.orange,
                     );
                   }
                 },
               ),
               sh24,
-              Text('CashOut Status', style: h2),
+              Text('CashOut_Status'.tr, style: h2),
               sh8,
               Obx(() => buyStarController.isLoading.value
                   ? Center(child: CircularProgressIndicator())
                   : buyStarController.cashOutStatusList.isEmpty
                   ? Row(
                 children: [
-                  Text('Status:', style: h4),
+                  Text('Status_Label'.tr, style: h4),
                   sw8,
-                  Text('No pending requests at the moment.', style: h4),
+                  Text('No_Pending_Requests'.tr, style: h4),
                 ],
               )
                   : ListView.builder(
@@ -439,7 +438,7 @@ class _CashOutYourStarsViewState extends State<CashOutYourStarsView> {
                         children: [
                           Row(
                             children: [
-                              Text('Amount:', style: h4),
+                              Text('Amount_Label'.tr, style: h4),
                               sw8,
                               Text('\$${status.amount}', style: h4),
                             ],
@@ -447,7 +446,7 @@ class _CashOutYourStarsViewState extends State<CashOutYourStarsView> {
                           sh8,
                           Row(
                             children: [
-                              Text('Stars:', style: h4),
+                              Text('Stars_Label'.tr, style: h4),
                               sw8,
                               Text('${status.stars} 🌟', style: h4),
                             ],
@@ -455,10 +454,10 @@ class _CashOutYourStarsViewState extends State<CashOutYourStarsView> {
                           sh8,
                           Row(
                             children: [
-                              Text('Status:', style: h4),
+                              Text('Status_Label'.tr, style: h4),
                               sw8,
                               Text(
-                                status.status ?? 'Unknown',
+                                status.status ?? 'Unknown'.tr,
                                 style: h4.copyWith(
                                   color: status.status == 'approved'
                                       ? AppColors.green
@@ -473,7 +472,7 @@ class _CashOutYourStarsViewState extends State<CashOutYourStarsView> {
                             sh8,
                             Row(
                               children: [
-                                Text('Rejection Reason:', style: h4),
+                                Text('Rejection_Reason_Label'.tr, style: h4),
                                 sw8,
                                 Expanded(
                                   child: Text(
@@ -486,7 +485,7 @@ class _CashOutYourStarsViewState extends State<CashOutYourStarsView> {
                           ],
                           sh8,
                           Text(
-                            'Requested on: ${status.createdAt?.toLocal().toString().split('.')[0] ?? 'N/A'}',
+                            '${'Requested_On_Label'.tr} ${status.createdAt?.toLocal().toString().split('.')[0] ?? 'Not_Available'.tr}',
                             style: h6,
                           ),
                         ],

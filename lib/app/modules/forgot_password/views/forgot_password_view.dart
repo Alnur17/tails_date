@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_images/app_images.dart';
 import '../../../../common/app_text_style/styles.dart';
@@ -67,19 +66,19 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
                     children: [
                       sh16,
                       Text(
-                        'Forgot Password',
+                        'Forgot_Password'.tr,
                         style: h2,
                       ),
                       sh8,
                       Text(
-                        'Please enter your email address to receive the verification code',
+                        'Enter_Email_Instruction'.tr,
                         style: h4.copyWith(color: Colors.grey[700]),
                         textAlign: TextAlign.center,
                       ),
                       sh24,
                       CustomTextField(
                         controller: forgotPasswordController.emailTEController,
-                        hintText: 'Enter your email',
+                        hintText: 'Enter_Email'.tr,
                         preIcon: Image.asset(
                           AppImages.message,
                           scale: 4,
@@ -91,7 +90,7 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
                       //     //Get.to(() => ForgotPasswordView());
                       //   },
                       //   child: Text(
-                      //     'Try another way ',
+                      //     'Try_Another_Way'.tr,
                       //     style: h4.copyWith(
                       //       color: AppColors.secondaryOrangeColor,
                       //     ),
@@ -99,18 +98,18 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
                       // ),
                       sh16,
                       Obx(
-                        () => forgotPasswordController.isLoading.value
+                            () => forgotPasswordController.isLoading.value
                             ? CustomLoader(color: AppColors.white)
                             : CustomButton(
-                                text: 'Send',
-                                onPressed: () {
-                                  forgotPasswordController.forgotPassword(
-                                      email: forgotPasswordController
-                                          .emailTEController.text
-                                          .trim()
-                                          .toLowerCase());
-                                },
-                              ),
+                          text: 'Send'.tr,
+                          onPressed: () {
+                            forgotPasswordController.forgotPassword(
+                                email: forgotPasswordController
+                                    .emailTEController.text
+                                    .trim()
+                                    .toLowerCase());
+                          },
+                        ),
                       ),
                       sh16,
                     ],

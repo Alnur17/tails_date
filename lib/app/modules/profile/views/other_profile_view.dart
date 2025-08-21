@@ -1,5 +1,3 @@
-import 'dart:developer';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
@@ -13,7 +11,6 @@ import 'package:tails_date/common/app_images/app_images.dart';
 import 'package:tails_date/common/app_text_style/styles.dart';
 import 'package:tails_date/common/widgets/custom_button.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
-import '../../home/views/widgets/home_widgets/user_post_card.dart';
 
 class OtherProfileView extends StatefulWidget {
   final String userId;
@@ -64,7 +61,7 @@ class _OtherProfileViewState extends State<OtherProfileView> {
       appBar: AppBar(
         scrolledUnderElevation: 0,
         backgroundColor: AppColors.mainColor,
-        title: const Text('User Profile'),
+        title: Text('User_Profile'.tr), // Updated to use translation
         leading: GestureDetector(
           onTap: () {
             Get.back();
@@ -76,212 +73,212 @@ class _OtherProfileViewState extends State<OtherProfileView> {
         ),
       ),
       body: Obx(
-        () => profileController.isOtherProfileLoading.value ||
-                homeController.isLoading.value
+            () => profileController.isOtherProfileLoading.value ||
+            homeController.isLoading.value
             ? const Center(
-                child: CircularProgressIndicator(
-                  color: AppColors.black,
-                ),
-              )
+          child: CircularProgressIndicator(
+            color: AppColors.black,
+          ),
+        )
             : profileController.otherProfileData.value == null
-                ? const Center(child: Text('Failed to load user profile'))
-                : SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Stack(
-                            clipBehavior: Clip.none,
-                            children: [
-                              Container(
-                                height: 200,
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: profileController.otherProfileData
-                                                .value!.data?.coverImage !=
-                                            null
-                                        ? NetworkImage(profileController
-                                            .otherProfileData
-                                            .value!
-                                            .data!
-                                            .coverImage!)
-                                        : const AssetImage(
-                                                AppImages.groupOfDogs)
-                                            as ImageProvider,
-                                    fit: BoxFit.cover,
-                                  ),
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                              ),
-                              Positioned(
-                                bottom: -50,
-                                left: 12,
-                                child: CircleAvatar(
-                                  radius: 50,
-                                  backgroundImage: profileController
-                                              .otherProfileData
-                                              .value!
-                                              .data
-                                              ?.image !=
-                                          null
-                                      ? NetworkImage(profileController
-                                          .otherProfileData.value!.data!.image!)
-                                      : const AssetImage(AppImages.profileImage)
-                                          as ImageProvider,
-                                ),
-                              ),
-                            ],
-                          ),
-                          sh60,
-                          // Profile info
-                          Text(
-                            profileController
-                                    .otherProfileData.value!.data?.name ??
-                                'Unknown',
-                            style: h2.copyWith(fontSize: 20),
-                          ),
-                          sh12,
-                          Row(
-                            children: [
-                              Image.asset(
-                                AppImages.location,
-                                scale: 4,
-                              ),
-                              sw8,
-                              Text(
-                                profileController.otherProfileData.value!.data
-                                        ?.location ??
-                                    'Location not set',
-                                style: h4,
-                              ),
-                            ],
-                          ),
-                          sh16,
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: CustomButton(
-                                  height: 40,
-                                  onPressed: () {
-                                    Get.to(() => FriendsView());
-                                  },
-                                  text: 'Friends',
-                                  backgroundColor: AppColors.white,
-                                  borderColor: AppColors.black,
-                                  textStyle:
-                                      h3.copyWith(color: AppColors.black),
-                                ),
-                              ),
-                              sw12,
-                              Expanded(
-                                child: CustomButton(
-                                  height: 40,
-                                  onPressed: () {
-                                    Get.to(() => MessageView());
-                                  },
-                                  text: 'Message',
-                                ),
-                              ),
-                            ],
-                          ),
-                          sh20,
-                          // Attributes
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: AttributeTile(
-                                  label: 'Gender',
-                                  value: profileController.otherProfileData
-                                          .value!.data?.gender ??
-                                      'N/A',
-                                ),
-                              ),
-                              sw12,
-                              Expanded(
-                                child: AttributeTile(
-                                  label: 'Age',
-                                  value: profileController
-                                          .otherProfileData.value!.data?.age
-                                          ?.toString() ??
-                                      'N/A',
-                                ),
-                              ),
-                              sw12,
-                              Expanded(
-                                child: AttributeTile(
-                                  label: 'Category',
-                                  value: profileController.otherProfileData
-                                          .value!.data?.category ??
-                                      'N/A',
-                                ),
-                              ),
-                            ],
-                          ),
-                          sh20,
-                          // Pet info
-                          Text(
-                            'Pet info',
-                            style: h2.copyWith(fontSize: 18),
-                          ),
-                          sh8,
-                          Text(
-                            profileController
-                                    .otherProfileData.value!.data?.petInfo ??
-                                'N/A',
-                            style: h4,
-                          ),
-                          sh16,
-                          // Pet Owner Info
-                          Text(
-                            'Pet Owner',
-                            style: h3,
-                          ),
-                          sh12,
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            decoration: BoxDecoration(
-                              color: AppColors.fillColorTwo,
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: ListTile(
-                              contentPadding: EdgeInsets.zero,
-                              leading: CircleAvatar(
-                                radius: 30,
-                                backgroundImage: profileController
-                                            .otherProfileData
-                                            .value!
-                                            .data
-                                            ?.ownerImage !=
-                                        null
-                                    ? NetworkImage(profileController
-                                        .otherProfileData
-                                        .value!
-                                        .data!
-                                        .ownerImage!)
-                                    : null,
-                              ),
-                              title: Text(
-                                profileController.otherProfileData.value!.data
-                                        ?.ownerName ??
-                                    'Unknown',
-                                style: h4,
-                              ),
-                              subtitle: Text(
-                                '${profileController.otherProfileData.value!.data?.ownerRelationshipStatus ?? 'N/A'}, ${profileController.otherProfileData.value!.data?.ownerGender ?? 'N/A'}',
-                                style: h6,
-                              ),
-                            ),
-                          ),
-                          sh16,
-                          // Posts and Collections Toggle
-                        ],
+            ? Center(child: Text('Failed_To_Load_User_Profile'.tr)) // Updated to use translation
+            : SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    Container(
+                      height: 200,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: profileController.otherProfileData
+                              .value!.data?.coverImage !=
+                              null
+                              ? NetworkImage(profileController
+                              .otherProfileData
+                              .value!
+                              .data!
+                              .coverImage!)
+                              : const AssetImage(
+                              AppImages.groupOfDogs)
+                          as ImageProvider,
+                          fit: BoxFit.cover,
+                        ),
+                        borderRadius: BorderRadius.circular(16),
                       ),
                     ),
+                    Positioned(
+                      bottom: -50,
+                      left: 12,
+                      child: CircleAvatar(
+                        radius: 50,
+                        backgroundImage: profileController
+                            .otherProfileData
+                            .value!
+                            .data
+                            ?.image !=
+                            null
+                            ? NetworkImage(profileController
+                            .otherProfileData.value!.data!.image!)
+                            : const AssetImage(AppImages.profileImage)
+                        as ImageProvider,
+                      ),
+                    ),
+                  ],
+                ),
+                sh60,
+                // Profile info
+                Text(
+                  profileController
+                      .otherProfileData.value!.data?.name ??
+                      'Unknown',
+                  style: h2.copyWith(fontSize: 20),
+                ),
+                sh12,
+                Row(
+                  children: [
+                    Image.asset(
+                      AppImages.location,
+                      scale: 4,
+                    ),
+                    sw8,
+                    Text(
+                      profileController.otherProfileData.value!.data
+                          ?.location ??
+                          'Location_Not_Set'.tr, // Updated to use translation
+                      style: h4,
+                    ),
+                  ],
+                ),
+                sh16,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: CustomButton(
+                        height: 40,
+                        onPressed: () {
+                          Get.to(() => FriendsView());
+                        },
+                        text: 'Friends'.tr, // Updated to use translation
+                        backgroundColor: AppColors.white,
+                        borderColor: AppColors.black,
+                        textStyle:
+                        h3.copyWith(color: AppColors.black),
+                      ),
+                    ),
+                    sw12,
+                    Expanded(
+                      child: CustomButton(
+                        height: 40,
+                        onPressed: () {
+                          Get.to(() => MessageView());
+                        },
+                        text: 'Message'.tr, // Updated to use translation
+                      ),
+                    ),
+                  ],
+                ),
+                sh20,
+                // Attributes
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: AttributeTile(
+                        label: 'Gender'.tr, // Updated to use translation
+                        value: profileController.otherProfileData
+                            .value!.data?.gender ??
+                            'Not_Available'.tr, // Updated to use translation
+                      ),
+                    ),
+                    sw12,
+                    Expanded(
+                      child: AttributeTile(
+                        label: 'Age'.tr, // Updated to use translation
+                        value: profileController
+                            .otherProfileData.value!.data?.age
+                            ?.toString() ??
+                            'Not_Available'.tr, // Updated to use translation
+                      ),
+                    ),
+                    sw12,
+                    Expanded(
+                      child: AttributeTile(
+                        label: 'Category'.tr, // Updated to use translation
+                        value: profileController.otherProfileData
+                            .value!.data?.category ??
+                            'Not_Available'.tr, // Updated to use translation
+                      ),
+                    ),
+                  ],
+                ),
+                sh20,
+                // Pet info
+                Text(
+                  'Pet_Info'.tr, // Updated to use translation
+                  style: h2.copyWith(fontSize: 18),
+                ),
+                sh8,
+                Text(
+                  profileController
+                      .otherProfileData.value!.data?.petInfo ??
+                      'Not_Available'.tr, // Updated to use translation
+                  style: h4,
+                ),
+                sh16,
+                // Pet Owner Info
+                Text(
+                  'Pet_Owner'.tr, // Updated to use translation
+                  style: h3,
+                ),
+                sh12,
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  decoration: BoxDecoration(
+                    color: AppColors.fillColorTwo,
+                    borderRadius: BorderRadius.circular(8),
                   ),
+                  child: ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    leading: CircleAvatar(
+                      radius: 30,
+                      backgroundImage: profileController
+                          .otherProfileData
+                          .value!
+                          .data
+                          ?.ownerImage !=
+                          null
+                          ? NetworkImage(profileController
+                          .otherProfileData
+                          .value!
+                          .data!
+                          .ownerImage!)
+                          : null,
+                    ),
+                    title: Text(
+                      profileController.otherProfileData.value!.data
+                          ?.ownerName ??
+                          'Unknown',
+                      style: h4,
+                    ),
+                    subtitle: Text(
+                      '${profileController.otherProfileData.value!.data?.ownerRelationshipStatus ?? 'Not_Available'.tr}, ${profileController.otherProfileData.value!.data?.ownerGender ?? 'Not_Available'.tr}', // Updated to use translation
+                      style: h6,
+                    ),
+                  ),
+                ),
+                sh16,
+                // Posts and Collections Toggle
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

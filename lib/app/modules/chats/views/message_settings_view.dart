@@ -1,9 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
-
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_images/app_images.dart';
 import '../../../../common/app_text_style/styles.dart';
@@ -23,7 +21,6 @@ class MessageSettingsView extends StatefulWidget {
 class _MessageSettingsViewState extends State<MessageSettingsView> {
   final MessageSettingsController controller = Get.put(MessageSettingsController());
 
-
   @override
   Widget build(BuildContext context) {
     Get.put(MessageSettingsController());
@@ -32,7 +29,7 @@ class _MessageSettingsViewState extends State<MessageSettingsView> {
       appBar: AppBar(
         backgroundColor: AppColors.mainColor,
         title: Text(
-          'Message Settings',
+          'Message_Settings'.tr,
           style: h2,
         ),
         centerTitle: true,
@@ -40,22 +37,22 @@ class _MessageSettingsViewState extends State<MessageSettingsView> {
           onTap: () {
             Get.back();
           },
-          child: Image.asset(AppImages.back,scale: 4,),
+          child: Image.asset(AppImages.back, scale: 4,),
         ),
       ),
       body: SingleChildScrollView(
         child: Container(
           margin: EdgeInsets.all(16),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(24),
-            color: AppColors.white
+              borderRadius: BorderRadius.circular(24),
+              color: AppColors.white
           ),
           child: Column(
             children: [
               sh20,
               CircleAvatar(
                 radius: 85,
-                backgroundImage: NetworkImage( widget.userImage ?? AppImages.profileImage),
+                backgroundImage: NetworkImage(widget.userImage ?? AppImages.profileImage),
               ),
               sh24,
               Text(
@@ -69,7 +66,7 @@ class _MessageSettingsViewState extends State<MessageSettingsView> {
                     () {
                   return CustomListTile(
                     leadingImage: AppImages.unMute,
-                    title: 'Mute Notification',
+                    title: 'Mute_Notification'.tr,
                     titleStyle: h3,
                     isSwitch: true,
                     switchValue: controller.isNotificationMuted.value,
@@ -79,7 +76,7 @@ class _MessageSettingsViewState extends State<MessageSettingsView> {
               ),
               CustomListTile(
                 leadingImage: AppImages.logout,
-                title: 'Block',
+                title: 'Block'.tr,
                 titleStyle: h3.copyWith(color: AppColors.secondaryOrangeColor),
                 onTap: () => log('Block'),
               ),

@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-
-import 'package:get/get.dart';
-import 'package:tails_date/app/modules/home/controllers/home_controller.dart';
+import 'package:get/Get.dart';
 import 'package:tails_date/app/modules/login/views/login_view.dart';
 import 'package:tails_date/app/modules/terms_of_services/views/terms_of_services_view.dart';
 import 'package:tails_date/common/app_color/app_colors.dart';
 import 'package:tails_date/common/app_images/app_images.dart';
 import 'package:tails_date/common/widgets/custom_button.dart';
-
 import '../../../../common/app_text_style/styles.dart';
 import '../../../../common/size_box/custom_sizebox.dart';
 import '../../../../common/widgets/custom_loader.dart';
@@ -82,12 +79,12 @@ class _SignupViewState extends State<SignupView> {
                     children: [
                       sh16,
                       Text(
-                        'Sign Up',
+                        'Sign_Up'.tr,
                         style: h2,
                       ),
                       sh8,
                       Text(
-                        'Fill your information below or register with your social account',
+                        'Fill_Your_Information'.tr,
                         style: h4.copyWith(color: Colors.grey[700]),
                         textAlign: TextAlign.center,
                       ),
@@ -95,7 +92,7 @@ class _SignupViewState extends State<SignupView> {
                       // Input fields
                       CustomTextField(
                         controller: signupController.petNameController,
-                        hintText: 'Pet Name',
+                        hintText: 'Pet_Name'.tr,
                         preIcon: Image.asset(
                           AppImages.person,
                           scale: 4,
@@ -104,7 +101,7 @@ class _SignupViewState extends State<SignupView> {
                       sh16,
                       CustomTextField(
                         controller: signupController.emailController,
-                        hintText: 'Enter your email',
+                        hintText: 'Enter_Your_Email'.tr,
                         preIcon: Image.asset(
                           AppImages.message,
                           scale: 4,
@@ -112,9 +109,9 @@ class _SignupViewState extends State<SignupView> {
                       ),
                       sh16,
                       Obx(
-                        () => CustomTextField(
+                            () => CustomTextField(
                           controller: signupController.passwordController,
-                          hintText: 'Enter your password',
+                          hintText: 'Enter_Your_Password'.tr,
                           preIcon: Image.asset(
                             AppImages.lock,
                             scale: 4,
@@ -131,15 +128,15 @@ class _SignupViewState extends State<SignupView> {
                             ),
                           ),
                           obscureText:
-                              !signupController.isPasswordVisible.value,
+                          !signupController.isPasswordVisible.value,
                         ),
                       ),
                       sh16,
                       Obx(
-                        () => CustomTextField(
+                            () => CustomTextField(
                           controller:
-                              signupController.confirmPasswordController,
-                          hintText: 'Confirm your password',
+                          signupController.confirmPasswordController,
+                          hintText: 'Confirm_Your_Password'.tr,
                           preIcon: Image.asset(
                             AppImages.lock,
                             scale: 4,
@@ -156,18 +153,18 @@ class _SignupViewState extends State<SignupView> {
                             ),
                           ),
                           obscureText:
-                              !signupController.isPasswordVisible1.value,
+                          !signupController.isPasswordVisible1.value,
                         ),
                       ),
                       sh16,
                       Obx(
-                        () => SizedBox(
+                            () => SizedBox(
                           height: 48,
                           child: DropdownButtonFormField<CategoryData>(
                             decoration: InputDecoration(
                               fillColor: AppColors.white,
                               filled: true,
-                              hintText: 'Select Category',
+                              hintText: 'Select_Category'.tr,
                               hintStyle: h4.copyWith(color: Colors.grey[700]),
                               suffixIcon: Image.asset(
                                 AppImages.arrowDown,
@@ -187,7 +184,7 @@ class _SignupViewState extends State<SignupView> {
                                 .map((CategoryData category) {
                               return DropdownMenuItem<CategoryData>(
                                 value: category,
-                                child: Text(category.name ?? 'Unknown'),
+                                child: Text(category.name ?? 'Unknown'.tr),
                               );
                             }).toList(),
                             onChanged: (CategoryData? newValue) {
@@ -198,8 +195,8 @@ class _SignupViewState extends State<SignupView> {
                             icon: SizedBox.shrink(),
                             // Hide default dropdown icon
                             hint: signupController.isLoading.value
-                                ? Text('Loading categories...')
-                                : Text('Select Category'),
+                                ? Text('Loading_Categories'.tr)
+                                : Text('Select_Category'.tr),
                           ),
                         ),
                       ),
@@ -207,7 +204,7 @@ class _SignupViewState extends State<SignupView> {
                       Row(
                         children: [
                           Obx(
-                            () => Checkbox(
+                                () => Checkbox(
                               value: signupController.isCheckboxVisible.value,
                               onChanged: (value) {
                                 signupController.toggleCheckboxVisibility();
@@ -216,7 +213,7 @@ class _SignupViewState extends State<SignupView> {
                             ),
                           ),
                           Text(
-                            'By agreeing to the ',
+                            'By_Agreeing_To_The'.tr,
                             style: TextStyle(color: AppColors.black),
                           ),
                           GestureDetector(
@@ -224,7 +221,7 @@ class _SignupViewState extends State<SignupView> {
                               Get.to(() => TermsOfServicesView());
                             },
                             child: Text(
-                              'Terms & Condition',
+                              'Terms_And_Condition'.tr,
                               style: h4.copyWith(
                                   color: AppColors.secondaryOrangeColor),
                             ),
@@ -233,16 +230,16 @@ class _SignupViewState extends State<SignupView> {
                       ),
                       sh16,
                       Obx(
-                        () => signupController.isLoading.value
+                            () => signupController.isLoading.value
                             ? CustomLoader(
-                                color: AppColors.white,
-                              )
+                          color: AppColors.white,
+                        )
                             : CustomButton(
-                                text: 'Sign Up',
-                                onPressed: () {
-                                  signupController.signup();
-                                },
-                              ),
+                          text: 'Sign_Up'.tr,
+                          onPressed: () {
+                            signupController.signup();
+                          },
+                        ),
                       ),
                       sh16,
                       Center(
@@ -252,11 +249,11 @@ class _SignupViewState extends State<SignupView> {
                           },
                           child: Text.rich(
                             TextSpan(
-                              text: 'Already Have an account? ',
+                              text: 'Already_Have_Account'.tr,
                               style: h4,
                               children: [
                                 TextSpan(
-                                  text: 'Log In',
+                                  text: 'Log_In'.tr,
                                   style: h3.copyWith(
                                     color: AppColors.secondaryOrangeColor,
                                   ),

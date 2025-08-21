@@ -1,12 +1,9 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:tails_date/app/modules/forgot_password/controllers/forgot_password_controller.dart';
 import 'package:tails_date/common/widgets/custom_loader.dart';
-
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_images/app_images.dart';
 import '../../../../common/app_text_style/styles.dart';
@@ -76,12 +73,12 @@ class VerifyOtpView extends GetView {
                     children: [
                       sh16,
                       Text(
-                        'Verify Code',
+                        'Verify_Code'.tr,
                         style: h2,
                       ),
                       sh8,
                       Text(
-                        'Please enter the code we just sent to $email',
+                        'Enter_Code_Instruction'.trParams({'0': email}),
                         style: h4.copyWith(color: Colors.grey[700]),
                         textAlign: TextAlign.center,
                       ),
@@ -104,7 +101,7 @@ class VerifyOtpView extends GetView {
                           selectedColor: AppColors.mainColor,
                           selectedFillColor: AppColors.greyLight,
                           fieldOuterPadding:
-                              EdgeInsets.symmetric(horizontal: 2),
+                          EdgeInsets.symmetric(horizontal: 2),
                         ),
                         animationDuration: const Duration(milliseconds: 300),
                         backgroundColor: AppColors.transparent,
@@ -121,13 +118,13 @@ class VerifyOtpView extends GetView {
                       ),
                       sh24,
                       // Text(
-                      //   'Didn\'t receive OTP',
+                      //   'Didnt_Receive_OTP'.tr,
                       //   style: h4.copyWith(),
                       // ),
                       // GestureDetector(
                       //   onTap: () {},
                       //   child: Text(
-                      //     'Resend Code',
+                      //     'Resend_Code'.tr,
                       //     style: h4.copyWith(
                       //       color: AppColors.secondaryOrangeColor,
                       //     ),
@@ -136,43 +133,44 @@ class VerifyOtpView extends GetView {
                       Obx(() {
                         return forgotPasswordController.countdown.value > 0
                             ? Text(
-                                'Resend code in ${forgotPasswordController.countdown.value}s',
-                                style: h3,
-                              )
+                          'Resend_Code_In'.trParams(
+                              {'0': forgotPasswordController.countdown.value.toString()}),
+                          style: h3,
+                        )
                             : GestureDetector(
-                                onTap:
-                                    forgotPasswordController.countdown.value ==
-                                            0
-                                        ? () {
-                                            forgotPasswordController
-                                                .forgotPassword(email: email);
-                                          }
-                                        : null,
-                                child: Text(
-                                  'Resend code',
-                                  style: h4.copyWith(
-                                    color: AppColors.black,
-                                    decoration: TextDecoration.underline,
-                                    decorationColor: AppColors.mainColor,
-                                    decorationThickness: 2,
-                                    decorationStyle: TextDecorationStyle.dashed,
-                                  ),
-                                ),
-                              );
+                          onTap:
+                          forgotPasswordController.countdown.value ==
+                              0
+                              ? () {
+                            forgotPasswordController
+                                .forgotPassword(email: email);
+                          }
+                              : null,
+                          child: Text(
+                            'Resend_Code'.tr,
+                            style: h4.copyWith(
+                              color: AppColors.black,
+                              decoration: TextDecoration.underline,
+                              decorationColor: AppColors.mainColor,
+                              decorationThickness: 2,
+                              decorationStyle: TextDecorationStyle.dashed,
+                            ),
+                          ),
+                        );
                       }),
                       sh30,
                       Obx(
-                        () => forgotPasswordController.isLoading.value
+                            () => forgotPasswordController.isLoading.value
                             ? CustomLoader(color: AppColors.white)
                             : CustomButton(
-                                text: 'Verify',
-                                onPressed: () {
-                                  forgotPasswordController.verifyOtp(
-                                      email: email,
-                                      otp: forgotPasswordController
-                                          .otpTEController.text);
-                                },
-                              ),
+                          text: 'Verify'.tr,
+                          onPressed: () {
+                            forgotPasswordController.verifyOtp(
+                                email: email,
+                                otp: forgotPasswordController
+                                    .otpTEController.text);
+                          },
+                        ),
                       ),
                       sh16,
                     ],

@@ -12,7 +12,6 @@ import 'package:tails_date/app/modules/profile/views/other_profile_view.dart';
 import 'package:tails_date/common/app_color/app_colors.dart';
 import 'package:tails_date/common/app_images/app_images.dart';
 import 'package:tails_date/common/app_text_style/styles.dart';
-
 import '../../../../common/app_constant/app_constant.dart';
 import '../../../../common/helper/local_store.dart';
 import 'category_view.dart';
@@ -51,7 +50,7 @@ class _HomeViewState extends State<HomeView> {
           scrolledUnderElevation: 0,
           backgroundColor: AppColors.mainColor,
           title: Text(
-            'TailsDate',
+            'TailsDate'.tr,
             style: h2.copyWith(fontWeight: FontWeight.w700),
           ),
           automaticallyImplyLeading: false,
@@ -97,7 +96,7 @@ class _HomeViewState extends State<HomeView> {
               Padding(
                 padding: const EdgeInsets.only(left: 16, top: 16),
                 child: Text(
-                  'Categories',
+                  'Categories'.tr,
                   style: h1.copyWith(
                       fontSize: 20, color: AppColors.black),
                 ),
@@ -114,9 +113,9 @@ class _HomeViewState extends State<HomeView> {
                           final categoryData =
                           homeController.categories[index];
                           return CategoryWidget(
-                            name: categoryData.name ?? 'Unknown',
+                            name: categoryData.name ?? 'Unknown'.tr,
                             backImage:
-                            categoryData.image ?? 'Unknown',
+                            categoryData.image ?? 'Unknown'.tr,
                             categoryId: categoryData.id,
                             onTap: () {
                               Get.to(() => CategoryView(
@@ -169,12 +168,12 @@ class _HomeViewState extends State<HomeView> {
                           if (post.author?.id != null) {
                             Get.to(() => OtherProfileView(userId: post.author!.id!));
                           } else {
-                            Get.snackbar('Error', 'User ID not available');
+                            Get.snackbar('Error'.tr, 'User_ID_Not_Available'.tr);
                           }
                         },
                         postId: post.id ?? '',
-                        userName: post.author?.name ?? 'Unknown',
-                        location: post.location ?? 'Unknown',
+                        userName: post.author?.name ?? 'Unknown'.tr,
+                        location: post.location ?? 'Unknown'.tr,
                         profileImage: post.author?.image ?? '',
                         images: post.images,
                         description: post.caption ?? '',
@@ -200,7 +199,6 @@ class _HomeViewState extends State<HomeView> {
                           homeController.toggleLike(post.id!);
                         },
                       ),
-
                     );
                   },
                 ),

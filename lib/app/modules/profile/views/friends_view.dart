@@ -101,7 +101,7 @@ class FriendsView extends GetView<MyFriendsController> {
       appBar: AppBar(
         scrolledUnderElevation: 0,
         backgroundColor: AppColors.mainColor,
-        title: const Text('Friends'),
+        title: Text('Friends'.tr), // Localized
         centerTitle: true,
         leading: GestureDetector(
           onTap: () {
@@ -122,7 +122,7 @@ class FriendsView extends GetView<MyFriendsController> {
                 AppImages.searchTwo,
                 scale: 4,
               ),
-              hintText: 'Search Friends',
+              hintText: 'Search_Friends'.tr, // Localized
               // onChanged: (value) {
               //   // Implement search functionality if needed
               // },
@@ -132,48 +132,48 @@ class FriendsView extends GetView<MyFriendsController> {
           Obx(() => controller.isLoading.value
               ? const Center(child: CircularProgressIndicator())
               : controller.errorMessage.isNotEmpty
-                  ? Center(
-                      child: Text(controller.errorMessage.value,
-                          style: const TextStyle(color: Colors.red)))
-                  : Expanded(
-                      child: Obx(() => ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: controller.friendsList.length,
-                            itemBuilder: (context, index) {
-                              final friend = controller.friendsList[index];
-                              final friendName =
-                                  friend.receiver?.name ?? 'Unknown';
-                              final friendImage = friend.receiver?.image ?? '';
+              ? Center(
+              child: Text(controller.errorMessage.value,
+                  style: const TextStyle(color: Colors.red)))
+              : Expanded(
+            child: Obx(() => ListView.builder(
+              shrinkWrap: true,
+              itemCount: controller.friendsList.length,
+              itemBuilder: (context, index) {
+                final friend = controller.friendsList[index];
+                final friendName =
+                    friend.receiver?.name ?? 'Unknown'.tr; // Localized
+                final friendImage = friend.receiver?.image ?? '';
 
-                              return ListTile(
-                                onTap: () {
-                                  debugPrint('Friend tapped: $friendName');
-                                },
-                                leading: CircleAvatar(
-                                  backgroundImage: NetworkImage(friendImage),
-                                ),
-                                title: Text(friendName),
-                                subtitle: Text(friend.receiver?.email ?? ''),
-                                trailing: CustomButton(
-                                  text: 'Message',
-                                  onPressed: () {
-                                    Get.to(
-                                      () => MessageView(
-                                        userImage: friendImage,
-                                        userName: friendName,
-                                        chatId:
-                                            chatController.chatsList.first.id,
-                                        receiverId: friend.sender?.id,
-                                      ),
-                                    );
-                                  },
-                                  width: Get.width * 0.30,
-                                  height: 30,
-                                ),
-                              );
-                            },
-                          )),
-                    )),
+                return ListTile(
+                  onTap: () {
+                    debugPrint('Friend tapped: $friendName');
+                  },
+                  leading: CircleAvatar(
+                    backgroundImage: NetworkImage(friendImage),
+                  ),
+                  title: Text(friendName),
+                  subtitle: Text(friend.receiver?.email ?? ''),
+                  trailing: CustomButton(
+                    text: 'Message'.tr, // Localized
+                    onPressed: () {
+                      Get.to(
+                            () => MessageView(
+                          userImage: friendImage,
+                          userName: friendName,
+                          chatId:
+                          chatController.chatsList.first.id,
+                          receiverId: friend.sender?.id,
+                        ),
+                      );
+                    },
+                    width: Get.width * 0.30,
+                    height: 30,
+                  ),
+                );
+              },
+            )),
+          )),
         ],
       ),
     );

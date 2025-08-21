@@ -117,7 +117,7 @@ class LoginView extends GetView<LoginController> {
                           Get.to(() => ForgotPasswordView());
                         },
                         child: Text(
-                          'Forgot_Password'.tr,
+                          'Forgot_The_Password'.tr,
                           style: h4.copyWith(
                             color: AppColors.secondaryOrangeColor,
                           ),

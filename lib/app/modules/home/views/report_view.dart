@@ -21,7 +21,7 @@ class ReportView extends GetView<ReportController> {
       appBar: AppBar(
         backgroundColor: AppColors.mainColor,
         title: Text(
-          'Report',
+          'Report_Title'.tr,
           style: h2,
         ),
         centerTitle: true,
@@ -42,42 +42,42 @@ class ReportView extends GetView<ReportController> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Why are you reporting this post?',
+                'Why_Report_Post'.tr,
                 style: h3,
               ),
               sh20,
               CustomCheckboxRow(
-                value: controller.reasonOptions['Bullying, harassment or abuse']!.value,
-                text: 'Bullying, harassment or abuse',
-                onChanged: (value) => controller.reasonOptions['Bullying, harassment or abuse']!.value = value!,
+                value: controller.reasonOptions['Bullying_Harassment_Abuse'.tr]!.value,
+                text: 'Bullying_Harassment_Abuse'.tr,
+                onChanged: (value) => controller.reasonOptions['Bullying_Harassment_Abuse'.tr]!.value = value!,
               ),
               sh16,
               CustomCheckboxRow(
-                value: controller.reasonOptions['Violent, hateful or disturbing content']!.value,
-                text: 'Violent, hateful or disturbing content',
-                onChanged: (value) => controller.reasonOptions['Violent, hateful or disturbing content']!.value = value!,
+                value: controller.reasonOptions['Violent_Hateful_Disturbing'.tr]!.value,
+                text: 'Violent_Hateful_Disturbing'.tr,
+                onChanged: (value) => controller.reasonOptions['Violent_Hateful_Disturbing'.tr]!.value = value!,
               ),
               sh16,
               CustomCheckboxRow(
-                value: controller.reasonOptions['Block this user']!.value,
-                text: 'Block this user',
-                onChanged: (value) => controller.reasonOptions['Block this user']!.value = value!,
+                value: controller.reasonOptions['Block_This_User'.tr]!.value,
+                text: 'Block_This_User'.tr,
+                onChanged: (value) => controller.reasonOptions['Block_This_User'.tr]!.value = value!,
               ),
               sh16,
               CustomCheckboxRow(
-                value: controller.reasonOptions['Others Reason']!.value,
-                text: 'Others Reason',
+                value: controller.reasonOptions['Others_Reason'.tr]!.value,
+                text: 'Others_Reason'.tr,
                 onChanged: (value) {
-                  controller.reasonOptions['Others Reason']!.value = value!;
+                  controller.reasonOptions['Others_Reason'.tr]!.value = value!;
                   if (!value) controller.reasonController.clear(); // Clear text when deselected
                 },
               ),
               sh30,
-              if (controller.reasonOptions['Others Reason']!.value)
+              if (controller.reasonOptions['Others_Reason'.tr]!.value)
                 CustomTextField(
                   height: 250,
                   controller: controller.reasonController,
-                  hintText: 'Write Something here......',
+                  hintText: 'Write_Something_Here'.tr,
                 ),
               if (controller.errorMessage.value.isNotEmpty)
                 Padding(
@@ -89,7 +89,7 @@ class ReportView extends GetView<ReportController> {
                 ),
               sh24,
               CustomButton(
-                text: controller.isLoading.value ? 'Submitting...' : 'Submit',
+                text: controller.isLoading.value ? 'Submitting'.tr : 'Submit'.tr,
                 onPressed: controller.isLoading.value
                     ? () {}
                     : () => controller.submitReport(postId),

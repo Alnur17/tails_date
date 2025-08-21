@@ -112,7 +112,7 @@ class _PaymentViewState extends State<PaymentView> {
             Navigator.pop(context);
           },
         ),
-        title: Text("Payment", style: titleStyle),
+        title: Text('Payment'.tr, style: titleStyle), // Updated to use translation
         centerTitle: true,
       ),
       body: WebViewWidget(controller: _controller),

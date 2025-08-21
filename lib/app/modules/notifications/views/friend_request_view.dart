@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:tails_date/common/widgets/custom_button.dart';
-
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_images/app_images.dart';
 import '../../../../common/app_text_style/styles.dart';
@@ -19,7 +17,7 @@ class FriendRequestView extends GetView {
       backgroundColor: AppColors.mainColor,
       appBar: AppBar(
         backgroundColor: AppColors.mainColor,
-        title: const Text('Friend Request'),
+        title: Text('Friend_Request'.tr),
         centerTitle: true,
         leading: GestureDetector(
           onTap: () {
@@ -32,20 +30,20 @@ class FriendRequestView extends GetView {
         ),
       ),
       body: ListView.builder(
-        padding: EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         itemCount: data.length,
         itemBuilder: (context, index) {
           final item = data[index];
           return CustomListTileWithButton(
             name: item['name']!,
             image: item['image']!,
-            actionText: 'Confirm',
+            actionText: 'Confirm'.tr,
             showCloseButton: true,
             actionOnPressed: () {},
             actionStyle: CustomButton(
               width: 100,
               height: 30,
-              text: 'Confirm',
+              text: 'Confirm'.tr,
               onPressed: () {},
               borderColor: AppColors.black,
               backgroundColor: AppColors.white,

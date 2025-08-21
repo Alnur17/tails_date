@@ -24,7 +24,7 @@ class CollectionsView extends GetView {
       appBar: AppBar(
         scrolledUnderElevation: 0,
         backgroundColor: AppColors.mainColor,
-        title: const Text('Collections'),
+        title: Text('Collections'.tr),
         centerTitle: true,
         leading: GestureDetector(
           onTap: () => Get.back(),
@@ -41,7 +41,7 @@ class CollectionsView extends GetView {
         if (controller.collections.isEmpty) {
           return Center(
             child: Text(
-              'No collections found',
+              'No_Collections_Found'.tr,
               style: h4,
             ),
           );
@@ -53,7 +53,7 @@ class CollectionsView extends GetView {
             final collection = controller.collections[index];
             final post = collection.post;
             return Padding(
-              padding:  EdgeInsets.only(top: 16,bottom: index == controller.collections.length - 1 ? 16 : 0),
+              padding: EdgeInsets.only(top: 16, bottom: index == controller.collections.length - 1 ? 16 : 0),
               child: UserPostCard(
                 isLiked: homeController.isPostLiked(post?.id ?? ''),
                 isSaved: homeController.isPostInCollections(post?.id ?? ''),
@@ -66,17 +66,17 @@ class CollectionsView extends GetView {
                   );
                   debugPrint(";;;;;;;;;; ${homeController.userId};;;;;;;;");
                 },
-                onOtherProfileTap: (){
+                onOtherProfileTap: () {
                   print('Navigating to Other Profile with ID: ${post.author?.id}');
                   if (post.author?.id != null) {
                     Get.to(() => OtherProfileView(userId: post.author!.id!));
                   } else {
-                    Get.snackbar('Error', 'User ID not available');
+                    Get.snackbar('Error'.tr, 'User_ID_Not_Available'.tr);
                   }
                 },
                 postId: post?.id ?? '',
-                userName: post?.author?.name ?? 'Unknown',
-                location: post?.location ?? 'Unknown',
+                userName: post?.author?.name ?? 'Unknown'.tr,
+                location: post?.location ?? 'Unknown'.tr,
                 profileImage: post?.author?.image ?? '',
                 images: post!.images,
                 description: post.caption ?? '',
@@ -85,7 +85,7 @@ class CollectionsView extends GetView {
                 onAddFriend: () {
                   log("Add Friend clicked for ${post.author?.name}");
                 },
-                onBookmark: (){
+                onBookmark: () {
                   print('object');
                   homeController.toggleCollection(post.id!);
                 },

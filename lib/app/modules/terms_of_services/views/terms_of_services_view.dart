@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
-
-import 'package:get/get.dart';
-
+import 'package:get/Get.dart';
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_images/app_images.dart';
 import '../../../../common/app_text_style/styles.dart';
@@ -21,7 +19,7 @@ class TermsOfServicesView extends StatelessWidget {
         backgroundColor: AppColors.mainColor,
         scrolledUnderElevation: 0,
         title: Text(
-          'Terms of Services',
+          'Terms_Of_Services'.tr,
           style: titleStyle,
         ),
         centerTitle: true,

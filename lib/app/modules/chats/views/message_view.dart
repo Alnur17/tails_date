@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:tails_date/app/modules/chats/views/message_settings_view.dart';
 import 'package:intl/intl.dart';
-
 import '../../../../../common/size_box/custom_sizebox.dart';
 import '../../../../Services/socket_services.dart';
 import '../../../../common/app_color/app_colors.dart';
@@ -12,7 +11,6 @@ import '../../../../common/app_constant/app_constant.dart';
 import '../../../../common/app_images/app_images.dart';
 import '../../../../common/app_text_style/styles.dart';
 import '../../../../common/helper/local_store.dart';
-import '../../../../common/helper/socket_service.dart';
 import '../../../../common/widgets/custom_textfield.dart';
 import '../controllers/chats_controller.dart';
 
@@ -172,7 +170,7 @@ class _MessageViewState extends State<MessageView> {
         isSending = false;
       });
     } else if (text.trim().isEmpty) {
-      Get.snackbar('Error', 'Message cannot be empty');
+      Get.snackbar('Error'.tr, 'Message_Cannot_Be_Empty'.tr);
     }
   }
 
@@ -201,7 +199,7 @@ class _MessageViewState extends State<MessageView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(widget.userName ?? ''),
-                  Text('Online',
+                  Text('Online'.tr,
                       style: h5.copyWith(color: AppColors.green)),
                 ],
               ),
@@ -222,9 +220,9 @@ class _MessageViewState extends State<MessageView> {
         children: [
           Expanded(
             child: controller.isLoading.value
-                ? Center(child: CircularProgressIndicator())
+                ? Center(child: CircularProgressIndicator(color: AppColors.black,))
                 : socketService.messageList.isEmpty
-                ? Center(child: Text('No Messages', style: h4))
+                ? Center(child: Text('No_Messages'.tr, style: h4))
                 : ListView.builder(
               controller: _scrollController,
               padding: EdgeInsets.all(16),
@@ -326,7 +324,7 @@ class _MessageViewState extends State<MessageView> {
             Expanded(
               child: CustomTextField(
                 controller: messageController,
-                hintText: "Message",
+                hintText: 'Message'.tr,
                 borderColor: AppColors.black,
                 sufIcon: isSending
                     ? CircularProgressIndicator(

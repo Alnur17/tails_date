@@ -65,7 +65,7 @@ class _AddStoryAvatarState extends State<AddStoryAvatar> {
         ),
         sh8,
         Text(
-          'Your Story',
+          'Your_Story'.tr,
           style: h7.copyWith(fontWeight: FontWeight.w700),
         ),
       ],

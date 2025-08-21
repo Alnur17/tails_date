@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
-
 import 'package:get/get.dart';
 
 import '../../../../common/app_color/app_colors.dart';
@@ -21,7 +20,7 @@ class PrivacyPolicyView extends StatelessWidget {
         scrolledUnderElevation: 0,
         backgroundColor: AppColors.mainColor,
         title: Text(
-          'Privacy Policy',
+          'Privacy_Policy'.tr, // Updated to use translation
           style: titleStyle,
         ),
         centerTitle: true,

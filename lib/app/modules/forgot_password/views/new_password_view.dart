@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:tails_date/common/widgets/custom_loader.dart';
-
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_images/app_images.dart';
 import '../../../../common/app_text_style/styles.dart';
@@ -19,7 +17,7 @@ class NewPasswordView extends GetView<NewPasswordController> {
   @override
   Widget build(BuildContext context) {
     final NewPasswordController newPasswordController =
-        Get.put(NewPasswordController());
+    Get.put(NewPasswordController());
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       body: SafeArea(
@@ -73,20 +71,20 @@ class NewPasswordView extends GetView<NewPasswordController> {
                     children: [
                       sh16,
                       Text(
-                        'Create New Password',
+                        'Create_New_Password'.tr,
                         style: h2,
                       ),
                       sh8,
                       Text(
-                        'Your new password must be different from your previous password',
+                        'New_Password_Instruction'.tr,
                         style: h4.copyWith(color: Colors.grey[700]),
                         textAlign: TextAlign.center,
                       ),
                       sh24,
                       Obx(
-                        () => CustomTextField(
+                            () => CustomTextField(
                           controller: newPasswordController.newTEController,
-                          hintText: 'New password',
+                          hintText: 'New_Password'.tr,
                           preIcon: Image.asset(
                             AppImages.lock,
                             scale: 4,
@@ -103,15 +101,15 @@ class NewPasswordView extends GetView<NewPasswordController> {
                             ),
                           ),
                           obscureText:
-                              !newPasswordController.isPasswordVisible.value,
+                          !newPasswordController.isPasswordVisible.value,
                         ),
                       ),
                       sh16,
                       Obx(
-                        () => CustomTextField(
+                            () => CustomTextField(
                           controller:
-                              newPasswordController.confirmPasswordTEController,
-                          hintText: 'Confirm your password',
+                          newPasswordController.confirmPasswordTEController,
+                          hintText: 'Confirm_Password'.tr,
                           preIcon: Image.asset(
                             AppImages.lock,
                             scale: 4,
@@ -128,20 +126,19 @@ class NewPasswordView extends GetView<NewPasswordController> {
                             ),
                           ),
                           obscureText:
-                              !newPasswordController.isPasswordVisible1.value,
+                          !newPasswordController.isPasswordVisible1.value,
                         ),
                       ),
                       sh24,
                       Obx(
-                        () => newPasswordController.isLoading.value
+                            () => newPasswordController.isLoading.value
                             ? CustomLoader(color: AppColors.white)
                             : CustomButton(
-                                text: 'Update',
-                                onPressed: () {
-                                  //if(newPasswordController.newTEController.value !=)
-                                  newPasswordController.resetPass(email: email );
-                                },
-                              ),
+                          text: 'Update'.tr,
+                          onPressed: () {
+                            newPasswordController.resetPass(email: email);
+                          },
+                        ),
                       ),
                       sh16,
                     ],

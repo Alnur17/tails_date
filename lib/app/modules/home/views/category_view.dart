@@ -24,7 +24,7 @@ class CategoryView extends StatefulWidget {
 class _CategoryViewState extends State<CategoryView> {
   final HomeController homeController = Get.find<HomeController>();
   final CollectionsController collectionsController =
-      Get.put(CollectionsController());
+  Get.put(CollectionsController());
 
   @override
   void initState() {
@@ -78,14 +78,14 @@ class _CategoryViewState extends State<CategoryView> {
                     homeController.fetchCategoryPosts(
                         categoryId: widget.categoryId);
                   },
-                  child: const Text('Retry'),
+                  child: Text('Retry'.tr),
                 ),
               ],
             ),
           );
         }
         if (homeController.categoryWisePost.isEmpty) {
-          return const Center(child: Text('No posts available'));
+          return Center(child: Text('No_Posts_Available'.tr));
         }
         return ListView.builder(
           itemCount: homeController.categoryWisePost.length,
@@ -112,17 +112,17 @@ class _CategoryViewState extends State<CategoryView> {
                   );
                   debugPrint(";;;;;;;;;; ${homeController.userId};;;;;;;;");
                 },
-                onOtherProfileTap: (){
+                onOtherProfileTap: () {
                   print('Navigating to Other Profile with ID: ${post.author?.id}');
                   if (post.author?.id != null) {
                     Get.to(() => OtherProfileView(userId: post.author!.id!));
                   } else {
-                    Get.snackbar('Error', 'User ID not available');
+                    Get.snackbar('Error'.tr, 'User_ID_Not_Available'.tr);
                   }
                 },
                 postId: post.id ?? '',
-                userName: post.author?.name ?? 'Unknown',
-                location: post.location ?? 'Unknown',
+                userName: post.author?.name ?? 'Unknown'.tr,
+                location: post.location ?? 'Unknown'.tr,
                 profileImage: post.author?.image ?? '',
                 images: post.images,
                 description: post.caption ?? '',
@@ -137,7 +137,6 @@ class _CategoryViewState extends State<CategoryView> {
                     return;
                   }
                   homeController.toggleCollection(post.id!);
-                  //collectionsController.addOrRemoveCollection(post.id!);
                 },
                 onReaction: () {
                   if (post.id == null || post.id!.isEmpty) {

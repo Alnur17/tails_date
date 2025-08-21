@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:tails_date/app/modules/dashboard/views/dashboard_view.dart';
 import 'package:tails_date/common/widgets/custom_button.dart';
-
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_images/app_images.dart';
 import '../../../../common/app_text_style/styles.dart';
@@ -17,19 +15,22 @@ class PaymentSuccessView extends GetView {
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       body: Padding(
-        padding: const EdgeInsets.only(left: 16,right: 16),
+        padding: const EdgeInsets.only(left: 16, right: 16),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(AppImages.paymentSuccess,scale: 4,),
+              Image.asset(AppImages.paymentSuccess, scale: 4),
               sh30,
-              Text('Payment Successful',style: h3.copyWith(fontSize: 22),),
+              Text('Payment_Successful'.tr, style: h3.copyWith(fontSize: 22)), // Updated to use translation
               sh30,
               // Text('Your payment was successful!',style: h5,textAlign: TextAlign.center,),
-              CustomButton(text: 'Back to Home', onPressed: (){
-                Get.offAll(()=> DashboardView());
-              }),
+              CustomButton(
+                text: 'Back_To_Home'.tr, // Updated to use translation
+                onPressed: () {
+                  Get.offAll(() => DashboardView());
+                },
+              ),
             ],
           ),
         ),

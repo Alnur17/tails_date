@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tails_date/app/modules/home/controllers/home_controller.dart';
@@ -9,7 +8,6 @@ import 'package:tails_date/common/app_color/app_colors.dart';
 import 'package:tails_date/common/app_images/app_images.dart';
 import 'package:tails_date/common/size_box/custom_sizebox.dart';
 import 'package:tails_date/common/widgets/custom_textfield.dart';
-
 import '../../../../common/app_constant/app_constant.dart';
 import '../../../../common/helper/local_store.dart';
 import '../../profile/controllers/collections_controller.dart';
@@ -56,7 +54,7 @@ class MySearchView extends GetView<MySearchController> {
                       AppImages.searchTwo,
                       scale: 4,
                     ),
-                    hintText: 'Search by name or location',
+                    hintText: 'Search_By_Name_Or_Location'.tr,
                   ),
                 ),
               ],
@@ -77,10 +75,10 @@ class MySearchView extends GetView<MySearchController> {
               }
               final posts = searchController.filteredPosts;
               if (posts.isEmpty) {
-                return const Center(
+                return Center(
                   child: Text(
-                    'No posts found',
-                    style: TextStyle(color: AppColors.black, fontSize: 16),
+                    'No_Posts_Found'.tr,
+                    style: const TextStyle(color: AppColors.black, fontSize: 16),
                   ),
                 );
               }
@@ -108,17 +106,17 @@ class MySearchView extends GetView<MySearchController> {
                         );
                         debugPrint(";;;;;;;;;; ${homeController.userId};;;;;;;;");
                       },
-                      onOtherProfileTap: (){
+                      onOtherProfileTap: () {
                         print('Navigating to Other Profile with ID: ${post.author?.id}');
                         if (post.author?.id != null) {
                           Get.to(() => OtherProfileView(userId: post.author!.id!));
                         } else {
-                          Get.snackbar('Error', 'User ID not available');
+                          Get.snackbar('Error'.tr, 'User_ID_Not_Available'.tr);
                         }
                       },
                       postId: post.id ?? '',
-                      userName: post.author?.name ?? 'Unknown',
-                      location: post.location ?? 'Unknown',
+                      userName: post.author?.name ?? 'Unknown'.tr,
+                      location: post.location ?? 'Unknown'.tr,
                       profileImage: post.author?.image ?? '',
                       images: post.images,
                       description: post.caption ?? '',
@@ -127,7 +125,7 @@ class MySearchView extends GetView<MySearchController> {
                       onAddFriend: () {
                         log("Add Friend clicked for ${post.author?.name}");
                       },
-                      onBookmark: (){
+                      onBookmark: () {
                         homeController.toggleCollection(post.id!);
                       },
                       onReaction: () {

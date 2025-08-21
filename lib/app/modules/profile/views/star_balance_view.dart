@@ -282,7 +282,7 @@ class _StarBalanceViewState extends State<StarBalanceView> {
       appBar: AppBar(
         scrolledUnderElevation: 0,
         backgroundColor: AppColors.mainColor,
-        title: const Text('Star Balance'),
+        title: Text('Star_Balance'.tr), // Updated to use translation
         centerTitle: true,
         leading: GestureDetector(
           onTap: () {
@@ -300,7 +300,7 @@ class _StarBalanceViewState extends State<StarBalanceView> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              'My Current Star Balance',
+              'My_Current_Star_Balance'.tr, // Updated to use translation
               style: h3.copyWith(fontWeight: FontWeight.w700),
             ),
             sh12,
@@ -315,9 +315,8 @@ class _StarBalanceViewState extends State<StarBalanceView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Track and manage stars here',
-                    style:
-                    h4.copyWith(fontSize: 18, color: AppColors.brownColor),
+                    'Track_And_Manage_Stars'.tr, // Updated to use translation
+                    style: h4.copyWith(fontSize: 18, color: AppColors.brownColor),
                   ),
                   sh8,
                   Row(
@@ -325,14 +324,14 @@ class _StarBalanceViewState extends State<StarBalanceView> {
                       Text('🌟'),
                       sw8,
                       Text(
-                        '${widget.starBalance} Stars Remaining',
+                        '${widget.starBalance} ${'Stars_Remaining'.tr}', // Updated to use translation
                         style: h2,
                       ),
                     ],
                   ),
                   sh8,
                   CustomButton(
-                    text: 'Buy more stars',
+                    text: 'Buy_More_Stars'.tr, // Updated to use translation
                     onPressed: () {
                       Get.to(() => BuyStarView());
                     },
@@ -340,13 +339,13 @@ class _StarBalanceViewState extends State<StarBalanceView> {
                   sh8,
                   Center(
                     child: Text(
-                      'Or',
+                      'OrS'.tr, // Updated to use translation
                       style: h3.copyWith(fontWeight: FontWeight.w700),
                     ),
                   ),
                   sh8,
                   CustomButton(
-                    text: 'Cash Out Your Stars',
+                    text: 'Cash_Out_Your_Stars'.tr, // Updated to use translation
                     onPressed: () {
                       Get.to(() => CashOutYourStarsView(starBalance: widget.starBalance));
                     },
@@ -365,14 +364,13 @@ class _StarBalanceViewState extends State<StarBalanceView> {
               children: [
                 Expanded(
                   child: CustomButton(
-                    text: 'Received Stars',
+                    text: 'Received_Stars'.tr, // Updated to use translation
                     onPressed: () {
                       setState(() {
                         showReceivedStars = true;
                       });
                     },
-                    backgroundColor:
-                    showReceivedStars ? Colors.black : Colors.transparent,
+                    backgroundColor: showReceivedStars ? Colors.black : Colors.transparent,
                     textStyle: h3.copyWith(
                       fontWeight: FontWeight.w700,
                       color: showReceivedStars ? Colors.white : Colors.black,
@@ -381,14 +379,13 @@ class _StarBalanceViewState extends State<StarBalanceView> {
                 ),
                 Expanded(
                   child: CustomButton(
-                    text: 'Given Stars',
+                    text: 'Given_Stars'.tr, // Updated to use translation
                     onPressed: () {
                       setState(() {
                         showReceivedStars = false;
                       });
                     },
-                    backgroundColor:
-                    showReceivedStars ? Colors.transparent : Colors.black,
+                    backgroundColor: showReceivedStars ? Colors.transparent : Colors.black,
                     textStyle: h3.copyWith(
                       fontWeight: FontWeight.w700,
                       color: showReceivedStars ? Colors.black : Colors.white,
@@ -416,28 +413,28 @@ class _StarBalanceViewState extends State<StarBalanceView> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '#Sl',
+                    'Table_Header_Sl'.tr, // Updated to use translation
                     style: h6.copyWith(
                       fontWeight: FontWeight.w700,
                       color: AppColors.white,
                     ),
                   ),
                   Text(
-                    'Full Name',
+                    'Table_Header_Full_Name'.tr, // Updated to use translation
                     style: h6.copyWith(
                       fontWeight: FontWeight.w700,
                       color: AppColors.white,
                     ),
                   ),
                   Text(
-                    'Number of stars',
+                    'Table_Header_Number_Of_Stars'.tr, // Updated to use translation
                     style: h6.copyWith(
                       fontWeight: FontWeight.w700,
                       color: AppColors.white,
                     ),
                   ),
                   Text(
-                    'Date',
+                    'Table_Header_Date'.tr, // Updated to use translation
                     style: h6.copyWith(
                       fontWeight: FontWeight.w700,
                       color: AppColors.white,
@@ -464,7 +461,12 @@ class _StarBalanceViewState extends State<StarBalanceView> {
                   }
                   final data = showReceivedStars ? controller.receivedStars : controller.sentStars;
                   if (data.isEmpty) {
-                    return Center(child: Text('No stars ${showReceivedStars ? 'received' : 'sent'} yet', style: h6));
+                    return Center(
+                      child: Text(
+                        showReceivedStars ? 'No_Stars_Received_Yet'.tr : 'No_Stars_Sent_Yet'.tr, // Updated to use translation
+                        style: h6,
+                      ),
+                    );
                   }
                   return ListView.builder(
                     itemCount: data.length,
@@ -485,7 +487,7 @@ class _StarBalanceViewState extends State<StarBalanceView> {
                               style: h6,
                             ),
                             Text(
-                              '⭐ ${star.amount} Stars',
+                              '⭐ ${star.amount} ${'Stars_Suffix'.tr}', // Updated to use translation
                               style: h6,
                             ),
                           ],

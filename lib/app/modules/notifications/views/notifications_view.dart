@@ -33,7 +33,7 @@ class NotificationsView extends GetView<NotificationsController> {
       appBar: AppBar(
         backgroundColor: AppColors.mainColor,
         scrolledUnderElevation: 0,
-        title: const Text('Notifications'),
+        title: Text('Notifications'.tr), // Updated to use translation
         centerTitle: true,
         leading: GestureDetector(
           onTap: () {
@@ -55,12 +55,11 @@ class NotificationsView extends GetView<NotificationsController> {
                 children: [
                   Expanded(
                     child: CustomButton(
-                      text: 'Friend Activity',
+                      text: 'Friend_Activity'.tr, // Updated to use translation
                       onPressed: () {
                         notificationController.toggleTab(0);
                       },
-                      backgroundColor:
-                      notificationController.activeTab.value == 0
+                      backgroundColor: notificationController.activeTab.value == 0
                           ? AppColors.black
                           : AppColors.transparent,
                       textStyle: h3.copyWith(
@@ -72,12 +71,11 @@ class NotificationsView extends GetView<NotificationsController> {
                   ),
                   Expanded(
                     child: CustomButton(
-                      text: 'Post Engagement',
+                      text: 'Post_Engagement'.tr, // Updated to use translation
                       onPressed: () {
                         notificationController.toggleTab(1);
                       },
-                      backgroundColor:
-                      notificationController.activeTab.value == 1
+                      backgroundColor: notificationController.activeTab.value == 1
                           ? AppColors.black
                           : AppColors.transparent,
                       textStyle: h3.copyWith(
@@ -99,14 +97,12 @@ class NotificationsView extends GetView<NotificationsController> {
                   : FutureBuilder<NotificationModel>(
                 future: notificationController.fetchNotifications(),
                 builder: (context, snapshot) {
-                  if (snapshot.connectionState ==
-                      ConnectionState.waiting) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(
-                        child: CircularProgressIndicator(
-                            color: AppColors.black));
+                        child: CircularProgressIndicator(color: AppColors.black));
                   } else if (snapshot.hasError) {
                     return Center(
-                        child: Text('Error: ${snapshot.error}',
+                        child: Text('Error: ${snapshot.error}'.tr,
                             style: h5.copyWith(color: AppColors.black)));
                   } else if (snapshot.hasData &&
                       snapshot.data!.data != null &&
@@ -117,7 +113,7 @@ class NotificationsView extends GetView<NotificationsController> {
                     );
                   } else {
                     return Center(
-                        child: Text('No notifications available',
+                        child: Text('No_Notifications_Available'.tr, // Updated to use translation
                             style: h5.copyWith(color: AppColors.black)));
                   }
                 },
@@ -129,9 +125,7 @@ class NotificationsView extends GetView<NotificationsController> {
     );
   }
 
-  List<Widget> _buildFriendActivity(
-      NotificationsController notificationController,
-      ) {
+  List<Widget> _buildFriendActivity(NotificationsController notificationController) {
     // Get the current user ID
     final String userId = LocalStorage.getData(key: AppConstant.userId);
 
@@ -141,14 +135,13 @@ class NotificationsView extends GetView<NotificationsController> {
         future: notificationController.fetchFriendRequests(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-                child: CircularProgressIndicator(color: AppColors.black));
+            return const Center(child: CircularProgressIndicator(color: AppColors.black));
           } else if (snapshot.hasError) {
             return Column(
               children: [
                 CustomRowHeader(
-                  title: 'Friend Requests',
-                  subtitle: 'See all',
+                  title: 'Friend_Requests'.tr, // Updated to use translation
+                  subtitle: 'See_All'.tr, // Updated to use translation
                   onTap: () {},
                 ),
                 sh8,
@@ -168,8 +161,7 @@ class NotificationsView extends GetView<NotificationsController> {
                 .where((item) => item.receiver?.id == userId)
                 .map((item) => {
               'name': item.sender?.name ?? 'Unknown',
-              'image': item.sender?.image ??
-                  'https://via.placeholder.com/150',
+              'image': item.sender?.image ?? 'https://via.placeholder.com/150',
               'id': item.id ?? '',
               'status': item.status ?? 'pending',
             })
@@ -180,8 +172,7 @@ class NotificationsView extends GetView<NotificationsController> {
                 .where((item) => item.sender?.id == userId)
                 .map((item) => {
               'name': item.receiver?.name ?? 'Unknown',
-              'image': item.receiver?.image ??
-                  'https://via.placeholder.com/150',
+              'image': item.receiver?.image ?? 'https://via.placeholder.com/150',
               'id': item.id ?? '',
               'status': item.status ?? 'pending',
             })
@@ -191,8 +182,8 @@ class NotificationsView extends GetView<NotificationsController> {
               children: [
                 // Friend Requests Section
                 CustomRowHeader(
-                  title: 'Friend Requests',
-                  subtitle: 'See all',
+                  title: 'Friend_Requests'.tr, // Updated to use translation
+                  subtitle: 'See_All'.tr, // Updated to use translation
                   onTap: () {
                     Get.to(() => FriendRequestView(data: friendRequests));
                   },
@@ -200,44 +191,40 @@ class NotificationsView extends GetView<NotificationsController> {
                 sh8,
                 if (friendRequests.isEmpty)
                   Center(
-                      child: Text('No friend requests',
+                      child: Text('No_Friend_Requests'.tr, // Updated to use translation
                           style: h5.copyWith(color: AppColors.black)))
                 else
-                  ...friendRequests
-                      .take(5)
-                      .map((item) => CustomListTileWithButton(
-                    closeOnPressed: () {
-                      notificationController.updateFriendRequest(
-                          item['id']!, 'rejected');
-                    },
-                    name: item['name'] ?? 'Unknown',
-                    actionText: 'Confirm',
-                    showCloseButton: true,
-                    actionOnPressed: () {
-                      notificationController.updateFriendRequest(
-                          item['id']!, 'accepted');
-                    },
-                    actionStyle: CustomButton(
-                      width: 100,
-                      height: 30,
-                      text: 'Confirm',
-                      onPressed: () {
-                        notificationController.updateFriendRequest(
-                            item['id']!, 'accepted');
+                  ...friendRequests.take(5).map(
+                        (item) => CustomListTileWithButton(
+                      closeOnPressed: () {
+                        notificationController.updateFriendRequest(item['id']!, 'rejected');
                       },
-                      borderColor: AppColors.black,
-                      backgroundColor: AppColors.white,
-                      textStyle: h3.copyWith(color: AppColors.black),
+                      name: item['name'] ?? 'Unknown',
+                      actionText: 'Confirm'.tr, // Updated to use translation
+                      showCloseButton: true,
+                      actionOnPressed: () {
+                        notificationController.updateFriendRequest(item['id']!, 'accepted');
+                      },
+                      actionStyle: CustomButton(
+                        width: 100,
+                        height: 30,
+                        text: 'Confirm'.tr, // Updated to use translation
+                        onPressed: () {
+                          notificationController.updateFriendRequest(item['id']!, 'accepted');
+                        },
+                        borderColor: AppColors.black,
+                        backgroundColor: AppColors.white,
+                        textStyle: h3.copyWith(color: AppColors.black),
+                      ),
+                      image: item['image'] ?? 'https://via.placeholder.com/150',
                     ),
-                    image: item['image'] ??
-                        'https://via.placeholder.com/150',
-                  )),
+                  ),
 
                 // Send Requests Section
                 sh12,
                 CustomRowHeader(
-                  title: 'Send Requests',
-                  subtitle: 'See all',
+                  title: 'Send_Requests'.tr, // Updated to use translation
+                  subtitle: 'See_All'.tr, // Updated to use translation
                   onTap: () {
                     Get.to(() => SendRequestView(data: sendRequests));
                   },
@@ -245,7 +232,7 @@ class NotificationsView extends GetView<NotificationsController> {
                 sh8,
                 if (sendRequests.isEmpty)
                   Center(
-                      child: Text('No sent requests',
+                      child: Text('No_Sent_Requests'.tr, // Updated to use translation
                           style: h5.copyWith(color: AppColors.black)))
                 else
                   ListView.builder(
@@ -257,18 +244,16 @@ class NotificationsView extends GetView<NotificationsController> {
                       return CustomListTileWithButton(
                         name: item['name']!,
                         image: item['image']!,
-                        actionText: 'Cancel Request',
+                        actionText: 'Cancel_Request'.tr, // Updated to use translation
                         actionOnPressed: () {
-                          notificationController.updateFriendRequest(
-                              item['id']!, 'cancelled');
+                          notificationController.updateFriendRequest(item['id']!, 'cancelled');
                         },
                         actionStyle: CustomButton(
                           width: 150,
                           height: 30,
-                          text: 'Cancel Request',
+                          text: 'Cancel_Request'.tr, // Updated to use translation
                           onPressed: () {
-                            notificationController.updateFriendRequest(
-                                item['id']!, 'cancelled');
+                            notificationController.updateFriendRequest(item['id']!, 'cancelled');
                           },
                           backgroundColor: AppColors.secondaryOrangeColor,
                           textStyle: h3.copyWith(color: AppColors.white),
@@ -280,15 +265,14 @@ class NotificationsView extends GetView<NotificationsController> {
                 // Suggested for You Section
                 sh12,
                 CustomRowHeader(
-                  title: 'Suggested for You',
-                  subtitle: 'See all',
+                  title: 'Suggested_For_You'.tr, // Updated to use translation
+                  subtitle: 'See_All'.tr, // Updated to use translation
                   onTap: () {
                     Get.to(() => SuggestedForYouView(
                         data: notificationController.friendsSuggestionList
                             .map((item) => {
                           'name': item.name ?? 'Unknown',
-                          'image': item.image ??
-                              'https://via.placeholder.com/150',
+                          'image': item.image ?? 'https://via.placeholder.com/150',
                           'id': item.id ?? '',
                         })
                             .toList()));
@@ -297,49 +281,37 @@ class NotificationsView extends GetView<NotificationsController> {
                 sh8,
                 Obx(() {
                   if (notificationController.isLoading.value) {
-                    return const Center(
-                        child:
-                        CircularProgressIndicator(color: AppColors.black));
-                  } else if (notificationController
-                      .errorMessage.value.isNotEmpty) {
+                    return const Center(child: CircularProgressIndicator(color: AppColors.black));
+                  } else if (notificationController.errorMessage.value.isNotEmpty) {
                     return Center(
                         child: Text(notificationController.errorMessage.value,
                             style: h5.copyWith(color: AppColors.black)));
-                  } else if (notificationController
-                      .friendsSuggestionList.isEmpty) {
+                  } else if (notificationController.friendsSuggestionList.isEmpty) {
                     return Center(
-                      child: Text(
-                        'No friend suggestions',
-                        style: h5.copyWith(color: AppColors.black),
-                      ),
-                    );
+                        child: Text('No_Friend_Suggestions'.tr, // Updated to use translation
+                            style: h5.copyWith(color: AppColors.black)));
                   } else {
                     return Column(
-                      children: notificationController.friendsSuggestionList
-                          .take(5)
-                          .map((item) => CustomListTileWithButton(
-                        name: item.name ?? 'Unknown',
-                        actionText: 'Add Friend',
-                        actionOnPressed: () {
-                          notificationController
-                              .sendFriendRequest(item.id ?? '');
-                        },
-                        actionStyle: CustomButton(
-                          width: 140,
-                          height: 30,
-                          text: 'Add Friend',
-                          onPressed: () {
-                            notificationController
-                                .sendFriendRequest(item.id ?? '');
+                      children: notificationController.friendsSuggestionList.take(5).map(
+                            (item) => CustomListTileWithButton(
+                          name: item.name ?? 'Unknown',
+                          actionText: 'Add_Friend'.tr, // Updated to use translation
+                          actionOnPressed: () {
+                            notificationController.sendFriendRequest(item.id ?? '');
                           },
-                          backgroundColor: AppColors.black,
-                          textStyle:
-                          h3.copyWith(color: AppColors.white),
+                          actionStyle: CustomButton(
+                            width: 140,
+                            height: 30,
+                            text: 'Add_Friend'.tr, // Updated to use translation
+                            onPressed: () {
+                              notificationController.sendFriendRequest(item.id ?? '');
+                            },
+                            backgroundColor: AppColors.black,
+                            textStyle: h3.copyWith(color: AppColors.white),
+                          ),
+                          image: item.image ?? 'https://via.placeholder.com/150',
                         ),
-                        image: item.image ??
-                            'https://via.placeholder.com/150',
-                      ))
-                          .toList(),
+                      ).toList(),
                     );
                   }
                 }),
@@ -349,38 +321,37 @@ class NotificationsView extends GetView<NotificationsController> {
             return Column(
               children: [
                 CustomRowHeader(
-                  title: 'Friend Requests',
-                  subtitle: 'See all',
+                  title: 'Friend_Requests'.tr, // Updated to use translation
+                  subtitle: 'See_All'.tr, // Updated to use translation
                   onTap: () {},
                 ),
                 sh8,
                 Center(
-                    child: Text('No friend requests',
+                    child: Text('No_Friend_Requests'.tr, // Updated to use translation
                         style: h5.copyWith(color: AppColors.black))),
                 sh12,
                 CustomRowHeader(
-                  title: 'Send Requests',
-                  subtitle: 'See all',
+                  title: 'Send_Requests'.tr, // Updated to use translation
+                  subtitle: 'See_All'.tr, // Updated to use translation
                   onTap: () {
                     Get.to(() => SendRequestView(data: []));
                   },
                 ),
                 sh8,
                 Center(
-                    child: Text('No sent requests',
+                    child: Text('No_Sent_Requests'.tr, // Updated to use translation
                         style: h5.copyWith(color: AppColors.black))),
                 // Suggested for You Section
                 sh12,
                 CustomRowHeader(
-                  title: 'Suggested for You',
-                  subtitle: 'See all',
+                  title: 'Suggested_For_You'.tr, // Updated to use translation
+                  subtitle: 'See_All'.tr, // Updated to use translation
                   onTap: () {
                     Get.to(() => SuggestedForYouView(
                         data: notificationController.friendsSuggestionList
                             .map((item) => {
                           'name': item.name ?? 'Unknown',
-                          'image': item.image ??
-                              'https://via.placeholder.com/150',
+                          'image': item.image ?? 'https://via.placeholder.com/150',
                           'id': item.id ?? '',
                         })
                             .toList()));
@@ -389,46 +360,37 @@ class NotificationsView extends GetView<NotificationsController> {
                 sh8,
                 Obx(() {
                   if (notificationController.isLoading.value) {
-                    return const Center(
-                        child:
-                        CircularProgressIndicator(color: AppColors.black));
-                  } else if (notificationController
-                      .errorMessage.value.isNotEmpty) {
+                    return const Center(child: CircularProgressIndicator(color: AppColors.black));
+                  } else if (notificationController.errorMessage.value.isNotEmpty) {
                     return Center(
                         child: Text(notificationController.errorMessage.value,
                             style: h5.copyWith(color: AppColors.black)));
-                  } else if (notificationController
-                      .friendsSuggestionList.isEmpty) {
+                  } else if (notificationController.friendsSuggestionList.isEmpty) {
                     return Center(
-                        child: Text('No friend suggestions',
+                        child: Text('No_Friend_Suggestions'.tr, // Updated to use translation
                             style: h5.copyWith(color: AppColors.black)));
                   } else {
                     return Column(
-                      children: notificationController.friendsSuggestionList
-                          .take(5)
-                          .map((item) => CustomListTileWithButton(
-                        name: item.name ?? 'Unknown',
-                        actionText: 'Add Friend',
-                        actionOnPressed: () {
-                          notificationController
-                              .sendFriendRequest(item.id ?? '');
-                        },
-                        actionStyle: CustomButton(
-                          width: 140,
-                          height: 30,
-                          text: 'Add Friend',
-                          onPressed: () {
-                            notificationController
-                                .sendFriendRequest(item.id ?? '');
+                      children: notificationController.friendsSuggestionList.take(5).map(
+                            (item) => CustomListTileWithButton(
+                          name: item.name ?? 'Unknown',
+                          actionText: 'Add_Friend'.tr, // Updated to use translation
+                          actionOnPressed: () {
+                            notificationController.sendFriendRequest(item.id ?? '');
                           },
-                          backgroundColor: AppColors.black,
-                          textStyle:
-                          h3.copyWith(color: AppColors.white),
+                          actionStyle: CustomButton(
+                            width: 140,
+                            height: 30,
+                            text: 'Add_Friend'.tr, // Updated to use translation
+                            onPressed: () {
+                              notificationController.sendFriendRequest(item.id ?? '');
+                            },
+                            backgroundColor: AppColors.black,
+                            textStyle: h3.copyWith(color: AppColors.white),
+                          ),
+                          image: item.image ?? 'https://via.placeholder.com/150',
                         ),
-                        image: item.image ??
-                            'https://via.placeholder.com/150',
-                      ))
-                          .toList(),
+                      ).toList(),
                     );
                   }
                 }),
@@ -476,12 +438,11 @@ class NotificationsView extends GetView<NotificationsController> {
                     child: Image.network(
                       notification.image!,
                       fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) =>
-                          Image.asset(
-                            AppImages.notificationTwo,
-                            color: AppColors.black,
-                            scale: 4,
-                          ),
+                      errorBuilder: (context, error, stackTrace) => Image.asset(
+                        AppImages.notificationTwo,
+                        color: AppColors.black,
+                        scale: 4,
+                      ),
                     ),
                   )
                       : Image.asset(
@@ -496,7 +457,7 @@ class NotificationsView extends GetView<NotificationsController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        notification.title ?? 'No Title',
+                        notification.title ?? 'No_Title'.tr, // Updated to use translation
                         style: h4.copyWith(
                           color: AppColors.black,
                           fontWeight: FontWeight.bold,
@@ -506,7 +467,7 @@ class NotificationsView extends GetView<NotificationsController> {
                       ),
                       sh5,
                       Text(
-                        notification.body ?? 'No Description',
+                        notification.body ?? 'No_Description'.tr, // Updated to use translation
                         style: h5.copyWith(color: AppColors.black),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,

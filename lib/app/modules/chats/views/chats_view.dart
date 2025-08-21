@@ -104,7 +104,7 @@ class _ChatsViewState extends State<ChatsView> {
       appBar: AppBar(
         scrolledUnderElevation: 0,
         backgroundColor: AppColors.mainColor,
-        title: const Text('Chats'),
+        title: Text('Chats'.tr),
         automaticallyImplyLeading: false,
       ),
       body: Obx(() {
@@ -113,7 +113,7 @@ class _ChatsViewState extends State<ChatsView> {
             controller.chatsList.isEmpty) {
           return const Center(
             child: CircularProgressIndicator(
-              color: AppColors.white,
+              color: AppColors.black,
             ),
           );
         }
@@ -129,14 +129,14 @@ class _ChatsViewState extends State<ChatsView> {
                   AppImages.searchTwo,
                   scale: 4,
                 ),
-                hintText: 'Search by name',
+                hintText: 'Search_By_Name'.tr,
               ),
             ),
             sh16,
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text(
-                'Active Now',
+                'Active_Now'.tr,
                 style: h3,
               ),
             ),
@@ -161,7 +161,7 @@ class _ChatsViewState extends State<ChatsView> {
                   if (activeFilteredFriends.isEmpty) {
                     return Center(
                       child: Text(
-                        'No active users found',
+                        'No_Active_Users_Found'.tr,
                         style: h5.copyWith(color: AppColors.white),
                       ),
                     );
@@ -248,10 +248,11 @@ class _ChatsViewState extends State<ChatsView> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'No results for "${search.isEmpty ? 'Chats' : search}"',
+                            'No_Results_For'.trParams({
+                              '0': search.isEmpty ? 'Chats'.tr : search,
+                            }),
                             style: h3.copyWith(color: AppColors.white),
                           ),
-
                         ],
                       ),
                     );

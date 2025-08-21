@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:tails_date/common/widgets/custom_loader.dart';
-
 import '../../../../../common/app_color/app_colors.dart';
 import '../../../../../common/app_images/app_images.dart';
 import '../../../../../common/size_box/custom_sizebox.dart';
@@ -21,9 +19,7 @@ class ChangePasswordView extends GetView {
       backgroundColor: AppColors.mainColor,
       appBar: AppBar(
         backgroundColor: AppColors.mainColor,
-        title: Text(
-          'Change Password',
-        ),
+        title: Text('Change_Password'.tr),
         centerTitle: true,
         leading: GestureDetector(
           onTap: () {
@@ -42,13 +38,13 @@ class ChangePasswordView extends GetView {
           children: [
             sh40,
             Obx(
-              () => CustomTextField(
+                  () => CustomTextField(
                 controller: profileController.currentPassTEController,
                 preIcon: Image.asset(
                   AppImages.lock,
                   scale: 4,
                 ),
-                hintText: 'Current Password',
+                hintText: 'Current_Password'.tr,
                 sufIcon: GestureDetector(
                   onTap: () {
                     profileController.togglePasswordVisibility();
@@ -65,13 +61,13 @@ class ChangePasswordView extends GetView {
             ),
             sh16,
             Obx(
-              () => CustomTextField(
+                  () => CustomTextField(
                 controller: profileController.newPassTEController,
                 preIcon: Image.asset(
                   AppImages.lock,
                   scale: 4,
                 ),
-                hintText: 'New Password',
+                hintText: 'New_Password_Change'.tr,
                 sufIcon: GestureDetector(
                   onTap: () {
                     profileController.togglePasswordVisibility1();
@@ -88,13 +84,13 @@ class ChangePasswordView extends GetView {
             ),
             sh16,
             Obx(
-              () => CustomTextField(
+                  () => CustomTextField(
                 controller: profileController.confirmPassTEController,
                 preIcon: Image.asset(
                   AppImages.lock,
                   scale: 4,
                 ),
-                hintText: 'Confirm Password',
+                hintText: 'Confirm_Password_Change'.tr,
                 sufIcon: GestureDetector(
                   onTap: () {
                     profileController.togglePasswordVisibility2();
@@ -111,27 +107,27 @@ class ChangePasswordView extends GetView {
             ),
             sh30,
             Obx(
-              () => profileController.isLoading.value
+                  () => profileController.isLoading.value
                   ? CustomLoader(color: AppColors.white)
                   : CustomButton(
-                      text: 'Confirm',
-                      onPressed: () {
-                        if (profileController.newPassTEController.text ==
-                            profileController.confirmPassTEController.text) {
-                          profileController.changePassword(
-                            currentPassword:
-                                profileController.currentPassTEController.text,
-                            newPassword:
-                                profileController.newPassTEController.text,
-                            context: context,
-                          );
-                        } else {
-                          kSnackBar(
-                              message: "Password not match",
-                              bgColor: AppColors.mainColor);
-                        }
-                      },
-                    ),
+                text: 'Confirm'.tr,
+                onPressed: () {
+                  if (profileController.newPassTEController.text ==
+                      profileController.confirmPassTEController.text) {
+                    profileController.changePassword(
+                      currentPassword:
+                      profileController.currentPassTEController.text,
+                      newPassword:
+                      profileController.newPassTEController.text,
+                      context: context,
+                    );
+                  } else {
+                    kSnackBar(
+                        message: 'Password_Not_Match'.tr,
+                        bgColor: AppColors.mainColor);
+                  }
+                },
+              ),
             ),
             sh30
           ],

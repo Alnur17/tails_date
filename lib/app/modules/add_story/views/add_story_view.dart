@@ -10,7 +10,6 @@ import '../../../../common/widgets/custom_button.dart';
 import '../../../../common/widgets/custom_textfield.dart';
 import '../controllers/add_story_controller.dart';
 
-
 class AddStoryView extends GetView<AddStoryController> {
   const AddStoryView({super.key});
 
@@ -24,7 +23,7 @@ class AddStoryView extends GetView<AddStoryController> {
       appBar: AppBar(
         backgroundColor: AppColors.mainColor,
         scrolledUnderElevation: 0,
-        title: const Text('Add Story'),
+        title: Text('Add_Story'.tr),
         centerTitle: true,
         leading: GestureDetector(
           onTap: () {
@@ -65,7 +64,7 @@ class AddStoryView extends GetView<AddStoryController> {
                               children: [
                                 Image.asset(AppImages.camera, scale: 4),
                                 sw8,
-                                Text('Use a camera', style: h4, textAlign: TextAlign.center),
+                                Text('Use_Camera'.tr, style: h4, textAlign: TextAlign.center),
                               ],
                             ),
                           ),
@@ -90,7 +89,7 @@ class AddStoryView extends GetView<AddStoryController> {
                               children: [
                                 Image.asset(AppImages.gallery, scale: 4),
                                 sw8,
-                                Text('Choose from Gallery', style: h4, textAlign: TextAlign.center),
+                                Text('Choose_From_Gallery'.tr, style: h4, textAlign: TextAlign.center),
                               ],
                             ),
                           ),
@@ -141,13 +140,13 @@ class AddStoryView extends GetView<AddStoryController> {
                 }
               }),
               sh16,
-              Text('Write something here', style: h3),
+              Text('Write_Something'.tr, style: h3),
               sh8,
               CustomTextField(
                 height: 250,
                 borderColor: AppColors.black,
                 controller: captionController,
-                hintText: 'Enter a caption for your story',
+                hintText: 'Enter_Caption'.tr,
                 //maxLines: 5,
               ),
               sh20,
@@ -155,9 +154,9 @@ class AddStoryView extends GetView<AddStoryController> {
                 return controller.isLoading.value
                     ? const Center(child: CircularProgressIndicator())
                     : CustomButton(
-                  text: 'Add Story',
+                  text: 'Add_Story'.tr,
                   onPressed: controller.selectedImagePath.value.isEmpty
-                      ? (){} // Disable button if no image is selected
+                      ? () {} // Disable button if no image is selected
                       : () async {
                     await controller.createStory(
                       mediaPath: controller.selectedImagePath.value,

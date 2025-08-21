@@ -314,7 +314,7 @@ class _ReelsViewState extends State<ReelsView> {
       for (var reel in reels) {
         if (reel.video != null) {
           final controller =
-              VideoPlayerController.networkUrl(Uri.parse(reel.video!));
+          VideoPlayerController.networkUrl(Uri.parse(reel.video!));
           _controllers.add(controller);
           initializationFutures.add(controller.initialize().then((_) {
             setState(() {});
@@ -371,7 +371,7 @@ class _ReelsViewState extends State<ReelsView> {
           return Center(child: Text(reelsController.errorMessage.value));
         }
         if (reelsController.reels.isEmpty) {
-          return const Center(child: Text('No reels available'));
+          return Center(child: Text('No_Reels_Available'.tr));
         }
         if (!_isControllersInitialized ||
             _controllers.length != reelsController.reels.length) {
@@ -401,21 +401,21 @@ class _ReelsViewState extends State<ReelsView> {
                   Center(
                     child: controller.value.isInitialized
                         ? GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                if (controller.value.isPlaying) {
-                                  controller.pause();
-                                } else {
-                                  controller.play();
-                                }
-                              });
-                              _resetHideControlsTimer();
-                            },
-                            child: AspectRatio(
-                              aspectRatio: controller.value.aspectRatio,
-                              child: VideoPlayer(controller),
-                            ),
-                          )
+                      onTap: () {
+                        setState(() {
+                          if (controller.value.isPlaying) {
+                            controller.pause();
+                          } else {
+                            controller.play();
+                          }
+                        });
+                        _resetHideControlsTimer();
+                      },
+                      child: AspectRatio(
+                        aspectRatio: controller.value.aspectRatio,
+                        child: VideoPlayer(controller),
+                      ),
+                    )
                         : const CircularProgressIndicator(),
                   ),
                   if (showControls)
@@ -473,9 +473,6 @@ class _ReelsViewState extends State<ReelsView> {
                     child: Container(
                       padding: const EdgeInsets.only(
                           top: 8, bottom: 30, left: 20, right: 60),
-                      // decoration: BoxDecoration(
-                      //   color: Colors.black.withOpacity(0.3),
-                      // ),
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
@@ -493,11 +490,11 @@ class _ReelsViewState extends State<ReelsView> {
                             children: [
                               CircleAvatar(
                                 backgroundImage:
-                                    NetworkImage(reel.author?.image ?? ''),
+                                NetworkImage(reel.author?.image ?? ''),
                               ),
                               sw12,
                               Text(
-                                reel.author?.name ?? 'Unknown',
+                                reel.author?.name ?? 'Unknown'.tr,
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 16,
@@ -508,7 +505,7 @@ class _ReelsViewState extends State<ReelsView> {
                           ),
                           sh8,
                           Text(
-                            reel.caption ?? 'No description',
+                            reel.caption ?? 'No_Description'.tr,
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 12,

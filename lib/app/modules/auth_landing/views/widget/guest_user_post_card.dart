@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/Get.dart';
 import 'package:tails_date/app/modules/home/views/report_view.dart';
 import 'package:tails_date/common/app_color/app_colors.dart';
 import 'package:tails_date/common/app_images/app_images.dart';
@@ -105,7 +105,7 @@ class GuestUserPostCard extends StatelessWidget {
                       // if (!isMe)
                       //   CustomButton(
                       //     width: 90,
-                      //     text: 'Add friend',
+                      //     text: 'Add_Friend'.tr,
                       //     onPressed: onAddFriend!,
                       //     height: 30,
                       //     backgroundColor: AppColors.black,
@@ -117,8 +117,8 @@ class GuestUserPostCard extends StatelessWidget {
                           CustomPopupMenuButton(
                             items: [
                               PopupMenuItemData(
-                                value: 'Report Content',
-                                label: 'Report Content',
+                                value: 'Report_Content'.tr,
+                                label: 'Report_Content'.tr,
                                 onSelected: () {
                                   Get.to(() => ReportView(postId),
                                       transition: Transition.downToUp);
@@ -126,8 +126,8 @@ class GuestUserPostCard extends StatelessWidget {
                               ),
                               PopupMenuItemData(isDivider: true),
                               PopupMenuItemData(
-                                value: 'Not Interested',
-                                label: 'Not Interested',
+                                value: 'Not_Interested'.tr,
+                                label: 'Not_Interested'.tr,
                                 onSelected: onNotInterestedTap,
                               ),
                             ],
@@ -236,7 +236,7 @@ class GuestUserPostCard extends StatelessWidget {
                 ),
                 _buildIcon(AppImages.star, null,
                     onTap: () => showStarBuyDialog(context)),
-               _buildIcon(
+                _buildIcon(
                   AppImages.bookmark,
                   null,
                   onTap: onBookmark,
@@ -285,22 +285,21 @@ class GuestUserPostCard extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text('Support what you love! 🌟',
-                      style: h3, textAlign: TextAlign.center),
+                  Text('Support_What_You_Love'.tr, style: h3, textAlign: TextAlign.center),
                   Image.asset(AppImages.starImage, scale: 4),
                   const SizedBox(height: 8),
                   CustomButton(
                     onPressed: () => Get.to(() => BuyStarView()),
-                    text: "Buy Star 🌟",
+                    text: 'Buy_Star_Button'.tr,
                     backgroundColor: AppColors.white,
                     textStyle: h3.copyWith(fontWeight: FontWeight.w700),
                   ),
                   const SizedBox(height: 8),
-                  Text('OR', style: h3),
+                  Text('Or'.tr, style: h3),
                   const SizedBox(height: 8),
                   CustomButton(
                     onPressed: () => Get.to(() => SendStarsView(id: postId)),
-                    text: "Send Stars 🤩",
+                    text: 'Send_Stars'.tr,
                   ),
                 ],
               ),
