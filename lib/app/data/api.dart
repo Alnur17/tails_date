@@ -67,6 +67,10 @@ class Api {
   ///Reports
   static const String reports = "$baseUrl/reports"; // done
 
+  ///Other Pets
+  static String petDetails(String petId) => "$baseUrl/pets/$petId"; // done
+  static const String addNewPet = "$baseUrl/pets"; // done
+
   ///Star Plans
   static const String starPlans = "$baseUrl/star-plans"; //done
   static const String sendStars = "$baseUrl/posts/send-star"; //done

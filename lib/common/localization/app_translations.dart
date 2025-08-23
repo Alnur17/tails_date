@@ -7,14 +7,15 @@ class AppTranslations extends Translations {
       // LoginView translations
       'Log_In': 'Log In',
       'Login_Title': 'Log In',
-      'Login_Welcome': 'Hii! Welcome back',
+      'Login_Welcome': 'Welcome back',
       'Enter_Email': 'Enter your email',
       'Enter_Password': 'Enter your password',
       'Forgot_The_Password': 'Forgot the password',
       'Login_Button': 'Login',
       'No_Account': 'Don’t Have an account?',
-      'Sign_Up': 'Sign Up',
+      'Sign_Up': ' Sign Up',
       // ProfileView translations
+      'Add_More_Pet': 'Add More Pet',
       'Profile_Title': 'Profile',
       'Failed_To_Load_Profile': 'Failed to load profile',
       'Edit_Profile': 'Edit Profile',
@@ -322,6 +323,7 @@ class AppTranslations extends Translations {
       'Write_Video_Description': 'Write a description for the video',
       'Enter_Video_Description': 'Enter video description...',
       'Upload': 'Upload',
+      'Others_Pet': 'Others Pet',
     },
     'fr_FR': {
       // LoginView translations
@@ -335,6 +337,7 @@ class AppTranslations extends Translations {
       'No_Account': 'Vous n’avez pas de compte ?',
       'Sign_Up': 'S’inscrire',
       // ProfileView translations
+      'Add_More_Pet': 'Ajouter un autre animal',
       'Profile_Title': 'Profil',
       'Failed_To_Load_Profile': 'Échec du chargement du profil',
       'Edit_Profile': 'Modifier le profil',
@@ -641,7 +644,8 @@ class AppTranslations extends Translations {
       'Click_Here_To_Select_Video': 'Cliquez ici pour sélectionner une vidéo',
       'Write_Video_Description': 'Écrivez une description pour la vidéo',
       'Enter_Video_Description': 'Entrez une description de la vidéo...',
-      'Upload': 'Télécharger'
+      'Upload': 'Télécharger',
+      'Others_Pet': 'Autre animal',
     },
     'es_ES': {
       // LoginView translations
@@ -655,6 +659,7 @@ class AppTranslations extends Translations {
       'No_Account': '¿No tienes una cuenta?',
       'Sign_Up': 'Registrarse',
       // ProfileView translations
+      'Add_More_Pet': 'Agregar otra mascota',
       'Profile_Title': 'Perfil',
       'Failed_To_Load_Profile': 'Error al cargar el perfil',
       'Edit_Profile': 'Editar perfil',
@@ -961,7 +966,8 @@ class AppTranslations extends Translations {
       'Click_Here_To_Select_Video': 'Haz clic aquí para seleccionar un vídeo',
       'Write_Video_Description': 'Escribe una descripción para el vídeo',
       'Enter_Video_Description': 'Introduce descripción del vídeo...',
-      'Upload': 'Subir'
+      'Upload': 'Subir',
+      'Others_Pet': 'Otra mascota',
     },
     'de_DE': {
       // LoginView translations
@@ -975,6 +981,7 @@ class AppTranslations extends Translations {
       'No_Account': 'Noch kein Konto?',
       'Sign_Up': 'Registrieren',
       // ProfileView translations
+      'Add_More_Pet': 'Weiteres Haustier\nhinzufügen',
       'Profile_Title': 'Profil',
       'Failed_To_Load_Profile': 'Profil konnte nicht geladen werden',
       'Edit_Profile': 'Profil bearbeiten',
@@ -1282,6 +1289,7 @@ class AppTranslations extends Translations {
       'Write_Video_Description': 'Schreibe eine Beschreibung für das Video',
       'Enter_Video_Description': 'Videobeschreibung eingeben...',
       'Upload': 'Hochladen',
+      'Others_Pet': 'Anderes Haustier',
     },
   };
 }

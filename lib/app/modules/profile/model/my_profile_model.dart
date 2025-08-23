@@ -48,6 +48,7 @@ class ProfileData {
     required this.pointsSpent,
     required this.ownerAge,
     required this.totalFriends,
+    required this.pets,
   });
 
   final String? id;
@@ -77,6 +78,7 @@ class ProfileData {
   final int? pointsSpent;
   final int? ownerAge;
   final int? totalFriends;
+  final List<Pet> pets;
 
   factory ProfileData.fromJson(Map<String, dynamic> json){
     return ProfileData(
@@ -107,6 +109,52 @@ class ProfileData {
       pointsSpent: json["points_spent"],
       ownerAge: json["owner_age"],
       totalFriends: json["total_friends"],
+      pets: json["pets"] == null ? [] : List<Pet>.from(json["pets"]!.map((x) => Pet.fromJson(x))),
+    );
+  }
+
+}
+
+class Pet {
+  Pet({
+    required this.id,
+    required this.parent,
+    required this.name,
+    required this.image,
+    required this.gender,
+    required this.age,
+    required this.category,
+    required this.info,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.v,
+  });
+
+  final String? id;
+  final String? parent;
+  final String? name;
+  final String? image;
+  final String? gender;
+  final int? age;
+  final String? category;
+  final String? info;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  final int? v;
+
+  factory Pet.fromJson(Map<String, dynamic> json){
+    return Pet(
+      id: json["_id"],
+      parent: json["parent"],
+      name: json["name"],
+      image: json["image"],
+      gender: json["gender"],
+      age: json["age"],
+      category: json["category"],
+      info: json["info"],
+      createdAt: DateTime.tryParse(json["createdAt"] ?? ""),
+      updatedAt: DateTime.tryParse(json["updatedAt"] ?? ""),
+      v: json["__v"],
     );
   }
 

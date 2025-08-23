@@ -44,8 +44,7 @@ class AddStoryController extends GetxController {
   }) async {
     try {
       isLoading.value = true;
-      caption = caption?.trim() ??
-          ""; // Ensure caption is included, default to empty string
+      caption = caption?.trim() ?? "";
       debugPrint(
           'Attempt to create story with mediaPath: $mediaPath, caption: "$caption"');
       final token = await LocalStorage.getData(key: AppConstant.token);

@@ -2,6 +2,7 @@ class AppImages {
   //================ Icons ==================>
   static const splashLogo = "assets/icons/LOGO.png";
   static const arrowRight = "assets/icons/Arrow - Right.png";
+  static const arrowCircleRight = "assets/icons/arrow-circle-right.png";
   static const arrowDown = "assets/icons/arrow-down.png";
   static const arrowRightTwo = "assets/icons/arrow right 2.png";
   static const checkBox = "assets/icons/Checbox container.png";
@@ -70,9 +71,7 @@ class AppImages {
   static const authLogo = "assets/images/auth logo.png";
   static const onboardingOne = "assets/images/onboarding 1.jpg";
   static const onboardingTwo = "assets/images/onboarding 2.jpg";
-  static const onboardingThree = "assets/images/EearnFinancialRewards.png";
-  static const onboardingBackOne = "assets/images/onboarding background 1.png";
-  static const onboardingBackTwo = "assets/images/onboarding background 2.png";
+  static const onboardingThree = "assets/images/EearnFinancialRewards.jpg";
   static const authFlower = "assets/images/auth flower.png";
   static const authHome = "assets/images/auth home back.png";
   static const signInSignUpBackColor = "assets/images/signin or signup background.png";

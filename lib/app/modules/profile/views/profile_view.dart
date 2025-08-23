@@ -909,10 +909,13 @@ import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:tails_date/app/modules/home/controllers/home_controller.dart';
 import 'package:tails_date/app/modules/profile/controllers/profile_controller.dart';
+import 'package:tails_date/app/modules/profile/views/add_more_pet_view.dart';
 import 'package:tails_date/app/modules/profile/views/edit_profile_view.dart';
 import 'package:tails_date/app/modules/profile/views/friends_view.dart';
 import 'package:tails_date/app/modules/profile/views/my_reels_view.dart';
+import 'package:tails_date/app/modules/profile/views/other_pet_details_view.dart';
 import 'package:tails_date/app/modules/profile/views/profile_setting_view.dart';
+import 'package:tails_date/app/modules/profile/views/widgets/others_pet_cart.dart';
 import 'package:tails_date/common/app_color/app_colors.dart';
 import 'package:tails_date/common/size_box/custom_sizebox.dart';
 import 'package:tails_date/common/app_images/app_images.dart';
@@ -1079,10 +1082,31 @@ class _ProfileViewState extends State<ProfileView> {
                           ),
                           sh60,
                           // Profile info
-                          Text(
-                            profileController.profileData.value!.data?.name ??
-                                'Unknown',
-                            style: h2.copyWith(fontSize: 20),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  profileController
+                                          .profileData.value!.data?.name ??
+                                      'Unknown',
+                                  style: h2.copyWith(fontSize: 20),
+                                ),
+                              ),
+                              sw5,
+                              Expanded(
+                                child: CustomButton(
+                                  text: 'Add_More_Pet'.tr,
+                                  onPressed: () {
+                                    Get.to(()=> AddMorePetView());
+                                  },
+                                  //height: 40,
+                                  backgroundColor: AppColors.white,
+                                  textStyle: h5.copyWith(color: AppColors.red),
+                                  borderColor: AppColors.red,
+                                ),
+                              ),
+                            ],
                           ),
                           sh12,
                           Row(
@@ -1228,6 +1252,36 @@ class _ProfileViewState extends State<ProfileView> {
                                     .profileData.value!.data?.petInfo ??
                                 'N/A',
                             style: h4,
+                          ),
+                          sh16,
+                          //Others Pet
+                          Text(
+                            "Others_Pet".tr,
+                            style: h3,
+                          ),
+                          sh8,
+                          SizedBox(
+                            height: 160,
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              itemCount: profileController.profileData.value!.data?.pets.length,
+                              itemBuilder: (context, index) {
+                                final othersPetData = profileController.profileData.value!.data?.pets[index];
+                                return Padding(
+                                  padding: EdgeInsets.only(
+                                    left: index == 0 ? 0 : 8,
+                                  ),
+                                  child: OthersPetCard(
+                                    onTap: () {
+                                      Get.to(()=> OtherPetDetailsView(petId: othersPetData?.id ?? '',));
+                                    },
+                                    imageUrl:  othersPetData?.image ?? AppImages.catProfileImage,
+                                    title:  othersPetData?.name ?? 'Unknown' ,
+                                  ),
+                                );
+                              },
+                            ),
                           ),
                           sh16,
                           // Pet Owner Info

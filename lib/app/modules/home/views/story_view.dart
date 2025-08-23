@@ -255,6 +255,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:cached_network_image/cached_network_image.dart'; // Import here
 import 'package:tails_date/app/modules/profile/views/buy_star_view.dart';
 import 'package:tails_date/app/modules/profile/views/send_stars_view.dart';
 import '../../../../common/app_color/app_colors.dart';
@@ -279,9 +280,9 @@ class StoryView extends GetView {
       child: Scaffold(
         backgroundColor: AppColors.mainColor,
         body: Obx(
-          () {
+              () {
             if (controller.isLoadingStories.value) {
-              return const Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator(color: AppColors.black,));
             }
             if (controller.storyImageUrls.isEmpty ||
                 controller.authorStories.value == null ||
@@ -307,11 +308,14 @@ class StoryView extends GetView {
                       controller.goToNextStory();
                     }
                   },
-                  child: Image.network(
-                    controller.storyImageUrls[controller.currentIndex.value],
+                  child: CachedNetworkImage(
+                    imageUrl: controller.storyImageUrls[controller.currentIndex.value],
                     fit: BoxFit.cover,
                     height: Get.height,
-                    errorBuilder: (context, error, stackTrace) => Center(
+                    placeholder: (context, url) => const Center(
+                      child: CircularProgressIndicator(color: AppColors.black,),
+                    ),
+                    errorWidget: (context, url, error) => Center(
                       child: Text('Failed_To_Load_Image'.tr,
                           style: const TextStyle(color: Colors.white)),
                     ),
@@ -352,25 +356,30 @@ class StoryView extends GetView {
                           width: 60,
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(30),
-                            child: Image.network(
-                              controller.storyAuthors.value?.data.isNotEmpty ??
-                                      false
+                            child: CachedNetworkImage(
+                              imageUrl: controller.storyAuthors.value?.data.isNotEmpty ??
+                                  false
                                   ? (controller.storyAuthors.value!.data
-                                          .firstWhere(
-                                            (author) =>
-                                                author.id ==
-                                                currentStory.author,
-                                            orElse: () => AllAuthDatum(
-                                                id: null,
-                                                name: null,
-                                                image: ''),
-                                          )
-                                          .image ??
-                                      '')
+                                  .firstWhere(
+                                    (author) =>
+                                author.id ==
+                                    currentStory.author,
+                                orElse: () => AllAuthDatum(
+                                  id: null,
+                                  name: null,
+                                  image: '',
+                                ),
+                              )
+                                  .image ??
+                                  '')
                                   : '',
                               fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) =>
-                                  const Icon(
+                              placeholder: (context, url) => const Icon(
+                                Icons.person,
+                                color: Colors.white,
+                                size: 40,
+                              ),
+                              errorWidget: (context, url, error) => const Icon(
                                 Icons.person,
                                 color: Colors.white,
                                 size: 40,
@@ -449,18 +458,6 @@ class StoryView extends GetView {
                         ),
                         onPressed: () => showStarBuyDialog(context),
                       ),
-                      // sh5,
-                      // IconButton(
-                      //   style: IconButton.styleFrom(backgroundColor: Colors.black38),
-                      //   icon: Image.asset(
-                      //     AppImages.heart,
-                      //     scale: 4,
-                      //     color: AppColors.white,
-                      //   ),
-                      //   onPressed: () {
-                      //     // Implement reaction logic if needed
-                      //   },
-                      // ),
                     ],
                   ),
                 ),
@@ -479,11 +476,10 @@ class StoryView extends GetView {
                             value: index < controller.currentIndex.value
                                 ? 1.0
                                 : index == controller.currentIndex.value
-                                    ? controller.progress.value
-                                    : 0.0,
+                                ? controller.progress.value
+                                : 0.0,
                             backgroundColor: Colors.grey,
-                            valueColor: const AlwaysStoppedAnimation<Color>(
-                                Colors.white),
+                            valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
                           ),
                         ),
                       );
@@ -504,7 +500,7 @@ class StoryView extends GetView {
       builder: (BuildContext context) {
         return Dialog(
           shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           child: Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -534,7 +530,7 @@ class StoryView extends GetView {
                   const SizedBox(height: 8),
                   CustomButton(
                     onPressed: () => Get.to(
-                        () => SendStarsView(id: storyId, isFromStory: true)),
+                            () => SendStarsView(id: storyId, isFromStory: true)),
                     text: 'Send_Stars'.tr,
                   ),
                 ],
@@ -546,6 +542,7 @@ class StoryView extends GetView {
     );
   }
 }
+
 
 // import 'dart:developer';
 // import 'package:flutter/material.dart';
