@@ -292,9 +292,11 @@ class _CashOutYourStarsViewState extends State<CashOutYourStarsView> {
                       children: [
                         Text('🌟'),
                         sw8,
-                        Text(
-                          '${widget.starBalance} ${'Stars_Remaining'.tr}',
-                          style: h2,
+                        Expanded(
+                          child: Text(
+                            '${widget.starBalance} ${'Stars_Remaining'.tr}',
+                            style: h2,
+                          ),
                         ),
                       ],
                     ),
@@ -419,7 +421,7 @@ class _CashOutYourStarsViewState extends State<CashOutYourStarsView> {
                 children: [
                   Text('Status_Label'.tr, style: h4),
                   sw8,
-                  Text('No_Pending_Requests'.tr, style: h4),
+                  Expanded(child: Text('No_Pending_Requests'.tr, style: h4)),
                 ],
               )
                   : ListView.builder(

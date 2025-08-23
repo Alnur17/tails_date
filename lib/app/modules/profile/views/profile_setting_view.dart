@@ -475,6 +475,24 @@ class _ProfileSettingViewState extends State<ProfileSettingView> {
                                     ],
                                   ),
                                 ),
+                                sh8,
+                                GestureDetector(
+                                  onTap: () {
+                                    localizationController.changeLanguage('German');
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Image.asset(
+                                        localizationController.selectedLanguage.value == 'German'
+                                            ? AppImages.checkBoxFilled
+                                            : AppImages.checkBox,
+                                        scale: 4,
+                                      ),
+                                      sw12,
+                                      Text('German', style: h4),
+                                    ],
+                                  ),
+                                ),
                               ],
                             ),
                           ),

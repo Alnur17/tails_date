@@ -566,7 +566,7 @@ class SubscriptionPlanView extends StatelessWidget {
       appBar: AppBar(
         scrolledUnderElevation: 0,
         backgroundColor: AppColors.mainColor,
-        title: Text('Subscription_Plans'.tr), // Updated to use translation
+        title: Text('Subscription_Plans'.tr),
         centerTitle: true,
         leading: GestureDetector(
           onTap: () => Get.back(),
@@ -584,7 +584,7 @@ class SubscriptionPlanView extends StatelessWidget {
           return Center(child: Text(controller.errorMessage.value, style: h3));
         }
         if (controller.subscriptionPlans.isEmpty) {
-          return Center(child: Text('No_Subscription_Plans_Available'.tr, style: h3)); // Updated to use translation
+          return Center(child: Text('No_Subscription_Plans_Available'.tr, style: h3));
         }
 
         final currentSubscription = controller.myCurrentSubscription.value;
@@ -607,7 +607,7 @@ class SubscriptionPlanView extends StatelessWidget {
                 if (currentPlanDetails != null && status == 'active' && remainingDays != null && remainingDays > 0) ...[
                   Text(
                     'My_Current_Plan'.tr, // Updated to use translation
-                    style: h2.copyWith(fontSize: 20, color: AppColors.white),
+                    style: h2.copyWith(fontSize: 20, color: AppColors.black),
                   ),
                   sh12,
                   SubscriptionPlanCard(
@@ -632,12 +632,12 @@ class SubscriptionPlanView extends StatelessWidget {
                     buttonText: 'Renew_Plan'.tr, // Updated to use translation
                     buttonColor: AppColors.mainColor,
                     buttonTextColor: AppColors.white,
-                    titleTextColor: AppColors.white,
+                    //titleTextColor: AppColors.white,
                   ),
                   sh30,
                   Text(
                     'Upgrade_Plan'.tr, // Updated to use translation
-                    style: h2.copyWith(fontSize: 20, color: AppColors.white),
+                    style: h2.copyWith(fontSize: 20, color: AppColors.black),
                   ),
                   sh12,
                 ],
@@ -650,19 +650,19 @@ class SubscriptionPlanView extends StatelessWidget {
                   return Column(
                     children: [
                       SubscriptionPlanCard(
-                        title: plan.name ?? 'Unknown_Duration'.tr, // Updated to use translation
+                        title: plan.name ?? 'Unknown_Duration'.tr,
                         duration: _getDurationText(plan.duration),
                         price: '\$${plan.price?.toStringAsFixed(2) ?? '0.00'}',
-                        description: plan.description ?? 'No_Description_Available'.tr, // Updated to use translation
+                        description: plan.description ?? 'No_Description_Available'.tr,
                         onSubscribe: () {
                           if (plan.id != null) {
                             controller.createPaymentSession(subscriptionId: plan.id!);
-                            Get.snackbar(
-                              'Success'.tr, // Updated to use translation
-                              'You_Have_Subscribed_To'.tr + '${plan.name}!', // Updated to use translation
-                              backgroundColor: Colors.green,
-                              colorText: AppColors.white,
-                            );
+                            // Get.snackbar(
+                            //   'Success'.tr, // Updated to use translation
+                            //   'You_Have_Subscribed_To'.tr + '${plan.name}!',
+                            //   backgroundColor: Colors.green,
+                            //   colorText: AppColors.white,
+                            // );
                           } else {
                             Get.snackbar(
                               'Error'.tr, // Already translated
@@ -674,7 +674,7 @@ class SubscriptionPlanView extends StatelessWidget {
                         },
                         isCurrentPlan: plan.name == currentPlan,
                         buttonText: _getButtonText(plan.name, currentPlan),
-                        titleTextColor: isGoldPlan ? AppColors.green : AppColors.white,
+                        titleTextColor: isGoldPlan ? AppColors.green : AppColors.brownColor,
                         buttonColor: isGoldPlan ? AppColors.green : AppColors.mainColor,
                         buttonTextColor: AppColors.white,
                         containerColor: isGoldPlan ? Colors.orange[100] : AppColors.white.withOpacity(0.9),

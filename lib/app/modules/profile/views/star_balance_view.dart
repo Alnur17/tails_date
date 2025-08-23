@@ -323,9 +323,11 @@ class _StarBalanceViewState extends State<StarBalanceView> {
                     children: [
                       Text('🌟'),
                       sw8,
-                      Text(
-                        '${widget.starBalance} ${'Stars_Remaining'.tr}', // Updated to use translation
-                        style: h2,
+                      Expanded(
+                        child: Text(
+                          '${widget.starBalance} ${'Stars_Remaining'.tr}', // Updated to use translation
+                          style: h2,
+                        ),
                       ),
                     ],
                   ),

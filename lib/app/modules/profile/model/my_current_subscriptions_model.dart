@@ -83,7 +83,7 @@ class Plan {
     return Plan(
       id: json["_id"],
       name: json["name"],
-      price: json["price"],
+      price: json["price"] != null ? (json["price"] as num).toDouble() : null,
       duration: json["duration"],
       description: json["description"],
       createdAt: DateTime.tryParse(json["createdAt"] ?? ""),
