@@ -753,7 +753,7 @@ class _EditProfileViewState extends State<EditProfileView> {
               sh8,
               Obx(() {
                 if (_signupController.isLoading.value) {
-                  return const Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator(color: AppColors.black,));
                 }
                 if (_signupController.categories.isEmpty) {
                   return Text(

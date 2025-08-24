@@ -29,6 +29,7 @@ class Api {
   static const String addOrRemoveReaction = "$baseUrl/posts/reactions"; //done
   static const String addNotInterested = "$baseUrl/posts/interests"; //done
   static String deletePost(postId) => "$baseUrl/posts/$postId"; //done
+  static String editPost(postId) => "$baseUrl/posts/$postId"; //done
 
   ///profile
   static const String myProfile = "$baseUrl/users/profile"; // done

@@ -1,9 +1,13 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/cupertino.dart';
+import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:http_parser/http_parser.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:mime/mime.dart';
 import 'package:tails_date/app/modules/home/model/all_category_model.dart';
 import 'package:tails_date/app/modules/home/model/category_wise_post_model.dart';
 import 'package:tails_date/app/modules/profile/controllers/collections_controller.dart';
@@ -24,11 +28,13 @@ class HomeController extends GetxController {
   var categoryWisePost = <CategoryWPostData>[].obs;
   var categories = <CategoryData>[].obs;
   var likedPosts = <String>[].obs; // Store liked post IDs locally
-  var savedCollections = <String>[].obs; // Store collection-saved post IDs locally
+  var savedCollections =
+      <String>[].obs; // Store collection-saved post IDs locally
   var isLoading = false.obs;
   var errorMessage = ''.obs;
   final userId = LocalStorage.getData(key: AppConstant.userId);
   final GetStorage storage = GetStorage(); // Initialize GetStorage
+  var selectedImage = Rx<XFile?>(null);
 
   final collectionController = Get.put(CollectionsController());
 
@@ -53,9 +59,11 @@ class HomeController extends GetxController {
 
   /// Load Saved Collections from Local Storage
   void loadLocalCollections() {
-    List<dynamic>? savedCollections = storage.read<List<dynamic>>('saved_collections');
+    List<dynamic>? savedCollections =
+        storage.read<List<dynamic>>('saved_collections');
     if (savedCollections != null) {
-      savedCollections.assignAll(savedCollections.map((id) => id.toString()).toList());
+      savedCollections
+          .assignAll(savedCollections.map((id) => id.toString()).toList());
     }
   }
 
@@ -89,7 +97,6 @@ class HomeController extends GetxController {
     // Call API to sync like
     await addOrRemoveReaction(postId);
   }
-
 
   /// Toggle Collection Save (Local + API)
   Future<void> toggleCollection(String postId) async {
@@ -130,20 +137,22 @@ class HomeController extends GetxController {
       final result = await BaseClient.handleResponse(response);
       if (result['success'] == true) {
         kSnackBar(
-          message: result['message']?.toString() ?? 'Collection updated successfully',
+          message: result['message']?.toString() ??
+              'Collection updated successfully',
           bgColor: AppColors.green,
         );
         if (collectionController.collections.any((c) => c.id == postId)) {
           collectionController.collections.removeWhere((c) => c.id == postId);
         } else {
-          collectionController.collections.add(MyCollectionDatum(id: postId)); // Add a minimal Datum
+          collectionController.collections
+              .add(MyCollectionDatum(id: postId)); // Add a minimal Datum
         }
         collectionController.collections.refresh();
         collectionController.fetchCollections();
-
       } else {
         kSnackBar(
-          message: result['message']?.toString() ?? 'Failed to update collection',
+          message:
+              result['message']?.toString() ?? 'Failed to update collection',
           bgColor: AppColors.red,
         );
       }
@@ -154,7 +163,6 @@ class HomeController extends GetxController {
       );
     }
   }
-
 
   /// API: Add or Remove Like
   Future<void> addOrRemoveReaction(String postId) async {
@@ -195,18 +203,24 @@ class HomeController extends GetxController {
           myPosts.refresh(); // Trigger UI update for myPosts
         }
 
-        final categoryWisePostsIndex = categoryWisePost.indexWhere((p) => p.id == postId);
+        final categoryWisePostsIndex =
+            categoryWisePost.indexWhere((p) => p.id == postId);
         if (categoryWisePostsIndex != -1) {
           if (isPostLiked(postId)) {
-            categoryWisePost[categoryWisePostsIndex].reactions.add(userId ?? "");
+            categoryWisePost[categoryWisePostsIndex]
+                .reactions
+                .add(userId ?? "");
           } else {
-            categoryWisePost[categoryWisePostsIndex].reactions.remove(userId ?? "");
+            categoryWisePost[categoryWisePostsIndex]
+                .reactions
+                .remove(userId ?? "");
           }
           categoryWisePost.refresh(); // Trigger UI update for myPosts
         }
 
         kSnackBar(
-          message: result['message']?.toString() ?? 'Reaction updated successfully',
+          message:
+              result['message']?.toString() ?? 'Reaction updated successfully',
           bgColor: AppColors.green,
         );
       } else {
@@ -442,6 +456,91 @@ class HomeController extends GetxController {
       return debugPrint("$e");
     } finally {
       isLoading.value = false;
+    }
+  }
+
+  Future<void> editPost({
+    required String postId,
+    String? category,
+    String? location,
+    String? caption,
+    XFile? selectedImage,
+  }) async {
+    try {
+      isLoading.value = true;
+      final token = LocalStorage.getData(key: AppConstant.token);
+
+      var request =
+          http.MultipartRequest('PUT', Uri.parse(Api.editPost(postId)));
+      request.headers.addAll({
+        'Authorization': 'Bearer $token',
+      });
+
+      Map<String, dynamic> payload = {
+        "location": location,
+        "category": category,
+        "caption": caption,
+      };
+
+      request.fields['payload'] = jsonEncode(payload);
+
+      if (selectedImage != null) {
+        String imagePath = selectedImage.path;
+        String? mimeType = lookupMimeType(imagePath);
+        if (mimeType != null) {
+          request.files.add(await http.MultipartFile.fromPath(
+            'images',
+            imagePath,
+            contentType: MediaType.parse(mimeType),
+          ));
+        } else {
+          kSnackBar(
+              message: "Unsupported image type", bgColor: AppColors.orange);
+        }
+      }
+
+      var streamedResponse = await request.send();
+      var response = await http.Response.fromStream(streamedResponse);
+
+      log('Response Status: ${response.statusCode}');
+      log('Response Body: ${response.body}');
+
+      dynamic responseBody;
+      try {
+        responseBody = jsonDecode(response.body);
+      } catch (e) {
+        kSnackBar(
+          message: "Invalid server response format",
+          bgColor: AppColors.orange,
+        );
+        debugPrint("JSON Decode Error: $e");
+        return;
+      }
+
+      if (response.statusCode == 200) {
+        kSnackBar(
+          message: responseBody["message"] ?? "Profile updated successfully",
+          bgColor: AppColors.green,
+        );
+        this.selectedImage.value = null;
+        fetchMyPosts();
+        if (Get.context != null && Navigator.of(Get.context!).canPop()) {
+          Navigator.pop(Get.context!);
+        }
+      } else {
+        kSnackBar(
+          message: responseBody["message"] ?? "Failed to update profile",
+          bgColor: AppColors.orange,
+        );
+      }
+    } catch (e) {
+      kSnackBar(
+        message: "Error updating profile: $e",
+        bgColor: AppColors.red,
+      );
+      debugPrint("Update Error: $e");
+    } finally {
+      isLoading(false);
     }
   }
 

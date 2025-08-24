@@ -34,7 +34,7 @@ class OtherPetDetailsView extends GetView<OtherPetController> {
       ),
       body: Obx(() {
         if (controller.isLoading.value) {
-          return Center(child: CircularProgressIndicator());
+          return Center(child: CircularProgressIndicator(color: AppColors.black,));
         }
 
         var pet = controller.petDetails.value?.data;
@@ -96,7 +96,7 @@ class OtherPetDetailsView extends GetView<OtherPetController> {
                     'Age:',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
-                  Text(pet.age?.toString() ?? 'Unknown'),
+                  Text('${pet.age?.toString()} Years'),
                 ],
               ),
               Divider(

@@ -329,13 +329,13 @@ class AppTranslations extends Translations {
       // LoginView translations
       'Log_In': 'Se connecter',
       'Login_Title': 'Connexion',
-      'Login_Welcome': 'Salut ! Bienvenue de retour',
+      'Login_Welcome': 'Bon retour',
       'Enter_Email': 'Entrez votre e-mail',
       'Enter_Password': 'Entrez votre mot de passe',
       'Forgot_The_Password': 'Mot de passe oublié',
       'Login_Button': 'Connexion',
       'No_Account': 'Vous n’avez pas de compte ?',
-      'Sign_Up': 'S’inscrire',
+      'Sign_Up': ' S’inscrire',
       // ProfileView translations
       'Add_More_Pet': 'Ajouter un autre animal',
       'Profile_Title': 'Profil',
@@ -651,13 +651,13 @@ class AppTranslations extends Translations {
       // LoginView translations
       'Log_In': 'Iniciar sesión',
       'Login_Title': 'Iniciar sesión',
-      'Login_Welcome': '¡Hola! Bienvenido de nuevo',
+      'Login_Welcome': 'Bienvenido de nuevo',
       'Enter_Email': 'Introduce tu correo electrónico',
       'Enter_Password': 'Introduce tu contraseña',
       'Forgot_The_Password': '¿Olvidaste la contraseña?',
       'Login_Button': 'Entrar',
       'No_Account': '¿No tienes una cuenta?',
-      'Sign_Up': 'Registrarse',
+      'Sign_Up': ' Registrarse',
       // ProfileView translations
       'Add_More_Pet': 'Agregar otra mascota',
       'Profile_Title': 'Perfil',
@@ -973,13 +973,13 @@ class AppTranslations extends Translations {
       // LoginView translations
       'Log_In': 'Anmelden',
       'Login_Title': 'Anmelden',
-      'Login_Welcome': 'Hallo! Willkommen zurück',
+      'Login_Welcome': 'Willkommen zurück',
       'Enter_Email': 'Gib deine E-Mail ein',
       'Enter_Password': 'Gib dein Passwort ein',
       'Forgot_The_Password': 'Passwort vergessen',
       'Login_Button': 'Anmelden',
       'No_Account': 'Noch kein Konto?',
-      'Sign_Up': 'Registrieren',
+      'Sign_Up': ' Registrieren',
       // ProfileView translations
       'Add_More_Pet': 'Weiteres Haustier\nhinzufügen',
       'Profile_Title': 'Profil',

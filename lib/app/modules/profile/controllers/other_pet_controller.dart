@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
+import 'package:tails_date/app/modules/profile/controllers/profile_controller.dart';
 
 import '../../../../common/app_constant/app_constant.dart';
 import '../../../../common/helper/local_store.dart';
@@ -16,10 +17,9 @@ import '../model/others_pet_details_model.dart';
 class OtherPetController extends GetxController {
   RxString selectedImagePath = ''.obs;
   RxBool isLoading = false.obs;
+  final ProfileController profileController = Get.find();
 
   Rx<OtherPetDetailsModel?> petDetails = Rx<OtherPetDetailsModel?>(null);
-
-  //final StoryController storyController = Get.find();
 
   final ImagePicker _picker = ImagePicker();
 
@@ -43,8 +43,8 @@ class OtherPetController extends GetxController {
     required String image,
     String? info,
     String? name,
-    int? gender,
-    String? age,
+    String? gender,
+    int? age,
     String? category,
     required BuildContext context,
   })
@@ -81,7 +81,7 @@ class OtherPetController extends GetxController {
       if (response.statusCode == 200) {
         final responseData = jsonDecode(response.body);
         await BaseClient.handleResponse(response);
-
+        profileController.fetchProfile();
         Get.snackbar(
             'Success', 'Others Pet Added successfully: "$info"');
         isLoading.value = false;
