@@ -22,6 +22,7 @@ class ProfileController extends GetxController {
   var profileData = Rx<MyProfileModel?>(null);
   var otherProfileData = Rx<MyProfileModel?>(null);
   var myReelsData = <MyReelsData>[].obs;
+  var otherReelsData = <MyReelsData>[].obs;
   var isProfileLoading = false.obs;
   var isOtherProfileLoading = false.obs;
   var isReelsLoading = false.obs;
@@ -144,6 +145,38 @@ class ProfileController extends GetxController {
       } else {
         kSnackBar(
           message: myReelsModel.message ?? 'Failed to load reels',
+          bgColor: AppColors.orange,
+        );
+      }
+    } catch (e) {
+      kSnackBar(
+        message: e.toString(),
+        bgColor: AppColors.orange,
+      );
+    } finally {
+      isReelsLoading(false);
+    }
+  }
+
+  Future<void> fetchOtherReelsByUserId(String userId) async {
+    try {
+      isReelsLoading(true);
+      var token = LocalStorage.getData(key: AppConstant.token);
+
+      final response = await BaseClient.getRequest(
+        api: Api.otherReels(userId),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+      final result = await BaseClient.handleResponse(response);
+      final othersReelsModel = MyReelsModel.fromJson(result);
+      if (othersReelsModel.success == true) {
+        otherReelsData.assignAll(othersReelsModel.data);
+      } else {
+        kSnackBar(
+          message: othersReelsModel.message ?? 'Failed to load reels',
           bgColor: AppColors.orange,
         );
       }

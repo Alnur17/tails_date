@@ -10,6 +10,7 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:mime/mime.dart';
 import 'package:tails_date/app/modules/home/model/all_category_model.dart';
 import 'package:tails_date/app/modules/home/model/category_wise_post_model.dart';
+import 'package:tails_date/app/modules/home/model/other_user_post_model.dart';
 import 'package:tails_date/app/modules/profile/controllers/collections_controller.dart';
 import 'package:tails_date/common/app_color/app_colors.dart';
 import 'package:tails_date/common/app_constant/app_constant.dart';
@@ -24,6 +25,7 @@ import '../../profile/model/my_collections_model.dart';
 
 class HomeController extends GetxController {
   var posts = <AllPostData>[].obs;
+  var otherUserPosts = <OtherUserPostDatum>[].obs;
   var myPosts = <MyPostDatum>[].obs;
   var categoryWisePost = <CategoryWPostData>[].obs;
   var categories = <CategoryData>[].obs;
@@ -203,6 +205,16 @@ class HomeController extends GetxController {
           myPosts.refresh(); // Trigger UI update for myPosts
         }
 
+        final otherPostIndex = otherUserPosts.indexWhere((p) => p.id == postId);
+        if (otherPostIndex != -1) {
+          if (isPostLiked(postId)) {
+            otherUserPosts[otherPostIndex].reactions.add(userId ?? "");
+          } else {
+            otherUserPosts[otherPostIndex].reactions.remove(userId ?? "");
+          }
+          otherUserPosts.refresh(); // Trigger UI update for myPosts
+        }
+
         final categoryWisePostsIndex =
             categoryWisePost.indexWhere((p) => p.id == postId);
         if (categoryWisePostsIndex != -1) {
@@ -264,6 +276,48 @@ class HomeController extends GetxController {
         posts.assignAll(allPostModel.data!.data);
       } else {
         errorMessage.value = allPostModel.message ?? 'Failed to load posts';
+        kSnackBar(
+          message: errorMessage.value,
+          bgColor: AppColors.orange,
+        );
+      }
+    } catch (e) {
+      errorMessage.value = e.toString();
+      kSnackBar(
+        message: errorMessage.value,
+        bgColor: AppColors.orange,
+      );
+      log('Error fetching posts: $e');
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> fetchPostsByUserId(String userId) async {
+    try {
+      isLoading.value = true;
+      errorMessage.value = '';
+
+      String token = LocalStorage.getData(key: AppConstant.token);
+
+      final headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      };
+
+      final response = await BaseClient.getRequest(
+        api: Api.postsByUserId(userId),
+        headers: headers,
+      );
+
+      final jsonResponse = await BaseClient.handleResponse(response);
+
+      final otherPostModel = OtherUserPostByAuthorModel.fromJson(jsonResponse);
+
+      if (otherPostModel.success == true && otherPostModel.data != null) {
+        otherUserPosts.assignAll(otherPostModel.data);
+      } else {
+        errorMessage.value = otherPostModel.message ?? 'Failed to load posts';
         kSnackBar(
           message: errorMessage.value,
           bgColor: AppColors.orange,
@@ -519,7 +573,7 @@ class HomeController extends GetxController {
 
       if (response.statusCode == 200) {
         kSnackBar(
-          message: responseBody["message"] ?? "Profile updated successfully",
+          message: responseBody["message"] ?? "Post updated successfully",
           bgColor: AppColors.green,
         );
         this.selectedImage.value = null;
@@ -529,7 +583,7 @@ class HomeController extends GetxController {
         }
       } else {
         kSnackBar(
-          message: responseBody["message"] ?? "Failed to update profile",
+          message: responseBody["message"] ?? "Failed to update post",
           bgColor: AppColors.orange,
         );
       }
@@ -539,6 +593,41 @@ class HomeController extends GetxController {
         bgColor: AppColors.red,
       );
       debugPrint("Update Error: $e");
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  Future<void> removeImagesFromPosts(String imagePath,String postId) async {
+    try {
+      isLoading(true);
+      var headers = {
+        'Content-Type': 'application/json',
+        'Authorization':
+        'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
+      };
+      var body = jsonEncode({"image": imagePath});
+
+      dynamic responseBody = await BaseClient.handleResponse(
+        await BaseClient.patchRequest(
+          api: Api.removeImagesFromPost(postId),
+          body: body,
+          headers: headers,
+        ),
+      );
+
+      if (responseBody != null) {
+        kSnackBar(
+          message: responseBody["message"] ?? "Image removed from post",
+          bgColor: AppColors.green,
+        );
+        fetchMyPosts();
+      } else {
+        throw 'Failed to remove image!';
+      }
+    } catch (e) {
+      debugPrint("Catch Error:::::: $e");
+      kSnackBar(message: "Error removing image: $e", bgColor: AppColors.red);
     } finally {
       isLoading(false);
     }

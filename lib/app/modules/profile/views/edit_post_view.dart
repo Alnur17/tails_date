@@ -368,103 +368,113 @@ class _EditPostViewState extends State<EditPostView> {
               ),
               child: editableImages.isEmpty
                   ? Center(
-                child: Text(
-                  'No images available',
-                  style: h4.copyWith(color: AppColors.black),
-                ),
-              )
+                      child: Text(
+                        'No images available',
+                        style: h4.copyWith(color: AppColors.black),
+                      ),
+                    )
                   : GridView.builder(
-                padding: const EdgeInsets.all(8),
-                gridDelegate:
-                const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 8,
-                  crossAxisSpacing: 8,
-                ),
-                itemCount: editableImages.length,
-                itemBuilder: (context, index) {
-                  final image = editableImages[index];
-                  if (image.startsWith('http')) {
-                    return Stack(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(12),
-                          child: Image.network(
-                            image,
-                            fit: BoxFit.cover,
-                            width: double.infinity,
-                            height: double.infinity,
-                            errorBuilder: (context, error, stackTrace) {
-                              return Center(
-                                child: Text(
-                                  'Failed to load image',
-                                  style: h4.copyWith(color: AppColors.red),
+                      padding: const EdgeInsets.all(8),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 8,
+                        crossAxisSpacing: 8,
+                      ),
+                      itemCount: editableImages.length,
+                      itemBuilder: (context, index) {
+                        final image = editableImages[index];
+                        if (image.startsWith('http')) {
+                          return Stack(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: Image.network(
+                                  image,
+                                  fit: BoxFit.cover,
+                                  width: double.infinity,
+                                  height: double.infinity,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return Center(
+                                      child: Text(
+                                        'Failed to load image',
+                                        style:
+                                            h4.copyWith(color: AppColors.red),
+                                      ),
+                                    );
+                                  },
                                 ),
-                              );
-                            },
-                          ),
-                        ),
-                        Positioned(
-                          top: 4,
-                          right: 4,
-                          child: GestureDetector(
-                            onTap: () => removeImage(index),
-                            child: CircleAvatar(
-                              radius: 15,
-                              backgroundColor:
-                              Colors.black.withOpacity(0.7),
-                              child: const Icon(
-                                Icons.close,
-                                color: Colors.white,
-                                size: 16,
                               ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    );
-                  } else {
-                    return Stack(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(12),
-                          child: Image.file(
-                            File(image),
-                            fit: BoxFit.cover,
-                            width: double.infinity,
-                            height: double.infinity,
-                            errorBuilder: (context, error, stackTrace) {
-                              return Center(
-                                child: Text(
-                                  'Failed to load image',
-                                  style: h4.copyWith(color: AppColors.red),
+                              Positioned(
+                                top: 4,
+                                right: 4,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    homeController.removeImagesFromPosts(
+                                        image, widget.postId);
+                                    removeImage(index);
+                                  },
+                                  child: CircleAvatar(
+                                    radius: 15,
+                                    backgroundColor:
+                                        Colors.black.withOpacity(0.7),
+                                    child: const Icon(
+                                      Icons.close,
+                                      color: Colors.white,
+                                      size: 16,
+                                    ),
+                                  ),
                                 ),
-                              );
-                            },
-                          ),
-                        ),
-                        Positioned(
-                          top: 4,
-                          right: 4,
-                          child: GestureDetector(
-                            onTap: () => removeImage(index),
-                            child: CircleAvatar(
-                              radius: 15,
-                              backgroundColor:
-                              Colors.black.withOpacity(0.7),
-                              child: const Icon(
-                                Icons.close,
-                                color: Colors.white,
-                                size: 16,
                               ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    );
-                  }
-                },
-              ),
+                            ],
+                          );
+                        } else {
+                          return Stack(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: Image.file(
+                                  File(image),
+                                  fit: BoxFit.cover,
+                                  width: double.infinity,
+                                  height: double.infinity,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return Center(
+                                      child: Text(
+                                        'Failed to load image',
+                                        style:
+                                            h4.copyWith(color: AppColors.red),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                              Positioned(
+                                top: 4,
+                                right: 4,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    homeController.removeImagesFromPosts(
+                                        image, widget.postId);
+                                    removeImage(index);
+                                  },
+                                  child: CircleAvatar(
+                                    radius: 15,
+                                    backgroundColor:
+                                        Colors.black.withOpacity(0.7),
+                                    child: const Icon(
+                                      Icons.close,
+                                      color: Colors.white,
+                                      size: 16,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        }
+                      },
+                    ),
             ),
             sh8,
             Text('Description', style: h3),
@@ -496,7 +506,8 @@ class _EditPostViewState extends State<EditPostView> {
                     onPressed: () {
                       // Find the selected category ID
                       final selectedCategoryId = signupController.categories
-                          .firstWhereOrNull((cat) => cat.name == selectedCategory)
+                          .firstWhereOrNull(
+                              (cat) => cat.name == selectedCategory)
                           ?.id;
                       // Call editPost with updated parameters
                       homeController.editPost(

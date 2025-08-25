@@ -24,12 +24,14 @@ class Api {
   /// posts
   static const String createPost = "$baseUrl/posts"; //done
   static const String allPosts = "$baseUrl/posts?limit=1000"; //done
+  static String postsByUserId(String userId) => "$baseUrl/posts/author/$userId"; //done
   static const String myPosts = "$baseUrl/posts/my"; //done
   static String categoryPosts(categoryId) => "$baseUrl/posts/category/$categoryId"; //done
   static const String addOrRemoveReaction = "$baseUrl/posts/reactions"; //done
   static const String addNotInterested = "$baseUrl/posts/interests"; //done
   static String deletePost(postId) => "$baseUrl/posts/$postId"; //done
   static String editPost(postId) => "$baseUrl/posts/$postId"; //done
+  static String removeImagesFromPost(postId) => "$baseUrl/posts/$postId"; //done
 
   ///profile
   static const String myProfile = "$baseUrl/users/profile"; // done
@@ -61,6 +63,7 @@ class Api {
   ///Reels
   static const String createReels = "$baseUrl/reels"; //done
   static const String allReels = "$baseUrl/reels"; //done
+  static  String otherReels(String userId) => "$baseUrl/reels/author/$userId"; //done
   static const String myReels = "$baseUrl/reels/my"; //done
   static String addOrRemoveReelsReaction(String reelsId) => "$baseUrl/reels/reactions/$reelsId"; //done
 
