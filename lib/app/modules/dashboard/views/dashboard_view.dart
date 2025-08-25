@@ -44,12 +44,12 @@ class _DashboardViewState extends State<DashboardView> {
             padding: EdgeInsets.zero,
             height: 80,
             color: AppColors.black,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  GestureDetector(
+            child: Row(
+             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.opaque,
                     onTap: () => _changeTabIndex(0),
                     child: NavBarItem(
                       selectedIcon: AppImages.homeFilled,
@@ -58,7 +58,9 @@ class _DashboardViewState extends State<DashboardView> {
                       isSelected: _selectedIndex == 0,
                     ),
                   ),
-                  GestureDetector(
+                ),
+                Expanded(
+                  child: GestureDetector(behavior: HitTestBehavior.opaque,
                     onTap: () => _changeTabIndex(1),
                     child: NavBarItem(
                       selectedIcon: AppImages.reelsFilled,
@@ -67,8 +69,10 @@ class _DashboardViewState extends State<DashboardView> {
                       isSelected: _selectedIndex == 1,
                     ),
                   ),
-                  SizedBox(width: Get.width * 0.10),
-                  GestureDetector(
+                ),
+                SizedBox(width: Get.width * 0.20),
+                Expanded(
+                  child: GestureDetector(behavior: HitTestBehavior.opaque,
                     onTap: () => _changeTabIndex(2),
                     child: NavBarItem(
                       selectedIcon: AppImages.chatFilled,
@@ -77,7 +81,9 @@ class _DashboardViewState extends State<DashboardView> {
                       isSelected: _selectedIndex == 2,
                     ),
                   ),
-                  GestureDetector(
+                ),
+                Expanded(
+                  child: GestureDetector(behavior: HitTestBehavior.opaque,
                     onTap: () => _changeTabIndex(3),
                     child: NavBarItem(
                       selectedIcon: AppImages.profileFilled,
@@ -86,8 +92,8 @@ class _DashboardViewState extends State<DashboardView> {
                       isSelected: _selectedIndex == 3,
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
           Positioned(

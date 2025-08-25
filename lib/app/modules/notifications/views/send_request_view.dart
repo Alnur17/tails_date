@@ -6,6 +6,7 @@ import 'package:tails_date/common/widgets/custom_button.dart';
 
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_images/app_images.dart';
+import '../controllers/notifications_controller.dart';
 
 class SendRequestView extends GetView {
   final List<Map<String, String>> data;
@@ -14,6 +15,7 @@ class SendRequestView extends GetView {
 
   @override
   Widget build(BuildContext context) {
+    final NotificationsController notificationController = Get.find();
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       appBar: AppBar(
@@ -41,7 +43,9 @@ class SendRequestView extends GetView {
             title: Text(item['name']!),
             trailing: CustomButton(
               text: 'Cancel_Request'.tr,
-              onPressed: () {},
+              onPressed: () {
+                notificationController.deleteSendRequest(item['id']!);
+              },
               width: 140,
               height: 30,
               backgroundColor: AppColors.secondaryOrangeColor,

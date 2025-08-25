@@ -140,4 +140,27 @@ class NotificationsController extends GetxController {
     }
   }
 
+  Future<void> deleteSendRequest(String requestId) async {
+    try {
+      final headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
+      };
+
+      final response = await BaseClient.deleteRequest(
+        api: Api.deleteSendRequests(requestId),
+        headers: headers,
+      );
+
+      await BaseClient.handleResponse(response);
+      Get.snackbar("Success", "Friend request deleted successfully");
+
+      // Refresh friend requests after update
+      await fetchFriendRequests();
+      update(); // Update the controller to refresh UI
+    } catch (e) {
+      Get.snackbar("Error", "Failed to update friend request: $e");
+    }
+  }
+
 }

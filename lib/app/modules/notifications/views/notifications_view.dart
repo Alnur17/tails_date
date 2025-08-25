@@ -248,14 +248,14 @@ class NotificationsView extends GetView<NotificationsController> {
                         image: item['image']!,
                         actionText: 'Cancel_Request'.tr, // Updated to use translation
                         actionOnPressed: () {
-                          notificationController.updateFriendRequest(item['id']!, 'cancelled');
+                          notificationController.deleteSendRequest(item['id']!);
                         },
                         actionStyle: CustomButton(
                           width: 165,
                           height: 30,
                           text: 'Cancel_Request'.tr, // Updated to use translation
                           onPressed: () {
-                            notificationController.updateFriendRequest(item['id']!, 'cancelled');
+                            notificationController.deleteSendRequest(item['id']!);
                           },
                           backgroundColor: AppColors.secondaryOrangeColor,
                           textStyle: h3.copyWith(color: AppColors.white),

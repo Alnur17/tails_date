@@ -87,7 +87,9 @@ class Api {
   static const String addFriends = "$baseUrl/friends"; //done
   static const String friendsRequests = "$baseUrl/friends/requests"; //done
   static const String updateFriendsRequests = "$baseUrl/friends"; //done
+  static String deleteSendRequests(sendReqId) => "$baseUrl/friends/$sendReqId"; //done
   static const String friendsSuggestions = "$baseUrl/friends/suggestions"; //done
+  static String searchFriendsSuggestions(String quarry) => "$baseUrl/friends/suggestions?fields=$quarry"; //done
 
   ///Subscription Plan
   static const String subscriptionPlan = "$baseUrl/subscription-plans"; //done
