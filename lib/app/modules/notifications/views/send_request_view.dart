@@ -46,7 +46,7 @@ class SendRequestView extends GetView {
               onPressed: () {
                 notificationController.deleteSendRequest(item['id']!);
               },
-              width: 140,
+              width: 165,
               height: 30,
               backgroundColor: AppColors.secondaryOrangeColor,
               textStyle: h3.copyWith(color: AppColors.white),

@@ -33,7 +33,7 @@ class NotificationsView extends GetView<NotificationsController> {
       appBar: AppBar(
         backgroundColor: AppColors.mainColor,
         scrolledUnderElevation: 0,
-        title: Text('Notifications'.tr), // Updated to use translation
+        title: Text('Notifications'.tr),
         centerTitle: true,
         leading: GestureDetector(
           onTap: () {
@@ -55,36 +55,36 @@ class NotificationsView extends GetView<NotificationsController> {
                 children: [
                   Expanded(
                     child: CustomButton(
-                      text: 'Friend_Activity'.tr, // Updated to use translation
+                      text: 'Friend_Activity'.tr,
                       onPressed: () {
                         notificationController.toggleTab(0);
                       },
-                      backgroundColor: notificationController.activeTab.value == 0
+                      backgroundColor:
+                      notificationController.activeTab.value == 0
                           ? AppColors.black
                           : AppColors.transparent,
                       textStyle: h5.copyWith(
-                        color: notificationController.activeTab.value == 0
-                            ? AppColors.white
-                            : AppColors.black,
-                        fontWeight: FontWeight.bold
-                      ),
+                          color: notificationController.activeTab.value == 0
+                              ? AppColors.white
+                              : AppColors.black,
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
                   Expanded(
                     child: CustomButton(
-                      text: 'Post_Engagement'.tr, // Updated to use translation
+                      text: 'Post_Engagement'.tr,
                       onPressed: () {
                         notificationController.toggleTab(1);
                       },
-                      backgroundColor: notificationController.activeTab.value == 1
+                      backgroundColor:
+                      notificationController.activeTab.value == 1
                           ? AppColors.black
                           : AppColors.transparent,
                       textStyle: h5.copyWith(
-                        color: notificationController.activeTab.value == 1
-                            ? AppColors.white
-                            : AppColors.black,
-                          fontWeight: FontWeight.bold
-                      ),
+                          color: notificationController.activeTab.value == 1
+                              ? AppColors.white
+                              : AppColors.black,
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
                 ],
@@ -101,7 +101,8 @@ class NotificationsView extends GetView<NotificationsController> {
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(
-                        child: CircularProgressIndicator(color: AppColors.black));
+                        child: CircularProgressIndicator(
+                            color: AppColors.black));
                   } else if (snapshot.hasError) {
                     return Center(
                         child: Text('Error: ${snapshot.error}'.tr,
@@ -115,7 +116,7 @@ class NotificationsView extends GetView<NotificationsController> {
                     );
                   } else {
                     return Center(
-                        child: Text('No_Notifications_Available'.tr, // Updated to use translation
+                        child: Text('No_Notifications_Available'.tr,
                             style: h5.copyWith(color: AppColors.black)));
                   }
                 },
@@ -127,8 +128,8 @@ class NotificationsView extends GetView<NotificationsController> {
     );
   }
 
-  List<Widget> _buildFriendActivity(NotificationsController notificationController) {
-    // Get the current user ID
+  List<Widget> _buildFriendActivity(
+      NotificationsController notificationController) {
     final String userId = LocalStorage.getData(key: AppConstant.userId);
 
     return [
@@ -137,13 +138,14 @@ class NotificationsView extends GetView<NotificationsController> {
         future: notificationController.fetchFriendRequests(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator(color: AppColors.black));
+            return const Center(
+                child: CircularProgressIndicator(color: AppColors.black));
           } else if (snapshot.hasError) {
             return Column(
               children: [
                 CustomRowHeader(
-                  title: 'Friend_Requests'.tr, // Updated to use translation
-                  subtitle: 'See_All'.tr, // Updated to use translation
+                  title: 'Friend_Requests'.tr,
+                  subtitle: 'See_All'.tr,
                   onTap: () {},
                 ),
                 sh8,
@@ -158,7 +160,6 @@ class NotificationsView extends GetView<NotificationsController> {
           } else if (snapshot.hasData &&
               snapshot.data!.data != null &&
               snapshot.data!.data!.data.isNotEmpty) {
-            // Filter friend requests where the user is the receiver
             final friendRequests = snapshot.data!.data!.data
                 .where((item) => item.receiver?.id == userId)
                 .map((item) => {
@@ -169,7 +170,6 @@ class NotificationsView extends GetView<NotificationsController> {
             })
                 .toList();
 
-            // Filter friend requests where the user is the sender
             final sendRequests = snapshot.data!.data!.data
                 .where((item) => item.sender?.id == userId)
                 .map((item) => {
@@ -182,10 +182,9 @@ class NotificationsView extends GetView<NotificationsController> {
 
             return Column(
               children: [
-                // Friend Requests Section
                 CustomRowHeader(
-                  title: 'Friend_Requests'.tr, // Updated to use translation
-                  subtitle: 'See_All'.tr, // Updated to use translation
+                  title: 'Friend_Requests'.tr,
+                  subtitle: 'See_All'.tr,
                   onTap: () {
                     Get.to(() => FriendRequestView(data: friendRequests));
                   },
@@ -193,26 +192,30 @@ class NotificationsView extends GetView<NotificationsController> {
                 sh8,
                 if (friendRequests.isEmpty)
                   Center(
-                      child: Text('No_Friend_Requests'.tr, // Updated to use translation
+                      child: Text(
+                          'No_Friend_Requests'.tr,
                           style: h5.copyWith(color: AppColors.black)))
                 else
                   ...friendRequests.take(5).map(
                         (item) => CustomListTileWithButton(
                       closeOnPressed: () {
-                        notificationController.updateFriendRequest(item['id']!, 'rejected');
+                        notificationController.updateFriendRequest(
+                            item['id']!, 'rejected');
                       },
                       name: item['name'] ?? 'Unknown',
-                      actionText: 'Confirm'.tr, // Updated to use translation
+                      actionText: 'Confirm'.tr,
                       showCloseButton: true,
                       actionOnPressed: () {
-                        notificationController.updateFriendRequest(item['id']!, 'accepted');
+                        notificationController.updateFriendRequest(
+                            item['id']!, 'accepted');
                       },
                       actionStyle: CustomButton(
                         width: 100,
                         height: 30,
-                        text: 'Confirm'.tr, // Updated to use translation
+                        text: 'Confirm'.tr,
                         onPressed: () {
-                          notificationController.updateFriendRequest(item['id']!, 'accepted');
+                          notificationController.updateFriendRequest(
+                              item['id']!, 'accepted');
                         },
                         borderColor: AppColors.black,
                         backgroundColor: AppColors.white,
@@ -221,12 +224,10 @@ class NotificationsView extends GetView<NotificationsController> {
                       image: item['image'] ?? 'https://via.placeholder.com/150',
                     ),
                   ),
-
-                // Send Requests Section
                 sh12,
                 CustomRowHeader(
-                  title: 'Send_Requests'.tr, // Updated to use translation
-                  subtitle: 'See_All'.tr, // Updated to use translation
+                  title: 'Send_Requests'.tr,
+                  subtitle: 'See_All'.tr,
                   onTap: () {
                     Get.to(() => SendRequestView(data: sendRequests));
                   },
@@ -234,7 +235,8 @@ class NotificationsView extends GetView<NotificationsController> {
                 sh8,
                 if (sendRequests.isEmpty)
                   Center(
-                      child: Text('No_Sent_Requests'.tr, // Updated to use translation
+                      child: Text(
+                          'No_Sent_Requests'.tr,
                           style: h5.copyWith(color: AppColors.black)))
                 else
                   ListView.builder(
@@ -246,16 +248,18 @@ class NotificationsView extends GetView<NotificationsController> {
                       return CustomListTileWithButton(
                         name: item['name']!,
                         image: item['image']!,
-                        actionText: 'Cancel_Request'.tr, // Updated to use translation
+                        actionText: 'Cancel_Request'.tr,
                         actionOnPressed: () {
-                          notificationController.deleteSendRequest(item['id']!);
+                          notificationController
+                              .deleteSendRequest(item['id']!);
                         },
                         actionStyle: CustomButton(
                           width: 165,
                           height: 30,
-                          text: 'Cancel_Request'.tr, // Updated to use translation
+                          text: 'Cancel_Request'.tr,
                           onPressed: () {
-                            notificationController.deleteSendRequest(item['id']!);
+                            notificationController
+                                .deleteSendRequest(item['id']!);
                           },
                           backgroundColor: AppColors.secondaryOrangeColor,
                           textStyle: h3.copyWith(color: AppColors.white),
@@ -263,57 +267,57 @@ class NotificationsView extends GetView<NotificationsController> {
                       );
                     },
                   ),
-
-                // Suggested for You Section
                 sh12,
                 CustomRowHeader(
-                  title: 'Suggested_For_You'.tr, // Updated to use translation
-                  subtitle: 'See_All'.tr, // Updated to use translation
+                  title: 'Suggested_For_You'.tr,
+                  subtitle: 'See_All'.tr,
                   onTap: () {
-                    Get.to(() => SuggestedForYouView(
-                        data: notificationController.friendsSuggestionList
-                            .map((item) => {
-                          'name': item.name ?? 'Unknown',
-                          'image': item.image ?? 'https://via.placeholder.com/150',
-                          'id': item.id ?? '',
-                        })
-                            .toList()));
+                    Get.to(() => SuggestedForYouView());
                   },
                 ),
                 sh8,
                 Obx(() {
                   if (notificationController.isLoading.value) {
-                    return const Center(child: CircularProgressIndicator(color: AppColors.black));
-                  } else if (notificationController.errorMessage.value.isNotEmpty) {
+                    return const Center(
+                        child:
+                        CircularProgressIndicator(color: AppColors.black));
+                  } else if (notificationController
+                      .errorMessage.value.isNotEmpty) {
                     return Center(
                         child: Text(notificationController.errorMessage.value,
                             style: h5.copyWith(color: AppColors.black)));
-                  } else if (notificationController.friendsSuggestionList.isEmpty) {
+                  } else if (notificationController
+                      .friendsSuggestionList.isEmpty) {
                     return Center(
-                        child: Text('No_Friend_Suggestions'.tr, // Updated to use translation
+                        child: Text('No_Friend_Suggestions'.tr,
                             style: h5.copyWith(color: AppColors.black)));
                   } else {
                     return Column(
-                      children: notificationController.friendsSuggestionList.take(5).map(
+                      children: notificationController.friendsSuggestionList
+                          .take(5)
+                          .map(
                             (item) => CustomListTileWithButton(
                           name: item.name ?? 'Unknown',
-                          actionText: 'Add_Friend'.tr, // Updated to use translation
+                          actionText: 'Add_Friend'.tr,
                           actionOnPressed: () {
-                            notificationController.sendFriendRequest(item.id ?? '');
+                            notificationController
+                                .sendFriendRequest(item.id ?? '');
                           },
                           actionStyle: CustomButton(
                             width: 140,
                             height: 30,
-                            text: 'Add_Friend'.tr, // Updated to use translation
+                            text: 'Add_Friend'.tr,
                             onPressed: () {
-                              notificationController.sendFriendRequest(item.id ?? '');
+                              notificationController
+                                  .sendFriendRequest(item.id ?? '');
                             },
                             backgroundColor: AppColors.black,
                             textStyle: h3.copyWith(color: AppColors.white),
                           ),
                           image: item.image ?? 'https://via.placeholder.com/150',
                         ),
-                      ).toList(),
+                      )
+                          .toList(),
                     );
                   }
                 }),
@@ -323,76 +327,79 @@ class NotificationsView extends GetView<NotificationsController> {
             return Column(
               children: [
                 CustomRowHeader(
-                  title: 'Friend_Requests'.tr, // Updated to use translation
-                  subtitle: 'See_All'.tr, // Updated to use translation
+                  title: 'Friend_Requests'.tr,
+                  subtitle: 'See_All'.tr,
                   onTap: () {},
                 ),
                 sh8,
                 Center(
-                    child: Text('No_Friend_Requests'.tr, // Updated to use translation
+                    child: Text(
+                        'No_Friend_Requests'.tr,
                         style: h5.copyWith(color: AppColors.black))),
                 sh12,
                 CustomRowHeader(
-                  title: 'Send_Requests'.tr, // Updated to use translation
-                  subtitle: 'See_All'.tr, // Updated to use translation
+                  title: 'Send_Requests'.tr,
+                  subtitle: 'See_All'.tr,
                   onTap: () {
                     Get.to(() => SendRequestView(data: []));
                   },
                 ),
                 sh8,
                 Center(
-                    child: Text('No_Sent_Requests'.tr, // Updated to use translation
+                    child: Text(
+                        'No_Sent_Requests'.tr,
                         style: h5.copyWith(color: AppColors.black))),
-                // Suggested for You Section
                 sh12,
                 CustomRowHeader(
-                  title: 'Suggested_For_You'.tr, // Updated to use translation
-                  subtitle: 'See_All'.tr, // Updated to use translation
+                  title: 'Suggested_For_You'.tr,
+                  subtitle: 'See_All'.tr,
                   onTap: () {
-                    Get.to(() => SuggestedForYouView(
-                        data: notificationController.friendsSuggestionList
-                            .map((item) => {
-                          'name': item.name ?? 'Unknown',
-                          'image': item.image ?? 'https://via.placeholder.com/150',
-                          'id': item.id ?? '',
-                        })
-                            .toList()));
+                    Get.to(() => SuggestedForYouView());
                   },
                 ),
                 sh8,
                 Obx(() {
                   if (notificationController.isLoading.value) {
-                    return const Center(child: CircularProgressIndicator(color: AppColors.black));
-                  } else if (notificationController.errorMessage.value.isNotEmpty) {
+                    return const Center(
+                        child:
+                        CircularProgressIndicator(color: AppColors.black));
+                  } else if (notificationController
+                      .errorMessage.value.isNotEmpty) {
                     return Center(
                         child: Text(notificationController.errorMessage.value,
                             style: h5.copyWith(color: AppColors.black)));
-                  } else if (notificationController.friendsSuggestionList.isEmpty) {
+                  } else if (notificationController
+                      .friendsSuggestionList.isEmpty) {
                     return Center(
-                        child: Text('No_Friend_Suggestions'.tr, // Updated to use translation
+                        child: Text('No_Friend_Suggestions'.tr,
                             style: h5.copyWith(color: AppColors.black)));
                   } else {
                     return Column(
-                      children: notificationController.friendsSuggestionList.take(5).map(
+                      children: notificationController.friendsSuggestionList
+                          .take(5)
+                          .map(
                             (item) => CustomListTileWithButton(
                           name: item.name ?? 'Unknown',
-                          actionText: 'Add_Friend'.tr, // Updated to use translation
+                          actionText: 'Add_Friend'.tr,
                           actionOnPressed: () {
-                            notificationController.sendFriendRequest(item.id ?? '');
+                            notificationController
+                                .sendFriendRequest(item.id ?? '');
                           },
                           actionStyle: CustomButton(
                             width: 140,
                             height: 30,
-                            text: 'Add_Friend'.tr, // Updated to use translation
+                            text: 'Add_Friend'.tr,
                             onPressed: () {
-                              notificationController.sendFriendRequest(item.id ?? '');
+                              notificationController
+                                  .sendFriendRequest(item.id ?? '');
                             },
                             backgroundColor: AppColors.black,
                             textStyle: h3.copyWith(color: AppColors.white),
                           ),
                           image: item.image ?? 'https://via.placeholder.com/150',
                         ),
-                      ).toList(),
+                      )
+                          .toList(),
                     );
                   }
                 }),
@@ -440,11 +447,12 @@ class NotificationsView extends GetView<NotificationsController> {
                     child: Image.network(
                       notification.image!,
                       fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) => Image.asset(
-                        AppImages.notificationTwo,
-                        color: AppColors.black,
-                        scale: 4,
-                      ),
+                      errorBuilder: (context, error, stackTrace) =>
+                          Image.asset(
+                            AppImages.notificationTwo,
+                            color: AppColors.black,
+                            scale: 4,
+                          ),
                     ),
                   )
                       : Image.asset(
@@ -459,7 +467,7 @@ class NotificationsView extends GetView<NotificationsController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        notification.title ?? 'No_Title'.tr, // Updated to use translation
+                        notification.title ?? 'No_Title'.tr,
                         style: h4.copyWith(
                           color: AppColors.black,
                           fontWeight: FontWeight.bold,
@@ -469,7 +477,7 @@ class NotificationsView extends GetView<NotificationsController> {
                       ),
                       sh5,
                       Text(
-                        notification.body ?? 'No_Description'.tr, // Updated to use translation
+                        notification.body ?? 'No_Description'.tr,
                         style: h5.copyWith(color: AppColors.black),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,

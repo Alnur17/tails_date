@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "681238673880",
+    "project_id": "fir-notification-46641",
+    "storage_bucket": "fir-notification-46641.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:681238673880:android:edc9c93ab463e8c6345aad",
+        "android_client_info": {
+          "package_name": "com.natderwin.tails_date"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWjMt5ZTLfjIgjs4pBbD4jzeYtX9RZde0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:681238673880:android:af05a2eac4366aa6345aad",
+        "android_client_info": {
+          "package_name": "com.stephtomo.stephtomo_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWjMt5ZTLfjIgjs4pBbD4jzeYtX9RZde0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

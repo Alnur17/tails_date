@@ -38,7 +38,7 @@ class _ChatsViewState extends State<ChatsView> {
       });
     });
 
-    socketService.sokect.on('chat-list', (data) {
+    socketService.socket.on('chat-list', (data) {
       print('Socket chat list data received ...............');
       print('Raw data: $data');
       _handleIncomingFriends(data);
@@ -55,10 +55,10 @@ class _ChatsViewState extends State<ChatsView> {
     if (data == null) return;
 
     if (data is List) {
-      socketService.socketFriendtList.clear();
+      socketService.socketFriendList.clear();
       for (var friend in data) {
         if (friend is Map<String, dynamic> && friend['participants'] != null) {
-          socketService.socketFriendtList.add({
+          socketService.socketFriendList.add({
             "receiverId": friend['last_message']['receiver'],
             "name": friend['participants'][1]['name'],
             "profileImage": friend['participants'][1]['image'],
@@ -70,7 +70,7 @@ class _ChatsViewState extends State<ChatsView> {
           });
         }
       }
-      socketService.socketFriendtList.refresh();
+      socketService.socketFriendList.refresh();
     } else if (data is Map<String, dynamic>) {
       final newFriend = {
         "receiverId": data['last_message']['receiver'],
@@ -83,15 +83,15 @@ class _ChatsViewState extends State<ChatsView> {
         "isSeen": data['last_message']['seen'] ?? false,
       };
 
-      final existingIndex = socketService.socketFriendtList
+      final existingIndex = socketService.socketFriendList
           .indexWhere((f) => f['id'] == newFriend['id']);
 
       if (existingIndex != -1) {
-        socketService.socketFriendtList[existingIndex] = newFriend;
+        socketService.socketFriendList[existingIndex] = newFriend;
       } else {
-        socketService.socketFriendtList.add(newFriend);
+        socketService.socketFriendList.add(newFriend);
       }
-      socketService.socketFriendtList.refresh();
+      socketService.socketFriendList.refresh();
     }
   }
 
@@ -109,7 +109,7 @@ class _ChatsViewState extends State<ChatsView> {
       ),
       body: Obx(() {
         // Show loader when data is initially loading
-        if (socketService.socketFriendtList.isEmpty &&
+        if (socketService.socketFriendList.isEmpty &&
             controller.chatsList.isEmpty) {
           return const Center(
             child: CircularProgressIndicator(
@@ -147,7 +147,7 @@ class _ChatsViewState extends State<ChatsView> {
               child: Obx(
                     () {
                   // Filter the active users list based on search input
-                  final activeFilteredFriends = socketService.socketFriendtList
+                  final activeFilteredFriends = socketService.socketFriendList
                       .asMap()
                       .entries
                       .where((entry) {
@@ -231,7 +231,7 @@ class _ChatsViewState extends State<ChatsView> {
               child: Obx(
                     () {
                   // Filter the chat list based on search input
-                  final filteredFriends = socketService.socketFriendtList
+                  final filteredFriends = socketService.socketFriendList
                       .asMap()
                       .entries
                       .where((entry) {

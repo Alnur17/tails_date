@@ -309,7 +309,7 @@ class _EditPostViewState extends State<EditPostView> {
       appBar: AppBar(
         backgroundColor: AppColors.mainColor,
         scrolledUnderElevation: 0,
-        title: const Text('Edit Post'),
+        title: Text('Edit_Post'.tr),
         centerTitle: true,
         leading: GestureDetector(
           onTap: () => Get.back(),
@@ -321,7 +321,7 @@ class _EditPostViewState extends State<EditPostView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Category', style: h3),
+            Text('Category'.tr, style: h3),
             sh8,
             Obx(() {
               if (signupController.isLoading.value) {
@@ -350,7 +350,7 @@ class _EditPostViewState extends State<EditPostView> {
               );
             }),
             sh16,
-            Text('Location', style: h3),
+            Text('Location'.tr, style: h3),
             sh8,
             CustomTextField(
               controller: locationTEController,
@@ -490,7 +490,7 @@ class _EditPostViewState extends State<EditPostView> {
               children: [
                 Expanded(
                   child: CustomButton(
-                    text: 'Cancel',
+                    text: 'Cancel'.tr,
                     onPressed: () => Get.back(),
                     backgroundColor: AppColors.white,
                     textStyle: h3.copyWith(
@@ -502,7 +502,7 @@ class _EditPostViewState extends State<EditPostView> {
                 sw12,
                 Expanded(
                   child: CustomButton(
-                    text: 'Save',
+                    text: 'Save'.tr,
                     onPressed: () {
                       // Find the selected category ID
                       final selectedCategoryId = signupController.categories

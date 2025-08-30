@@ -323,10 +323,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:tails_date/app/modules/chats/controllers/chats_controller.dart';
 import 'package:tails_date/app/modules/chats/views/message_view.dart';
 import 'package:tails_date/app/modules/home/controllers/home_controller.dart';
 import 'package:tails_date/app/modules/profile/controllers/profile_controller.dart';
 import 'package:tails_date/app/modules/profile/views/friends_view.dart';
+import 'package:tails_date/app/modules/profile/views/other_friends_view.dart';
+import 'package:tails_date/app/modules/profile/views/widgets/others_pet_cart.dart';
 import 'package:tails_date/common/app_color/app_colors.dart';
 import 'package:tails_date/common/size_box/custom_sizebox.dart';
 import 'package:tails_date/common/app_images/app_images.dart';
@@ -338,6 +341,7 @@ import '../../../../common/app_constant/app_constant.dart';
 import '../../../../common/helper/local_store.dart';
 import '../../home/views/widgets/home_widgets/user_post_card.dart';
 import 'my_reels_view.dart';
+import 'other_pet_details_view.dart';
 
 class OtherProfileView extends StatefulWidget {
   final String userId;
@@ -356,6 +360,7 @@ class _OtherProfileViewState extends State<OtherProfileView> {
 
   final ProfileController profileController = Get.find<ProfileController>();
   final HomeController homeController = Get.find<HomeController>();
+  final ChatsController chatController = Get.put(ChatsController());
 
   @override
   void initState() {
@@ -493,9 +498,9 @@ class _OtherProfileViewState extends State<OtherProfileView> {
                       child: CustomButton(
                         height: 40,
                         onPressed: () {
-                          Get.to(() => FriendsView());
+                          Get.to(() => OtherFriendsView(userId: widget.userId,));
                         },
-                        text: 'Friends'.tr, // Updated to use translation
+                        text: '${profileController.otherProfileData.value?.data?.totalFriends} Friends',
                         backgroundColor: AppColors.white,
                         borderColor: AppColors.black,
                         textStyle:
@@ -507,7 +512,16 @@ class _OtherProfileViewState extends State<OtherProfileView> {
                       child: CustomButton(
                         height: 40,
                         onPressed: () {
-                          Get.to(() => MessageView());
+                          Get.to(() => MessageView(
+                            userImage: profileController
+                                .otherProfileData.value!.data!.image!,
+                            userName: profileController
+                                .otherProfileData.value!.data?.name ??
+                                'Unknown',
+                            chatId: chatController.chatsList.first.id,
+                            receiverId: profileController.profileData.value?.data?.id,
+                            // receiverId: friend.sender?.id,
+                          ));
                         },
                         text: 'Message'.tr, // Updated to use translation
                       ),
@@ -562,6 +576,39 @@ class _OtherProfileViewState extends State<OtherProfileView> {
                   style: h4,
                 ),
                 sh16,
+                // Others Pet (Conditional Display)
+                if (profileController.otherProfileData.value!.data?.pets != null &&
+                    profileController.otherProfileData.value!.data!.pets.isNotEmpty) ...[
+                  Text(
+                    "Others_Pet".tr,
+                    style: h3,
+                  ),
+                  sh8,
+                  SizedBox(
+                    height: 160,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: profileController.otherProfileData.value!.data?.pets.length,
+                      itemBuilder: (context, index) {
+                        final othersPetData = profileController.otherProfileData.value!.data?.pets[index];
+                        return Padding(
+                          padding: EdgeInsets.only(
+                            left: index == 0 ? 0 : 8,
+                          ),
+                          child: OthersPetCard(
+                            onTap: () {
+                              Get.to(() => OtherPetDetailsView(petId: othersPetData?.id ?? ''));
+                            },
+                            imageUrl: othersPetData?.image ?? AppImages.catProfileImage,
+                            title: othersPetData?.name ?? 'Unknown',
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  sh16,
+                ],
                 // Pet Owner Info
                 Text(
                   'Pet_Owner'.tr, // Updated to use translation

@@ -66,7 +66,7 @@ class _MessageViewState extends State<MessageView> {
     updatereceiverId = widget.receiverId ?? '';
 
     // Listen for incoming messages from the socket
-    socketService.sokect.on('receive-message::$senderId', (data) {
+    socketService.socket.on('receive-message::$senderId', (data) {
       print('Socket data received ...............');
       updatesenderId = data['sender'];
       updatereceiverId = data['receiver'];
@@ -78,7 +78,7 @@ class _MessageViewState extends State<MessageView> {
       }
     });
 
-    socketService.sokect
+    socketService.socket
         .on('chat-list::${LocalStorage.getData(key: AppConstant.userId)}', (data) {
       print('Socket chatlist data received ...............');
       print(data);
@@ -110,8 +110,8 @@ class _MessageViewState extends State<MessageView> {
     // Clean up controllers, socket listeners, and subscription
     messageController.dispose();
     _scrollController.dispose();
-    socketService.sokect.off('receive-message::$senderId');
-    socketService.sokect.off('chat-list::${LocalStorage.getData(key: AppConstant.userId)}');
+    socketService.socket.off('receive-message::$senderId');
+    socketService.socket.off('chat-list::${LocalStorage.getData(key: AppConstant.userId)}');
     messageListSubscription.cancel();
     super.dispose();
   }
@@ -159,7 +159,7 @@ class _MessageViewState extends State<MessageView> {
       // _scrollToEnd called via listen
 
       // Emit the message to the server
-      socketService.sokect.emit('send-message', {
+      socketService.socket.emit('send-message', {
         'sender': senderId,
         'receiver': receiverId,
         'chat': chatId,

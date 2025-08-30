@@ -51,7 +51,7 @@ class ChatsController extends GetxController {
         friendList.addAll(friends.value.data ?? []);
         print('Chat list length AFTER ADD ${friendList.length}');
 
-        socketService.socketFriendtList.clear();
+        socketService.socketFriendList.clear();
 
         for (final friend in friendList) {
           try {
@@ -65,7 +65,7 @@ class ChatsController extends GetxController {
               continue;
             }
 
-            socketService.socketFriendtList.add({
+            socketService.socketFriendList.add({
               "receiverId": friend.lastMessage.first.receiver,
               "name": friend.participants[0].name,
               "profileImage": friend.participants[0].image,
@@ -80,7 +80,7 @@ class ChatsController extends GetxController {
           }
         }
 
-        print("📦 socket friendList length is : ${socketService.socketFriendtList.length}");
+        print("📦 socket friendList length is : ${socketService.socketFriendList.length}");
       } else {
         Get.snackbar('Error', chatModel.message ?? 'Failed to fetch chats');
       }

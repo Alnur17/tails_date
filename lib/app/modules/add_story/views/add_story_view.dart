@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tails_date/common/widgets/custom_loader.dart';
 
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_images/app_images.dart';
@@ -152,7 +153,7 @@ class AddStoryView extends GetView<AddStoryController> {
               sh20,
               Obx(() {
                 return controller.isLoading.value
-                    ? const Center(child: CircularProgressIndicator())
+                    ? CustomLoader(color: AppColors.white)
                     : CustomButton(
                   text: 'Add_Story'.tr,
                   onPressed: controller.selectedImagePath.value.isEmpty

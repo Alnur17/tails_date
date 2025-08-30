@@ -45,6 +45,7 @@ class Api {
   static const  String cashOut = "$baseUrl/cashout-requests";
   static const  String cashOutStatus = "$baseUrl/cashout-requests/my";
   static const  String friends = "$baseUrl/friends";
+  static  String friendsByUserId(String userId) => "$baseUrl/friends/$userId";
   static const  String collections = "$baseUrl/collections";
   static const  String addOrRemoveCollections = "$baseUrl/collections";
   static String othersProfile(String userId) => "$baseUrl/users/single/$userId";

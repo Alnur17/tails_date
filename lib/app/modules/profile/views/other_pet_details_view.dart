@@ -109,7 +109,7 @@ class OtherPetDetailsView extends GetView<OtherPetController> {
                     'Category:',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
-                  Text(pet.category ?? 'Unknown'),
+                  Text(pet.category?.name ?? 'Unknown'),
                 ],
               ),
               Divider(

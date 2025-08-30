@@ -40,7 +40,7 @@ class Data {
   final String? image;
   final String? gender;
   final int? age;
-  final String? category;
+  final Category? category;
   final String? info;
   final DateTime? createdAt;
   final DateTime? updatedAt;
@@ -54,11 +54,29 @@ class Data {
       image: json["image"],
       gender: json["gender"],
       age: json["age"],
-      category: json["category"],
+      category: json["category"] == null ? null : Category.fromJson(json["category"]),
       info: json["info"],
       createdAt: DateTime.tryParse(json["createdAt"] ?? ""),
       updatedAt: DateTime.tryParse(json["updatedAt"] ?? ""),
       v: json["__v"],
+    );
+  }
+
+}
+
+class Category {
+  Category({
+    required this.id,
+    required this.name,
+  });
+
+  final String? id;
+  final String? name;
+
+  factory Category.fromJson(Map<String, dynamic> json){
+    return Category(
+      id: json["_id"],
+      name: json["name"],
     );
   }
 

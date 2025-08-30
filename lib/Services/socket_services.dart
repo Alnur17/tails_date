@@ -17,10 +17,10 @@ class SocketService extends GetxController {
   final _notificationsList = <Map<String, dynamic>>[].obs;
 
   RxList<Map<String, dynamic>> get messageList => _messageList;
-  RxList<Map<String, dynamic>> get socketFriendtList => _socketFriendList;
+  RxList<Map<String, dynamic>> get socketFriendList => _socketFriendList;
   RxList<Map<String, dynamic>> get notificationsList => _notificationsList;
 
-  IO.Socket get sokect => _socket;
+  IO.Socket get socket => _socket;
 
   Future<SocketService> init() async {
     final token = LocalStorage.getData(key: AppConstant.token) ?? '';

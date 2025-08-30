@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../common/app_constant/app_constant.dart';
 import '../../../../common/helper/local_store.dart';
@@ -10,14 +10,43 @@ import '../model/friend_req_model.dart';
 import '../model/notification_model.dart';
 
 class NotificationsController extends GetxController {
+  final searchController = TextEditingController();
   var friendsSuggestionList = <FSuggestionsDatum>[].obs;
+  var filteredFriendsSuggestionList = <FSuggestionsDatum>[].obs; // New filtered list
   var isLoading = false.obs;
   var errorMessage = ''.obs;
 
   RxInt activeTab = 0.obs;
 
+  @override
+  void onInit() {
+    super.onInit();
+    fetchFriendSuggestions();
+    // Add listener to searchController for real-time filtering
+    searchController.addListener(_filterFriends);
+  }
+
+  @override
+  void onClose() {
+    searchController.dispose();
+    super.onClose();
+  }
+
   void toggleTab(int tabIndex) {
     activeTab.value = tabIndex;
+  }
+
+  // Filter friends based on search query
+  void _filterFriends() {
+    final query = searchController.text.toLowerCase();
+    if (query.isEmpty) {
+      filteredFriendsSuggestionList.assignAll(friendsSuggestionList);
+    } else {
+      filteredFriendsSuggestionList.assignAll(
+        friendsSuggestionList.where((friend) =>
+            friend.name!.toLowerCase().contains(query)).toList(),
+      );
+    }
   }
 
   Future<NotificationModel> fetchNotifications() async {
@@ -41,7 +70,6 @@ class NotificationsController extends GetxController {
 
   Future<FriendsReqModel> fetchFriendRequests() async {
     try {
-
       final headers = {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
@@ -80,6 +108,7 @@ class NotificationsController extends GetxController {
         final friendSuggestionsModel = FriendSuggestionsModel.fromJson(result);
         if (friendSuggestionsModel.success == true) {
           friendsSuggestionList.assignAll(friendSuggestionsModel.data);
+          filteredFriendsSuggestionList.assignAll(friendSuggestionsModel.data); // Initialize filtered list
         } else {
           errorMessage.value = friendSuggestionsModel.message ?? 'Failed to load friends';
         }
@@ -107,6 +136,10 @@ class NotificationsController extends GetxController {
 
       await BaseClient.handleResponse(response);
       Get.snackbar("Success", "Friend request sent successfully");
+
+      // After sending a request, fetch updated data
+      await fetchFriendSuggestions();
+      update(); // Force UI refresh
     } catch (e) {
       Get.snackbar("Error", e.toString());
     }
@@ -123,6 +156,7 @@ class NotificationsController extends GetxController {
         "friendRequestId": requestId,
         "status": status,
       });
+
       final response = await BaseClient.patchRequest(
         api: Api.updateFriendsRequests,
         headers: headers,
@@ -132,9 +166,9 @@ class NotificationsController extends GetxController {
       await BaseClient.handleResponse(response);
       Get.snackbar("Success", "Friend request $status successfully");
 
-      // Refresh friend requests after update
-      await fetchFriendRequests();
-      update(); // Update the controller to refresh UI
+      // Fetch updated friend requests and update the UI
+      await fetchFriendRequests(); // This will update the list
+      update(); // Force UI refresh
     } catch (e) {
       Get.snackbar("Error", "Failed to update friend request: $e");
     }
@@ -155,12 +189,11 @@ class NotificationsController extends GetxController {
       await BaseClient.handleResponse(response);
       Get.snackbar("Success", "Friend request deleted successfully");
 
-      // Refresh friend requests after update
+      // Fetch updated friend requests and update the UI
       await fetchFriendRequests();
-      update(); // Update the controller to refresh UI
+      update(); // Force UI refresh
     } catch (e) {
       Get.snackbar("Error", "Failed to update friend request: $e");
     }
   }
-
 }
