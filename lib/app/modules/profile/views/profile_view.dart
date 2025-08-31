@@ -27,7 +27,9 @@ import '../../home/views/widgets/home_widgets/user_post_card.dart';
 import 'edit_post_view.dart';
 
 class ProfileView extends StatefulWidget {
-  const ProfileView({super.key});
+  final bool showBackButton;
+
+  const ProfileView({super.key, this.showBackButton = false});
 
   @override
   State<ProfileView> createState() => _ProfileViewState();
@@ -46,7 +48,9 @@ class _ProfileViewState extends State<ProfileView> {
   @override
   void initState() {
     super.initState();
-    homeController.fetchMyPosts();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      homeController.fetchMyPosts();
+    });
   }
 
   Future<dynamic> generateThumbnail(String videoUrl) async {
@@ -74,7 +78,18 @@ class _ProfileViewState extends State<ProfileView> {
         scrolledUnderElevation: 0,
         backgroundColor: AppColors.mainColor,
         title: Text('Profile_Title'.tr),
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: widget.showBackButton,
+        leading: widget.showBackButton
+            ? GestureDetector(
+                onTap: () {
+                  Get.back();
+                },
+                child: Image.asset(
+                  AppImages.back,
+                  scale: 4,
+                ),
+              )
+            : null,
         actions: [
           GestureDetector(
             onTap: () {
@@ -195,11 +210,12 @@ class _ProfileViewState extends State<ProfileView> {
                                 child: CustomButton(
                                   text: 'Add_More_Pet'.tr,
                                   onPressed: () {
-                                    Get.to(()=> AddMorePetView());
+                                    Get.to(() => AddMorePetView());
                                   },
                                   //height: 40,
                                   backgroundColor: AppColors.fillColorTwo,
-                                  textStyle: h5.copyWith(color: AppColors.secondaryOrangeColor),
+                                  textStyle: h5.copyWith(
+                                      color: AppColors.secondaryOrangeColor),
                                   borderColor: AppColors.red,
                                 ),
                               ),
@@ -362,19 +378,24 @@ class _ProfileViewState extends State<ProfileView> {
                             child: ListView.builder(
                               shrinkWrap: true,
                               scrollDirection: Axis.horizontal,
-                              itemCount: profileController.profileData.value!.data?.pets.length,
+                              itemCount: profileController
+                                  .profileData.value!.data?.pets.length,
                               itemBuilder: (context, index) {
-                                final othersPetData = profileController.profileData.value!.data?.pets[index];
+                                final othersPetData = profileController
+                                    .profileData.value!.data?.pets[index];
                                 return Padding(
                                   padding: EdgeInsets.only(
                                     left: index == 0 ? 0 : 8,
                                   ),
                                   child: OthersPetCard(
                                     onTap: () {
-                                      Get.to(()=> OtherPetDetailsView(petId: othersPetData?.id ?? '',));
+                                      Get.to(() => OtherPetDetailsView(
+                                            petId: othersPetData?.id ?? '',
+                                          ));
                                     },
-                                    imageUrl:  othersPetData?.image ?? AppImages.catProfileImage,
-                                    title:  othersPetData?.name ?? 'Unknown' ,
+                                    imageUrl: othersPetData?.image ??
+                                        AppImages.catProfileImage,
+                                    title: othersPetData?.name ?? 'Unknown',
                                   ),
                                 );
                               },
@@ -563,7 +584,8 @@ class _ProfileViewState extends State<ProfileView> {
                                                         description:
                                                             post.caption ?? '',
                                                         categoryId:
-                                                            post.category ?? '', postId: post.id ?? '',
+                                                            post.category ?? '',
+                                                        postId: post.id ?? '',
                                                       ));
                                                 },
                                               ),

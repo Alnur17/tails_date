@@ -14,6 +14,7 @@ import 'package:tails_date/common/app_images/app_images.dart';
 import 'package:tails_date/common/app_text_style/styles.dart';
 import '../../../../common/app_constant/app_constant.dart';
 import '../../../../common/helper/local_store.dart';
+import '../../profile/views/profile_view.dart';
 import 'category_view.dart';
 
 class HomeView extends StatefulWidget {
@@ -164,9 +165,17 @@ class _HomeViewState extends State<HomeView> {
                           debugPrint(";;;;;;;;;; ${homeController.userId};;;;;;;;");
                         },
                         onOtherProfileTap: () {
-                          print('Navigating to Other Profile with ID: ${post.author?.id}');
-                          if (post.author?.id != null) {
-                            Get.to(() => OtherProfileView(userId: post.author!.id!));
+                          final authorId = post.author?.id;
+                          final currentUserId = LocalStorage.getData(key: AppConstant.userId);
+
+                          print('Navigating to Other Profile with ID: $authorId');
+
+                          if (authorId != null) {
+                            if (authorId != currentUserId) {
+                              Get.to(() => OtherProfileView(userId: authorId));
+                            } else {
+                              Get.to(() => ProfileView(showBackButton: true,));
+                            }
                           } else {
                             Get.snackbar('Error'.tr, 'User_ID_Not_Available'.tr);
                           }
