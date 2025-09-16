@@ -70,8 +70,8 @@ class AppImages {
   //================ Images ==================>
   static const authLogo = "assets/images/auth logo.png";
   static const onboardingOne = "assets/images/onboarding 1.jpg";
-  static const onboardingTwo = "assets/images/onboarding 2.jpg";
-  static const onboardingThree = "assets/images/EearnFinancialRewards.jpg";
+  static const onboardingTwo = "assets/images/onboarding 2.png";
+  static const onboardingThree = "assets/images/EearnFinancialRewards RB.png";
   static const authFlower = "assets/images/auth flower.png";
   static const authHome = "assets/images/auth home back.png";
   static const signInSignUpBackColor = "assets/images/signin or signup background.png";

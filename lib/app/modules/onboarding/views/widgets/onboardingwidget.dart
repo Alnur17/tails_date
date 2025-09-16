@@ -29,8 +29,9 @@ class OnboardingPage extends StatelessWidget {
             child: Image.asset(
               image,
               scale: 4,
-              fit: BoxFit.cover,
-              //width: Get.width,
+              fit: BoxFit.contain,
+              width: Get.width,
+              height: Get.height,
             ),
           ),
           // Positioned(
