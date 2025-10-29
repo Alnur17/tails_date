@@ -31,7 +31,7 @@ class AuthLandingView extends GetView<AuthHomeController> {
             width: Get.width,
           ),
           Container(
-            color: AppColors.black.withOpacity(0.15),
+            color: AppColors.black.withValues(alpha: 0.15),
           ),
           // Positioned(
           //   bottom: 60,
@@ -71,7 +71,7 @@ class AuthLandingView extends GetView<AuthHomeController> {
           //   ),
           // ),
           Positioned(
-            bottom: 10,
+            bottom: 20,
             left: 16,
             right: 16,
             child: Column(

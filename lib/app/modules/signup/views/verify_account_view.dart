@@ -37,7 +37,7 @@ class VerifyAccountView extends GetView<SignupController> {
                 ),
                 Positioned(
                   top: 16,
-                  left: 16,
+                  left: 20,
                   child: GestureDetector(
                       onTap: () {
                         Get.back();
@@ -52,7 +52,7 @@ class VerifyAccountView extends GetView<SignupController> {
             // Form section
             Expanded(
               child: Container(
-                padding: EdgeInsets.only(left: 16, right: 16),
+                padding: EdgeInsets.only(left: 20, right: 20),
                 decoration: BoxDecoration(
                   border: Border(
                     top: BorderSide(
@@ -61,8 +61,8 @@ class VerifyAccountView extends GetView<SignupController> {
                     ),
                   ),
                   borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(40),
-                      topRight: Radius.circular(40)),
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30)),
                   color: AppColors.mainColor,
                 ),
                 child: SingleChildScrollView(

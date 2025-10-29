@@ -36,6 +36,7 @@ class AppTranslations extends Translations {
       'Change_Password': 'Change Password',
       'Privacy_Policy': 'Privacy Policy',
       'Terms_Of_Services': 'Terms of Services',
+      'Terms_And_Condition': 'Terms & Condition',
       'Payment_System': 'Payment System',
       'Star_Balance': 'Star Balance',
       'Collections': 'Collections',
@@ -306,6 +307,7 @@ class AppTranslations extends Translations {
       //signup
       'Fill_Your_Information': 'Fill your information below or register with your social account',
       'Loading_Categories': 'Loading categories...',
+      'Select_Category': 'Select category',
       'By_Agreeing_To_The': 'By agreeing to the ',
       'Enter_Code_Sent_To': 'Please enter the code we just sent to',
       //upload post
@@ -358,6 +360,7 @@ class AppTranslations extends Translations {
       'Change_Password': 'Changer le mot de passe',
       'Privacy_Policy': 'Politique de confidentialité',
       'Terms_Of_Services': 'Conditions d’utilisation',
+      'Terms_And_Condition': 'Conditions générales',
       'Payment_System': 'Système de paiement',
       'Star_Balance': 'Solde d’étoiles',
       'Collections': 'Collections',
@@ -628,6 +631,7 @@ class AppTranslations extends Translations {
       // Signup
       'Fill_Your_Information': 'Remplissez vos informations ci-dessous ou inscrivez-vous avec votre compte social',
       'Loading_Categories': 'Chargement des catégories...',
+      'Select_Category': 'Sélectionner une catégorie',
       'By_Agreeing_To_The': 'En acceptant les ',
       'Enter_Code_Sent_To': 'Veuillez entrer le code que nous venons d’envoyer à',
       // Upload post
@@ -680,6 +684,7 @@ class AppTranslations extends Translations {
       'Change_Password': 'Cambiar contraseña',
       'Privacy_Policy': 'Política de privacidad',
       'Terms_Of_Services': 'Términos de servicio',
+      'Terms_And_Condition': 'Términos y condiciones',
       'Payment_System': 'Sistema de pago',
       'Star_Balance': 'Saldo de estrellas',
       'Collections': 'Colecciones',
@@ -950,6 +955,7 @@ class AppTranslations extends Translations {
       //signup
       'Fill_Your_Information': 'Completa tu información abajo o regístrate con tu cuenta social',
       'Loading_Categories': 'Cargando categorías...',
+      'Select_Category': 'Seleccionar categoría',
       'By_Agreeing_To_The': 'Al aceptar los ',
       'Enter_Code_Sent_To': 'Introduce el código que enviamos a',
       //upload post
@@ -1002,6 +1008,7 @@ class AppTranslations extends Translations {
       'Change_Password': 'Passwort ändern',
       'Privacy_Policy': 'Datenschutzrichtlinie',
       'Terms_Of_Services': 'Nutzungsbedingungen',
+      'Terms_And_Condition': 'Allgemeine Geschäftsbedingungen',
       'Payment_System': 'Zahlungssystem',
       'Star_Balance': 'Stern-Guthaben',
       'Collections': 'Sammlungen',
@@ -1272,6 +1279,7 @@ class AppTranslations extends Translations {
       // Signup
       'Fill_Your_Information': 'Fülle deine Daten aus oder registriere dich mit deinem Social-Media-Konto',
       'Loading_Categories': 'Kategorien werden geladen...',
+      'Select_Category': 'Kategorie auswählen',
       'By_Agreeing_To_The': 'Indem du zustimmst zu ',
       'Enter_Code_Sent_To': 'Bitte gib den Code ein, den wir gerade gesendet haben an',
       // Upload post

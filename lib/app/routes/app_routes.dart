@@ -21,6 +21,7 @@ abstract class Routes {
   static const ADD_STORY = _Paths.ADD_STORY;
   static const PRIVACY_POLICY = _Paths.PRIVACY_POLICY;
   static const TERMS_OF_SERVICES = _Paths.TERMS_OF_SERVICES;
+  static const FREE_TRIAL = _Paths.FREE_TRIAL;
 }
 
 abstract class _Paths {
@@ -43,4 +44,5 @@ abstract class _Paths {
   static const ADD_STORY = '/add-story';
   static const PRIVACY_POLICY = '/privacy-policy';
   static const TERMS_OF_SERVICES = '/terms-of-services';
+  static const FREE_TRIAL = '/free-trial';
 }

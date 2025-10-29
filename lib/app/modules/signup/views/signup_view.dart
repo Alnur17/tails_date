@@ -21,6 +21,7 @@ class SignupView extends StatefulWidget {
 
 class _SignupViewState extends State<SignupView> {
   final SignupController signupController = Get.put(SignupController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,34 +31,17 @@ class _SignupViewState extends State<SignupView> {
           children: [
             Stack(
               children: [
-                Container(
+                SizedBox(
                   height: 350,
                   width: double.infinity,
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                        color: AppColors.black,
-                        width: 4.0,
-                      ),
-                    ),
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(40),
-                      bottomRight: Radius.circular(40),
-                    ),
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(40),
-                        bottomRight: Radius.circular(40)),
-                    child: Image.asset(
-                      AppImages.signUpImage,
-                      fit: BoxFit.cover,
-                    ),
+                  child: Image.asset(
+                    AppImages.signUpImage,
+                    fit: BoxFit.cover,
                   ),
                 ),
                 Positioned(
-                  top: 16,
-                  left: 16,
+                  top: 20,
+                  left: 20,
                   child: GestureDetector(
                     onTap: () {
                       Get.back();
@@ -71,9 +55,21 @@ class _SignupViewState extends State<SignupView> {
               ],
             ),
             Expanded(
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Container(
+                padding: EdgeInsets.only(left: 20, right: 20),
+                decoration: BoxDecoration(
+                  border: Border(
+                    top: BorderSide(
+                      color: AppColors.black,
+                      width: 4.0,
+                    ),
+                  ),
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30)),
+                  color: AppColors.mainColor,
+                ),
+                child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -101,7 +97,7 @@ class _SignupViewState extends State<SignupView> {
                       sh16,
                       CustomTextField(
                         controller: signupController.emailController,
-                        hintText: 'Enter_Your_Email'.tr,
+                        hintText: 'Enter_Email'.tr,
                         preIcon: Image.asset(
                           AppImages.message,
                           scale: 4,
@@ -109,9 +105,9 @@ class _SignupViewState extends State<SignupView> {
                       ),
                       sh16,
                       Obx(
-                            () => CustomTextField(
+                        () => CustomTextField(
                           controller: signupController.passwordController,
-                          hintText: 'Enter_Your_Password'.tr,
+                          hintText: 'Enter_Password'.tr,
                           preIcon: Image.asset(
                             AppImages.lock,
                             scale: 4,
@@ -128,15 +124,15 @@ class _SignupViewState extends State<SignupView> {
                             ),
                           ),
                           obscureText:
-                          !signupController.isPasswordVisible.value,
+                              !signupController.isPasswordVisible.value,
                         ),
                       ),
                       sh16,
                       Obx(
-                            () => CustomTextField(
+                        () => CustomTextField(
                           controller:
-                          signupController.confirmPasswordController,
-                          hintText: 'Confirm_Your_Password'.tr,
+                              signupController.confirmPasswordController,
+                          hintText: 'Confirm_Password'.tr,
                           preIcon: Image.asset(
                             AppImages.lock,
                             scale: 4,
@@ -153,12 +149,12 @@ class _SignupViewState extends State<SignupView> {
                             ),
                           ),
                           obscureText:
-                          !signupController.isPasswordVisible1.value,
+                              !signupController.isPasswordVisible1.value,
                         ),
                       ),
                       sh16,
                       Obx(
-                            () => SizedBox(
+                        () => SizedBox(
                           height: 48,
                           child: DropdownButtonFormField<CategoryData>(
                             decoration: InputDecoration(
@@ -204,7 +200,7 @@ class _SignupViewState extends State<SignupView> {
                       Row(
                         children: [
                           Obx(
-                                () => Checkbox(
+                            () => Checkbox(
                               value: signupController.isCheckboxVisible.value,
                               onChanged: (value) {
                                 signupController.toggleCheckboxVisibility();
@@ -214,32 +210,34 @@ class _SignupViewState extends State<SignupView> {
                           ),
                           Text(
                             'By_Agreeing_To_The'.tr,
-                            style: TextStyle(color: AppColors.black),
+                            style: h5,
                           ),
-                          GestureDetector(
-                            onTap: () {
-                              Get.to(() => TermsOfServicesView());
-                            },
-                            child: Text(
-                              'Terms_And_Condition'.tr,
-                              style: h4.copyWith(
-                                  color: AppColors.secondaryOrangeColor),
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () {
+                                Get.to(() => TermsOfServicesView());
+                              },
+                              child: Text(
+                                'Terms_And_Condition'.tr,
+                                style: h4.copyWith(
+                                    color: AppColors.secondaryOrangeColor),
+                              ),
                             ),
                           ),
                         ],
                       ),
                       sh16,
                       Obx(
-                            () => signupController.isLoading.value
+                        () => signupController.isLoading.value
                             ? CustomLoader(
-                          color: AppColors.white,
-                        )
+                                color: AppColors.white,
+                              )
                             : CustomButton(
-                          text: 'Sign_Up'.tr,
-                          onPressed: () {
-                            signupController.signup();
-                          },
-                        ),
+                                text: 'Sign_Up'.tr,
+                                onPressed: () {
+                                  signupController.signup();
+                                },
+                              ),
                       ),
                       sh16,
                       Center(

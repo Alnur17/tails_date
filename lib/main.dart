@@ -87,9 +87,9 @@ void main() async {
       debugShowCheckedModeBanner: false,
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
-      translations: AppTranslations(), // Set translations
+      translations: AppTranslations(),
       locale: localizationController.getCurrentLocale(),
-      fallbackLocale: const Locale('en', 'US'), // Fallback to English if needed
+      fallbackLocale: const Locale('en', 'US'),
     ),
   );
 }

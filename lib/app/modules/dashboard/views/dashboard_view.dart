@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:tails_date/app/modules/chats/views/chats_view.dart';
 import 'package:tails_date/app/modules/home/views/home_view.dart';
@@ -35,93 +36,100 @@ class _DashboardViewState extends State<DashboardView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _screens[_selectedIndex],
-      bottomNavigationBar: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          BottomAppBar(
-            padding: EdgeInsets.zero,
-            height: 80,
-            color: AppColors.black,
-            child: Row(
-             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onTap: () => _changeTabIndex(0),
-                    child: NavBarItem(
-                      selectedIcon: AppImages.homeFilled,
-                      unselectedIcon: AppImages.home,
-                      label: 'Home'.tr,
-                      isSelected: _selectedIndex == 0,
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: AppColors.transparent,
+      statusBarIconBrightness: Brightness.light,
+      statusBarBrightness: Brightness.light,
+    ));
+    return SafeArea(
+      child: Scaffold(
+        body: _screens[_selectedIndex],
+        bottomNavigationBar: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            BottomAppBar(
+              padding: EdgeInsets.zero,
+              height: 80,
+              color: AppColors.black,
+              child: Row(
+               // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () => _changeTabIndex(0),
+                      child: NavBarItem(
+                        selectedIcon: AppImages.homeFilled,
+                        unselectedIcon: AppImages.home,
+                        label: 'Home'.tr,
+                        isSelected: _selectedIndex == 0,
+                      ),
                     ),
                   ),
-                ),
-                Expanded(
-                  child: GestureDetector(behavior: HitTestBehavior.opaque,
-                    onTap: () => _changeTabIndex(1),
-                    child: NavBarItem(
-                      selectedIcon: AppImages.reelsFilled,
-                      unselectedIcon: AppImages.reels,
-                      label: 'Reels'.tr,
-                      isSelected: _selectedIndex == 1,
+                  Expanded(
+                    child: GestureDetector(behavior: HitTestBehavior.opaque,
+                      onTap: () => _changeTabIndex(1),
+                      child: NavBarItem(
+                        selectedIcon: AppImages.reelsFilled,
+                        unselectedIcon: AppImages.reels,
+                        label: 'Reels'.tr,
+                        isSelected: _selectedIndex == 1,
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(width: Get.width * 0.20),
-                Expanded(
-                  child: GestureDetector(behavior: HitTestBehavior.opaque,
-                    onTap: () => _changeTabIndex(2),
-                    child: NavBarItem(
-                      selectedIcon: AppImages.chatFilled,
-                      unselectedIcon: AppImages.chat,
-                      label: 'Chat'.tr,
-                      isSelected: _selectedIndex == 2,
+                  SizedBox(width: Get.width * 0.20),
+                  Expanded(
+                    child: GestureDetector(behavior: HitTestBehavior.opaque,
+                      onTap: () => _changeTabIndex(2),
+                      child: NavBarItem(
+                        selectedIcon: AppImages.chatFilled,
+                        unselectedIcon: AppImages.chat,
+                        label: 'Chat'.tr,
+                        isSelected: _selectedIndex == 2,
+                      ),
                     ),
                   ),
-                ),
-                Expanded(
-                  child: GestureDetector(behavior: HitTestBehavior.opaque,
-                    onTap: () => _changeTabIndex(3),
-                    child: NavBarItem(
-                      selectedIcon: AppImages.profileFilled,
-                      unselectedIcon: AppImages.profile,
-                      label: 'Profile'.tr,
-                      isSelected: _selectedIndex == 3,
+                  Expanded(
+                    child: GestureDetector(behavior: HitTestBehavior.opaque,
+                      onTap: () => _changeTabIndex(3),
+                      child: NavBarItem(
+                        selectedIcon: AppImages.profileFilled,
+                        unselectedIcon: AppImages.profile,
+                        label: 'Profile'.tr,
+                        isSelected: _selectedIndex == 3,
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          ),
-          Positioned(
-            bottom: 35,
-            left: Get.width * 0.42,
-            child: Container(
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                color: AppColors.black,
-                border: Border(),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(6.0),
-                child: FloatingActionButton(
-                  backgroundColor: AppColors.white,
-                  onPressed: () {
-                    Get.to(() => UploadPostView());
-                  },
-                  shape: const CircleBorder(),
-                  child: Icon(
-                    Icons.add,
-                    size: MediaQuery.of(context).size.width * 0.09,
-                  ),
-                ),
+                ],
               ),
             ),
-          ),
-        ],
+            Positioned(
+              bottom: 35,
+              left: Get.width * 0.42,
+              child: Container(
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: AppColors.black,
+                  border: Border(),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(6.0),
+                  child: FloatingActionButton(
+                    backgroundColor: AppColors.white,
+                    onPressed: () {
+                      Get.to(() => UploadPostView());
+                    },
+                    shape: const CircleBorder(),
+                    child: Icon(
+                      Icons.add,
+                      size: MediaQuery.of(context).size.width * 0.09,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

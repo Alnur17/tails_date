@@ -51,7 +51,7 @@ class _OnboardingViewState extends State<OnboardingView> {
             ],
           ),
           Positioned(
-            bottom: 40,
+            bottom: 50,
             left: 40,
             child: Column(
               children: [
@@ -62,8 +62,8 @@ class _OnboardingViewState extends State<OnboardingView> {
                     dotHeight: 8.0,
                     dotWidth: 8.0,
                     spacing: 16.0,
-                    dotColor: Colors.grey,
-                    activeDotColor: Colors.black,
+                    dotColor: AppColors.grey,
+                    activeDotColor: AppColors.black,
                   ),
                 ),
               ],
@@ -71,7 +71,7 @@ class _OnboardingViewState extends State<OnboardingView> {
           ),
           Positioned(
             right: 40,
-            bottom: 20,
+            bottom: 30,
             child: GestureDetector(
               onTap: () {
                 LocalStorage.saveData(

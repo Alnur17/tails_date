@@ -142,7 +142,7 @@ class _ProfileViewState extends State<ProfileView> {
                                                 .existsSync()
                                             ? FileImage(File(profileController
                                                 .coverImage.value!.path))
-                                            : const AssetImage(
+                                            : const NetworkImage(
                                                     AppImages.groupOfDogs)
                                                 as ImageProvider
                                         : profileController.profileData.value
@@ -153,11 +153,12 @@ class _ProfileViewState extends State<ProfileView> {
                                                 .value!
                                                 .data!
                                                 .coverImage!)
-                                            : const AssetImage(
+                                            : const NetworkImage(
                                                 AppImages.groupOfDogs),
                                     fit: BoxFit.cover,
                                   ),
                                   borderRadius: BorderRadius.circular(16),
+                                  color: AppColors.silver,
                                 ),
                               ),
                               Positioned(
@@ -177,7 +178,7 @@ class _ProfileViewState extends State<ProfileView> {
                                                       .selectedImage
                                                       .value!
                                                       .path))
-                                          : const AssetImage(
+                                          : const NetworkImage(
                                                   AppImages
                                                       .profileImage)
                                               as ImageProvider
@@ -186,7 +187,7 @@ class _ProfileViewState extends State<ProfileView> {
                                               null
                                           ? NetworkImage(profileController
                                               .profileData.value!.data!.image!)
-                                          : const AssetImage(
+                                          : const NetworkImage(
                                               AppImages.profileImage),
                                 ),
                               ),

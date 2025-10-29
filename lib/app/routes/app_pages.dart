@@ -10,6 +10,8 @@ import '../modules/dashboard/bindings/dashboard_binding.dart';
 import '../modules/dashboard/views/dashboard_view.dart';
 import '../modules/forgot_password/bindings/forgot_password_binding.dart';
 import '../modules/forgot_password/views/forgot_password_view.dart';
+import '../modules/free_trial/bindings/free_trial_binding.dart';
+import '../modules/free_trial/views/free_trial_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
@@ -32,6 +34,7 @@ import '../modules/terms_of_services/bindings/terms_of_services_binding.dart';
 import '../modules/terms_of_services/views/terms_of_services_view.dart';
 import '../modules/upload_post/bindings/upload_post_binding.dart';
 import '../modules/upload_post/views/upload_post_view.dart';
+
 part 'app_routes.dart';
 
 class AppPages {
@@ -102,7 +105,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.UPLOAD_POST,
-      page: () =>  UploadPostView(),
+      page: () => UploadPostView(),
       binding: UploadPostBinding(),
     ),
     GetPage(
@@ -119,6 +122,11 @@ class AppPages {
       name: _Paths.TERMS_OF_SERVICES,
       page: () => TermsOfServicesView(),
       binding: TermsOfServicesBinding(),
+    ),
+    GetPage(
+      name: _Paths.FREE_TRIAL,
+      page: () => const FreeTrialView(),
+      binding: FreeTrialBinding(),
     ),
   ];
 }

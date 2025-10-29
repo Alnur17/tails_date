@@ -51,7 +51,7 @@ class LoginView extends GetView<LoginController> {
             // Form section
             Expanded(
               child: Container(
-                padding: EdgeInsets.only(left: 16, right: 16),
+                padding: EdgeInsets.only(left: 20, right: 20),
                 decoration: BoxDecoration(
                   border: Border(
                     top: BorderSide(
@@ -60,8 +60,8 @@ class LoginView extends GetView<LoginController> {
                     ),
                   ),
                   borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(40),
-                      topRight: Radius.circular(40)),
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30)),
                   color: AppColors.mainColor,
                 ),
                 child: SingleChildScrollView(

@@ -33,32 +33,34 @@ class TermsOfServicesView extends StatelessWidget {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
-          child: Obx(() {
-            if (controller.isLoading.value) {
-              return Center(child: CircularProgressIndicator());
-            } else if (controller.errorMessage.isNotEmpty) {
-              return Center(
-                child: Text(
-                  controller.errorMessage.value,
-                  style: h4.copyWith(fontSize: 14, color: AppColors.red),
+      body: Obx(() {
+        if (controller.isLoading.value) {
+          return Center(
+            child: CircularProgressIndicator(
+              color: AppColors.black,
+            ),
+          );
+        } else if (controller.errorMessage.isNotEmpty) {
+          return Center(
+            child: Text(
+              controller.errorMessage.value,
+              style: h4.copyWith(fontSize: 14, color: AppColors.red),
+            ),
+          );
+        } else {
+          return SingleChildScrollView(
+            padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+            child: Html(
+              data: controller.getTermsConditions.value,
+              style: {
+                "*": Style(
+                  backgroundColor: AppColors.mainColor,
                 ),
-              );
-            } else {
-              return Html(
-                data: controller.getTermsConditions.value,
-                style: {
-                  "*": Style(
-                    backgroundColor: AppColors.mainColor,
-                  ),
-                },
-              );
-            }
-          }),
-        ),
-      ),
+              },
+            ),
+          );
+        }
+      }),
     );
   }
 }

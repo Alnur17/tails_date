@@ -1,8 +1,7 @@
 class Api {
   /// base url
-
-  static const baseUrl = "http://206.162.244.133:5002/api/v1";
-  static const socket = "http://206.162.244.133:4002";
+  static const baseUrl = "https://api.tailsdate.com/api/v1";
+  static const socket = "https://socket.tailsdate.com";
 
 
   ///auth
