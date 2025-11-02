@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -28,15 +25,9 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return windows;
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -50,19 +41,51 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDWjMt5ZTLfjIgjs4pBbD4jzeYtX9RZde0',
-    appId: '1:681238673880:android:edc9c93ab463e8c6345aad',
-    messagingSenderId: '681238673880',
-    projectId: 'fir-notification-46641',
-    storageBucket: 'fir-notification-46641.firebasestorage.app',
+    apiKey: 'AIzaSyDffiNTw96YWJg4thExPgMUV13zZVk3LLs',
+    appId: '1:44106493211:android:456b3def54b9ca227737be',
+    messagingSenderId: '44106493211',
+    projectId: 'pet-social-bfa21',
+    storageBucket: 'pet-social-bfa21.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCIy3c0T0gos2r7Q8dB7lwuwckNnZyBlM8',
-    appId: '1:681238673880:ios:30e86f78fb641cf2345aad',
-    messagingSenderId: '681238673880',
-    projectId: 'fir-notification-46641',
-    storageBucket: 'fir-notification-46641.firebasestorage.app',
+    apiKey: 'AIzaSyC7T87Q1KtR7p2YXjcBr2R5nUbhywVLxHM',
+    appId: '1:44106493211:ios:bf2d1424cac58bdf7737be',
+    messagingSenderId: '44106493211',
+    projectId: 'pet-social-bfa21',
+    storageBucket: 'pet-social-bfa21.firebasestorage.app',
+    iosClientId: '44106493211-d9udshkonss3i4bp9a9lfkkvie2rk4eh.apps.googleusercontent.com',
     iosBundleId: 'com.natderwin.tailsDate',
   );
+
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyD1oUNQ_jAuI2yiSmc5JNJp9W5T5eoJpNc',
+    appId: '1:44106493211:web:37e43f2173f543067737be',
+    messagingSenderId: '44106493211',
+    projectId: 'pet-social-bfa21',
+    authDomain: 'pet-social-bfa21.firebaseapp.com',
+    storageBucket: 'pet-social-bfa21.firebasestorage.app',
+    measurementId: 'G-MCRDLVBBMR',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyC7T87Q1KtR7p2YXjcBr2R5nUbhywVLxHM',
+    appId: '1:44106493211:ios:bf2d1424cac58bdf7737be',
+    messagingSenderId: '44106493211',
+    projectId: 'pet-social-bfa21',
+    storageBucket: 'pet-social-bfa21.firebasestorage.app',
+    iosClientId: '44106493211-d9udshkonss3i4bp9a9lfkkvie2rk4eh.apps.googleusercontent.com',
+    iosBundleId: 'com.natderwin.tailsDate',
+  );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyD1oUNQ_jAuI2yiSmc5JNJp9W5T5eoJpNc',
+    appId: '1:44106493211:web:c8346b254ec1fcbe7737be',
+    messagingSenderId: '44106493211',
+    projectId: 'pet-social-bfa21',
+    authDomain: 'pet-social-bfa21.firebaseapp.com',
+    storageBucket: 'pet-social-bfa21.firebasestorage.app',
+    measurementId: 'G-D95T811HH7',
+  );
+
 }

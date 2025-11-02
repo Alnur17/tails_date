@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:tails_date/app/modules/auth_landing/views/auth_landing_view.dart';
-import 'package:tails_date/app/modules/onboarding/views/onboarding_view.dart';
+import 'package:tails_date/app/modules/splash/controllers/splash_controller.dart';
 
 import '../../../../common/app_color/app_colors.dart';
-import '../../../../common/app_constant/app_constant.dart';
 import '../../../../common/app_images/app_images.dart';
-import '../../../../common/helper/local_store.dart';
-import '../../dashboard/views/dashboard_view.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
@@ -18,38 +14,14 @@ class SplashView extends StatefulWidget {
 }
 
 class _SplashViewState extends State<SplashView> {
+  final SplashController splashController = Get.put(SplashController());
+
   @override
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 3), () {
-      return chooseScreen();
+      return splashController.chooseScreen();
     });
-  }
-
-  chooseScreen() {
-    var userToken = LocalStorage.getData(key: AppConstant.token);
-
-    var  onboardingDone = LocalStorage.getData(key: AppConstant.onboardingDone);
-
-    if (userToken != null) {
-      Get.offAll(
-        () => DashboardView(),
-        transition: Transition.rightToLeft,
-      );
-    } else {
-
-      if(onboardingDone != null){
-        Get.offAll(
-              () => AuthLandingView(),
-          transition: Transition.rightToLeft,
-        );
-      }else{
-        Get.offAll(
-              () => OnboardingView(),
-          transition: Transition.rightToLeft,
-        );
-      }
-    }
   }
 
   @override

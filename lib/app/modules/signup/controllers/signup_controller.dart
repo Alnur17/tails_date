@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tails_date/app/modules/login/views/login_view.dart';
+import 'package:tails_date/app/modules/free_trial/views/free_trial_view.dart';
 import 'package:tails_date/app/modules/signup/views/verify_account_view.dart';
 import '../../../../common/app_color/app_colors.dart';
+import '../../../../common/app_constant/app_constant.dart';
+import '../../../../common/helper/local_store.dart';
 import '../../../../common/widgets/custom_snack_bar.dart';
 import '../../../data/api.dart';
 import '../../../data/base_client.dart';
@@ -69,11 +71,14 @@ class SignupController extends GetxController {
     try {
       isLoading.value = true;
 
+      String fcmToken = LocalStorage.getData(key: AppConstant.fcmToken);
+
       final body = {
         'name': petNameController.text.trim(),
         'email': emailController.text.trim(),
         'password': passwordController.text.trim(),
         'category': selectedCategory.value!.name!,
+        'fcm_token': fcmToken,
       };
 
       final headers = {'Content-Type': 'application/json'};
@@ -127,13 +132,19 @@ class SignupController extends GetxController {
 
       final result = await BaseClient.handleResponse(response);
       debugPrint('Verify response: $result');
-
-      kSnackBar(
-        message: result['message']?.toString() ?? 'Verification successful!',
-        bgColor: AppColors.green,
-      );
-
-      Get.offAll(() => LoginView());
+      if (result != null) {
+        final String token = result['data']['accessToken'].toString();
+        LocalStorage.saveData(key: AppConstant.token, data: token);
+        String accessToken = LocalStorage.getData(key: AppConstant.token);
+        debugPrint(accessToken);
+        kSnackBar(
+          message: result['message']?.toString() ?? 'Verification successful!',
+          bgColor: AppColors.green,
+        );
+        Get.offAll(() => FreeTrialView());
+      } else {
+        kSnackBar(message: result['message'], bgColor: AppColors.red);
+      }
     } catch (e, stack) {
       debugPrint('Verification error: $e');
       debugPrint('Stack trace: $stack');

@@ -1,45 +1,36 @@
 {
   "project_info": {
-    "project_number": "681238673880",
-    "project_id": "fir-notification-46641",
-    "storage_bucket": "fir-notification-46641.firebasestorage.app"
+    "project_number": "44106493211",
+    "project_id": "pet-social-bfa21",
+    "storage_bucket": "pet-social-bfa21.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:681238673880:android:edc9c93ab463e8c6345aad",
+        "mobilesdk_app_id": "1:44106493211:android:456b3def54b9ca227737be",
         "android_client_info": {
           "package_name": "com.natderwin.tails_date"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "44106493211-3lvreuersmsb3k0h0lbntju28lchhv14.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyDWjMt5ZTLfjIgjs4pBbD4jzeYtX9RZde0"
+          "current_key": "AIzaSyDffiNTw96YWJg4thExPgMUV13zZVk3LLs"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:681238673880:android:af05a2eac4366aa6345aad",
-        "android_client_info": {
-          "package_name": "com.stephtomo.stephtomo_app"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDWjMt5ZTLfjIgjs4pBbD4jzeYtX9RZde0"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "44106493211-3lvreuersmsb3k0h0lbntju28lchhv14.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

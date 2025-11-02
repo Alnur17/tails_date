@@ -108,12 +108,16 @@ class _ChatsViewState extends State<ChatsView> {
         automaticallyImplyLeading: false,
       ),
       body: Obx(() {
-        // Show loader when data is initially loading
-        if (socketService.socketFriendList.isEmpty &&
-            controller.chatsList.isEmpty) {
+        if (controller.isLoading.value) {
           return const Center(
-            child: CircularProgressIndicator(
-              color: AppColors.black,
+            child: CircularProgressIndicator(color: AppColors.black),
+          );
+        } else if (socketService.socketFriendList.isEmpty &&
+            controller.chatsList.isEmpty) {
+          return Center(
+            child: Text(
+              'No_Chats_Found'.tr,
+              style: h3,
             ),
           );
         }
@@ -124,7 +128,7 @@ class _ChatsViewState extends State<ChatsView> {
             Padding(
               padding: const EdgeInsets.only(left: 16, right: 16),
               child: CustomTextField(
-                controller: searchCtrl, // Attach the search controller
+                controller: searchCtrl,
                 preIcon: Image.asset(
                   AppImages.searchTwo,
                   scale: 4,
@@ -145,7 +149,7 @@ class _ChatsViewState extends State<ChatsView> {
               height: 60,
               width: double.infinity,
               child: Obx(
-                    () {
+                () {
                   // Filter the active users list based on search input
                   final activeFilteredFriends = socketService.socketFriendList
                       .asMap()
@@ -155,8 +159,7 @@ class _ChatsViewState extends State<ChatsView> {
                     final name = friend['name']?.toLowerCase() ?? '';
                     return search.isEmpty ||
                         name.contains(search.toLowerCase());
-                  })
-                      .toList();
+                  }).toList();
 
                   if (activeFilteredFriends.isEmpty) {
                     return Center(
@@ -177,8 +180,9 @@ class _ChatsViewState extends State<ChatsView> {
                       final originalIndex = entry.key;
                       final chat = controller.chatsList[originalIndex];
                       final participant = chat.participants.firstWhere(
-                            (p) => p.id != userId,
-                        orElse: () => Participant(id: null, image: null, name: null),
+                        (p) => p.id != userId,
+                        orElse: () =>
+                            Participant(id: null, image: null, name: null),
                       );
                       if (participant.id == null || participant.id == userId) {
                         return const SizedBox.shrink();
@@ -193,18 +197,18 @@ class _ChatsViewState extends State<ChatsView> {
                               color: AppColors.white,
                               image: participant.image != null
                                   ? DecorationImage(
-                                image: NetworkImage(participant.image!),
-                                fit: BoxFit.cover,
-                              )
+                                      image: NetworkImage(participant.image!),
+                                      fit: BoxFit.cover,
+                                    )
                                   : null,
                             ),
                             child: participant.image == null
                                 ? Center(
-                              child: Text(
-                                participant.name?.substring(0, 1) ?? 'U',
-                                style: h3,
-                              ),
-                            )
+                                    child: Text(
+                                      participant.name?.substring(0, 1) ?? 'U',
+                                      style: h3,
+                                    ),
+                                  )
                                 : null,
                           ),
                           Positioned(
@@ -229,7 +233,7 @@ class _ChatsViewState extends State<ChatsView> {
             sh8,
             Expanded(
               child: Obx(
-                    () {
+                () {
                   // Filter the chat list based on search input
                   final filteredFriends = socketService.socketFriendList
                       .asMap()
@@ -239,8 +243,7 @@ class _ChatsViewState extends State<ChatsView> {
                     final name = friend['name']?.toLowerCase() ?? '';
                     return search.isEmpty ||
                         name.contains(search.toLowerCase());
-                  })
-                      .toList();
+                  }).toList();
 
                   if (filteredFriends.isEmpty) {
                     return Center(
@@ -266,8 +269,9 @@ class _ChatsViewState extends State<ChatsView> {
                       final chat = controller.chatsList[originalIndex];
                       final friend = entry.value;
                       final participant = chat.participants.firstWhere(
-                            (p) => p.id != userId,
-                        orElse: () => Participant(id: null, image: null, name: null),
+                        (p) => p.id != userId,
+                        orElse: () =>
+                            Participant(id: null, image: null, name: null),
                       );
 
                       if (participant.id == null || participant.id == userId) {
@@ -291,9 +295,9 @@ class _ChatsViewState extends State<ChatsView> {
                                 : null,
                             child: participant.image == null
                                 ? Text(
-                              participant.name?.substring(0, 1) ?? 'U',
-                              style: h3,
-                            )
+                                    participant.name?.substring(0, 1) ?? 'U',
+                                    style: h3,
+                                  )
                                 : null,
                           ),
                           title: Text(friend['name'] ?? 'Unknown User'),
@@ -306,11 +310,11 @@ class _ChatsViewState extends State<ChatsView> {
                           trailing: Text(dateFormatter.getTimeIn12HourFormat()),
                           onTap: () {
                             Get.to(() => MessageView(
-                              chatId: chat.id ?? '',
-                              userImage: participant.image ?? '',
-                              userName: participant.name ?? '',
-                              receiverId: lastMessage?.receiver ?? '',
-                            ));
+                                  chatId: chat.id ?? '',
+                                  userImage: participant.image ?? '',
+                                  userName: participant.name ?? '',
+                                  receiverId: lastMessage?.receiver ?? '',
+                                ));
                           },
                         ),
                       );

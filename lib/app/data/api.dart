@@ -92,6 +92,8 @@ class Api {
   static String searchFriendsSuggestions(String quarry) => "$baseUrl/friends/suggestions?fields=$quarry"; //done
 
   ///Subscription Plan
+  static const String checkSubscriptionAccess = "$baseUrl/subscriptions/check-access"; //done
+  static const String freeTrial = "$baseUrl/subscriptions/trial"; //done
   static const String subscriptionPlan = "$baseUrl/subscription-plans"; //done
   static const String myCurrentSubscriptionPlan = "$baseUrl/subscriptions/my"; //done
   static String buySubscriptionPlan(String subscriptionPlanId) => "$baseUrl/payments/create-session-for-subscription?planId=$subscriptionPlanId"; //done

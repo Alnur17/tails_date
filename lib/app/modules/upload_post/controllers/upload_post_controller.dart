@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tails_date/app/modules/dashboard/views/dashboard_view.dart';
 import 'package:tails_date/common/app_constant/app_constant.dart';
 import 'package:video_player/video_player.dart';
 import 'package:image_picker/image_picker.dart';
@@ -135,7 +134,7 @@ class UploadPostController extends GetxController {
     return true;
   }
 
-  Future<void> postContent() async {
+  Future<void> postContent(BuildContext context) async {
     if (!validateInput()) return;
 
     isLoading.value = true;
@@ -168,7 +167,10 @@ class UploadPostController extends GetxController {
 
         if (data != null) {
           Get.snackbar('Success', 'Reel uploaded successfully!');
-          await Get.offAll(()=> DashboardView());
+          //await Get.offAll(()=> DashboardView());
+          if (Navigator.canPop(context)) {
+            Navigator.pop(context);
+          }
         }
       } else {
         var request = http.MultipartRequest('POST', Uri.parse(Api.createPost));
@@ -198,7 +200,10 @@ class UploadPostController extends GetxController {
 
         if (data != null) {
           Get.snackbar('Success', 'Post uploaded successfully!');
-          await Get.offAll(()=> DashboardView());
+          if (Navigator.canPop(context)) {
+            Navigator.pop(context);
+          }
+
         }
       }
 

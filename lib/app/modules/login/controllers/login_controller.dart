@@ -39,9 +39,12 @@ class LoginController extends GetxController {
     try {
       isLoading.value = true;
 
+      String fcmToken = LocalStorage.getData(key: AppConstant.fcmToken);
+
       var body = {
         'email': emailController.text.trim(),
         'password': passwordController.text.trim(),
+        'fcm_token': fcmToken,
       };
 
       var headers = {

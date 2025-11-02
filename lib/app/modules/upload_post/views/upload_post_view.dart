@@ -594,7 +594,7 @@ class UploadPostView extends StatelessWidget {
                     : CustomButton(
                   text: 'Upload'.tr,
                   onPressed: () {
-                    controller.postContent();
+                    controller.postContent(context);
                     print('Upload Button click');
                   },
                 ),
