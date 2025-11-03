@@ -122,7 +122,7 @@ class _DashboardViewState extends State<DashboardView> {
                     shape: const CircleBorder(),
                     child: Icon(
                       Icons.add,
-                      size: MediaQuery.of(context).size.width * 0.09,
+                      color: AppColors.black,
                     ),
                   ),
                 ),

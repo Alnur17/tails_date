@@ -55,30 +55,50 @@ class ChatsController extends GetxController {
 
         for (final friend in friendList) {
           try {
-            if (friend.lastMessage.isEmpty) {
-              print("⚠ Skipping chat ${friend.id}, no last message");
-              continue;
-            }
+            final hasMessage = friend.lastMessage.isNotEmpty;
+            final lastMsg = hasMessage ? friend.lastMessage.first : null;
 
-            if (friend.participants.length < 2) {
-              print("⚠ Skipping chat ${friend.id}, not enough participants");
-              continue;
-            }
+            if (friend.participants.length < 2) continue;
 
             socketService.socketFriendList.add({
-              "receiverId": friend.lastMessage.first.receiver,
+              "receiverId": lastMsg?.receiver ?? '',
               "name": friend.participants[0].name,
               "profileImage": friend.participants[0].image,
-              "lastMessage": friend.lastMessage.first.text ?? '',
-              "lastMessageTime": friend.lastMessage.first.createdAt ?? DateTime.now(),
-              "isSeen": friend.lastMessage.first.seen ?? false,
+              "lastMessage": lastMsg?.text ?? '',
+              "lastMessageTime": lastMsg?.createdAt ?? DateTime.now(),
+              "isSeen": lastMsg?.seen ?? false,
             });
-
-            print("✅ Added chat ${friend.id}");
           } catch (e) {
             print("❌ Error processing chat ${friend.id}: $e");
           }
         }
+
+        // for (final friend in friendList) {
+        //   try {
+        //     if (friend.lastMessage.isEmpty) {
+        //       print("⚠ Skipping chat ${friend.id}, no last message");
+        //       continue;
+        //     }
+        //
+        //     if (friend.participants.length < 2) {
+        //       print("⚠ Skipping chat ${friend.id}, not enough participants");
+        //       continue;
+        //     }
+        //
+        //     socketService.socketFriendList.add({
+        //       "receiverId": friend.lastMessage.first.receiver,
+        //       "name": friend.participants[0].name,
+        //       "profileImage": friend.participants[0].image,
+        //       "lastMessage": friend.lastMessage.first.text ?? '',
+        //       "lastMessageTime": friend.lastMessage.first.createdAt ?? DateTime.now(),
+        //       "isSeen": friend.lastMessage.first.seen ?? false,
+        //     });
+        //
+        //     print("✅ Added chat ${friend.id}");
+        //   } catch (e) {
+        //     print("❌ Error processing chat ${friend.id}: $e");
+        //   }
+        // }
 
         print("📦 socket friendList length is : ${socketService.socketFriendList.length}");
       } else {

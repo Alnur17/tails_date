@@ -51,14 +51,25 @@ class _MessageViewState extends State<MessageView> {
     super.initState();
     // Initialize senderId and socket connection
     senderId = LocalStorage.getData(key: AppConstant.userId) ?? '';
+    // if (widget.chatId != null) {
+    //   print('Sender ID: $senderId');
+    //   print('Receiver ID: ${widget.receiverId}');
+    //   socketService.messageList.clear(); // Clear previous messages for new chat
+    //   controller.fetchMessageBody(widget.chatId!).then((_) {
+    //     WidgetsBinding.instance.addPostFrameCallback((_) {
+    //       _scrollToEnd();
+    //     });
+    //   });
+    // }
+
     if (widget.chatId != null) {
-      print('Sender ID: $senderId');
-      print('Receiver ID: ${widget.receiverId}');
-      socketService.messageList.clear(); // Clear previous messages for new chat
-      controller.fetchMessageBody(widget.chatId!).then((_) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          _scrollToEnd();
-        });
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        print('Sender ID: $senderId');
+        print('Receiver ID: ${widget.receiverId}');
+        socketService.messageList.clear();
+
+        await controller.fetchMessageBody(widget.chatId!);
+        _scrollToEnd();
       });
     }
     socketService.init(); // Initialize the socket connection
@@ -208,6 +219,9 @@ class _MessageViewState extends State<MessageView> {
         ),
         leading: GestureDetector(
           onTap: () {
+            if (Get.isSnackbarOpen) {
+              Get.closeCurrentSnackbar();
+            }
             Get.back();
           },
           child: Image.asset(
