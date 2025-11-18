@@ -29,6 +29,13 @@
             {
               "client_id": "44106493211-3lvreuersmsb3k0h0lbntju28lchhv14.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "44106493211-d9udshkonss3i4bp9a9lfkkvie2rk4eh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.natderwin.tailsDate"
+              }
             }
           ]
         }
