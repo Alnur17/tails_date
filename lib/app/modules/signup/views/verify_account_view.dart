@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/Get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:tails_date/app/modules/forgot_password/controllers/forgot_password_controller.dart';
 import 'package:tails_date/app/modules/signup/controllers/signup_controller.dart';
 import 'package:tails_date/common/widgets/custom_loader.dart';
 import '../../../../common/app_color/app_colors.dart';
@@ -19,6 +20,7 @@ class VerifyAccountView extends GetView<SignupController> {
   @override
   Widget build(BuildContext context) {
     final SignupController signupController = Get.put(SignupController());
+    final ForgotPasswordController forgotPasswordController = Get.put(ForgotPasswordController());
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       body: SafeArea(
@@ -99,7 +101,7 @@ class VerifyAccountView extends GetView<SignupController> {
                           selectedColor: AppColors.mainColor,
                           selectedFillColor: AppColors.greyLight,
                           fieldOuterPadding:
-                          EdgeInsets.symmetric(horizontal: 2),
+                              EdgeInsets.symmetric(horizontal: 2),
                         ),
                         animationDuration: const Duration(milliseconds: 300),
                         backgroundColor: AppColors.transparent,
@@ -117,27 +119,54 @@ class VerifyAccountView extends GetView<SignupController> {
                       sh24,
                       Text(
                         'Didnt_Receive_OTP'.tr,
-                        style: h4.copyWith(),
-                      ),
-                      GestureDetector(
-                        onTap: () {},
-                        child: Text(
-                          'Resend_Code'.tr,
-                          style: h4.copyWith(
-                            color: AppColors.secondaryOrangeColor,
-                          ),
+                        style: h4.copyWith(
+                          color: AppColors.secondaryOrangeColor
                         ),
                       ),
-                      sh16,
+                      // GestureDetector(
+                      //   onTap: () {},
+                      //   child: Text(
+                      //     'Resend_Code'.tr,
+                      //     style: h4.copyWith(
+                      //       color: AppColors.secondaryOrangeColor,
+                      //     ),
+                      //   ),
+                      // ),
+                      sh8,
+                      Obx(() {
+                        return forgotPasswordController.isLoading.value
+                            ? CircularProgressIndicator(color: AppColors.black)
+                            : forgotPasswordController.countdown.value > 0
+                            ? Text(
+                          'Resend code in ${forgotPasswordController.countdown.value}s',
+                          style: h3,
+                        )
+                            : GestureDetector(
+                          behavior: HitTestBehavior.translucent,
+                          onTap: () {
+                            forgotPasswordController
+                                .forgotPassword(email: email);
+                          },
+                          child: Text(
+                            'Resend code',
+                            style: h4.copyWith(
+                              color: AppColors.black,
+                              decoration: TextDecoration.underline,
+                              decorationColor: AppColors.mainColor,
+                            ),
+                          ),
+                        );
+                      }),
+                      sh30,
                       Obx(
-                            () => signupController.isLoading.value
+                        () => signupController.isLoading.value
                             ? CustomLoader(color: AppColors.white)
                             : CustomButton(
-                          text: 'Verify'.tr,
-                          onPressed: () {
-                            signupController.accountVerification(email);
-                          },
-                        ),
+                                text: 'Verify'.tr,
+                                onPressed: () {
+                                  signupController.accountVerification(email);
+                                },
+                              ),
                       ),
                       sh16,
                     ],
