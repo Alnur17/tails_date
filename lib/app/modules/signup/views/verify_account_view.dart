@@ -134,18 +134,18 @@ class VerifyAccountView extends GetView<SignupController> {
                       // ),
                       sh8,
                       Obx(() {
-                        return forgotPasswordController.isLoading.value
+                        return signupController.isLoading.value
                             ? CircularProgressIndicator(color: AppColors.black)
-                            : forgotPasswordController.countdown.value > 0
+                            : signupController.countdown.value > 0
                             ? Text(
-                          'Resend code in ${forgotPasswordController.countdown.value}s',
+                          'Resend code in ${signupController.countdown.value}s',
                           style: h3,
                         )
                             : GestureDetector(
                           behavior: HitTestBehavior.translucent,
                           onTap: () {
-                            forgotPasswordController
-                                .forgotPassword(email: email);
+                            signupController
+                                .forgotPasswordFromSignUp(email: email);
                           },
                           child: Text(
                             'Resend code',

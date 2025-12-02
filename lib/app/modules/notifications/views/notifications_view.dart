@@ -26,7 +26,7 @@ class NotificationsView extends GetView<NotificationsController> {
     final notificationController = Get.put(NotificationsController());
 
     // Trigger fetchFriendSuggestions when the view is built
-    notificationController.fetchFriendSuggestions();
+   // notificationController.fetchFriendSuggestions();
 
     return Scaffold(
       backgroundColor: AppColors.mainColor,

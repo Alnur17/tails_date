@@ -78,7 +78,7 @@ class VerifyOtpView extends GetView {
                       ),
                       sh8,
                       Text(
-                        'Enter_Code_Instruction'.trParams({'0': email}),
+                        'Please enter the code we just sent to $email',
                         style: h4.copyWith(color: Colors.grey[700]),
                         textAlign: TextAlign.center,
                       ),
@@ -131,29 +131,25 @@ class VerifyOtpView extends GetView {
                       //   ),
                       // ),
                       Obx(() {
-                        return forgotPasswordController.countdown.value > 0
+                        return forgotPasswordController.isLoading.value
+                            ? CircularProgressIndicator(color: AppColors.black)
+                            : forgotPasswordController.countdown.value > 0
                             ? Text(
-                          'Resend_Code_In'.trParams(
-                              {'0': forgotPasswordController.countdown.value.toString()}),
+                          'Resend code in ${forgotPasswordController.countdown.value}s',
                           style: h3,
                         )
                             : GestureDetector(
-                          onTap:
-                          forgotPasswordController.countdown.value ==
-                              0
-                              ? () {
+                          behavior: HitTestBehavior.translucent,
+                          onTap: () {
                             forgotPasswordController
                                 .forgotPassword(email: email);
-                          }
-                              : null,
+                          },
                           child: Text(
-                            'Resend_Code'.tr,
+                            'Resend code',
                             style: h4.copyWith(
                               color: AppColors.black,
                               decoration: TextDecoration.underline,
                               decorationColor: AppColors.mainColor,
-                              decorationThickness: 2,
-                              decorationStyle: TextDecorationStyle.dashed,
                             ),
                           ),
                         );

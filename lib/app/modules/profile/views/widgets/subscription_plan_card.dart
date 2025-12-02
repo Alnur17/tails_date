@@ -19,7 +19,7 @@ class SubscriptionPlanCard extends StatelessWidget {
   final String? expiryDate;
   final int? remainingDays;
   final bool isCurrentPlan;
-  final String buttonText; // New parameter for button text
+  final String buttonText;
 
   const SubscriptionPlanCard({
     super.key,
@@ -28,7 +28,7 @@ class SubscriptionPlanCard extends StatelessWidget {
     required this.price,
     required this.description,
     required this.onSubscribe,
-    required this.buttonText, // Make buttonText required
+    required this.buttonText,
     this.containerColor,
     this.buttonColor,
     this.buttonTextColor,
@@ -76,7 +76,7 @@ class SubscriptionPlanCard extends StatelessWidget {
             ),
             sh8,
             Text(
-              'Remaining_Days_Prefix'.tr + '$remainingDays ' + 'Days_Suffix'.tr, // Updated to use translation
+              '${'Remaining_Days_Prefix'.tr}$remainingDays ${'Days_Suffix'.tr}', // Updated to use translation
               style: h3.copyWith(color: Colors.red),
             ),
           ],

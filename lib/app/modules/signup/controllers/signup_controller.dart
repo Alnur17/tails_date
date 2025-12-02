@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -19,6 +20,8 @@ class SignupController extends GetxController {
   var categories = <CategoryData>[].obs;
   var selectedCategory = Rxn<CategoryData>();
 
+  Rx<int> countdown = 59.obs;
+
   final petNameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -31,7 +34,21 @@ class SignupController extends GetxController {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       fetchCategories();
     });
+    startCountdown();
   }
+
+
+  // Countdown timer logic
+  void startCountdown() {
+    Timer.periodic(Duration(seconds: 1), (timer) {
+      if (countdown.value > 0) {
+        countdown.value--;
+      } else {
+        timer.cancel();
+      }
+    });
+  }
+
 
   void togglePasswordVisibility() => isPasswordVisible.toggle();
   void togglePasswordVisibility1() => isPasswordVisible1.toggle();
@@ -104,6 +121,42 @@ class SignupController extends GetxController {
       kSnackBar(message: e.toString(), bgColor: AppColors.orange);
     } finally {
       isLoading.value = false;
+    }
+  }
+
+  ///forgot Password Controller
+  Future forgotPasswordFromSignUp({
+    required String email,
+  }) async {
+    try {
+      isLoading(true);
+      var map = <String, dynamic>{};
+      map['email'] = email;
+
+      var headers = {
+        'Content-Type': 'application/json',
+      };
+      dynamic responseBody = await BaseClient.handleResponse(
+        await BaseClient.postRequest(
+            api: Api.forgotPassword,
+            body: jsonEncode(map),
+            headers: headers
+        ),
+      );
+
+      if (responseBody != null) {
+        String message = responseBody['message'].toString();
+        kSnackBar(message: message, bgColor: AppColors.green);
+        Get.to(() => VerifyAccountView(email),transition: Transition.fade);
+
+        isLoading(false);
+      } else {
+        throw 'forgot in Failed!';
+      }
+    } catch (e) {
+      debugPrint("Catch Error:::::: $e");
+    } finally {
+      isLoading(false);
     }
   }
 

@@ -14,23 +14,18 @@ import 'common/localization/localization_controller.dart';
 import 'firebase_options.dart';
 
 void main() async {
-  // Ensure the widget binding is initialized for async operations
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  // Initialize GetStorage
   await GetStorage.init();
 
-  // Initialize LocalizationController before GetMaterialApp
   final localizationController = Get.put(LocalizationController());
 
-  // Wait for saved language to load
   await localizationController.loadSavedLanguage();
 
-  // Initialize SocketService
   final SocketService socketService = Get.put(SocketService());
   await socketService.init();
 

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tails_date/app/modules/home/views/home_view.dart';
 import 'package:tails_date/common/app_constant/app_constant.dart';
 import 'package:video_player/video_player.dart';
 import 'package:image_picker/image_picker.dart';
@@ -12,6 +13,8 @@ import 'package:tails_date/app/data/api.dart';
 import 'package:tails_date/app/data/base_client.dart';
 import 'package:tails_date/common/helper/local_store.dart';
 import 'package:tails_date/app/modules/home/controllers/home_controller.dart';
+
+import '../../dashboard/views/dashboard_view.dart';
 
 class UploadPostController extends GetxController {
   final selectedImages = <File>[].obs;
@@ -167,7 +170,8 @@ class UploadPostController extends GetxController {
 
         if (data != null) {
           Get.snackbar('Success', 'Reel uploaded successfully!');
-          //await Get.offAll(()=> DashboardView());
+          homeController.fetchPosts();
+          homeController.fetchMyPosts();
           if (Navigator.canPop(context)) {
             Navigator.pop(context);
           }
@@ -200,6 +204,8 @@ class UploadPostController extends GetxController {
 
         if (data != null) {
           Get.snackbar('Success', 'Post uploaded successfully!');
+          homeController.fetchPosts();
+          homeController.fetchMyPosts();
           if (Navigator.canPop(context)) {
             Navigator.pop(context);
           }

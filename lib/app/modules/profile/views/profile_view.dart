@@ -154,7 +154,7 @@ class _ProfileViewState extends State<ProfileView> {
                                                 .data!
                                                 .coverImage!)
                                             : const NetworkImage(
-                                                AppImages.groupOfDogs),
+                                                AppImages.imageNotAvailable),
                                     fit: BoxFit.cover,
                                   ),
                                   borderRadius: BorderRadius.circular(16),
@@ -180,7 +180,7 @@ class _ProfileViewState extends State<ProfileView> {
                                                       .path))
                                           : const NetworkImage(
                                                   AppImages
-                                                      .profileImage)
+                                                      .imageNotAvailable)
                                               as ImageProvider
                                       : profileController.profileData.value
                                                   ?.data?.image !=
@@ -188,7 +188,7 @@ class _ProfileViewState extends State<ProfileView> {
                                           ? NetworkImage(profileController
                                               .profileData.value!.data!.image!)
                                           : const NetworkImage(
-                                              AppImages.profileImage),
+                                              AppImages.imageNotAvailable),
                                 ),
                               ),
                             ],
@@ -553,8 +553,7 @@ class _ProfileViewState extends State<ProfileView> {
                             homeController.myPosts.isEmpty
                                 ? Center(
                                     child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 32),
+                                      padding: const EdgeInsets.only(bottom: 32),
                                       child: Image.asset(AppImages.profileBack,
                                           scale: 4),
                                     ),

@@ -26,6 +26,7 @@ class Data {
     required this.v,
     required this.createdAt,
     required this.endDate,
+    required this.isTrial,
     required this.plan,
     required this.startDate,
     required this.status,
@@ -37,6 +38,7 @@ class Data {
   final int? v;
   final DateTime? createdAt;
   final String? endDate;
+  final bool? isTrial;
   final Plan? plan;
   final DateTime? startDate;
   final String? status;
@@ -49,6 +51,7 @@ class Data {
       v: json["__v"],
       createdAt: DateTime.tryParse(json["createdAt"] ?? ""),
       endDate: json["end_date"],
+      isTrial: json["is_trial"],
       plan: json["plan"] == null ? null : Plan.fromJson(json["plan"]),
       startDate: DateTime.tryParse(json["start_date"] ?? ""),
       status: json["status"],
