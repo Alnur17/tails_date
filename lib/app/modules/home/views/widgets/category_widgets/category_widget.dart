@@ -2,24 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../../../common/app_text_style/styles.dart';
-import '../../category_view.dart';
 
 class CategoryWidget extends StatelessWidget {
+  final String? categoryId;
   final String name;
   final String backImage;
+  final VoidCallback onTap;
 
   const CategoryWidget({
     super.key,
+    required this.categoryId,
     required this.name,
-    required this.backImage,
+    required this.backImage, required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Get.to(() => CategoryView(categoryName: name));
-      },
+      onTap: onTap,
       child: Padding(
         padding: const EdgeInsets.only(left: 16, top: 8, bottom: 16),
         child: Container(

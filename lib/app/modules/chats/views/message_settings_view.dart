@@ -1,9 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
-
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_images/app_images.dart';
 import '../../../../common/app_text_style/styles.dart';
@@ -11,8 +9,17 @@ import '../../../../common/size_box/custom_sizebox.dart';
 import '../../../../common/widgets/custom_list_tile.dart';
 import '../controllers/message_settings_controller.dart';
 
-class MessageSettingsView extends GetView<MessageSettingsController> {
-  const MessageSettingsView({super.key});
+class MessageSettingsView extends StatefulWidget {
+  final String? userName;
+  final String? userImage;
+  const MessageSettingsView({super.key, this.userName, this.userImage});
+
+  @override
+  State<MessageSettingsView> createState() => _MessageSettingsViewState();
+}
+
+class _MessageSettingsViewState extends State<MessageSettingsView> {
+  final MessageSettingsController controller = Get.put(MessageSettingsController());
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +29,7 @@ class MessageSettingsView extends GetView<MessageSettingsController> {
       appBar: AppBar(
         backgroundColor: AppColors.mainColor,
         title: Text(
-          'Message Settings',
+          'Message_Settings'.tr,
           style: h2,
         ),
         centerTitle: true,
@@ -30,26 +37,26 @@ class MessageSettingsView extends GetView<MessageSettingsController> {
           onTap: () {
             Get.back();
           },
-          child: Image.asset(AppImages.back,scale: 4,),
+          child: Image.asset(AppImages.back, scale: 4,),
         ),
       ),
       body: SingleChildScrollView(
         child: Container(
           margin: EdgeInsets.all(16),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(24),
-            color: AppColors.white
+              borderRadius: BorderRadius.circular(24),
+              color: AppColors.white
           ),
           child: Column(
             children: [
               sh20,
-              const CircleAvatar(
+              CircleAvatar(
                 radius: 85,
-                backgroundImage: NetworkImage(AppImages.profileImage),
+                backgroundImage: NetworkImage(widget.userImage ?? AppImages.profileImage),
               ),
               sh24,
               Text(
-                'Saiteja Pagadala',
+                widget.userName ?? 'Unknown',
                 style: h3.copyWith(
                   fontSize: 22,
                 ),
@@ -59,7 +66,7 @@ class MessageSettingsView extends GetView<MessageSettingsController> {
                     () {
                   return CustomListTile(
                     leadingImage: AppImages.unMute,
-                    title: 'Mute Notification',
+                    title: 'Mute_Notification'.tr,
                     titleStyle: h3,
                     isSwitch: true,
                     switchValue: controller.isNotificationMuted.value,
@@ -69,7 +76,7 @@ class MessageSettingsView extends GetView<MessageSettingsController> {
               ),
               CustomListTile(
                 leadingImage: AppImages.logout,
-                title: 'Block',
+                title: 'Block'.tr,
                 titleStyle: h3.copyWith(color: AppColors.secondaryOrangeColor),
                 onTap: () => log('Block'),
               ),

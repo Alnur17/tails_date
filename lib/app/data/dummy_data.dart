@@ -98,6 +98,7 @@ class DummyData {
 
   static final List<Map<String, dynamic>> posts = [
     {
+      "id": "1",
       "userName": "Gultush",
       "location": "Florida, USA",
       "profileImage":
@@ -110,6 +111,7 @@ class DummyData {
       "likeCount": 5,
     },
     {
+      "id": "2",
       "userName": "Bella",
       "location": "New York, USA",
       "profileImage":
@@ -123,6 +125,7 @@ class DummyData {
       "likeCount": 22,
     },
     {
+      "id": "3",
       "userName": "Charlie",
       "location": "London, UK",
       "profileImage":
@@ -137,6 +140,7 @@ class DummyData {
       "likeCount": 45,
     },
     {
+      "id": "4",
       "userName": "Daisy",
       "location": "Toronto, Canada",
       "profileImage":
@@ -152,6 +156,7 @@ class DummyData {
       "likeCount": 30,
     },
     {
+      "id": "5",
       "userName": "Rocky",
       "location": "Sydney, Australia",
       "profileImage":

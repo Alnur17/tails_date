@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
+import 'package:tails_date/app/modules/login/views/login_view.dart';
 import 'package:tails_date/app/modules/privacy_policy/views/privacy_policy_view.dart';
 import 'package:tails_date/app/modules/profile/views/change_password_view.dart';
 import 'package:tails_date/app/modules/profile/views/collections_view.dart';
@@ -9,22 +9,42 @@ import 'package:tails_date/app/modules/profile/views/subscription_plan_view.dart
 import 'package:tails_date/app/modules/terms_of_services/views/terms_of_services_view.dart';
 import 'package:tails_date/common/app_color/app_colors.dart';
 import 'package:tails_date/common/app_text_style/styles.dart';
-
+import '../../../../common/app_constant/app_constant.dart';
 import '../../../../common/app_images/app_images.dart';
+import '../../../../common/helper/local_store.dart';
+import '../../../../common/localization/localization_controller.dart';
 import '../../../../common/size_box/custom_sizebox.dart';
 import '../../../../common/widgets/custom_container.dart';
+import '../controllers/profile_controller.dart';
 
-class ProfileSettingView extends GetView {
-  const ProfileSettingView({super.key});
+class ProfileSettingView extends StatefulWidget {
+  final String profileImage;
+  final String name;
+  final String location;
+
+  const ProfileSettingView(
+      {super.key,
+        required this.profileImage,
+        required this.name,
+        required this.location});
+
+  @override
+  State<ProfileSettingView> createState() => _ProfileSettingViewState();
+}
+
+class _ProfileSettingViewState extends State<ProfileSettingView> {
+  final ProfileController profileController = Get.put(ProfileController());
 
   @override
   Widget build(BuildContext context) {
+    final LocalizationController localizationController = Get.find<LocalizationController>();
+
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       appBar: AppBar(
         scrolledUnderElevation: 0,
         backgroundColor: AppColors.mainColor,
-        title: const Text('Profile Setting'),
+        title: Text('Profile_Setting_Title'.tr),
         centerTitle: true,
         leading: GestureDetector(
           onTap: () {
@@ -43,9 +63,9 @@ class ProfileSettingView extends GetView {
               leading: CircleAvatar(
                 radius: 25,
                 backgroundColor: AppColors.white,
-                backgroundImage: NetworkImage(AppImages.catProfileImage),
+                backgroundImage: NetworkImage(widget.profileImage),
               ),
-              title: Text('Piku_The_King'),
+              title: Text(widget.name),
               subtitle: Row(
                 children: [
                   Image.asset(
@@ -53,7 +73,7 @@ class ProfileSettingView extends GetView {
                     scale: 4,
                   ),
                   sw12,
-                  Text('23/1-A, Florida, USA.')
+                  Text(widget.location)
                 ],
               ),
             ),
@@ -64,7 +84,7 @@ class ProfileSettingView extends GetView {
                 child: Column(
                   children: [
                     CustomContainer(
-                      text: 'Change Password',
+                      text: 'Change_Password'.tr,
                       imagePath: AppImages.unLock,
                       onTap: () {
                         Get.to(() => ChangePasswordView());
@@ -75,7 +95,7 @@ class ProfileSettingView extends GetView {
                       onTap: () {
                         Get.to(() => PrivacyPolicyView());
                       },
-                      text: 'Privacy Policy',
+                      text: 'Privacy_Policy'.tr,
                       imagePath: AppImages.adminSettings,
                     ),
                     sh16,
@@ -83,7 +103,7 @@ class ProfileSettingView extends GetView {
                       onTap: () {
                         Get.to(() => TermsOfServicesView());
                       },
-                      text: 'Terms of Services',
+                      text: 'Terms_Of_Services'.tr,
                       imagePath: AppImages.adminSettings,
                     ),
                     sh16,
@@ -91,15 +111,19 @@ class ProfileSettingView extends GetView {
                       onTap: () {
                         Get.to(() => SubscriptionPlanView());
                       },
-                      text: 'Payment System',
+                      text: 'Payment_System'.tr,
                       imagePath: AppImages.payment,
                     ),
                     sh16,
                     CustomContainer(
                       onTap: () {
-                        Get.to(() => StarBalanceView());
+                        Get.to(() => StarBalanceView(
+                          starBalance: profileController
+                              .profileData.value?.data?.starBalance ??
+                              0,
+                        ));
                       },
-                      text: 'Star Balance',
+                      text: 'Star_Balance'.tr,
                       imagePath: AppImages.star,
                     ),
                     sh16,
@@ -107,7 +131,7 @@ class ProfileSettingView extends GetView {
                       onTap: () {
                         Get.to(() => CollectionsView());
                       },
-                      text: 'Collections',
+                      text: 'Collections'.tr,
                       imagePath: AppImages.bookmark,
                     ),
                     sh16,
@@ -121,22 +145,87 @@ class ProfileSettingView extends GetView {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('App Language', style: h3),
+                              Text('App_Language'.tr, style: h3),
                               Image.asset(AppImages.language, scale: 4),
                             ],
                           ),
                           sh8,
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Image.asset(AppImages.checkBoxFilled, scale: 4),
-                              sw12,
-                              Text('English', style: h4),
-                              sw16,
-                              Image.asset(AppImages.checkBox, scale: 4),
-                              sw12,
-                              Text('Spanish', style: h4),
-                            ],
+                          Obx(
+                                () => Column(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    localizationController.changeLanguage('English');
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Image.asset(
+                                        localizationController.selectedLanguage.value == 'English'
+                                            ? AppImages.checkBoxFilled
+                                            : AppImages.checkBox,
+                                        scale: 4,
+                                      ),
+                                      sw12,
+                                      Text('English', style: h4),
+                                    ],
+                                  ),
+                                ),
+                                sh8,
+                                GestureDetector(
+                                  onTap: () {
+                                    localizationController.changeLanguage('Spanish');
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Image.asset(
+                                        localizationController.selectedLanguage.value == 'Spanish'
+                                            ? AppImages.checkBoxFilled
+                                            : AppImages.checkBox,
+                                        scale: 4,
+                                      ),
+                                      sw12,
+                                      Text('Spanish', style: h4),
+                                    ],
+                                  ),
+                                ),
+                                sh8,
+                                GestureDetector(
+                                  onTap: () {
+                                    localizationController.changeLanguage('French');
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Image.asset(
+                                        localizationController.selectedLanguage.value == 'French'
+                                            ? AppImages.checkBoxFilled
+                                            : AppImages.checkBox,
+                                        scale: 4,
+                                      ),
+                                      sw12,
+                                      Text('French', style: h4),
+                                    ],
+                                  ),
+                                ),
+                                sh8,
+                                GestureDetector(
+                                  onTap: () {
+                                    localizationController.changeLanguage('German');
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Image.asset(
+                                        localizationController.selectedLanguage.value == 'German'
+                                            ? AppImages.checkBoxFilled
+                                            : AppImages.checkBox,
+                                        scale: 4,
+                                      ),
+                                      sw12,
+                                      Text('German', style: h4),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -146,13 +235,16 @@ class ProfileSettingView extends GetView {
                       onTap: () {
                         showDeleteAccountDialog(context);
                       },
-                      text: 'Delete Account',
+                      text: 'Delete_Account'.tr,
                       imagePath: AppImages.accountDelete,
                     ),
                     sh16,
                     CustomContainer(
-                      onTap: () {},
-                      text: 'Log out',
+                      onTap: () {
+                        LocalStorage.removeData(key: AppConstant.token);
+                        Get.offAll(() => LoginView());
+                      },
+                      text: 'Log_Out'.tr,
                       textStyle: h3.copyWith(
                         color: AppColors.red,
                       ),
@@ -162,7 +254,7 @@ class ProfileSettingView extends GetView {
                 ),
               ),
             ),
-            sh16,
+            sh60,
           ],
         ),
       ),
@@ -171,7 +263,7 @@ class ProfileSettingView extends GetView {
 
   Future showDeleteAccountDialog(BuildContext context) {
     return Get.defaultDialog(
-      title: "Delete Your Account",
+      title: "Delete_Account_Dialog_Title".tr,
       titlePadding: EdgeInsets.only(top: 16),
       backgroundColor: AppColors.white,
       radius: 8,
@@ -181,7 +273,7 @@ class ProfileSettingView extends GetView {
           Padding(
             padding: const EdgeInsets.only(left: 16, right: 16),
             child: Text(
-              "Are you sure you want to delete your account?",
+              "Delete_Account_Dialog_Content".tr,
               style: h4.copyWith(
                 fontSize: 18,
               ),
@@ -198,7 +290,7 @@ class ProfileSettingView extends GetView {
                   backgroundColor: AppColors.white,
                   side: BorderSide(color: AppColors.red),
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 45, vertical: 10),
+                  const EdgeInsets.symmetric(horizontal: 45, vertical: 10),
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.vertical(
                       top: Radius.circular(4),
@@ -207,17 +299,19 @@ class ProfileSettingView extends GetView {
                   ),
                 ),
                 child: Text(
-                  "Cancel",
+                  "Cancel".tr,
                   style: h2.copyWith(fontSize: 12, color: AppColors.red),
                 ),
               ),
               sw10,
               OutlinedButton(
-                onPressed: () {},
+                onPressed: () {
+                  profileController.deleteAccount();
+                },
                 style: OutlinedButton.styleFrom(
                   backgroundColor: AppColors.red,
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 45, vertical: 10), // Box-like padding
+                      horizontal: 45, vertical: 10),
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.vertical(
                       top: Radius.circular(4),
@@ -227,7 +321,7 @@ class ProfileSettingView extends GetView {
                   side: BorderSide.none,
                 ),
                 child: Text(
-                  "Delete",
+                  "Delete".tr,
                   style: h2.copyWith(fontSize: 12, color: AppColors.white),
                 ),
               ),

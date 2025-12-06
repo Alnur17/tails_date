@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:tails_date/app/modules/dashboard/views/dashboard_view.dart';
 import 'package:tails_date/app/modules/onboarding/views/widgets/onboardingwidget.dart';
 import 'package:tails_date/common/app_color/app_colors.dart';
 import 'package:tails_date/common/app_images/app_images.dart';
-
+import '../../../../common/app_constant/app_constant.dart';
+import '../../../../common/helper/local_store.dart';
 import '../../auth_landing/views/auth_landing_view.dart';
 
 class OnboardingView extends StatefulWidget {
@@ -30,29 +29,29 @@ class _OnboardingViewState extends State<OnboardingView> {
             children: [
               OnboardingPage(
                 image: AppImages.onboardingOne,
-                title: "Create Memories Meet New Friends",
-                subtitle:
-                    "Connect with fellow pet lovers in your area, \nChat, arrange Tailsdates.",
-                highlightedText: ["Memories", "New"],
+                title: 'Onboarding_One_Title'.tr,
+                subtitle: 'Onboarding_One_Subtitle'.tr,
+                highlightedText: [
+                  'Onboarding_One_Highlight_Memories'.tr,
+                  'Onboarding_One_Highlight_New'.tr,
+                ],
               ),
               OnboardingPage(
                 image: AppImages.onboardingTwo,
-                title: "Let’s Make Your Pet A Star!",
-                subtitle:
-                    "Snap, share and shine – Turn every moment, wag, purr and cuddle in to a story worth telling.",
-                highlightedText: ["Make"],
+                title: 'Onboarding_Two_Title'.tr,
+                subtitle: 'Onboarding_Two_Subtitle'.tr,
+                highlightedText: ['Onboarding_Two_Highlight_Make'.tr],
               ),
               OnboardingPage(
                 image: AppImages.onboardingThree,
-                title: "Earn Financial \n Rewards",
-                subtitle:
-                    "Receive recognition and monetary benefits for your pet photography.",
-                highlightedText: ["Financial"],
+                title: 'Onboarding_Three_Title'.tr,
+                subtitle: 'Onboarding_Three_Subtitle'.tr,
+                highlightedText: ['Onboarding_Three_Highlight_Financial'.tr],
               ),
             ],
           ),
           Positioned(
-            bottom: 40,
+            bottom: 50,
             left: 40,
             child: Column(
               children: [
@@ -63,8 +62,8 @@ class _OnboardingViewState extends State<OnboardingView> {
                     dotHeight: 8.0,
                     dotWidth: 8.0,
                     spacing: 16.0,
-                    dotColor: Colors.grey,
-                    activeDotColor: Colors.black,
+                    dotColor: AppColors.grey,
+                    activeDotColor: AppColors.black,
                   ),
                 ),
               ],
@@ -72,9 +71,11 @@ class _OnboardingViewState extends State<OnboardingView> {
           ),
           Positioned(
             right: 40,
-            bottom: 20,
+            bottom: 30,
             child: GestureDetector(
               onTap: () {
+                LocalStorage.saveData(
+                    key: AppConstant.onboardingDone, data: "onboardingDone");
                 if (_pageController.page != null) {
                   final nextPage = (_pageController.page! + 1).toInt();
                   if (nextPage < 3) {
@@ -106,10 +107,12 @@ class _OnboardingViewState extends State<OnboardingView> {
             right: 16,
             child: TextButton(
               onPressed: () {
-                Get.to(() => DashboardView());
+                LocalStorage.saveData(
+                    key: AppConstant.onboardingDone, data: "onboardingDone");
+                Get.to(() => AuthLandingView());
               },
               child: Text(
-                "Skip",
+                'Skip'.tr,
                 style: TextStyle(color: AppColors.black),
               ),
             ),

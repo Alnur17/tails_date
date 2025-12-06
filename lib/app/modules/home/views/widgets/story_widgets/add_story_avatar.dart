@@ -65,20 +65,10 @@ class _AddStoryAvatarState extends State<AddStoryAvatar> {
         ),
         sh8,
         Text(
-          'Your Story',
+          'Your_Story'.tr,
           style: h7.copyWith(fontWeight: FontWeight.w700),
         ),
       ],
     );
   }
-
-  // Future<void> _pickMedia() async {
-  //   final ImagePicker picker = ImagePicker();
-  //   final XFile? media = await picker.pickImage(source: ImageSource.gallery);
-  //   if (media != null) {
-  //     setState(() {
-  //       _selectedMediaPath = media.path;
-  //     });
-  //   }
-  // }
 }

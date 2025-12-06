@@ -2,6 +2,7 @@ class AppImages {
   //================ Icons ==================>
   static const splashLogo = "assets/icons/LOGO.png";
   static const arrowRight = "assets/icons/Arrow - Right.png";
+  static const arrowCircleRight = "assets/icons/arrow-circle-right.png";
   static const arrowDown = "assets/icons/arrow-down.png";
   static const arrowRightTwo = "assets/icons/arrow right 2.png";
   static const checkBox = "assets/icons/Checbox container.png";
@@ -25,7 +26,9 @@ class AppImages {
   static const search = "assets/icons/search.png";
   static const searchTwo = "assets/icons/search 2.png";
   static const bookmark = "assets/icons/bookmark.png";
+  static const bookmarkFilled = "assets/icons/bookmark filled.png";
   static const heart = "assets/icons/heart.png";
+  static const heartFilled = "assets/icons/heart filled.png";
   static const location = "assets/icons/location.png";
   static const share = "assets/icons/share.png";
   static const star = "assets/icons/star.png";
@@ -66,11 +69,9 @@ class AppImages {
 
   //================ Images ==================>
   static const authLogo = "assets/images/auth logo.png";
-  static const onboardingOne = "assets/images/onboarding 1.jpg";
-  static const onboardingTwo = "assets/images/onboarding 2.jpg";
-  static const onboardingThree = "assets/images/EearnFinancialRewards.png";
-  static const onboardingBackOne = "assets/images/onboarding background 1.png";
-  static const onboardingBackTwo = "assets/images/onboarding background 2.png";
+  static const onboardingOne = "assets/images/onboarding 1.png";
+  static const onboardingTwo = "assets/images/onboarding 2.png";
+  static const onboardingThree = "assets/images/onboarding 3.png";
   static const authFlower = "assets/images/auth flower.png";
   static const authHome = "assets/images/auth home back.png";
   static const signInSignUpBackColor = "assets/images/signin or signup background.png";
@@ -81,6 +82,9 @@ class AppImages {
   static const verifyCodeImage = "assets/images/verify.png";
   static const groupImage = "assets/images/groupImage.png";
   static const starImage = "assets/images/star image.png";
+  static const notFound = "assets/images/not found image.png";
+  static const paymentSuccess = "assets/images/payment success.png";
+  static const profileBack = "assets/images/profile back.png";
 
 
   static const catProfileImage = 'https://images.pexels.com/photos/45201/kitty-cat-kitten-pet-45201.jpeg?auto=compress&cs=tinysrgb&w=600';

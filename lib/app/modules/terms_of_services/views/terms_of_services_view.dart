@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-
-import 'package:get/get.dart';
-
+import 'package:flutter_html/flutter_html.dart';
+import 'package:get/Get.dart';
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_images/app_images.dart';
 import '../../../../common/app_text_style/styles.dart';
-import '../../../../common/const_text/const_text.dart';
-import '../../../../common/size_box/custom_sizebox.dart';
-import '../controllers/terms_of_services_controller.dart';
+import '../../profile/controllers/conditions_controller.dart';
 
-class TermsOfServicesView extends GetView<TermsOfServicesController> {
-  const TermsOfServicesView({super.key});
+class TermsOfServicesView extends StatelessWidget {
+  TermsOfServicesView({super.key});
+
+  final ConditionsController controller = Get.put(ConditionsController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +18,10 @@ class TermsOfServicesView extends GetView<TermsOfServicesController> {
       appBar: AppBar(
         backgroundColor: AppColors.mainColor,
         scrolledUnderElevation: 0,
-        title: Text('Terms of Services',style: titleStyle,),
+        title: Text(
+          'Terms_Of_Services'.tr,
+          style: titleStyle,
+        ),
         centerTitle: true,
         leading: GestureDetector(
           onTap: () {
@@ -30,56 +33,34 @@ class TermsOfServicesView extends GetView<TermsOfServicesController> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              sh30,
-              // Text(
-              //   'Terms & Conditions',
-              //   style: h2,
-              // ),
-              // sh24,
-              Text(
-                termsIntroduction,
-                style: h4.copyWith(
-                  fontSize: 14,
+      body: Obx(() {
+        if (controller.isLoading.value) {
+          return Center(
+            child: CircularProgressIndicator(
+              color: AppColors.black,
+            ),
+          );
+        } else if (controller.errorMessage.isNotEmpty) {
+          return Center(
+            child: Text(
+              controller.errorMessage.value,
+              style: h4.copyWith(fontSize: 14, color: AppColors.red),
+            ),
+          );
+        } else {
+          return SingleChildScrollView(
+            padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+            child: Html(
+              data: controller.getTermsConditions.value,
+              style: {
+                "*": Style(
+                  backgroundColor: AppColors.mainColor,
                 ),
-              ),
-              sh24,
-              Text(
-                termsIntroduction,
-                style: h4.copyWith(
-                  fontSize: 14,
-                ),
-              ),
-              sh24,
-              Text(
-                termsIntroduction,
-                style: h4.copyWith(
-                  fontSize: 14,
-                ),
-              ),
-              sh24,
-              Text(
-                termsIntroduction,
-                style: h4.copyWith(
-                  fontSize: 14,
-                ),
-              ),
-              sh24,
-              Text(
-                termsIntroduction,
-                style: h4.copyWith(
-                  fontSize: 14,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+              },
+            ),
+          );
+        }
+      }),
     );
   }
 }

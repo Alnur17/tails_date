@@ -1,6 +1,7 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
+import 'package:tails_date/common/widgets/custom_loader.dart';
 
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_images/app_images.dart';
@@ -10,20 +11,20 @@ import '../../../../common/widgets/custom_button.dart';
 import '../../../../common/widgets/custom_textfield.dart';
 import '../controllers/add_story_controller.dart';
 
-import 'dart:io';
-
 class AddStoryView extends GetView<AddStoryController> {
   const AddStoryView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(AddStoryController());
+    final TextEditingController captionController = TextEditingController();
+    final AddStoryController controller = Get.put(AddStoryController());
+
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       appBar: AppBar(
         backgroundColor: AppColors.mainColor,
         scrolledUnderElevation: 0,
-        title: const Text('Add Story'),
+        title: Text('Add_Story'.tr),
         centerTitle: true,
         leading: GestureDetector(
           onTap: () {
@@ -44,6 +45,7 @@ class AddStoryView extends GetView<AddStoryController> {
               Obx(() {
                 if (controller.selectedImagePath.value.isEmpty) {
                   return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Expanded(
                         child: GestureDetector(
@@ -51,6 +53,7 @@ class AddStoryView extends GetView<AddStoryController> {
                             await controller.pickImageFromCamera();
                           },
                           child: Container(
+                            padding: const EdgeInsets.all(8),
                             height: 150,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
@@ -60,15 +63,9 @@ class AddStoryView extends GetView<AddStoryController> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Image.asset(
-                                  AppImages.camera,
-                                  scale: 4,
-                                ),
+                                Image.asset(AppImages.camera, scale: 4),
                                 sw8,
-                                Text(
-                                  'Use a camera',
-                                  style: h4,
-                                ),
+                                Text('Use_Camera'.tr, style: h4, textAlign: TextAlign.center),
                               ],
                             ),
                           ),
@@ -81,6 +78,7 @@ class AddStoryView extends GetView<AddStoryController> {
                             await controller.pickImageFromGallery();
                           },
                           child: Container(
+                            padding: const EdgeInsets.all(8),
                             height: 150,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
@@ -90,15 +88,9 @@ class AddStoryView extends GetView<AddStoryController> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Image.asset(
-                                  AppImages.gallery,
-                                  scale: 4,
-                                ),
+                                Image.asset(AppImages.gallery, scale: 4),
                                 sw8,
-                                Text(
-                                  'Choose from Gallery sasdas',
-                                  style: h4,
-                                ),
+                                Text('Choose_From_Gallery'.tr, style: h4, textAlign: TextAlign.center),
                               ],
                             ),
                           ),
@@ -131,6 +123,7 @@ class AddStoryView extends GetView<AddStoryController> {
                         child: GestureDetector(
                           onTap: () {
                             controller.selectedImagePath.value = '';
+                            captionController.clear();
                           },
                           child: Container(
                             height: 30,
@@ -139,11 +132,7 @@ class AddStoryView extends GetView<AddStoryController> {
                               color: AppColors.black.withOpacity(0.6),
                               shape: BoxShape.circle,
                             ),
-                            child: Icon(
-                              Icons.close,
-                              color: AppColors.white,
-                              size: 20,
-                            ),
+                            child: Icon(Icons.close, color: AppColors.white, size: 20),
                           ),
                         ),
                       ),
@@ -152,24 +141,33 @@ class AddStoryView extends GetView<AddStoryController> {
                 }
               }),
               sh16,
-              Text(
-                'Write something here',
-                style: h3,
-              ),
+              Text('Write_Something'.tr, style: h3),
               sh8,
               CustomTextField(
                 height: 250,
                 borderColor: AppColors.black,
+                controller: captionController,
+                hintText: 'Enter_Caption'.tr,
+                //maxLines: 5,
               ),
               sh20,
-              CustomButton(
-                text: 'Add Story',
-                onPressed: () {
-                  if (controller.selectedImagePath.value.isNotEmpty) {
-                    Get.back(result: controller.selectedImagePath.value);
-                  }
-                },
-              ),
+              Obx(() {
+                return controller.isLoading.value
+                    ? CustomLoader(color: AppColors.white)
+                    : CustomButton(
+                  text: 'Add_Story'.tr,
+                  onPressed: controller.selectedImagePath.value.isEmpty
+                      ? () {} // Disable button if no image is selected
+                      : () async {
+                    await controller.createStory(
+                      mediaPath: controller.selectedImagePath.value,
+                      caption: captionController.text,
+                      context: context,
+                    );
+                    print("Caption : ${captionController.text}");
+                  },
+                );
+              }),
               sh30,
             ],
           ),

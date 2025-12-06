@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tails_date/app/data/dummy_data.dart';
+import 'package:get/get.dart';
 
+import '../../../controllers/story_controller.dart';
 import '../story_widgets/add_story_avatar.dart';
 import '../story_widgets/story_avatar.dart';
 
@@ -9,28 +10,39 @@ class StoriesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Padding(
-        padding: const EdgeInsets.only(left: 16, right: 16,top: 16),
-        child: Row(
-          children: [
-            const Padding(
-              padding: EdgeInsets.only(right: 8.0),
-              child: AddStoryAvatar(),
-            ),
-            ...List.generate(DummyData.stories.length, (index) {
-              final story = DummyData.stories[index];
-              return Padding(
-                padding: EdgeInsets.only(
-                  right: index == DummyData.stories.length - 1 ? 0 : 8.0, // No padding for the last item
-                ),
-                child: StoryAvatar(story: story),
-              );
-            }),
-          ],
+    final StoryController controller = Get.put(StoryController());
+
+    return Obx(() {
+      return SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
+          child: Row(
+            children: [
+              const Padding(
+                padding: EdgeInsets.only(right: 8.0),
+                child: AddStoryAvatar(),
+              ),
+              if (controller.storyAuthors.value == null ||
+                  controller.storyAuthors.value!.data.isEmpty)
+                const Padding(
+                  padding: EdgeInsets.only(right: 8.0),
+                  child: SizedBox.shrink(),
+                )
+              else
+                ...List.generate(controller.storyAuthors.value!.data.length, (index) {
+                  final story = controller.storyAuthors.value!.data[index];
+                  return Padding(
+                    padding: EdgeInsets.only(
+                      right: index == controller.storyAuthors.value!.data.length - 1 ? 0 : 8.0,
+                    ),
+                    child: StoryAvatar(story: story, controller: controller),
+                  );
+                }),
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 }

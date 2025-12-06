@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_images/app_images.dart';
 import '../../../../common/app_text_style/styles.dart';
-import '../../../../common/const_text/const_text.dart';
-import '../../../../common/size_box/custom_sizebox.dart';
+import '../../profile/controllers/conditions_controller.dart';
 
-class PrivacyPolicyView extends StatelessWidget{
-  const PrivacyPolicyView({super.key});
+class PrivacyPolicyView extends StatelessWidget {
+  PrivacyPolicyView({super.key});
+
+  final ConditionsController controller = Get.put(ConditionsController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,7 +19,10 @@ class PrivacyPolicyView extends StatelessWidget{
       appBar: AppBar(
         scrolledUnderElevation: 0,
         backgroundColor: AppColors.mainColor,
-        title: Text('Privacy Policy',style: titleStyle,),
+        title: Text(
+          'Privacy_Policy'.tr, // Updated to use translation
+          style: titleStyle,
+        ),
         centerTitle: true,
         leading: GestureDetector(
           onTap: () {
@@ -29,55 +34,34 @@ class PrivacyPolicyView extends StatelessWidget{
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 16,right: 16,bottom: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              sh30,
-              // Text(
-              //   'Privacy Policy',
-              //   style: h2,
-              // ),
-              // sh24,
-              Text(
-                policyIntroduction,
-                style: h4.copyWith(
-                  fontSize: 14,
+      body: Obx(() {
+        if (controller.isLoading.value) {
+          return Center(
+            child: CircularProgressIndicator(
+              color: AppColors.black,
+            ),
+          );
+        } else if (controller.errorMessage.isNotEmpty) {
+          return Center(
+            child: Text(
+              controller.errorMessage.value,
+              style: h4.copyWith(fontSize: 14, color: AppColors.red),
+            ),
+          );
+        } else {
+          return SingleChildScrollView(
+            padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+            child: Html(
+              data: controller.getPrivacyPolicy.value, // Render HTML content
+              style: {
+                "*": Style(
+                  backgroundColor: AppColors.mainColor,
                 ),
-              ),
-              sh24,
-              Text(
-                policyIntroduction,
-                style: h4.copyWith(
-                  fontSize: 14,
-                ),
-              ),
-              sh24,
-              Text(
-                policyIntroduction,
-                style: h4.copyWith(
-                  fontSize: 14,
-                ),
-              ),
-              sh24,
-              Text(
-                policyIntroduction,
-                style: h4.copyWith(
-                  fontSize: 14,
-                ),
-              ), sh24,
-              Text(
-                policyIntroduction,
-                style: h4.copyWith(
-                  fontSize: 14,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+              },
+            ),
+          );
+        }
+      }),
     );
   }
 }

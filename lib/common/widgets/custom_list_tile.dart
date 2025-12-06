@@ -33,8 +33,7 @@ class CustomListTile extends StatelessWidget {
       leading: Image.asset(leadingImage,scale: 4,),
       title: Row(
         children: [
-          Text(title, style: titleStyle),
-          const Spacer(),
+          Expanded(child: Text(title, style: titleStyle,overflow: TextOverflow.ellipsis,)),
           if (rightText != null) Text(rightText!, style: h3),
         ],
       ),

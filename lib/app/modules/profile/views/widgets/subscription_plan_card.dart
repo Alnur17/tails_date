@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart'; // Added import for GetX translation
 import 'package:tails_date/common/size_box/custom_sizebox.dart';
-
 import '../../../../../common/app_color/app_colors.dart';
 import '../../../../../common/app_text_style/styles.dart';
 import '../../../../../common/widgets/custom_button.dart';
@@ -19,7 +19,7 @@ class SubscriptionPlanCard extends StatelessWidget {
   final String? expiryDate;
   final int? remainingDays;
   final bool isCurrentPlan;
-  final String buttonText; // New parameter for button text
+  final String buttonText;
 
   const SubscriptionPlanCard({
     super.key,
@@ -28,7 +28,7 @@ class SubscriptionPlanCard extends StatelessWidget {
     required this.price,
     required this.description,
     required this.onSubscribe,
-    required this.buttonText, // Make buttonText required
+    required this.buttonText,
     this.containerColor,
     this.buttonColor,
     this.buttonTextColor,
@@ -71,12 +71,12 @@ class SubscriptionPlanCard extends StatelessWidget {
           if (isCurrentPlan && expiryDate != null && remainingDays != null) ...[
             sh8,
             Text(
-              'Expiry Date: $expiryDate',
+              'Expiry_Date_Prefix'.tr + (expiryDate ?? ''), // Updated to use translation
               style: h3,
             ),
             sh8,
             Text(
-              'Remaining Days: $remainingDays Days',
+              '${'Remaining_Days_Prefix'.tr}$remainingDays ${'Days_Suffix'.tr}', // Updated to use translation
               style: h3.copyWith(color: Colors.red),
             ),
           ],

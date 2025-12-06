@@ -1,17 +1,322 @@
+// import 'package:flutter/material.dart';
+// import 'package:get/get.dart';
+// import 'package:tails_date/common/app_color/app_colors.dart';
+// import 'package:tails_date/common/app_images/app_images.dart';
+// import 'package:tails_date/common/app_text_style/styles.dart';
+// import 'package:tails_date/common/widgets/custom_button.dart';
+// import 'package:tails_date/common/widgets/custom_textfield.dart';
+// import 'package:video_player/video_player.dart';
+// import '../../../../common/size_box/custom_sizebox.dart';
+// import '../../../../common/widgets/custom_dropdown.dart';
+// import '../controllers/upload_post_controller.dart';
+//
+// class UploadPostView extends StatelessWidget {
+//   final controller = Get.put(UploadPostController());
+//
+//   UploadPostView({super.key});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       backgroundColor: AppColors.mainColor,
+//       appBar: AppBar(
+//         backgroundColor: AppColors.mainColor,
+//         scrolledUnderElevation: 0,
+//         title: const Text('Post Photo or Video'),
+//         centerTitle: true,
+//         leading: GestureDetector(
+//           onTap: () {
+//             Get.back();
+//           },
+//           child: Image.asset(
+//             AppImages.back,
+//             scale: 4,
+//           ),
+//         ),
+//       ),
+//       body: Padding(
+//         padding: const EdgeInsets.symmetric(horizontal: 16),
+//         child: SingleChildScrollView(
+//           child: Column(
+//             crossAxisAlignment: CrossAxisAlignment.start,
+//             children: [
+//               sh16,
+//               Row(
+//                 children: [
+//                   Expanded(
+//                     child: Obx(() => CustomButton(
+//                           text: 'Post Photo',
+//                           onPressed: () => controller.toggleMode(false),
+//                           textStyle: h3.copyWith(
+//                             color: controller.isCreatingVideo.value
+//                                 ? Colors.black
+//                                 : Colors.white,
+//                           ),
+//                           backgroundColor: controller.isCreatingVideo.value
+//                               ? AppColors.transparent
+//                               : AppColors.black,
+//                         )),
+//                   ),
+//                   sw12,
+//                   Expanded(
+//                     child: Obx(() => CustomButton(
+//                           text: 'Post Video',
+//                           onPressed: () => controller.toggleMode(true),
+//                           textStyle: h3.copyWith(
+//                             color: controller.isCreatingVideo.value
+//                                 ? Colors.white
+//                                 : Colors.black,
+//                           ),
+//                           backgroundColor: controller.isCreatingVideo.value
+//                               ? AppColors.black
+//                               : AppColors.transparent,
+//                         )),
+//                   ),
+//                 ],
+//               ),
+//               sh16,
+//               Obx(() {
+//                 if (!controller.isCreatingVideo.value) {
+//                   return Column(
+//                     crossAxisAlignment: CrossAxisAlignment.start,
+//                     children: [
+//                       Text('Category', style: h3),
+//                       sh8,
+//                       CustomDropdown(
+//                         items: [
+//                           'Cats',
+//                           'Dogs',
+//                           'Birds',
+//                           'Exotic Animals',
+//                           'Farm Animals',
+//                         ],
+//                         hintText: 'Select an option',
+//                         onChanged: (value) {},
+//                       ),
+//                       sh16,
+//                       Text('Add Location', style: h3),
+//                       sh8,
+//                       CustomTextField(
+//                         hintText: 'Enter Location',
+//                         borderColor: AppColors.black,
+//                       ),
+//                       sh16,
+//                       Container(
+//                         height: 200,
+//                         width: double.infinity,
+//                         decoration: BoxDecoration(
+//                           borderRadius: BorderRadius.circular(12),
+//                           color: AppColors.white,
+//                           border: Border.all(color: AppColors.black),
+//                         ),
+//                         child: Obx(() {
+//                           if (controller.selectedImages.isEmpty) {
+//                             return GestureDetector(
+//                               onTap: controller.pickImages,
+//                               child: Column(
+//                                 mainAxisAlignment: MainAxisAlignment.center,
+//                                 children: [
+//                                   Image.asset(AppImages.upload, scale: 4),
+//                                   sw8,
+//                                   Text('Click here to select photos',
+//                                       style: h4),
+//                                 ],
+//                               ),
+//                             );
+//                           } else {
+//                             return GridView.builder(
+//                               padding: const EdgeInsets.all(8),
+//                               gridDelegate:
+//                                   const SliverGridDelegateWithFixedCrossAxisCount(
+//                                 crossAxisCount: 2,
+//                                 mainAxisSpacing: 8,
+//                                 crossAxisSpacing: 8,
+//                               ),
+//                               itemCount: controller.selectedImages.length,
+//                               itemBuilder: (context, index) {
+//                                 return Stack(
+//                                   children: [
+//                                     ClipRRect(
+//                                       borderRadius: BorderRadius.circular(12),
+//                                       child: Image.file(
+//                                         controller.selectedImages[index],
+//                                         fit: BoxFit.cover,
+//                                         width: double.infinity,
+//                                         height: double.infinity,
+//                                       ),
+//                                     ),
+//                                     Positioned(
+//                                       top: 4,
+//                                       right: 4,
+//                                       child: GestureDetector(
+//                                         onTap: () =>
+//                                             controller.removeImage(index),
+//                                         child: CircleAvatar(
+//                                           radius: 15,
+//                                           backgroundColor:
+//                                               Colors.black.withOpacity(0.7),
+//                                           child: Icon(
+//                                             Icons.close,
+//                                             color: Colors.white,
+//                                             size: 16,
+//                                           ),
+//                                         ),
+//                                       ),
+//                                     ),
+//                                   ],
+//                                 );
+//                               },
+//                             );
+//                           }
+//                         }),
+//                       ),
+//                       sh8,
+//                       Obx(() {
+//                         if (controller.selectedImages.isNotEmpty &&
+//                             controller.selectedImages.length < 5) {
+//                           return GestureDetector(
+//                             onTap: controller.pickImages,
+//                             child: Center(
+//                               child: Column(
+//                                 children: [
+//                                   Image.asset(
+//                                     AppImages.addMore,
+//                                     scale: 4,
+//                                   ),
+//                                   sh5,
+//                                   Text(
+//                                     'Add More',
+//                                     style: h5,
+//                                   ),
+//                                 ],
+//                               ),
+//                             ),
+//                           );
+//                         }
+//                         return SizedBox.shrink();
+//                       }),
+//                       sh8,
+//                       Text('Write a description for the post', style: h3),
+//                       sh8,
+//                       CustomTextField(
+//                         controller: controller.postContentController,
+//                         height: 150,
+//                         borderColor: AppColors.black,
+//                         hintText: 'Enter post description...',
+//                       ),
+//                     ],
+//                   );
+//                 } else {
+//                   return Column(
+//                     crossAxisAlignment: CrossAxisAlignment.start,
+//                     children: [
+//                       Container(
+//                         //padding: EdgeInsets.all(16),
+//                         width: double.infinity,
+//                         decoration: BoxDecoration(
+//                           borderRadius: BorderRadius.circular(12),
+//                           color: AppColors.white,
+//                           border: Border.all(color: AppColors.black),
+//                         ),
+//                         child: Obx(() {
+//                           if (controller.selectedVideo.value == null) {
+//                             return GestureDetector(
+//                               onTap: controller.pickVideo,
+//                               child: Column(
+//                                 mainAxisAlignment: MainAxisAlignment.center,
+//                                 children: [
+//                                   sh20,
+//                                   Image.asset(AppImages.upload, scale: 4),
+//                                   sw8,
+//                                   Text('Click here to select a video',
+//                                       style: h4),
+//                                   sh20,
+//                                 ],
+//                               ),
+//                             );
+//                           } else if (controller.isVideoInitialized.value) {
+//                             return Stack(
+//                               children: [
+//                                 ClipRRect(
+//                                   borderRadius: BorderRadius.circular(12),
+//                                   child: AspectRatio(
+//                                     aspectRatio: controller
+//                                         .videoPlayerController!
+//                                         .value
+//                                         .aspectRatio,
+//                                     child: VideoPlayer(
+//                                         controller.videoPlayerController!),
+//                                   ),
+//                                 ),
+//                                 Positioned(
+//                                   top: 8,
+//                                   right: 8,
+//                                   child: GestureDetector(
+//                                     onTap: controller.removeVideo,
+//                                     child: CircleAvatar(
+//                                       radius: 15,
+//                                       backgroundColor:
+//                                           Colors.black.withOpacity(0.7),
+//                                       child: const Icon(
+//                                         Icons.close,
+//                                         color: Colors.white,
+//                                         size: 16,
+//                                       ),
+//                                     ),
+//                                   ),
+//                                 ),
+//                               ],
+//                             );
+//                           } else {
+//                             return const Center(
+//                                 child: CircularProgressIndicator());
+//                           }
+//                         }),
+//                       ),
+//                       sh16,
+//                       Text('Write a description for the video', style: h3),
+//                       sh8,
+//                       CustomTextField(
+//                         controller: controller.postContentController,
+//                         height: 150,
+//                         borderColor: AppColors.black,
+//                         hintText: 'Enter video description...',
+//                       ),
+//                     ],
+//                   );
+//                 }
+//               }),
+//               sh16,
+//               CustomButton(
+//                 text: 'Upload',
+//                 onPressed: controller.postContent,
+//               ),
+//               sh30,
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/Get.dart';
 import 'package:tails_date/common/app_color/app_colors.dart';
 import 'package:tails_date/common/app_images/app_images.dart';
 import 'package:tails_date/common/app_text_style/styles.dart';
 import 'package:tails_date/common/widgets/custom_button.dart';
+import 'package:tails_date/common/widgets/custom_loader.dart';
 import 'package:tails_date/common/widgets/custom_textfield.dart';
 import 'package:video_player/video_player.dart';
 import '../../../../common/size_box/custom_sizebox.dart';
 import '../../../../common/widgets/custom_dropdown.dart';
+import '../../home/controllers/home_controller.dart';
 import '../controllers/upload_post_controller.dart';
 
 class UploadPostView extends StatelessWidget {
   final controller = Get.put(UploadPostController());
+  final homeController = Get.find<HomeController>();
 
   UploadPostView({super.key});
 
@@ -22,7 +327,7 @@ class UploadPostView extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppColors.mainColor,
         scrolledUnderElevation: 0,
-        title: const Text('Post Photo or Video'),
+        title: Text('Post_Photo_Or_Video'.tr),
         centerTitle: true,
         leading: GestureDetector(
           onTap: () {
@@ -45,59 +350,62 @@ class UploadPostView extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Obx(() => CustomButton(
-                          text: 'Post Photo',
-                          onPressed: () => controller.toggleMode(false),
-                          textStyle: h3.copyWith(
-                            color: controller.isCreatingReel.value
-                                ? Colors.black
-                                : Colors.white,
-                          ),
-                          backgroundColor: controller.isCreatingReel.value
-                              ? AppColors.transparent
-                              : AppColors.black,
-                        )),
+                      text: 'Post_Photo'.tr,
+                      onPressed: () => controller.toggleMode(false),
+                      textStyle: h3.copyWith(
+                        color: controller.isCreatingVideo.value
+                            ? Colors.black
+                            : Colors.white,
+                      ),
+                      backgroundColor: controller.isCreatingVideo.value
+                          ? AppColors.transparent
+                          : AppColors.black,
+                    )),
                   ),
                   sw12,
                   Expanded(
                     child: Obx(() => CustomButton(
-                          text: 'Post Video',
-                          onPressed: () => controller.toggleMode(true),
-                          textStyle: h3.copyWith(
-                            color: controller.isCreatingReel.value
-                                ? Colors.white
-                                : Colors.black,
-                          ),
-                          backgroundColor: controller.isCreatingReel.value
-                              ? AppColors.black
-                              : AppColors.transparent,
-                        )),
+                      text: 'Post_Video'.tr,
+                      onPressed: () => controller.toggleMode(true),
+                      textStyle: h3.copyWith(
+                        color: controller.isCreatingVideo.value
+                            ? Colors.white
+                            : Colors.black,
+                      ),
+                      backgroundColor: controller.isCreatingVideo.value
+                          ? AppColors.black
+                          : AppColors.transparent,
+                    )),
                   ),
                 ],
               ),
               sh16,
               Obx(() {
-                if (!controller.isCreatingReel.value) {
+                if (!controller.isCreatingVideo.value) {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Category', style: h3),
+                      Text('Category'.tr, style: h3),
                       sh8,
-                      CustomDropdown(
-                        items: [
-                          'Cats',
-                          'Dogs',
-                          'Birds',
-                          'Exotic Animals',
-                          'Farm Animals',
-                        ],
-                        hintText: 'Select an option',
-                        onChanged: (value) {},
-                      ),
+                      Obx(() => CustomDropdown(
+                        items: homeController.categories
+                            .map((category) => category.name as String)
+                            .toList(),
+                        hintText: 'Select_An_Option'.tr,
+                        onChanged: (value) {
+                          final selectedCategory = homeController.categories
+                              .firstWhere(
+                                  (category) => category.name == value);
+                          controller.selectedCategoryId.value =
+                              selectedCategory.id.toString();
+                        },
+                      )),
                       sh16,
-                      Text('Add Location', style: h3),
+                      Text('Add_Location'.tr, style: h3),
                       sh8,
                       CustomTextField(
-                        hintText: 'Enter Location',
+                        controller: controller.locationController,
+                        hintText: 'Enter_Location'.tr,
                         borderColor: AppColors.black,
                       ),
                       sh16,
@@ -118,7 +426,7 @@ class UploadPostView extends StatelessWidget {
                                 children: [
                                   Image.asset(AppImages.upload, scale: 4),
                                   sw8,
-                                  Text('Click here to select photos',
+                                  Text('Click_Here_To_Select_Photos'.tr,
                                       style: h4),
                                 ],
                               ),
@@ -127,7 +435,7 @@ class UploadPostView extends StatelessWidget {
                             return GridView.builder(
                               padding: const EdgeInsets.all(8),
                               gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                              const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,
                                 mainAxisSpacing: 8,
                                 crossAxisSpacing: 8,
@@ -154,7 +462,7 @@ class UploadPostView extends StatelessWidget {
                                         child: CircleAvatar(
                                           radius: 15,
                                           backgroundColor:
-                                              Colors.black.withOpacity(0.7),
+                                          Colors.black.withOpacity(0.7),
                                           child: Icon(
                                             Icons.close,
                                             color: Colors.white,
@@ -179,15 +487,9 @@ class UploadPostView extends StatelessWidget {
                             child: Center(
                               child: Column(
                                 children: [
-                                  Image.asset(
-                                    AppImages.addMore,
-                                    scale: 4,
-                                  ),
+                                  Image.asset(AppImages.addMore, scale: 4),
                                   sh5,
-                                  Text(
-                                    'Add More',
-                                    style: h5,
-                                  ),
+                                  Text('Add_More'.tr, style: h5),
                                 ],
                               ),
                             ),
@@ -196,13 +498,13 @@ class UploadPostView extends StatelessWidget {
                         return SizedBox.shrink();
                       }),
                       sh8,
-                      Text('Write a description for the post', style: h3),
+                      Text('Write_Post_Description'.tr, style: h3),
                       sh8,
                       CustomTextField(
                         controller: controller.postContentController,
                         height: 150,
                         borderColor: AppColors.black,
-                        hintText: 'Enter post description...',
+                        hintText: 'Enter_Post_Description'.tr,
                       ),
                     ],
                   );
@@ -211,7 +513,6 @@ class UploadPostView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        //padding: EdgeInsets.all(16),
                         width: double.infinity,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
@@ -228,7 +529,7 @@ class UploadPostView extends StatelessWidget {
                                   sh20,
                                   Image.asset(AppImages.upload, scale: 4),
                                   sw8,
-                                  Text('Click here to select a video',
+                                  Text('Click_Here_To_Select_Video'.tr,
                                       style: h4),
                                   sh20,
                                 ],
@@ -256,7 +557,7 @@ class UploadPostView extends StatelessWidget {
                                     child: CircleAvatar(
                                       radius: 15,
                                       backgroundColor:
-                                          Colors.black.withOpacity(0.7),
+                                      Colors.black.withOpacity(0.7),
                                       child: const Icon(
                                         Icons.close,
                                         color: Colors.white,
@@ -274,22 +575,29 @@ class UploadPostView extends StatelessWidget {
                         }),
                       ),
                       sh16,
-                      Text('Write a description for the reel', style: h3),
+                      Text('Write_Video_Description'.tr, style: h3),
                       sh8,
                       CustomTextField(
                         controller: controller.postContentController,
                         height: 150,
                         borderColor: AppColors.black,
-                        hintText: 'Enter reel description...',
+                        hintText: 'Enter_Video_Description'.tr,
                       ),
                     ],
                   );
                 }
               }),
               sh16,
-              CustomButton(
-                text: 'Upload',
-                onPressed: controller.postContent,
+              Obx(
+                    () => controller.isLoading.value
+                    ? CustomLoader(color: AppColors.white)
+                    : CustomButton(
+                  text: 'Upload'.tr,
+                  onPressed: () {
+                    controller.postContent(context);
+                    print('Upload Button click');
+                  },
+                ),
               ),
               sh30,
             ],

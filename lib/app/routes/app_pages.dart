@@ -10,12 +10,12 @@ import '../modules/dashboard/bindings/dashboard_binding.dart';
 import '../modules/dashboard/views/dashboard_view.dart';
 import '../modules/forgot_password/bindings/forgot_password_binding.dart';
 import '../modules/forgot_password/views/forgot_password_view.dart';
+import '../modules/free_trial/bindings/free_trial_binding.dart';
+import '../modules/free_trial/views/free_trial_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
-import '../modules/new_password/bindings/new_password_binding.dart';
-import '../modules/new_password/views/new_password_view.dart';
 import '../modules/notifications/bindings/notifications_binding.dart';
 import '../modules/notifications/views/notifications_view.dart';
 import '../modules/onboarding/bindings/onboarding_binding.dart';
@@ -34,8 +34,6 @@ import '../modules/terms_of_services/bindings/terms_of_services_binding.dart';
 import '../modules/terms_of_services/views/terms_of_services_view.dart';
 import '../modules/upload_post/bindings/upload_post_binding.dart';
 import '../modules/upload_post/views/upload_post_view.dart';
-import '../modules/verify_otp/bindings/verify_otp_binding.dart';
-import '../modules/verify_otp/views/verify_otp_view.dart';
 
 part 'app_routes.dart';
 
@@ -81,16 +79,6 @@ class AppPages {
       binding: ForgotPasswordBinding(),
     ),
     GetPage(
-      name: _Paths.VERIFY_OTP,
-      page: () => const VerifyOtpView(),
-      binding: VerifyOtpBinding(),
-    ),
-    GetPage(
-      name: _Paths.NEW_PASSWORD,
-      page: () => const NewPasswordView(),
-      binding: NewPasswordBinding(),
-    ),
-    GetPage(
       name: _Paths.DASHBOARD,
       page: () => const DashboardView(),
       binding: DashboardBinding(),
@@ -117,7 +105,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.UPLOAD_POST,
-      page: () =>  UploadPostView(),
+      page: () => UploadPostView(),
       binding: UploadPostBinding(),
     ),
     GetPage(
@@ -127,13 +115,18 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.PRIVACY_POLICY,
-      page: () => const PrivacyPolicyView(),
+      page: () => PrivacyPolicyView(),
       binding: PrivacyPolicyBinding(),
     ),
     GetPage(
       name: _Paths.TERMS_OF_SERVICES,
-      page: () => const TermsOfServicesView(),
+      page: () => TermsOfServicesView(),
       binding: TermsOfServicesBinding(),
+    ),
+    GetPage(
+      name: _Paths.FREE_TRIAL,
+      page: () => const FreeTrialView(),
+      binding: FreeTrialBinding(),
     ),
   ];
 }

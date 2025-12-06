@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
-import 'package:tails_date/app/modules/dashboard/views/dashboard_view.dart';
 import 'package:tails_date/app/modules/login/views/login_view.dart';
 import 'package:tails_date/app/modules/signup/views/signup_view.dart';
 import 'package:tails_date/common/app_color/app_colors.dart';
 import 'package:tails_date/common/app_images/app_images.dart';
 import 'package:tails_date/common/widgets/custom_button.dart';
-
 import '../../../../common/app_text_style/styles.dart';
 import '../../../../common/size_box/custom_sizebox.dart';
 import '../controllers/auth_home_controller.dart';
@@ -17,6 +14,7 @@ class AuthLandingView extends GetView<AuthHomeController> {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(AuthHomeController());
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       appBar: AppBar(
@@ -29,11 +27,11 @@ class AuthLandingView extends GetView<AuthHomeController> {
           Image.asset(
             AppImages.authHome,
             fit: BoxFit.fill,
-             height: Get.height * 0.785,
-             width: Get.width,
+            height: Get.height * 0.83,
+            width: Get.width,
           ),
           Container(
-            color: AppColors.black.withOpacity(0.15),
+            color: AppColors.black.withValues(alpha: 0.15),
           ),
           // Positioned(
           //   bottom: 60,
@@ -73,7 +71,7 @@ class AuthLandingView extends GetView<AuthHomeController> {
           //   ),
           // ),
           Positioned(
-            bottom: 30,
+            bottom: 20,
             left: 16,
             right: 16,
             child: Column(
@@ -81,20 +79,20 @@ class AuthLandingView extends GetView<AuthHomeController> {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset(
-                      AppImages.authLogo,
-                      scale: 4,
-                    ),
-                    sw8,
+                    // Image.asset(
+                    //   AppImages.authLogo,
+                    //   scale: 4,
+                    // ),
+                    // sw8,
                     Text(
-                      'Welcome to TailsDate!',
-                      style: h1
+                      'Welcome_To_TailsDate'.tr,
+                      style: h1,
                     ),
                   ],
                 ),
                 sh16,
                 CustomButton(
-                  text: 'SIGN UP WITH EMAIL',
+                  text: 'Sign_Up_With_Email'.tr,
                   onPressed: () {
                     Get.to(() => SignupView());
                   },
@@ -106,7 +104,7 @@ class AuthLandingView extends GetView<AuthHomeController> {
                 ),
                 sh8,
                 Text(
-                  'OR',
+                  'Or'.tr,
                   style: h3.copyWith(
                     fontWeight: FontWeight.w700,
                     color: AppColors.white,
@@ -115,11 +113,10 @@ class AuthLandingView extends GetView<AuthHomeController> {
                 ),
                 sh8,
                 CustomButton(
-                  text: 'Continue As Guest',
+                  text: 'Continue_As_Guest'.tr,
                   onPressed: () {
-                    Get.to(() => DashboardView());
+                    controller.continueAsGuest();
                   },
-                 //borderColor: AppColors.white,
                 ),
                 sh12,
                 GestureDetector(
@@ -130,18 +127,22 @@ class AuthLandingView extends GetView<AuthHomeController> {
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text: 'Already Have an account? ',
+                          text: 'Already_Have_Account'.tr,
                           style: h3.copyWith(color: Colors.white, fontSize: 18),
                         ),
                         TextSpan(
-                          //recognizer: ,
-                          text: 'Log In',
-                          style: h3.copyWith(fontSize: 18,fontWeight: FontWeight.bold,color: AppColors.red,),
+                          text: 'Log_In_Link'.tr,
+                          style: h3.copyWith(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.red,
+                          ),
                         ),
                       ],
                     ),
                   ),
                 ),
+                sh16,
               ],
             ),
           ),

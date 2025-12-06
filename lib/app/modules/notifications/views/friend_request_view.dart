@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:tails_date/common/widgets/custom_button.dart';
-
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_images/app_images.dart';
 import '../../../../common/app_text_style/styles.dart';
 import '../../../../common/widgets/custom_list_tile_with_button.dart';
+import '../controllers/notifications_controller.dart';
 
 class FriendRequestView extends GetView {
   final List<Map<String, String>> data;
@@ -15,11 +14,12 @@ class FriendRequestView extends GetView {
 
   @override
   Widget build(BuildContext context) {
+    final NotificationsController notificationController = Get.find();
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       appBar: AppBar(
         backgroundColor: AppColors.mainColor,
-        title: const Text('Friend Request'),
+        title: Text('Friend_Request'.tr),
         centerTitle: true,
         leading: GestureDetector(
           onTap: () {
@@ -32,21 +32,28 @@ class FriendRequestView extends GetView {
         ),
       ),
       body: ListView.builder(
-        padding: EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         itemCount: data.length,
         itemBuilder: (context, index) {
           final item = data[index];
           return CustomListTileWithButton(
+            closeOnPressed: () {
+              notificationController.updateFriendRequest(item['id']!, 'rejected');
+            },
             name: item['name']!,
             image: item['image']!,
-            actionText: 'Confirm',
+            actionText: 'Confirm'.tr,
             showCloseButton: true,
-            actionOnPressed: () {},
+            actionOnPressed: () {
+              notificationController.updateFriendRequest(item['id']!, 'accepted');
+            },
             actionStyle: CustomButton(
               width: 100,
               height: 30,
-              text: 'Confirm',
-              onPressed: () {},
+              text: 'Confirm'.tr,
+              onPressed: () {
+                notificationController.updateFriendRequest(item['id']!, 'accepted');
+              },
               borderColor: AppColors.black,
               backgroundColor: AppColors.white,
               textStyle: h3.copyWith(color: AppColors.black),

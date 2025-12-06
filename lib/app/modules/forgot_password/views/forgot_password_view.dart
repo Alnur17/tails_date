@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
-import 'package:tails_date/app/modules/verify_otp/views/verify_otp_view.dart';
-
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_images/app_images.dart';
 import '../../../../common/app_text_style/styles.dart';
 import '../../../../common/size_box/custom_sizebox.dart';
 import '../../../../common/widgets/custom_button.dart';
+import '../../../../common/widgets/custom_loader.dart';
 import '../../../../common/widgets/custom_textfield.dart';
 import '../controllers/forgot_password_controller.dart';
 
 class ForgotPasswordView extends GetView<ForgotPasswordController> {
   const ForgotPasswordView({super.key});
+
   @override
   Widget build(BuildContext context) {
+    final forgotPasswordController = Get.put(ForgotPasswordController());
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       body: SafeArea(
@@ -45,7 +45,6 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
                 ),
               ],
             ),
-
             Expanded(
               child: Container(
                 padding: EdgeInsets.only(left: 16, right: 16),
@@ -67,41 +66,50 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
                     children: [
                       sh16,
                       Text(
-                        'Forgot Password',
+                        'Forgot_Password'.tr,
                         style: h2,
                       ),
                       sh8,
                       Text(
-                        'Please enter your email address to receive the verification code',
+                        'Enter_Email_Instruction'.tr,
                         style: h4.copyWith(color: Colors.grey[700]),
                         textAlign: TextAlign.center,
                       ),
                       sh24,
                       CustomTextField(
-                        hintText: 'Enter your email',
+                        controller: forgotPasswordController.emailTEController,
+                        hintText: 'Enter_Email'.tr,
                         preIcon: Image.asset(
                           AppImages.message,
                           scale: 4,
                         ),
                       ),
                       sh24,
-                      GestureDetector(
-                        onTap: (){
-                          //Get.to(() => ForgotPasswordView());
-                        },
-                        child: Text(
-                          'Try another way ',
-                          style: h4.copyWith(
-                            color: AppColors.secondaryOrangeColor,
-                          ),
-                        ),
-                      ),
+                      // GestureDetector(
+                      //   onTap: () {
+                      //     //Get.to(() => ForgotPasswordView());
+                      //   },
+                      //   child: Text(
+                      //     'Try_Another_Way'.tr,
+                      //     style: h4.copyWith(
+                      //       color: AppColors.secondaryOrangeColor,
+                      //     ),
+                      //   ),
+                      // ),
                       sh16,
-                      CustomButton(
-                        text: 'Send',
-                        onPressed: () {
-                          Get.to(() => VerifyOtpView());
-                        },
+                      Obx(
+                            () => forgotPasswordController.isLoading.value
+                            ? CustomLoader(color: AppColors.white)
+                            : CustomButton(
+                          text: 'Send'.tr,
+                          onPressed: () {
+                            forgotPasswordController.forgotPassword(
+                                email: forgotPasswordController
+                                    .emailTEController.text
+                                    .trim()
+                                    .toLowerCase());
+                          },
+                        ),
                       ),
                       sh16,
                     ],

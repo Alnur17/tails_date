@@ -1,26 +1,37 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
-import 'package:tails_date/common/app_color/app_colors.dart';
-
+import 'package:tails_date/app/modules/chats/views/message_view.dart';
+import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_images/app_images.dart';
 import '../../../../common/size_box/custom_sizebox.dart';
 import '../../../../common/widgets/custom_button.dart';
 import '../../../../common/widgets/custom_textfield.dart';
+import '../../chats/controllers/chats_controller.dart';
+import '../controllers/my_friends_controller.dart';
 
-class FriendsView extends GetView {
-  final List<Map<String, dynamic>> data;
-  const FriendsView( {super.key,required this.data});
+class FriendsView extends StatefulWidget {
+
+  const FriendsView({super.key});
+
+  @override
+  State<FriendsView> createState() => _FriendsViewState();
+}
+
+class _FriendsViewState extends State<FriendsView> {
+
+  final controller = Get.put(MyFriendsController()); // Initialize the controller
+  final chatController = Get.put(ChatsController());
+
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       appBar: AppBar(
         scrolledUnderElevation: 0,
         backgroundColor: AppColors.mainColor,
-        title: const Text('Friends'),
+        title: Text('Friends'.tr), // Localized
         centerTitle: true,
         leading: GestureDetector(
           onTap: () {
@@ -41,36 +52,58 @@ class FriendsView extends GetView {
                 AppImages.searchTwo,
                 scale: 4,
               ),
-              hintText: 'Search Friends',
+              hintText: 'Search_Friends'.tr, // Localized
+              // onChanged: (value) {
+              //   // Implement search functionality if needed
+              // },
             ),
           ),
           sh12,
-          Expanded(
-            child: ListView.builder(
+          Obx(() => controller.isLoading.value
+              ? const Center(child: CircularProgressIndicator(color: AppColors.black,))
+              : controller.errorMessage.isNotEmpty
+              ? Center(
+              child: Text(controller.errorMessage.value,
+                  style: const TextStyle(color: Colors.red)))
+              : Expanded(
+            child: Obx(() => ListView.builder(
               shrinkWrap: true,
-              itemCount: data.length,
+              itemCount: controller.friendsList.length,
               itemBuilder: (context, index) {
-                final item = data[index];
+                final friend = controller.friendsList[index];
+                final friendName =
+                    friend.receiver?.name ?? 'Unknown'.tr; // Localized
+                final friendImage = friend.receiver?.image ?? '';
+
                 return ListTile(
-                  onTap: (){
-                    log('list tapped ${index + 1}');
+                  onTap: () {
+                    debugPrint('Friend tapped: $friendName');
                   },
                   leading: CircleAvatar(
-                    backgroundImage: NetworkImage(item['image']!),
+                    backgroundImage: NetworkImage(friendImage),
                   ),
-                  title: Text(item['name']!),
+                  title: Text(friendName),
+                  subtitle: Text(friend.receiver?.email ?? ''),
                   trailing: CustomButton(
-                    text: 'Message',
+                    text: 'Message'.tr, // Localized
                     onPressed: () {
-                      log('message tapped ${index + 1}');
+                      Get.to(
+                            () => MessageView(
+                          userImage: friendImage,
+                          userName: friendName,
+                          chatId:
+                          chatController.chatsList.first.id,
+                          receiverId: friend.sender?.id,
+                        ),
+                      );
                     },
                     width: Get.width * 0.30,
-                     height: 30,
+                    height: 30,
                   ),
                 );
               },
-            ),
-          ),
+            )),
+          )),
         ],
       ),
     );

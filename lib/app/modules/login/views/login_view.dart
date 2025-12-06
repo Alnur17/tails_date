@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
-import 'package:tails_date/app/modules/dashboard/views/dashboard_view.dart';
 import 'package:tails_date/app/modules/forgot_password/views/forgot_password_view.dart';
 import 'package:tails_date/app/modules/signup/views/signup_view.dart';
-
+import 'package:tails_date/common/widgets/custom_loader.dart';
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_images/app_images.dart';
 import '../../../../common/app_text_style/styles.dart';
@@ -27,7 +25,7 @@ class LoginView extends GetView<LoginController> {
             Stack(
               children: [
                 SizedBox(
-                  height: 350,
+                  height: 380,
                   width: double.infinity,
                   child: Image.asset(
                     AppImages.loginImage,
@@ -40,6 +38,7 @@ class LoginView extends GetView<LoginController> {
                   left: 16,
                   child: GestureDetector(
                       onTap: () {
+                        Get.closeCurrentSnackbar();
                         Get.back();
                       },
                       child: Image.asset(
@@ -52,7 +51,7 @@ class LoginView extends GetView<LoginController> {
             // Form section
             Expanded(
               child: Container(
-                padding: EdgeInsets.only(left: 16, right: 16),
+                padding: EdgeInsets.only(left: 20, right: 20),
                 decoration: BoxDecoration(
                   border: Border(
                     top: BorderSide(
@@ -61,8 +60,8 @@ class LoginView extends GetView<LoginController> {
                     ),
                   ),
                   borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(40),
-                      topRight: Radius.circular(40)),
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30)),
                   color: AppColors.mainColor,
                 ),
                 child: SingleChildScrollView(
@@ -71,18 +70,19 @@ class LoginView extends GetView<LoginController> {
                     children: [
                       sh16,
                       Text(
-                        'Log In',
+                        'Login_Title'.tr,
                         style: h2,
                       ),
                       sh8,
                       Text(
-                        'Hii! Welcome back',
+                        'Login_Welcome'.tr,
                         style: h4.copyWith(color: Colors.grey[700]),
                         textAlign: TextAlign.center,
                       ),
                       sh24,
                       CustomTextField(
-                        hintText: 'Enter your email',
+                        controller: loginController.emailController,
+                        hintText: 'Enter_Email'.tr,
                         preIcon: Image.asset(
                           AppImages.message,
                           scale: 4,
@@ -90,8 +90,9 @@ class LoginView extends GetView<LoginController> {
                       ),
                       sh16,
                       Obx(
-                        () => CustomTextField(
-                          hintText: 'Enter your password',
+                            () => CustomTextField(
+                          controller: loginController.passwordController,
+                          hintText: 'Enter_Password'.tr,
                           preIcon: Image.asset(
                             AppImages.lock,
                             scale: 4,
@@ -115,22 +116,23 @@ class LoginView extends GetView<LoginController> {
                         onTap: () {
                           Get.to(() => ForgotPasswordView());
                         },
-                        child: Align(
-                          alignment: Alignment.topRight,
-                          child: Text(
-                            'Forgot the password ',
-                            style: h4.copyWith(
-                              color: AppColors.secondaryOrangeColor,
-                            ),
+                        child: Text(
+                          'Forgot_The_Password'.tr,
+                          style: h4.copyWith(
+                            color: AppColors.secondaryOrangeColor,
                           ),
                         ),
                       ),
                       sh16,
-                      CustomButton(
-                        text: 'Login',
-                        onPressed: () {
-                          Get.to(() => DashboardView());
-                        },
+                      Obx(
+                            () => loginController.isLoading.value
+                            ? CustomLoader(color: AppColors.white)
+                            : CustomButton(
+                          text: 'Login_Button'.tr,
+                          onPressed: () {
+                            loginController.userLogin();
+                          },
+                        ),
                       ),
                       sh16,
                       Center(
@@ -140,11 +142,11 @@ class LoginView extends GetView<LoginController> {
                           },
                           child: Text.rich(
                             TextSpan(
-                              text: 'Don’t Have an account? ',
+                              text: 'No_Account'.tr,
                               style: h4,
                               children: [
                                 TextSpan(
-                                  text: 'Sign Up',
+                                  text: 'Sign_Up'.tr,
                                   style: h3.copyWith(
                                     color: AppColors.secondaryOrangeColor,
                                   ),
